@@ -5,10 +5,16 @@
              x:Class="MtbMate.MainPage">
 
     <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
+        <Label
+           Text="{Binding Speed}" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
+        <Button
+            Text="Start"
+            Clicked="Start_Clicked" />
+        <Button
+            Text="Stop"
+            Clicked="Stop_Clicked" />
     </StackLayout>
 
 </ContentPage>
