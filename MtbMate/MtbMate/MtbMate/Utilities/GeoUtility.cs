@@ -15,7 +15,8 @@ namespace MtbMate.Utilities
 
                 if (location != null)
                 {
-                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                    Console.WriteLine($"Timestamp: {location.Timestamp}, Speed: {location.Speed}, Latitude: {location.Latitude}," +
+                        $" Longitude: {location.Longitude}, Altitude: {location.Altitude}");
                 }
             }
             catch (Exception ex)
