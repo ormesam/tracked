@@ -1,26 +1,24 @@
-﻿using Plugin.Geolocator;
+﻿using MtbMate.Models;
+using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Timers;
-using Xamarin.Essentials;
 
 namespace MtbMate.Utilities
 {
     public class GeoUtility
     {
-        private readonly IDisplay reader;
+        private readonly IList<LocationModel> locationModels;
 
-        public GeoUtility(IDisplay reader)
+        public GeoUtility()
         {
-            this.reader = reader;
+            locationModels = new List<LocationModel>();
         }
 
         public async Task Start()
         {
-            reader.UpdateSpeed(0);
-
             if (CrossGeolocator.Current.IsListening)
             {
                 return;
@@ -28,24 +26,24 @@ namespace MtbMate.Utilities
 
             var settings = new ListenerSettings
             {
-                ActivityType = ActivityType.Fitness,
+                ActivityType = ActivityType.AutomotiveNavigation,
                 AllowBackgroundUpdates = true,
                 DeferLocationUpdates = false,
                 ListenForSignificantChanges = false,
                 PauseLocationUpdatesAutomatically = false,
             };
 
-            CrossGeolocator.Current.DesiredAccuracy = 1;
-            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 1, true, settings);
+            CrossGeolocator.Current.DesiredAccuracy = 5;
 
             CrossGeolocator.Current.PositionChanged += PositionChanged;
             CrossGeolocator.Current.PositionError += PositionError;
+
+            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(2), 3, true, settings);
         }
 
         private void PositionError(object sender, PositionErrorEventArgs e)
         {
-            // Debug.WriteLine(e.Error);
-            reader.ShowError(e.Error.ToString());
+            Debug.WriteLine(e.Error);
         }
 
         private void PositionChanged(object sender, PositionEventArgs e)
@@ -60,10 +58,15 @@ namespace MtbMate.Utilities
             output += "\n" + $"Altitude: {position.Altitude}";
             output += "\n" + $"Altitude Accuracy: {position.AltitudeAccuracy}";
             output += "\n";
-            //Debug.WriteLine(output);
 
-            reader.UpdateSpeed((decimal)e.Position.Speed);
-            //reader.UpdateSpeed(((decimal?)location.Speed ?? 0m) * 2.237m);
+            Debug.WriteLine(output);
+
+            locationModels.Add(new LocationModel
+            {
+                Timestamp = e.Position.Timestamp.UtcDateTime,
+                Latitude = e.Position.Latitude,
+                Longitude = e.Position.Longitude,
+            });
         }
 
         public async Task Stop()
@@ -77,8 +80,6 @@ namespace MtbMate.Utilities
 
             CrossGeolocator.Current.PositionChanged -= PositionChanged;
             CrossGeolocator.Current.PositionError -= PositionError;
-
-            reader.UpdateSpeed(0);
         }
     }
 }
