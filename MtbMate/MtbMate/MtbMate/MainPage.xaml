@@ -6,9 +6,18 @@
 
     <StackLayout>
         <Label
-           Text="{Binding Speed}" 
+           Text="{Binding Speed, Mode=TwoWay}" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
+        <Label
+           Text="{Binding Mph, Mode=TwoWay}" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" />
+        <Label
+           Text="{Binding Error, Mode=TwoWay}" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand"
+            TextColor="Red"/>
         <Button
             Text="Start"
             Clicked="Start_Clicked" />

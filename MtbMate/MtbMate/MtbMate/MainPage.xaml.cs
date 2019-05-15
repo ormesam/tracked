@@ -14,14 +14,14 @@ namespace MtbMate
 
         public MainPageViewModel ViewModel => BindingContext as MainPageViewModel;
 
-        private void Start_Clicked(object sender, System.EventArgs e)
+        private async void Start_Clicked(object sender, System.EventArgs e)
         {
-            ViewModel.Start();
+            await ViewModel.Start();
         }
 
-        private void Stop_Clicked(object sender, System.EventArgs e)
+        private async void Stop_Clicked(object sender, System.EventArgs e)
         {
-            ViewModel.Stop();
+            await ViewModel.Stop();
         }
     }
 }
