@@ -11,6 +11,7 @@ namespace MtbMate.Utilities
     public class GeoUtility
     {
         private readonly IList<LocationModel> locationModels;
+        public event SpeedChangedEventHandler SpeedChanged;
 
         public GeoUtility()
         {
@@ -38,7 +39,7 @@ namespace MtbMate.Utilities
             CrossGeolocator.Current.PositionChanged += PositionChanged;
             CrossGeolocator.Current.PositionError += PositionError;
 
-            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(2), 3, true, settings);
+            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 3, true, settings);
         }
 
         private void PositionError(object sender, PositionErrorEventArgs e)
@@ -59,13 +60,16 @@ namespace MtbMate.Utilities
             output += "\n" + $"Altitude Accuracy: {position.AltitudeAccuracy}";
             output += "\n";
 
-            Debug.WriteLine(output);
-
             locationModels.Add(new LocationModel
             {
                 Timestamp = e.Position.Timestamp.UtcDateTime,
                 Latitude = e.Position.Latitude,
                 Longitude = e.Position.Longitude,
+            });
+
+            SpeedChanged?.Invoke(new SpeedChangedEventArgs
+            {
+                MetresPerSecond = e.Position.Speed,
             });
         }
 

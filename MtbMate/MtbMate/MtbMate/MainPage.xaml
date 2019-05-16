@@ -6,7 +6,10 @@
 
     <StackLayout>
         <Label
-            Text="{Binding Message}" />
+            FontSize="100"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="{Binding Mph}" />
         <Button
             Text="Start"
             Clicked="Start_Clicked" />
