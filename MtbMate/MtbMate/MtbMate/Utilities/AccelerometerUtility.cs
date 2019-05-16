@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MtbMate.Models;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using Xamarin.Essentials;
 
 namespace MtbMate.Utilities
@@ -6,17 +9,41 @@ namespace MtbMate.Utilities
     public class AccelerometerUtility
     {
         private SensorSpeed speed = SensorSpeed.Default;
+        private readonly IDisplay display;
+        private Queue<AccelerometerReadingModel> readings;
 
-        public AccelerometerUtility()
+        public AccelerometerUtility(IDisplay display)
         {
             Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
+            this.display = display;
+            readings = new Queue<AccelerometerReadingModel>();
         }
 
         private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
         {
             AccelerometerData data = e.Reading;
 
-            Console.WriteLine($"Reading: X: {data.Acceleration.X}, Y: {data.Acceleration.Y}, Z: {data.Acceleration.Z}");
+            var model = new AccelerometerReadingModel
+            {
+                TimeStamp = DateTime.UtcNow,
+                X = data.Acceleration.X,
+                Y = data.Acceleration.Y,
+                Z = data.Acceleration.Z,
+            };
+
+            Console.WriteLine(model.ToString());
+
+            if (readings.Count > 1000)
+            {
+                readings.Dequeue();
+            }
+
+            if (model.Z > 80)
+            {
+                display.ShowJump(model);
+            }
+
+            readings.Enqueue(model);
         }
 
         public void Start()

@@ -5,6 +5,8 @@
              x:Class="MtbMate.MainPage">
 
     <StackLayout>
+        <Label
+            Text="{Binding Message}" />
         <Button
             Text="Start"
             Clicked="Start_Clicked" />
