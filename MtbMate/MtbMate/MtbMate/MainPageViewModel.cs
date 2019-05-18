@@ -9,6 +9,7 @@ namespace MtbMate
     public class MainPageViewModel : ViewModelBase
     {
         private int mph;
+        private string jump;
         private readonly GeoUtility geoUtility;
         private readonly AccelerometerUtility accelerometerUtility;
 
@@ -30,6 +31,18 @@ namespace MtbMate
 
         private void AccelerometerUtility_JumpDetected(JumpEventArgs e)
         {
+            Jump = DateTime.Now.ToString() + "   Jumped!";
+        }
+
+        public string Jump {
+            get { return jump; }
+            set {
+                if (jump != value)
+                {
+                    jump = value;
+                    OnPropertyChanged(nameof(Jump));
+                }
+            }
         }
 
         public int Mph {

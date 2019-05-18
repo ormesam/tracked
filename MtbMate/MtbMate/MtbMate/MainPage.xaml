@@ -10,6 +10,10 @@
             HorizontalOptions="Center"
             VerticalOptions="Center"
             Text="{Binding Mph}" />
+        <Label
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="{Binding Jump}" />
         <Button
             Text="Start"
             Clicked="Start_Clicked" />
