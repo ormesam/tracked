@@ -1,6 +1,5 @@
 ﻿using MtbMate.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Xamarin.Essentials;
 
@@ -9,13 +8,12 @@ namespace MtbMate.Utilities
     public class AccelerometerUtility
     {
         private SensorSpeed speed = SensorSpeed.Default;
-        private readonly IDisplay display;
         private Queue<AccelerometerReadingModel> readings;
+        public event JumpEventHandler JumpDetected;
 
-        public AccelerometerUtility(IDisplay display)
+        public AccelerometerUtility()
         {
             Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
-            this.display = display;
             readings = new Queue<AccelerometerReadingModel>();
         }
 
@@ -38,12 +36,26 @@ namespace MtbMate.Utilities
                 readings.Dequeue();
             }
 
-            if (model.Z > 80)
-            {
-                display.ShowJump(model);
-            }
-
             readings.Enqueue(model);
+
+            // should we do this everytime? maybe have a seperate timer which checks the last few seconds or so?
+            CheckForJump(model);
+        }
+
+        private void CheckForJump(AccelerometerReadingModel model)
+        {
+            if (HasJumpOccured(model))
+            {
+                JumpDetected?.Invoke(new JumpEventArgs
+                {
+                    // what should we have here?
+                });
+            }
+        }
+
+        private bool HasJumpOccured(AccelerometerReadingModel model)
+        {
+            return model.Z > 5; // ??
         }
 
         public void Start()

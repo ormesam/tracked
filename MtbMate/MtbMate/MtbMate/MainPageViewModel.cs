@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MtbMate
 {
-    public class MainPageViewModel : ViewModelBase, IDisplay
+    public class MainPageViewModel : ViewModelBase
     {
         private int mph;
         private readonly GeoUtility geoUtility;
@@ -17,14 +17,19 @@ namespace MtbMate
             mph = 0;
 
             geoUtility = new GeoUtility();
-            accelerometerUtility = new AccelerometerUtility(this);
+            accelerometerUtility = new AccelerometerUtility();
 
             geoUtility.SpeedChanged += GeoUtility_SpeedChanged;
+            accelerometerUtility.JumpDetected += AccelerometerUtility_JumpDetected;
         }
 
         private void GeoUtility_SpeedChanged(SpeedChangedEventArgs e)
         {
             Mph = (int)Math.Round(e.MetresPerSecond * 2.2369363);
+        }
+
+        private void AccelerometerUtility_JumpDetected(JumpEventArgs e)
+        {
         }
 
         public int Mph {
@@ -36,22 +41,6 @@ namespace MtbMate
                     OnPropertyChanged(nameof(Mph));
                 }
             }
-        }
-
-        public string Message { get; set; } = "";
-
-        public void ShowJump(AccelerometerReadingModel model)
-        {
-            // Message += Environment.NewLine + "Jump detected!   " + model.ToString();
-
-            OnPropertyChanged(nameof(Message));
-        }
-
-        public void ShowMph(double mph)
-        {
-            Message = Math.Round(mph) + "mph";
-
-            OnPropertyChanged(nameof(Message));
         }
 
         public async Task Start()
