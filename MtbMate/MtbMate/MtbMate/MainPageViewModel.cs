@@ -16,6 +16,7 @@ namespace MtbMate
         public MainPageViewModel()
         {
             mph = 0;
+            jump = "";
 
             geoUtility = new GeoUtility();
             accelerometerUtility = new AccelerometerUtility();
@@ -31,7 +32,8 @@ namespace MtbMate
 
         private void AccelerometerUtility_JumpDetected(JumpEventArgs e)
         {
-            Jump = DateTime.Now.ToString() + "   Jumped!";
+            Jump += "Jump " + DateTime.Now.ToString() + Environment.NewLine;
+            OnPropertyChanged(nameof(Jump));
         }
 
         public string Jump {
@@ -66,6 +68,8 @@ namespace MtbMate
         {
             await geoUtility.Stop();
             accelerometerUtility.Stop();
+
+            accelerometerUtility.CheckForEvents();
         }
     }
 }

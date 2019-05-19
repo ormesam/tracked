@@ -39,6 +39,11 @@ namespace MtbMate.Utilities
             CrossGeolocator.Current.PositionChanged += PositionChanged;
             CrossGeolocator.Current.PositionError += PositionError;
 
+            SpeedChanged?.Invoke(new SpeedChangedEventArgs
+            {
+                MetresPerSecond = 0,
+            });
+
             await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 3, true, settings);
         }
 
@@ -81,6 +86,11 @@ namespace MtbMate.Utilities
             }
 
             await CrossGeolocator.Current.StopListeningAsync();
+
+            SpeedChanged?.Invoke(new SpeedChangedEventArgs
+            {
+                MetresPerSecond = 0,
+            });
 
             CrossGeolocator.Current.PositionChanged -= PositionChanged;
             CrossGeolocator.Current.PositionError -= PositionError;

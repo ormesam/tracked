@@ -9,7 +9,7 @@
             FontSize="100"
             HorizontalOptions="Center"
             VerticalOptions="Center"
-            Text="{Binding Mph}" />
+            Text="{Binding Mph, StringFormat='{}{0}mph'}" />
         <Label
             HorizontalOptions="Center"
             VerticalOptions="Center"

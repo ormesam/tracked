@@ -1,6 +1,7 @@
 ﻿using MtbMate.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Essentials;
 
 namespace MtbMate.Utilities
@@ -8,7 +9,7 @@ namespace MtbMate.Utilities
     public class AccelerometerUtility
     {
         private SensorSpeed speed = SensorSpeed.Default;
-        private Queue<AccelerometerReadingModel> readings;
+        private readonly Queue<AccelerometerReadingModel> readings;
         public event JumpEventHandler JumpDetected;
 
         public AccelerometerUtility()
@@ -33,35 +34,18 @@ namespace MtbMate.Utilities
 
             if (readings.Count > 1000)
             {
-                readings.Dequeue();
+                //readings.Dequeue();
             }
 
             readings.Enqueue(model);
-
-            // should we do this everytime? maybe have a seperate timer which checks the last few seconds or so?
-            CheckForJump(model);
-        }
-
-        private void CheckForJump(AccelerometerReadingModel model)
-        {
-            if (HasJumpOccured(model))
-            {
-                JumpDetected?.Invoke(new JumpEventArgs
-                {
-                    // what should we have here?
-                });
-            }
-        }
-
-        private bool HasJumpOccured(AccelerometerReadingModel model)
-        {
-            return model.Z > 5; // ??
         }
 
         public void Start()
         {
             if (!Accelerometer.IsMonitoring)
             {
+                readings.Clear();
+
                 Accelerometer.Start(speed);
             }
         }
@@ -79,6 +63,81 @@ namespace MtbMate.Utilities
             Stop();
             this.speed = speed;
             Start();
+        }
+
+        public void CheckForEvents()
+        {
+            CheckForJumpsAndDrops();
+        }
+
+        private void CheckForJumpsAndDrops()
+        {
+            bool previousReadingBelowLowerLimit = false;
+            double landingUpperLimit = 3;
+            double takeoffUpperLimit = 2;
+            double lowerLimit = -1;
+            // temp or now
+            TimeSpan jumpAllowance = TimeSpan.FromSeconds(1.5);
+
+            var dropReadings = new List<AccelerometerReadingModel>();
+
+            foreach (var reading in readings)
+            {
+                // The z index is lower than the lower limit when at the top of the jump.
+                if (reading.Z > lowerLimit)
+                {
+                    previousReadingBelowLowerLimit = false;
+                    continue;
+                }
+
+                if (previousReadingBelowLowerLimit)
+                {
+                    continue;
+                }
+
+                previousReadingBelowLowerLimit = true;
+
+                dropReadings.Add(reading);
+            }
+
+            foreach (var drop in dropReadings)
+            {
+                var readingsBeforeDrop = readings
+                    .Where(i => i.TimeStamp >= drop.TimeStamp - jumpAllowance)
+                    .Where(i => i.TimeStamp <= drop.TimeStamp);
+
+                var readingsAfterDrop = readings
+                    .Where(i => i.TimeStamp <= drop.TimeStamp + jumpAllowance)
+                    .Where(i => i.TimeStamp >= drop.TimeStamp);
+
+                var takeOffReading = readingsBeforeDrop
+                    .Where(i => i.Z > takeoffUpperLimit)
+                    .Where(i => i.Z == readingsBeforeDrop.Max(j => j.Z))
+                    .FirstOrDefault();
+
+                var landingReading = readingsAfterDrop
+                    .Where(i => i.Z > landingUpperLimit)
+                    .Where(i => i.Z == readingsAfterDrop.Max(j => j.Z))
+                    .FirstOrDefault();
+
+                if (takeOffReading == null || landingReading == null)
+                {
+                    continue;
+                }
+
+                JumpModel jump = new JumpModel
+                {
+                    TakeOffGForce = takeOffReading.Z,
+                    TakeOffTimeStamp = takeOffReading.TimeStamp,
+                    LandingGForce = landingReading.Z,
+                    LandingTimeStamp = landingReading.TimeStamp,
+                };
+
+                JumpDetected?.Invoke(new JumpEventArgs
+                {
+                    Jump = jump,
+                });
+            }
         }
     }
 }
