@@ -20,6 +20,9 @@
         <Button
             Text="Stop"
             Clicked="Stop_Clicked" />
+        <Button
+            Text="Export"
+            Clicked="Export_Clicked" />
     </StackLayout>
 
 </ContentPage>

@@ -23,5 +23,10 @@ namespace MtbMate
         {
             await ViewModel.Stop();
         }
+
+        private async void Export_Clicked(object sender, System.EventArgs e)
+        {
+            await ViewModel.Export();
+        }
     }
 }

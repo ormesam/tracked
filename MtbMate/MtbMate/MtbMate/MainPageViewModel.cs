@@ -2,7 +2,10 @@
 using MtbMate.Screens;
 using MtbMate.Utilities;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace MtbMate
 {
@@ -70,6 +73,15 @@ namespace MtbMate
             accelerometerUtility.Stop();
 
             accelerometerUtility.CheckForEvents();
+        }
+
+        public async Task Export()
+        {
+            await Share.RequestAsync(new ShareTextRequest
+            {
+                Text = accelerometerUtility.GetReadings(),
+                Title = "Accelerometer Readings",
+            });
         }
     }
 }

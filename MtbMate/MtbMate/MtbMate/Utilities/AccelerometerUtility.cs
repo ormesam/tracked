@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Xamarin.Essentials;
 
 namespace MtbMate.Utilities
@@ -138,6 +139,20 @@ namespace MtbMate.Utilities
                     Jump = jump,
                 });
             }
+        }
+
+        public string GetReadings()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"TimeStamp,X,Y,Z");
+
+            foreach (var reading in readings)
+            {
+                sb.AppendLine($"{reading.TimeStamp},{reading.X},{reading.Y},{reading.Z}");
+            }
+
+            return sb.ToString();
         }
     }
 }
