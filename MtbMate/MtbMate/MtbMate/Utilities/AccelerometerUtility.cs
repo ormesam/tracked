@@ -149,7 +149,7 @@ namespace MtbMate.Utilities
 
             foreach (var reading in readings)
             {
-                sb.AppendLine($"{reading.TimeStamp},{reading.X},{reading.Y},{reading.Z}");
+                sb.AppendLine($"{reading.TimeStamp.ToString("hh:mm:ss.fff")},{reading.X},{reading.Y},{reading.Z}");
             }
 
             return sb.ToString();
