@@ -29,5 +29,10 @@ namespace MtbMate.Screens.Bluetooth
                 await ViewModel.ConnectToDevice(deviceInfo);
             }
         }
+
+        private async void Disconnect_Clicked(object sender, EventArgs e)
+        {
+            await ViewModel.DisconnectDevice();
+        }
     }
 }

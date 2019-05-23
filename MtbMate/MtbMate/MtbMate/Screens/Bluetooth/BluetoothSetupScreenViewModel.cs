@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Utilities;
 using Plugin.BLE;
@@ -18,7 +19,9 @@ namespace MtbMate.Screens.Bluetooth
         private IAdapter adapter => CrossBluetoothLE.Current.Adapter;
         public ObservableCollection<DeviceInfo> DevicesFound { get; }
         public bool IsBluetoothOn => ble.IsOn;
-        public bool CanStartScanning => IsBluetoothOn && !IsScanning;
+        public bool ShowDeviceList => IsBluetoothOn && !IsDeviceConnected;
+        public bool CanStartScanning => IsBluetoothOn && !IsDeviceConnected && !IsScanning;
+        public bool IsDeviceConnected => ble.Adapter.ConnectedDevices.Any();
 
         public BluetoothSetupScreenViewModel()
         {
@@ -54,13 +57,11 @@ namespace MtbMate.Screens.Bluetooth
         private void Adapter_ScanTimeoutElapsed(object sender, EventArgs e)
         {
             OnPropertyChanged();
-
-            Debug.WriteLine("Scanning timed out...");
         }
 
         private void Adapter_DeviceConnected(object sender, DeviceEventArgs e)
         {
-            Debug.WriteLine("Device Connected...");
+            OnPropertyChanged();
         }
 
         private void Ble_StateChanged(object sender, BluetoothStateChangedArgs e)
@@ -70,6 +71,8 @@ namespace MtbMate.Screens.Bluetooth
 
         public async Task TryStartScanning()
         {
+            DevicesFound.Clear();
+
             IsScanning = true;
 
             await adapter.StartScanningForDevicesAsync();
@@ -81,13 +84,29 @@ namespace MtbMate.Screens.Bluetooth
         {
             try
             {
+                await adapter.StopScanningForDevicesAsync();
+
+                IsScanning = false;
+
                 await adapter.ConnectToDeviceAsync(deviceInfo.Device);
+
+                DevicesFound.Clear();
             }
             catch (DeviceConnectionException e)
             {
                 // ... could not connect to device
                 Debug.WriteLine(e);
             }
+        }
+
+        public async Task DisconnectDevice()
+        {
+            foreach (var device in adapter.ConnectedDevices)
+            {
+                await adapter.DisconnectDeviceAsync(device);
+            }
+
+            OnPropertyChanged();
         }
     }
 }

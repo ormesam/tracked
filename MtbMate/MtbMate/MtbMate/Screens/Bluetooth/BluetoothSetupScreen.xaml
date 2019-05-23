@@ -13,7 +13,7 @@
             </Grid.RowDefinitions>
             
             <ListView
-                IsVisible="{Binding IsBluetoothOn}"
+                IsVisible="{Binding ShowDeviceList}"
                 ItemsSource="{Binding DevicesFound}"
                 ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
@@ -28,7 +28,21 @@
                 Grid.Row="1"
                 IsVisible="{Binding IsScanning}"
                 HorizontalOptions="Center"
-                Text="Scanning..." />
+                Text="Scanning..."
+                Margin="10" />
+
+            <StackLayout
+                Grid.RowSpan="2"
+                IsVisible="{Binding IsDeviceConnected}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    Text="Device Connected"
+                    Margin="10" />
+                <Button
+                    Text="Disconnect"
+                    Clicked="Disconnect_Clicked" />
+            </StackLayout>
 
             <Button
                 Grid.Row="1"
