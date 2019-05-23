@@ -1,6 +1,5 @@
-﻿using System;
+﻿using MtbMate.Home;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace MtbMate
 {
@@ -10,7 +9,7 @@ namespace MtbMate
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MtbMate.Screens.Bluetooth.BluetoothSetupScreen">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="*" />
+                <RowDefinition
+                    Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <ListView
+                IsVisible="{Binding IsBluetoothOn}"
+                ItemsSource="{Binding DevicesFound}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell
+                            Text="{Binding DisplayName}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Label
+                Grid.Row="1"
+                IsVisible="{Binding IsScanning}"
+                HorizontalOptions="Center"
+                Text="Scanning..." />
+
+            <Button
+                Grid.Row="1"
+                IsVisible="{Binding CanStartScanning}"
+                Text="Start Scanning..."
+                Clicked="StartScan_Clicked"/>
+
+            <Label
+                Grid.RowSpan="2"
+                IsVisible="{Binding IsBluetoothOn, Converter={StaticResource InvertBoolConverter}}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Text="Turn Bluetooth On" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

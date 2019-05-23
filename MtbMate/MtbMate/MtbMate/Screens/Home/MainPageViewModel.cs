@@ -1,13 +1,12 @@
-﻿using MtbMate.Models;
-using MtbMate.Screens;
+﻿using MtbMate.Screens;
+using MtbMate.Screens.Bluetooth;
 using MtbMate.Utilities;
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
-namespace MtbMate
+namespace MtbMate.Home
 {
     public class MainPageViewModel : ViewModelBase
     {
@@ -82,6 +81,11 @@ namespace MtbMate
                 Text = accelerometerUtility.GetReadings(),
                 Title = "Accelerometer Readings",
             });
+        }
+
+        public async Task GoToBluetoothSettings(INavigation nav)
+        {
+            await nav.PushAsync(new BluetoothSetupScreen());
         }
     }
 }
