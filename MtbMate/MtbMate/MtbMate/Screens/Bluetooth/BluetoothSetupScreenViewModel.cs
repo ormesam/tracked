@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using MtbMate.Utilities;
 using Plugin.BLE;
-using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Exceptions;
@@ -27,6 +26,7 @@ namespace MtbMate.Screens.Bluetooth
 
             adapter.DeviceDiscovered += Adapter_DeviceDiscovered;
             adapter.ScanTimeoutElapsed += Adapter_ScanTimeoutElapsed;
+            adapter.DeviceConnected += Adapter_DeviceConnected;
             ble.StateChanged += Ble_StateChanged;
         }
 
@@ -58,6 +58,11 @@ namespace MtbMate.Screens.Bluetooth
             Debug.WriteLine("Scanning timed out...");
         }
 
+        private void Adapter_DeviceConnected(object sender, DeviceEventArgs e)
+        {
+            Debug.WriteLine("Device Connected...");
+        }
+
         private void Ble_StateChanged(object sender, BluetoothStateChangedArgs e)
         {
             OnPropertyChanged();
@@ -72,11 +77,11 @@ namespace MtbMate.Screens.Bluetooth
             IsScanning = false;
         }
 
-        public async Task ConnectToDevice(IDevice device)
+        public async Task ConnectToDevice(DeviceInfo deviceInfo)
         {
             try
             {
-                await adapter.ConnectToDeviceAsync(device);
+                await adapter.ConnectToDeviceAsync(deviceInfo.Device);
             }
             catch (DeviceConnectionException e)
             {

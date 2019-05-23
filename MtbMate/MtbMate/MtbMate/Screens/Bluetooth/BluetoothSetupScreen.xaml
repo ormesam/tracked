@@ -14,7 +14,8 @@
             
             <ListView
                 IsVisible="{Binding IsBluetoothOn}"
-                ItemsSource="{Binding DevicesFound}">
+                ItemsSource="{Binding DevicesFound}"
+                ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell
