@@ -10,7 +10,6 @@ using Java.Util;
 using MtbMate.Droid.Dependancies;
 using MtbMate.Models;
 using MtbMate.Utilities;
-using Xamarin.Forms;
 
 [assembly: Xamarin.Forms.Dependency(typeof(BluetoothUtility))]
 namespace MtbMate.Droid.Dependancies
@@ -80,13 +79,13 @@ namespace MtbMate.Droid.Dependancies
                     if (adapter == null)
                     {
                         Debug.WriteLine("No Bluetooth adapter found.");
-                        return;
+                        continue;
                     }
 
                     if (!adapter.IsEnabled)
                     {
                         Debug.WriteLine("Bluetooth adapter is not enabled.");
-                        return;
+                        continue;
                     }
 
                     Debug.WriteLine("Trying to connect to " + name);
@@ -98,7 +97,7 @@ namespace MtbMate.Droid.Dependancies
                     if (device == null)
                     {
                         Debug.WriteLine(name + " not found.");
-                        return;
+                        continue;
                     }
 
                     Debug.WriteLine("Connection Successful");
@@ -117,7 +116,7 @@ namespace MtbMate.Droid.Dependancies
                     if (socket == null)
                     {
                         Debug.WriteLine("Socket not found");
-                        return; // should we return?
+                        continue; // should we return?
                     }
 
                     await socket.ConnectAsync();
@@ -170,7 +169,7 @@ namespace MtbMate.Droid.Dependancies
 
                             if (!socket.IsConnected)
                             {
-                                throw new Exception("Socket is not connected");
+                                break;
                             }
                         }
                     }
