@@ -17,22 +17,9 @@ namespace MtbMate.Screens.Bluetooth
 
         public BluetoothSetupScreenViewModel ViewModel => BindingContext as BluetoothSetupScreenViewModel;
 
-        private void StartScan_Clicked(object sender, EventArgs e)
-        {
-            Task.Run(ViewModel.TryStartScanning);
-        }
-
         private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item is DeviceInfo deviceInfo)
-            {
-                await ViewModel.ConnectToDevice(deviceInfo);
-            }
-        }
-
-        private async void Disconnect_Clicked(object sender, EventArgs e)
-        {
-            await ViewModel.DisconnectDevice();
+            await ViewModel.ConnectToDevice(e.Item as DeviceInfo);
         }
     }
 }
