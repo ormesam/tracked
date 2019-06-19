@@ -8,7 +8,9 @@ using Android.Bluetooth;
 using Java.IO;
 using Java.Util;
 using MtbMate.Droid.Dependancies;
+using MtbMate.Models;
 using MtbMate.Utilities;
+using Xamarin.Forms;
 
 [assembly: Xamarin.Forms.Dependency(typeof(BluetoothUtility))]
 namespace MtbMate.Droid.Dependancies
@@ -135,17 +137,32 @@ namespace MtbMate.Droid.Dependancies
 
                                 if (value.Length > 0)
                                 {
-                                    Debug.WriteLine("Value: " + value);
-                                    //Xamarin.Forms.MessagingCenter.Send<App, string>((App)Xamarin.Forms.Application.Current, "Barcode", barcode);
+                                    double[] xyz = new double[3];
+                                    string[] parsedData = value.Split(',');
+
+                                    if (parsedData.Length != 3)
+                                    {
+                                        continue;
+                                    }
+
+                                    for (int i = 0; i < xyz.Length; i++)
+                                    {
+                                        if (double.TryParse(parsedData[i], out double result))
+                                        {
+                                            xyz[i] = result;
+                                        }
+                                    }
+
+                                    var data = new AccelerometerReadingModel
+                                    {
+                                        TimeStamp = DateTime.UtcNow,
+                                        X = xyz[0],
+                                        Y = xyz[1],
+                                        Z = xyz[2],
+                                    };
+
+                                    MessagingCenter.Send((App)Application.Current, "AccelerometerData", data);
                                 }
-                                else
-                                {
-                                    Debug.WriteLine("No data");
-                                }
-                            }
-                            else
-                            {
-                                Debug.WriteLine("No data to read");
                             }
 
                             // A little stop to the uneverending thread...
@@ -156,8 +173,6 @@ namespace MtbMate.Droid.Dependancies
                                 throw new Exception("Socket is not connected");
                             }
                         }
-
-                        Debug.WriteLine("Exit the inner loop");
                     }
                 }
                 catch (Exception ex)

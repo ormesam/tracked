@@ -1,4 +1,6 @@
-﻿using MtbMate.Home;
+﻿using System.Diagnostics;
+using MtbMate.Home;
+using MtbMate.Models;
 using Xamarin.Forms;
 
 namespace MtbMate
@@ -10,6 +12,11 @@ namespace MtbMate
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainPage());
+
+            MessagingCenter.Subscribe<App, AccelerometerReadingModel>(this, "AccelerometerData", (sender, data) =>
+            {
+                Debug.WriteLine(data);
+            });
         }
 
         protected override void OnStart()
