@@ -1,69 +1,49 @@
 ﻿using MtbMate.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Xamarin.Essentials;
 
 namespace MtbMate.Utilities
 {
     public class AccelerometerUtility
     {
-        private SensorSpeed speed = SensorSpeed.Default;
-        private readonly Queue<AccelerometerReadingModel> readings;
+        #region Singleton stuff
+
+        private static AccelerometerUtility instance;
+        private static readonly object _lock = new object();
+
+        public static AccelerometerUtility Instance {
+            get {
+                lock (_lock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new AccelerometerUtility();
+                    }
+
+                    return instance;
+                }
+            }
+        }
+
+        #endregion
+
+        private readonly ConcurrentQueue<AccelerometerReadingModel> readings;
         public event JumpEventHandler JumpDetected;
 
-        public AccelerometerUtility()
+        private AccelerometerUtility()
         {
-            Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
-            readings = new Queue<AccelerometerReadingModel>();
+            readings = new ConcurrentQueue<AccelerometerReadingModel>();
         }
 
-        private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        public void AddReading(AccelerometerReadingModel reading)
         {
-            AccelerometerData data = e.Reading;
+            readings.Enqueue(reading);
 
-            var model = new AccelerometerReadingModel
-            {
-                TimeStamp = DateTime.UtcNow,
-                X = data.Acceleration.X,
-                Y = data.Acceleration.Y,
-                Z = data.Acceleration.Z,
-            };
-
-            Console.WriteLine(model.ToString());
-
-            if (readings.Count > 1000)
-            {
-                //readings.Dequeue();
-            }
-
-            readings.Enqueue(model);
-        }
-
-        public void Start()
-        {
-            if (!Accelerometer.IsMonitoring)
-            {
-                readings.Clear();
-
-                Accelerometer.Start(speed);
-            }
-        }
-
-        public void Stop()
-        {
-            if (Accelerometer.IsMonitoring)
-            {
-                Accelerometer.Stop();
-            }
-        }
-
-        public void ChangeSpeed(SensorSpeed speed)
-        {
-            Stop();
-            this.speed = speed;
-            Start();
+            Debug.WriteLine("Items in Queue: " + readings.Count);
         }
 
         public void CheckForEvents()
@@ -77,7 +57,7 @@ namespace MtbMate.Utilities
             double landingUpperLimit = 3;
             double takeoffUpperLimit = 2;
             double lowerLimit = -1;
-            // temp or now
+            // temp for now
             TimeSpan jumpAllowance = TimeSpan.FromSeconds(1.5);
 
             var dropReadings = new List<AccelerometerReadingModel>();

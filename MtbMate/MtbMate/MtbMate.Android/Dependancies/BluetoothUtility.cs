@@ -161,7 +161,7 @@ namespace MtbMate.Droid.Dependancies
                                         Z = xyz[2],
                                     };
 
-                                    MessagingCenter.Send((App)Application.Current, "AccelerometerData", data);
+                                    AccelerometerUtility.Instance.AddReading(data);
                                 }
                             }
 

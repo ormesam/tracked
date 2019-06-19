@@ -13,7 +13,6 @@ namespace MtbMate.Home
         private int mph;
         private string jump;
         private readonly GeoUtility geoUtility;
-        private readonly AccelerometerUtility accelerometerUtility;
 
         public MainPageViewModel()
         {
@@ -21,10 +20,9 @@ namespace MtbMate.Home
             jump = "";
 
             geoUtility = new GeoUtility();
-            accelerometerUtility = new AccelerometerUtility();
 
             geoUtility.SpeedChanged += GeoUtility_SpeedChanged;
-            accelerometerUtility.JumpDetected += AccelerometerUtility_JumpDetected;
+            AccelerometerUtility.Instance.JumpDetected += AccelerometerUtility_JumpDetected;
         }
 
         private void GeoUtility_SpeedChanged(SpeedChangedEventArgs e)
@@ -63,22 +61,18 @@ namespace MtbMate.Home
         public async Task Start()
         {
             await geoUtility.Start();
-            accelerometerUtility.Start();
         }
 
         public async Task Stop()
         {
             await geoUtility.Stop();
-            accelerometerUtility.Stop();
-
-            accelerometerUtility.CheckForEvents();
         }
 
         public async Task Export()
         {
             await Share.RequestAsync(new ShareTextRequest
             {
-                Text = accelerometerUtility.GetReadings(),
+                Text = AccelerometerUtility.Instance.GetReadings(),
                 Title = "Accelerometer Readings",
             });
         }

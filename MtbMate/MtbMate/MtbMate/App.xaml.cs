@@ -12,11 +12,6 @@ namespace MtbMate
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainPage());
-
-            MessagingCenter.Subscribe<App, AccelerometerReadingModel>(this, "AccelerometerData", (sender, data) =>
-            {
-                Debug.WriteLine(data);
-            });
         }
 
         protected override void OnStart()
