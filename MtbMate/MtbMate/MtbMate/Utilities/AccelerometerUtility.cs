@@ -43,7 +43,7 @@ namespace MtbMate.Utilities
         {
             readings.Enqueue(reading);
 
-            Debug.WriteLine("Items in Queue: " + readings.Count);
+            Debug.WriteLine(reading);
         }
 
         public void CheckForEvents()
