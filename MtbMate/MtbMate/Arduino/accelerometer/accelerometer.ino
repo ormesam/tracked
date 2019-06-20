@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 #include<Wire.h>
 
-SoftwareSerial BT(10, 11);
+SoftwareSerial BT(10, 11); // Rx, Tx
 char command;
 const int MPU_addr=0x68;  // I2C address of the MPU-6050
 int AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
@@ -54,7 +54,7 @@ void loop()
   buf += F(",");
   buf += String(AcZ);
   
-  BT.println(buf); // replace this with the data from an accelerometer
+  BT.println(buf);
   
   delay(250);
 }
