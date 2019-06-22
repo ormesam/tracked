@@ -10,10 +10,32 @@ namespace MtbMate.Utilities
 {
     public class GeoUtility
     {
+        #region Singleton stuff
+
+        private static GeoUtility instance;
+        private static readonly object _lock = new object();
+
+        public static GeoUtility Instance {
+            get {
+                lock (_lock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new GeoUtility();
+                    }
+
+                    return instance;
+                }
+            }
+        }
+
+        #endregion
+
         private readonly IList<LocationModel> locationModels;
         public event SpeedChangedEventHandler SpeedChanged;
+        public event LocationChangedEventHandler LocationChanged;
 
-        public GeoUtility()
+        private GeoUtility()
         {
             locationModels = new List<LocationModel>();
         }
@@ -54,22 +76,15 @@ namespace MtbMate.Utilities
 
         private void PositionChanged(object sender, PositionEventArgs e)
         {
-            var position = e.Position;
-            var output = "\n";
-            output += "Full: Lat: " + position.Latitude + " Long: " + position.Longitude;
-            output += "\n" + $"Time: {position.Timestamp}";
-            output += "\n" + $"Heading: {position.Heading}";
-            output += "\n" + $"Speed: {position.Speed}";
-            output += "\n" + $"Accuracy: {position.Accuracy}";
-            output += "\n" + $"Altitude: {position.Altitude}";
-            output += "\n" + $"Altitude Accuracy: {position.AltitudeAccuracy}";
-            output += "\n";
-
-            locationModels.Add(new LocationModel
+            LocationChanged?.Invoke(new LocationChangedEventArgs
             {
-                Timestamp = e.Position.Timestamp.UtcDateTime,
-                Latitude = e.Position.Latitude,
-                Longitude = e.Position.Longitude,
+                Location = new LocationModel
+                {
+                    Timestamp = e.Position.Timestamp.UtcDateTime,
+                    Latitude = e.Position.Latitude,
+                    Longitude = e.Position.Longitude,
+                    MetresPerSecond = e.Position.Speed,
+                }
             });
 
             SpeedChanged?.Invoke(new SpeedChangedEventArgs

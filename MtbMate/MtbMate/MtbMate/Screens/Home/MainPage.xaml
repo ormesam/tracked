@@ -9,10 +9,6 @@
             HorizontalOptions="Center"
             VerticalOptions="Center"
             Text="{Binding Mph, StringFormat='{}{0}mph'}" />
-        <Label
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Text="{Binding Jump}" />
         <Button
             Text="Start"
             Clicked="Start_Clicked" />
