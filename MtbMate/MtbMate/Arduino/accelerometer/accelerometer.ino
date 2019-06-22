@@ -5,6 +5,7 @@ SoftwareSerial BT(10, 11); // Rx, Tx
 char command;
 const int MPU_addr=0x68;  // I2C address of the MPU-6050
 int AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
+bool run = false;
 
 void setup()
 {
@@ -27,12 +28,16 @@ void loop()
     command = BT.read();
 
     if (command == 'r') {
-      // run...
+      run = true;
     }
     
     if (command == 'x') {
-      // exit...
+      run = false;
     }
+  }
+
+  if (!run){
+    return;
   }
   
   Wire.beginTransmission(MPU_addr);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Bluetooth;
@@ -18,6 +19,7 @@ namespace MtbMate.Droid.Dependancies
     {
         private BluetoothAdapter adapter;
         private CancellationTokenSource cancellationToken;
+        private BluetoothSocket socket;
 
         public BluetoothUtility()
         {
@@ -68,7 +70,6 @@ namespace MtbMate.Droid.Dependancies
         private async Task Loop(string name, int sleepTime)
         {
             cancellationToken = new CancellationTokenSource();
-            BluetoothSocket socket = null;
 
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -183,6 +184,20 @@ namespace MtbMate.Droid.Dependancies
                     socket?.Close();
                 }
             }
+        }
+
+        public void Run()
+        {
+            var buffer = Encoding.ASCII.GetBytes("r");
+
+            socket.OutputStream.Write(buffer, 0, buffer.Length);
+        }
+
+        public void Stop()
+        {
+            var buffer = Encoding.ASCII.GetBytes("x");
+
+            socket.OutputStream.Write(buffer, 0, buffer.Length);
         }
     }
 }

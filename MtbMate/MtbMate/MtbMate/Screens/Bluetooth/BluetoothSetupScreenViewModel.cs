@@ -14,7 +14,6 @@ namespace MtbMate.Screens.Bluetooth
 
         public BluetoothSetupScreenViewModel()
         {
-
             var pairedDevices = DependencyService.Resolve<IBluetoothUtility>().PairedDevices();
 
             Devices = new ObservableCollection<DeviceInfo>(pairedDevices);

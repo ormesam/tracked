@@ -7,5 +7,7 @@ namespace MtbMate.Utilities
         void Start(string name, int sleepTime);
         void Cancel();
         IList<DeviceInfo> PairedDevices();
+        void Run();
+        void Stop();
     }
 }

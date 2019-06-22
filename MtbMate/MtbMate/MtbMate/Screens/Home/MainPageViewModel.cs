@@ -61,11 +61,13 @@ namespace MtbMate.Home
         public async Task Start()
         {
             await geoUtility.Start();
+            AccelerometerUtility.Instance.Start();
         }
 
         public async Task Stop()
         {
             await geoUtility.Stop();
+            AccelerometerUtility.Instance.Stop();
         }
 
         public async Task Export()

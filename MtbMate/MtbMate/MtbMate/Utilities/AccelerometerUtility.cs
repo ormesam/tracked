@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Xamarin.Forms;
 
 namespace MtbMate.Utilities
 {
@@ -44,6 +45,16 @@ namespace MtbMate.Utilities
             readings.Enqueue(reading);
 
             Debug.WriteLine(reading);
+        }
+
+        public void Start()
+        {
+            DependencyService.Resolve<IBluetoothUtility>().Run();
+        }
+
+        internal void Stop()
+        {
+            DependencyService.Resolve<IBluetoothUtility>().Stop();
         }
 
         public void CheckForEvents()
