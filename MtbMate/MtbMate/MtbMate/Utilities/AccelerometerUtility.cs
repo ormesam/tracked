@@ -49,12 +49,12 @@ namespace MtbMate.Utilities
 
         public void Start()
         {
-            DependencyService.Resolve<IBluetoothUtility>().Run();
+            DependencyService.Resolve<IBluetoothUtility>().StartCollectingData();
         }
 
-        internal void Stop()
+        public void Stop()
         {
-            DependencyService.Resolve<IBluetoothUtility>().Stop();
+            DependencyService.Resolve<IBluetoothUtility>().StopCollectingData();
         }
 
         public void CheckForEvents()

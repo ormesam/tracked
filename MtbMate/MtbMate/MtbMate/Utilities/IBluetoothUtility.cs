@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MtbMate.Utilities
 {
     public interface IBluetoothUtility
     {
-        void Start(string name, int sleepTime);
-        void Cancel();
-        IList<DeviceInfo> PairedDevices();
-        void Run();
-        void Stop();
+        void TurnBluetoothOn();
+        IList<DeviceInfo> GetPairedDevices();
+        bool ConnectToDeviceAndStart(DeviceInfo deviceInfo, int sleepTime);
+        void DisconnectFromDevice();
+        void StartCollectingData();
+        void StopCollectingData();
+        DeviceInfo GetConnectedDevice();
     }
 }

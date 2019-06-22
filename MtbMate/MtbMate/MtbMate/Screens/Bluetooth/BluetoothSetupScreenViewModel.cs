@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
@@ -10,20 +8,36 @@ namespace MtbMate.Screens.Bluetooth
 {
     public class BluetoothSetupScreenViewModel : ViewModelBase
     {
-        public ObservableCollection<DeviceInfo> Devices { get; }
+        private DeviceInfo connectedDevice;
+        public ObservableCollection<DeviceInfo> Devices { get; set; }
+        public IBluetoothUtility BluetoothUtility => DependencyService.Resolve<IBluetoothUtility>();
 
         public BluetoothSetupScreenViewModel()
         {
-            var pairedDevices = DependencyService.Resolve<IBluetoothUtility>().PairedDevices();
+            Devices = new ObservableCollection<DeviceInfo>();
+        }
+
+        public void LoadDeviceList()
+        {
+            BluetoothUtility.TurnBluetoothOn();
+
+            ConnectedDevice = BluetoothUtility.GetConnectedDevice();
+
+            var pairedDevices = DependencyService.Resolve<IBluetoothUtility>().GetPairedDevices();
 
             Devices = new ObservableCollection<DeviceInfo>(pairedDevices);
+
+            OnPropertyChanged();
         }
 
-        public async Task ConnectToDevice(DeviceInfo deviceInfo)
+        public void ConnectToDevice(DeviceInfo deviceInfo)
         {
             try
             {
-                DependencyService.Resolve<IBluetoothUtility>().Start(deviceInfo.Name, 250);
+                if (BluetoothUtility.ConnectToDeviceAndStart(deviceInfo, 250))
+                {
+                    ConnectedDevice = deviceInfo;
+                }
             }
             catch (Exception e)
             {
@@ -32,17 +46,25 @@ namespace MtbMate.Screens.Bluetooth
             }
         }
 
-        public async Task DisconnectDevice()
+        public void DisconnectDevice()
         {
-            try
-            {
-                DependencyService.Resolve<IBluetoothUtility>().Cancel();
-            }
-            catch (Exception e)
-            {
-                // ... could not connect to device
-                Debug.WriteLine(e);
+            BluetoothUtility.DisconnectFromDevice();
+
+            ConnectedDevice = null;
+        }
+
+        public DeviceInfo ConnectedDevice {
+            get { return connectedDevice; }
+            set {
+                if (connectedDevice != value)
+                {
+                    connectedDevice = value;
+                    OnPropertyChanged(nameof(ConnectedDevice));
+                    OnPropertyChanged(nameof(IsConnected));
+                }
             }
         }
+
+        public bool IsConnected => ConnectedDevice != null;
     }
 }

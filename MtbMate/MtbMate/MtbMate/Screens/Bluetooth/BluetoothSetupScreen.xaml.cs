@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,11 +14,23 @@ namespace MtbMate.Screens.Bluetooth
             BindingContext = new BluetoothSetupScreenViewModel();
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            ViewModel.LoadDeviceList();
+        }
+
         public BluetoothSetupScreenViewModel ViewModel => BindingContext as BluetoothSetupScreenViewModel;
 
-        private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            await ViewModel.ConnectToDevice(e.Item as DeviceInfo);
+            ViewModel.ConnectToDevice(e.Item as DeviceInfo);
+        }
+
+        private void Disconnect_Clicked(object sender, EventArgs e)
+        {
+            ViewModel.DisconnectDevice();
         }
     }
 }

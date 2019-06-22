@@ -37,6 +37,8 @@ void loop()
   }
 
   if (!run){
+    delay(250);
+  
     return;
   }
   
@@ -58,6 +60,8 @@ void loop()
   buf += String(AcY);
   buf += F(",");
   buf += String(AcZ);
+
+  Serial.println(buf);
   
   BT.println(buf);
   

@@ -20,184 +20,195 @@ namespace MtbMate.Droid.Dependancies
         private BluetoothAdapter adapter;
         private CancellationTokenSource cancellationToken;
         private BluetoothSocket socket;
+        private BluetoothDevice connectedDevice;
 
         public BluetoothUtility()
         {
             adapter = BluetoothAdapter.DefaultAdapter;
         }
 
-        public void Cancel()
+        public void TurnBluetoothOn()
         {
-            Debug.WriteLine("Cancellation requested");
-
-            cancellationToken?.Cancel();
+            if (!adapter.IsEnabled)
+            {
+                adapter.Enable();
+            }
         }
 
-        public IList<DeviceInfo> PairedDevices()
+        public IList<DeviceInfo> GetPairedDevices()
         {
             return adapter.BondedDevices
                 .Select(i => new DeviceInfo
                 {
                     Name = i.Name,
-                    Status = GetStatus(i.BondState),
                 })
                 .ToList();
         }
 
-        private BluetoothConnectionStatus GetStatus(Bond bondState)
+        public bool ConnectToDeviceAndStart(DeviceInfo deviceInfo, int sleepTime)
         {
-            switch (bondState)
-            {
-                case Bond.Bonded:
-                    return BluetoothConnectionStatus.Connected;
-                case Bond.Bonding:
-                    return BluetoothConnectionStatus.Connecting;
-                default:
-                    return BluetoothConnectionStatus.None;
-            }
-        }
+            Debug.WriteLine("Trying to connect to " + deviceInfo.Name);
 
-        public void Start(string name, int sleepTime)
-        {
-            if (!adapter.IsEnabled)
+            connectedDevice = adapter.BondedDevices
+                .Where(i => i.Name == deviceInfo.Name)
+                .SingleOrDefault();
+
+            if (connectedDevice == null)
             {
-                return;
+                Debug.WriteLine(deviceInfo.Name + " not found.");
+
+                return false;
             }
 
-            Task.Run(async () => Loop(name, sleepTime));
+            Debug.WriteLine("Connection Successful");
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+            Task.Run(async () => Loop(sleepTime));
+#pragma warning restore CS1998
+
+            return true;
         }
 
-        private async Task Loop(string name, int sleepTime)
+        private async Task Loop(int sleepTime)
         {
             cancellationToken = new CancellationTokenSource();
 
-            while (!cancellationToken.IsCancellationRequested)
+            socket = GetSocket();
+
+            if (socket == null)
             {
-                try
+                Debug.WriteLine("Socket not found");
+                return;
+            }
+
+            try
+            {
+                await socket.ConnectAsync();
+
+                if (socket.IsConnected)
                 {
-                    await Task.Delay(sleepTime);
+                    Debug.WriteLine("Connected to socket");
 
-                    if (adapter == null)
+                    var mReader = new InputStreamReader(socket.InputStream);
+                    var buffer = new BufferedReader(mReader);
+
+                    while (!cancellationToken.IsCancellationRequested)
                     {
-                        Debug.WriteLine("No Bluetooth adapter found.");
-                        continue;
-                    }
-
-                    if (!adapter.IsEnabled)
-                    {
-                        Debug.WriteLine("Bluetooth adapter is not enabled.");
-                        continue;
-                    }
-
-                    Debug.WriteLine("Trying to connect to " + name);
-
-                    BluetoothDevice device = adapter.BondedDevices
-                        .Where(i => i.Name == name)
-                        .SingleOrDefault();
-
-                    if (device == null)
-                    {
-                        Debug.WriteLine(name + " not found.");
-                        continue;
-                    }
-
-                    Debug.WriteLine("Connection Successful");
-
-                    UUID uuid = UUID.FromString("00001101-0000-1000-8000-00805f9b34fb");
-
-                    if ((int)Android.OS.Build.VERSION.SdkInt >= 10) // Gingerbread 2.3.3 2.3.4
-                    {
-                        socket = device.CreateInsecureRfcommSocketToServiceRecord(uuid);
-                    }
-                    else
-                    {
-                        socket = device.CreateRfcommSocketToServiceRecord(uuid);
-                    }
-
-                    if (socket == null)
-                    {
-                        Debug.WriteLine("Socket not found");
-                        continue; // should we return?
-                    }
-
-                    await socket.ConnectAsync();
-
-                    if (socket.IsConnected)
-                    {
-                        Debug.WriteLine("Connected!");
-
-                        var mReader = new InputStreamReader(socket.InputStream);
-                        var buffer = new BufferedReader(mReader);
-
-                        while (!cancellationToken.IsCancellationRequested)
+                        if (!socket.IsConnected)
                         {
-                            if (buffer.Ready())
-                            {
-                                string value = await buffer.ReadLineAsync();
-
-                                if (value.Length > 0)
-                                {
-                                    double[] xyz = new double[3];
-                                    string[] parsedData = value.Split(',');
-
-                                    if (parsedData.Length != 3)
-                                    {
-                                        continue;
-                                    }
-
-                                    for (int i = 0; i < xyz.Length; i++)
-                                    {
-                                        if (double.TryParse(parsedData[i], out double result))
-                                        {
-                                            xyz[i] = result;
-                                        }
-                                    }
-
-                                    var data = new AccelerometerReadingModel
-                                    {
-                                        TimeStamp = DateTime.UtcNow,
-                                        X = xyz[0],
-                                        Y = xyz[1],
-                                        Z = xyz[2],
-                                    };
-
-                                    AccelerometerUtility.Instance.AddReading(data);
-                                }
-                            }
-
-                            // A little stop to the uneverending thread...
-                            await Task.Delay(sleepTime);
-
-                            if (!socket.IsConnected)
-                            {
-                                break;
-                            }
+                            break;
                         }
+
+                        if (buffer.Ready())
+                        {
+                            string value = await buffer.ReadLineAsync();
+
+                            ParseAndAddData(value);
+                        }
+
+                        await Task.Delay(sleepTime);
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("EXCEPTION: " + ex.Message);
-                }
-                finally
-                {
-                    socket?.Close();
-                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Cannot connect to socket: " + e);
+            }
+            finally
+            {
+                socket?.Close();
             }
         }
 
-        public void Run()
+        private void ParseAndAddData(string value)
         {
-            var buffer = Encoding.ASCII.GetBytes("r");
+            if (value.Length > 0)
+            {
+                double[] xyz = new double[3];
+                string[] parsedData = value.Split(',');
 
-            socket.OutputStream.Write(buffer, 0, buffer.Length);
+                if (parsedData.Length != 3)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < xyz.Length; i++)
+                {
+                    if (double.TryParse(parsedData[i], out double result))
+                    {
+                        xyz[i] = result;
+                    }
+                }
+
+                var data = new AccelerometerReadingModel
+                {
+                    TimeStamp = DateTime.UtcNow,
+                    X = xyz[0],
+                    Y = xyz[1],
+                    Z = xyz[2],
+                };
+
+                AccelerometerUtility.Instance.AddReading(data);
+            }
         }
 
-        public void Stop()
+        private BluetoothSocket GetSocket()
         {
-            var buffer = Encoding.ASCII.GetBytes("x");
+            if (connectedDevice == null)
+            {
+                return null;
+            }
 
-            socket.OutputStream.Write(buffer, 0, buffer.Length);
+            UUID uuid = UUID.FromString("00001101-0000-1000-8000-00805f9b34fb");
+
+            if ((int)Android.OS.Build.VERSION.SdkInt >= 10) // Gingerbread 2.3.3 2.3.4
+            {
+                return connectedDevice.CreateInsecureRfcommSocketToServiceRecord(uuid);
+            }
+            else
+            {
+                return connectedDevice.CreateRfcommSocketToServiceRecord(uuid);
+            }
+        }
+
+        public void DisconnectFromDevice()
+        {
+            Debug.WriteLine("Cancellation requested");
+
+            StopCollectingData();
+
+            cancellationToken?.Cancel();
+        }
+
+        public void StartCollectingData()
+        {
+            if (socket != null && socket.IsConnected)
+            {
+                var buffer = Encoding.ASCII.GetBytes("r");
+                socket.OutputStream.Write(buffer, 0, buffer.Length);
+            }
+        }
+
+        public void StopCollectingData()
+        {
+            if (socket != null && socket.IsConnected)
+            {
+                var buffer = Encoding.ASCII.GetBytes("x");
+                socket.OutputStream.Write(buffer, 0, buffer.Length);
+            }
+        }
+
+        public DeviceInfo GetConnectedDevice()
+        {
+            if (connectedDevice == null)
+            {
+                return null;
+            }
+
+            return new DeviceInfo
+            {
+                Name = connectedDevice.Name,
+            };
         }
     }
 }

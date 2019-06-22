@@ -5,15 +5,9 @@
     x:Class="MtbMate.Screens.Bluetooth.BluetoothSetupScreen">
     <ContentPage.Content>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="*" />
-                <RowDefinition
-                    Height="Auto" />
-            </Grid.RowDefinitions>
-
             <ListView
                 ItemsSource="{Binding Devices}"
+                IsVisible="{Binding IsConnected, Converter={StaticResource InvertBoolConverter}}"
                 ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -22,6 +16,18 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <StackLayout
+                IsVisible="{Binding IsConnected}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    Text="Device Connected"
+                    Margin="10" />
+                <Button
+                    Text="Disconnect"
+                    Clicked="Disconnect_Clicked" />
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
