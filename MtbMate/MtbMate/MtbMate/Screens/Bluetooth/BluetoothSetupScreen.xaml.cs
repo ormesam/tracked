@@ -32,5 +32,10 @@ namespace MtbMate.Screens.Bluetooth
         {
             ViewModel.DisconnectDevice();
         }
+
+        private void TurnBluetoothOn_Clicked(object sender, EventArgs e)
+        {
+            ViewModel.TurnBluetoothOn();
+        }
     }
 }

@@ -5,12 +5,13 @@ namespace MtbMate.Utilities
 {
     public interface IBluetoothUtility
     {
-        void TurnBluetoothOn();
+        bool TurnBluetoothOn();
         IList<DeviceInfo> GetPairedDevices();
         bool ConnectToDeviceAndStart(DeviceInfo deviceInfo, int sleepTime);
         void DisconnectFromDevice();
         void StartCollectingData();
         void StopCollectingData();
         DeviceInfo GetConnectedDevice();
+        bool IsBluetoothOn();
     }
 }

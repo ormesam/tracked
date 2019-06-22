@@ -27,12 +27,14 @@ namespace MtbMate.Droid.Dependancies
             adapter = BluetoothAdapter.DefaultAdapter;
         }
 
-        public void TurnBluetoothOn()
+        public bool TurnBluetoothOn()
         {
             if (!adapter.IsEnabled)
             {
-                adapter.Enable();
+                return adapter.Enable();
             }
+
+            return true;
         }
 
         public IList<DeviceInfo> GetPairedDevices()
@@ -210,5 +212,7 @@ namespace MtbMate.Droid.Dependancies
                 Name = connectedDevice.Name,
             };
         }
+
+        public bool IsBluetoothOn() => adapter.IsEnabled;
     }
 }

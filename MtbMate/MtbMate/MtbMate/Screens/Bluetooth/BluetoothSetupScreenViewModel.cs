@@ -19,8 +19,6 @@ namespace MtbMate.Screens.Bluetooth
 
         public void LoadDeviceList()
         {
-            BluetoothUtility.TurnBluetoothOn();
-
             ConnectedDevice = BluetoothUtility.GetConnectedDevice();
 
             var pairedDevices = DependencyService.Resolve<IBluetoothUtility>().GetPairedDevices();
@@ -46,6 +44,13 @@ namespace MtbMate.Screens.Bluetooth
             }
         }
 
+        public void TurnBluetoothOn()
+        {
+            BluetoothUtility.TurnBluetoothOn();
+
+            OnPropertyChanged();
+        }
+
         public void DisconnectDevice()
         {
             BluetoothUtility.DisconnectFromDevice();
@@ -65,6 +70,7 @@ namespace MtbMate.Screens.Bluetooth
             }
         }
 
-        public bool IsConnected => ConnectedDevice != null;
+        public bool IsConnected => IsBluetoothOn && ConnectedDevice != null;
+        public bool IsBluetoothOn => BluetoothUtility.IsBluetoothOn();
     }
 }
