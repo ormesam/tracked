@@ -1,27 +1,34 @@
-﻿using System.Diagnostics;
+﻿using System;
+using Akavache;
+using MtbMate.Contexts;
 using MtbMate.Home;
-using MtbMate.Models;
 using Xamarin.Forms;
 
 namespace MtbMate
 {
     public partial class App : Application
     {
+        private MainContext mainContext;
+
         public App()
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage());
+            mainContext = new MainContext();
+
+            MainPage = new NavigationPage(new MainPage(mainContext));
         }
 
         protected override void OnStart()
         {
             // Handle when your app starts
+            BlobCache.ApplicationName = "Mtb Mate";
+            BlobCache.ForcedDateTimeKind = DateTimeKind.Utc;
         }
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            BlobCache.Shutdown().Wait();
         }
 
         protected override void OnResume()

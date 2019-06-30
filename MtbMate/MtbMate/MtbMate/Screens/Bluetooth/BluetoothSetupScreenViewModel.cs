@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using MtbMate.Contexts;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
@@ -12,7 +13,7 @@ namespace MtbMate.Screens.Bluetooth
         public ObservableCollection<DeviceInfo> Devices { get; set; }
         public IBluetoothUtility BluetoothUtility => DependencyService.Resolve<IBluetoothUtility>();
 
-        public BluetoothSetupScreenViewModel()
+        public BluetoothSetupScreenViewModel(MainContext context) : base(context)
         {
             Devices = new ObservableCollection<DeviceInfo>();
         }

@@ -1,4 +1,5 @@
-﻿using MtbMate.Models;
+﻿using MtbMate.Contexts;
+using MtbMate.Models;
 using MtbMate.Screens;
 using MtbMate.Screens.Bluetooth;
 using MtbMate.Utilities;
@@ -14,7 +15,7 @@ namespace MtbMate.Home
         private int mph;
         private RideModel ride;
 
-        public MainPageViewModel()
+        public MainPageViewModel(MainContext context) : base(context)
         {
             mph = 0;
 
@@ -40,6 +41,9 @@ namespace MtbMate.Home
         public async Task Start()
         {
             ride = new RideModel();
+
+            Context.Rides.Add(ride);
+
             await ride.StartRide();
         }
 
@@ -64,7 +68,7 @@ namespace MtbMate.Home
 
         public async Task GoToBluetoothSettings(INavigation nav)
         {
-            await nav.PushAsync(new BluetoothSetupScreen());
+            await nav.PushAsync(new BluetoothSetupScreen(Context));
         }
     }
 }

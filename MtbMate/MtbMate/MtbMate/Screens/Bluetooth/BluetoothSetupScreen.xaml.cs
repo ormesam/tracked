@@ -1,4 +1,5 @@
 ﻿using System;
+using MtbMate.Contexts;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,10 +9,10 @@ namespace MtbMate.Screens.Bluetooth
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BluetoothSetupScreen : ContentPage
     {
-        public BluetoothSetupScreen()
+        public BluetoothSetupScreen(MainContext context)
         {
             InitializeComponent();
-            BindingContext = new BluetoothSetupScreenViewModel();
+            BindingContext = new BluetoothSetupScreenViewModel(context);
         }
 
         protected override void OnAppearing()

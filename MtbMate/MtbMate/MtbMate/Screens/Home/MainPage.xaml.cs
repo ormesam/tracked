@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using MtbMate.Contexts;
 using Xamarin.Forms;
 
 namespace MtbMate.Home
@@ -7,10 +8,10 @@ namespace MtbMate.Home
     [DesignTimeVisible(true)]
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        public MainPage(MainContext context)
         {
             InitializeComponent();
-            BindingContext = new MainPageViewModel();
+            BindingContext = new MainPageViewModel(context);
         }
 
         public MainPageViewModel ViewModel => BindingContext as MainPageViewModel;
