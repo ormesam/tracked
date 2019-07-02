@@ -1,23 +1,24 @@
 ﻿using MtbMate.Models;
+using MtbMate.Utilities;
 using System.Diagnostics;
 using Xamarin.Forms;
 
-namespace MtbMate.Utilities
+namespace MtbMate.Accelerometer
 {
-    public class AccelerometerUtility
+    public class BluetoothAccelerometerUtility : IAccelerometerUtility
     {
         #region Singleton stuff
 
-        private static AccelerometerUtility instance;
+        private static BluetoothAccelerometerUtility instance;
         private static readonly object _lock = new object();
 
-        public static AccelerometerUtility Instance {
+        public static BluetoothAccelerometerUtility Instance {
             get {
                 lock (_lock)
                 {
                     if (instance == null)
                     {
-                        instance = new AccelerometerUtility();
+                        instance = new BluetoothAccelerometerUtility();
                     }
 
                     return instance;
@@ -29,7 +30,7 @@ namespace MtbMate.Utilities
 
         public event AccelerometerChangedEventHandler AccelerometerChanged;
 
-        private AccelerometerUtility()
+        private BluetoothAccelerometerUtility()
         {
         }
 
@@ -39,8 +40,6 @@ namespace MtbMate.Utilities
             {
                 Data = reading,
             });
-
-            Debug.WriteLine(reading);
         }
 
         public void Start()

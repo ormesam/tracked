@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MtbMate.Accelerometer;
 using MtbMate.Utilities;
 
 namespace MtbMate.Models
@@ -17,6 +18,7 @@ namespace MtbMate.Models
         public IList<JumpModel> Jumps { get; set; }
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToShortDateString() : Name;
+        public IAccelerometerUtility AccelerometerUtility => PhoneAccelerometerUtility.Instance; // BluetoothAccelerometerUtility.Instance;
 
         public RideModel()
         {
@@ -29,11 +31,11 @@ namespace MtbMate.Models
         {
             Start = DateTime.UtcNow;
 
-            AccelerometerUtility.Instance.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
+            AccelerometerUtility.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
 
             await GeoUtility.Instance.Start();
-            AccelerometerUtility.Instance.Start();
+            AccelerometerUtility.Start();
         }
 
         public async Task StopRide()
@@ -41,9 +43,9 @@ namespace MtbMate.Models
             End = DateTime.UtcNow;
 
             await GeoUtility.Instance.Stop();
-            AccelerometerUtility.Instance.Stop();
+            AccelerometerUtility.Stop();
 
-            AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
+            AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
 
             CheckForJumpsAndDrops();

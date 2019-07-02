@@ -150,7 +150,7 @@ namespace MtbMate.Droid.Dependancies
                     Z = xyz[2],
                 };
 
-                AccelerometerUtility.Instance.AddReading(data);
+                BluetoothAccelerometerUtility.Instance.AddReading(data);
             }
         }
 
