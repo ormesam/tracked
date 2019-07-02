@@ -5,22 +5,27 @@
     x:Class="MtbMate.Home.MainPage">
     <StackLayout>
         <Label
-            FontSize="100"
             HorizontalOptions="Center"
             VerticalOptions="Center"
-            Text="{Binding Mph, StringFormat='{}{0}mph'}" />
+            Text="No Rides Yet"
+            IsVisible="{Binding HasRides, Converter={StaticResource InvertBoolConverter}}" />
+        <ListView
+            ItemsSource="{Binding Rides}"
+            IsVisible="{Binding HasRides}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell
+                        Text="{Binding DisplayName}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <Button
-            Text="Start"
-            Clicked="Start_Clicked" />
+            Text="Add Ride"
+            Clicked="Add_Clicked"
+            IsVisible="True" />
         <Button
-            Text="Stop"
-            Clicked="Stop_Clicked" />
-        <Button
-            Text="Export"
-            Clicked="Export_Clicked" />
-        <Button
-            Text="Bluetooth Setup"
-            Clicked="Bluetooth_Clicked" />
+            Text="BL"
+            Clicked="Bluetooth_Clicked"
+            IsVisible="True" />
     </StackLayout>
-
 </ContentPage>

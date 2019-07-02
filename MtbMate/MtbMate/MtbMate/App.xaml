@@ -7,5 +7,33 @@
     <Application.Resources>
         <converters:InvertBoolConverter
             x:Key="InvertBoolConverter" />
+        <Style
+            x:Key="FabPrimary"
+            TargetType="Button">
+            <Setter
+                Property="CornerRadius"
+                Value="100" />
+            <Setter
+                Property="BackgroundColor"
+                Value="Green" />
+            <Setter
+                Property="HeightRequest"
+                Value="55" />
+            <Setter
+                Property="WidthRequest"
+                Value="55" />
+            <Setter
+                Property="HorizontalOptions"
+                Value="CenterAndExpand" />
+            <Setter
+                Property="VerticalOptions"
+                Value="CenterAndExpand" />
+            <Setter
+                Property="Padding"
+                Value="15" />
+            <Setter
+                Property="Margin"
+                Value="15" />
+        </Style>
     </Application.Resources>
 </Application>

@@ -4,6 +4,7 @@ using Android.Runtime;
 using Android.OS;
 using Plugin.CurrentActivity;
 using Android;
+using Akavache;
 
 namespace MtbMate.Droid
 {
@@ -40,6 +41,13 @@ namespace MtbMate.Droid
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnStop()
+        {
+            BlobCache.Shutdown().Wait();
+
+            base.OnStop();
         }
 
         private void CheckPermissions()

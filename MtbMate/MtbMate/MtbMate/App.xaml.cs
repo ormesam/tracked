@@ -22,13 +22,14 @@ namespace MtbMate
         protected override void OnStart()
         {
             // Handle when your app starts
+            BlobCache.EnsureInitialized();
             BlobCache.ApplicationName = "Mtb Mate";
             BlobCache.ForcedDateTimeKind = DateTimeKind.Utc;
         }
 
         protected override void OnSleep()
         {
-            BlobCache.Shutdown().Wait();
+            mainContext.Storage.Storage.Flush();
         }
 
         protected override void OnResume()

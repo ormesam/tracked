@@ -10,11 +10,13 @@ namespace MtbMate.Models
 {
     public class RideModel
     {
+        public string Name { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
         public IList<LocationModel> Locations { get; set; }
         public IList<JumpModel> Jumps { get; set; }
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
+        public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToShortDateString() : Name;
 
         public RideModel()
         {

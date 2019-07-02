@@ -10,18 +10,18 @@ namespace MtbMate.Contexts
 {
     public class StorageContext
     {
-        public readonly ISecureBlobCache Storage = BlobCache.InMemory;
+        public readonly IBlobCache Storage = BlobCache.LocalMachine;
 
-        public IList<RideModel> LoadRides()
+        public IList<RideModel> GetRides()
         {
             var rides = Storage.GetAllObjects<RideModel>().Wait();
 
             return rides.ToList();
         }
 
-        public async Task AddRide(RideModel ride)
+        public async Task AddObject<T>(T obj)
         {
-            await Storage.InsertObject(Guid.NewGuid().ToString(), ride);
+            await Storage.InsertObject(Guid.NewGuid().ToString(), obj);
         }
     }
 }
