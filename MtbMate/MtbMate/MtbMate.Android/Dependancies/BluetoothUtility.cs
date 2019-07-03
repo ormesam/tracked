@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Android.Bluetooth;
 using Java.IO;
 using Java.Util;
+using MtbMate.Accelerometer;
 using MtbMate.Droid.Dependancies;
 using MtbMate.Models;
 using MtbMate.Utilities;

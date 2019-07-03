@@ -2,6 +2,7 @@
 using MtbMate.Models;
 using MtbMate.Screens;
 using MtbMate.Screens.Bluetooth;
+using MtbMate.Screens.Ride;
 using MtbMate.Utilities;
 using System;
 using System.Collections.Generic;
@@ -27,18 +28,9 @@ namespace MtbMate.Home
             await nav.PushAsync(new BluetoothSetupScreen(Context));
         }
 
-        public async Task CreateRide()
+        public async Task GoToCreateRide(INavigation nav)
         {
-            await Context.Model.AddRide(new RideModel
-            {
-                Name = "Test",
-            });
-            await Context.Model.AddRide(new RideModel
-            {
-                Start = DateTime.UtcNow,
-            });
-
-            OnPropertyChanged();
+            await nav.PushAsync(new RideScreen(Context));
         }
     }
 }

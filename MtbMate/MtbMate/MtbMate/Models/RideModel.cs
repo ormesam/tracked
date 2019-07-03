@@ -29,7 +29,10 @@ namespace MtbMate.Models
 
         public async Task StartRide()
         {
-            Start = DateTime.UtcNow;
+            if (Start == null)
+            {
+                Start = DateTime.UtcNow;
+            }
 
             AccelerometerUtility.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
@@ -133,11 +136,20 @@ namespace MtbMate.Models
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine($"TimeStamp,X,Y,Z");
+            sb.AppendLine("TimeStamp,X,Y,Z");
 
             foreach (var reading in AccelerometerReadings)
             {
                 sb.AppendLine($"{reading.TimeStamp.ToString("hh:mm:ss.fff")},{reading.X},{reading.Y},{reading.Z}");
+            }
+
+            sb.AppendLine();
+
+            sb.AppendLine("TimeStamp,Lat,Lon,Mph");
+
+            foreach (var location in Locations)
+            {
+                sb.AppendLine($"{location.Timestamp},{location.Latitude},{location.Longitude},{location.Mph}");
             }
 
             return sb.ToString();

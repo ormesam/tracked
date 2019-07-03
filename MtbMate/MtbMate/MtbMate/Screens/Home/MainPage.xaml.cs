@@ -23,7 +23,7 @@ namespace MtbMate.Home
 
         private async void Add_Clicked(object sender, EventArgs e)
         {
-            await ViewModel.CreateRide();
+            await ViewModel.GoToCreateRide(Navigation);
         }
     }
 }

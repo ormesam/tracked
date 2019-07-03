@@ -5,5 +5,5 @@
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-	<application android:label="MtbMate.Android"></application>
+	<application android:label="MtbMate"></application>
 </manifest>

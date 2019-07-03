@@ -22,10 +22,8 @@
         <Button
             Text="Add Ride"
             Clicked="Add_Clicked"
-            IsVisible="True" />
-        <Button
-            Text="BL"
-            Clicked="Bluetooth_Clicked"
-            IsVisible="True" />
+            IsVisible="True"
+            BackgroundColor="Green"
+            TextColor="White"/>
     </StackLayout>
 </ContentPage>
