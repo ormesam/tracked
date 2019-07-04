@@ -3,9 +3,6 @@ using MtbMate.Models;
 using MtbMate.Screens;
 using MtbMate.Screens.Bluetooth;
 using MtbMate.Screens.Ride;
-using MtbMate.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +16,7 @@ namespace MtbMate.Home
         {
         }
 
-        public ObservableCollection<RideModel> Rides => Context.Model.Rides.ToObservable();
+        public ObservableCollection<RideModel> Rides => Context.Model.Rides;
 
         public bool HasRides => Rides.Any();
 

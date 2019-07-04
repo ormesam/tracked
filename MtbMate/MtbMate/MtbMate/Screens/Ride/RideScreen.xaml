@@ -31,6 +31,12 @@
                     IsVisible="{Binding HasRan}"
                     BackgroundColor="Blue"
                     TextColor="White" />
+                <Button
+                    Text="Save"
+                    Clicked="Save_Clicked"
+                    IsVisible="{Binding HasRan}"
+                    BackgroundColor="Blue"
+                    TextColor="White" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Models;
 using MtbMate.Utilities;
@@ -25,7 +26,7 @@ namespace MtbMate.Screens.Ride
 
         private void GeoUtility_SpeedChanged(SpeedChangedEventArgs e)
         {
-            Mph = e.MetresPerSecond * 2.237;
+            Mph = Math.Round(e.MetresPerSecond * 2.237, 1);
         }
 
         public bool IsRunning {
@@ -64,6 +65,7 @@ namespace MtbMate.Screens.Ride
         public async Task Start()
         {
             IsRunning = true;
+            HasRan = false;
             await ride.StartRide();
         }
 

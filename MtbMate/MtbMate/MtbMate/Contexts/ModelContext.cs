@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using MtbMate.Models;
+using MtbMate.Utilities;
 
 namespace MtbMate.Contexts
 {
@@ -8,12 +9,12 @@ namespace MtbMate.Contexts
     {
         private StorageContext storage;
 
-        public IList<RideModel> Rides { get; set; }
+        public ObservableCollection<RideModel> Rides { get; set; }
 
         public ModelContext(MainContext mainContext)
         {
             storage = mainContext.Storage;
-            Rides = mainContext.Storage.GetRides();
+            Rides = mainContext.Storage.GetRides().ToObservable();
         }
 
         public async Task AddRide(RideModel ride)

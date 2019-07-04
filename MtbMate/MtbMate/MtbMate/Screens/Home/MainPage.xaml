@@ -3,7 +3,13 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MtbMate.Home.MainPage">
-    <StackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="*"/>
+            <RowDefinition
+                Height="Auto"/>
+        </Grid.RowDefinitions>
         <Label
             HorizontalOptions="Center"
             VerticalOptions="Center"
@@ -20,10 +26,11 @@
             </ListView.ItemTemplate>
         </ListView>
         <Button
+            Grid.Row="1"
             Text="Add Ride"
             Clicked="Add_Clicked"
             IsVisible="True"
             BackgroundColor="Green"
             TextColor="White"/>
-    </StackLayout>
+    </Grid>
 </ContentPage>

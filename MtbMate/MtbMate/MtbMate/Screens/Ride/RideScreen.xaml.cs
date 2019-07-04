@@ -29,5 +29,12 @@ namespace MtbMate.Screens.Ride
         {
             await ViewModel.Export();
         }
+
+        private async void Save_Clicked(object sender, System.EventArgs e)
+        {
+            await ViewModel.Save();
+
+            await Navigation.PopToRootAsync();
+        }
     }
 }
