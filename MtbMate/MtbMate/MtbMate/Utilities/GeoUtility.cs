@@ -2,7 +2,6 @@
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -31,13 +30,11 @@ namespace MtbMate.Utilities
 
         #endregion
 
-        private readonly IList<LocationModel> locationModels;
         public event SpeedChangedEventHandler SpeedChanged;
         public event LocationChangedEventHandler LocationChanged;
 
         private GeoUtility()
         {
-            locationModels = new List<LocationModel>();
         }
 
         public async Task Start()
