@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MtbMate.Accelerometer;
 using MtbMate.Utilities;
+using Xamarin.Essentials;
 
 namespace MtbMate.Models
 {
     public class RideModel
     {
+        public Guid? Id { get; set; }
         public string Name { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
         public IList<LocationModel> Locations { get; set; }
         public IList<JumpModel> Jumps { get; set; }
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
-        public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToShortDateString() : Name;
+        public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
+        public string Time => (End - Start)?.ToString(@"mm\:ss");
+        public string Distance => CalculateDistanceInMetres() + "m";
+
         public IAccelerometerUtility AccelerometerUtility => PhoneAccelerometerUtility.Instance; // BluetoothAccelerometerUtility.Instance;
 
         public RideModel()
@@ -54,7 +60,7 @@ namespace MtbMate.Models
             CheckForJumpsAndDrops();
         }
 
-        private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e)
+        private void AccelerometerUtility_AccelerometerChanged(Accelerometer.AccelerometerChangedEventArgs e)
         {
             AccelerometerReadings.Add(e.Data);
             Debug.WriteLine(e.Data);
@@ -132,7 +138,7 @@ namespace MtbMate.Models
             }
         }
 
-        public string GetReadings()
+        public ShareFile GetReadingsFile()
         {
             StringBuilder sb = new StringBuilder();
 
@@ -140,7 +146,7 @@ namespace MtbMate.Models
 
             foreach (var reading in AccelerometerReadings)
             {
-                sb.AppendLine($"{reading.TimeStamp.ToString("hh:mm:ss.fff")},{reading.X},{reading.Y},{reading.Z}");
+                sb.AppendLine($"{reading.TimeStamp},{reading.X},{reading.Y},{reading.Z}");
             }
 
             sb.AppendLine();
@@ -152,7 +158,30 @@ namespace MtbMate.Models
                 sb.AppendLine($"{location.Timestamp},{location.Latitude},{location.Longitude},{location.Mph}");
             }
 
-            return sb.ToString();
+            string fileName = "Ride Data.txt";
+            string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+            File.WriteAllText(filePath, sb.ToString());
+
+            return new ShareFile(filePath);
+        }
+
+        private double CalculateDistanceInMetres()
+        {
+            if (Locations.Count < 2)
+            {
+                return 0;
+            }
+
+            double distance = 0;
+
+            for (int i = 1; i < Locations.Count; i++)
+            {
+                LocationModel lastLocation = Locations[i - 1];
+
+                distance += lastLocation.DistanceBetween(Locations[0]);
+            }
+
+            return distance;
         }
     }
 }

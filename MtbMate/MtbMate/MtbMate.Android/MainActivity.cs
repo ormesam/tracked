@@ -43,13 +43,6 @@ namespace MtbMate.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        protected override void OnStop()
-        {
-            BlobCache.Shutdown().Wait();
-
-            base.OnStop();
-        }
-
         private void CheckPermissions()
         {
             bool minimumPermissionsGranted = true;

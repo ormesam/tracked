@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Class="MtbMate.Screens.Ride.ReviewScreen">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label
+                Text="{Binding Ride.DisplayName}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout
+                    Padding="10">
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Text="Time" />
+                    <Label
+                        FontSize="Large"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Ride.Time}" />
+                </StackLayout>
+
+                <StackLayout
+                    Padding="10"
+                    Grid.Column="1">
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Text="Distance" />
+                    <Label
+                        FontSize="Large"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Ride.Distance}" />
+                </StackLayout>
+            </Grid>
+            <Label
+                Text="Options" />
+            <Button
+                Text="Export"
+                Clicked="Export_Clicked"/>
+            <Button
+                Text="Delete"
+                BackgroundColor="Red"
+                TextColor="White"
+                Clicked="Delete_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

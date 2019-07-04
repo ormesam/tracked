@@ -3,6 +3,8 @@ using MtbMate.Models;
 using MtbMate.Screens;
 using MtbMate.Screens.Bluetooth;
 using MtbMate.Screens.Ride;
+using MtbMate.Utilities;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,9 @@ namespace MtbMate.Home
         {
         }
 
-        public ObservableCollection<RideModel> Rides => Context.Model.Rides;
+        public ObservableCollection<RideModel> Rides => Context.Model.Rides
+            .OrderByDescending(i => i.Start)
+            .ToObservable();
 
         public bool HasRides => Rides.Any();
 
@@ -28,6 +32,11 @@ namespace MtbMate.Home
         public async Task GoToCreateRide(INavigation nav)
         {
             await nav.PushAsync(new RideScreen(Context));
+        }
+
+        public async Task GoToReview(INavigation nav, RideModel ride)
+        {
+            await nav.PushAsync(new ReviewScreen(Context, ride));
         }
     }
 }

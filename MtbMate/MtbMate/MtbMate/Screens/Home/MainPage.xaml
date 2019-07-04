@@ -17,7 +17,8 @@
             IsVisible="{Binding HasRides, Converter={StaticResource InvertBoolConverter}}" />
         <ListView
             ItemsSource="{Binding Rides}"
-            IsVisible="{Binding HasRides}">
+            IsVisible="{Binding HasRides}"
+            ItemTapped="Ride_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell

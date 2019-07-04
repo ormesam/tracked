@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using MtbMate.Contexts;
+using MtbMate.Models;
 using Xamarin.Forms;
 
 namespace MtbMate.Home
@@ -16,6 +17,13 @@ namespace MtbMate.Home
 
         public MainPageViewModel ViewModel => BindingContext as MainPageViewModel;
 
+        protected override void OnAppearing()
+        {
+            ViewModel.Refresh();
+
+            base.OnAppearing();
+        }
+
         private async void Bluetooth_Clicked(object sender, EventArgs e)
         {
             await ViewModel.GoToBluetoothSettings(Navigation);
@@ -24,6 +32,11 @@ namespace MtbMate.Home
         private async void Add_Clicked(object sender, EventArgs e)
         {
             await ViewModel.GoToCreateRide(Navigation);
+        }
+
+        private async void Ride_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            await ViewModel.GoToReview(Navigation, e.Item as RideModel);
         }
     }
 }

@@ -11,5 +11,10 @@ namespace MtbMate.Screens
         {
             Context = context;
         }
+
+        public void Refresh()
+        {
+            OnPropertyChanged();
+        }
     }
 }

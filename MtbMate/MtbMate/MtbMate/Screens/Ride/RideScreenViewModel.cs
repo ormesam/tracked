@@ -83,10 +83,10 @@ namespace MtbMate.Screens.Ride
 
         public async Task Export()
         {
-            await Share.RequestAsync(new ShareTextRequest
+            await Share.RequestAsync(new ShareFileRequest
             {
-                Text = ride.GetReadings(),
-                Title = "Accelerometer Readings",
+                File = ride.GetReadingsFile(),
+                Title = "Data Readings",
             });
         }
     }
