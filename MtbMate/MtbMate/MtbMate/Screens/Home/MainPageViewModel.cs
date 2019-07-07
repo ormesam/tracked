@@ -26,17 +26,17 @@ namespace MtbMate.Home
 
         public async Task GoToBluetoothSettings(INavigation nav)
         {
-            await nav.PushAsync(new BluetoothSetupScreen(Context));
+            await Context.UI.GoToBluetoothScreen(nav);
         }
 
         public async Task GoToCreateRide(INavigation nav)
         {
-            await nav.PushAsync(new RideScreen(Context));
+            await Context.UI.GoToRideScreen(nav);
         }
 
         public async Task GoToReview(INavigation nav, RideModel ride)
         {
-            await nav.PushAsync(new ReviewScreen(Context, ride));
+            await Context.UI.GoToReviewScreen(nav, ride);
         }
     }
 }

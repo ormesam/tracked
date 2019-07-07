@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MtbMate.Models;
+using MtbMate.Screens.Bluetooth;
+using MtbMate.Screens.Ride;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
@@ -22,6 +25,26 @@ namespace MtbMate.Contexts
         public void ShowInputDialog(string title, string defaultText, Func<string, Task<string>> onOk)
         {
             DependencyService.Get<IPromptUtility>().ShowInputDialog(title, defaultText, onOk);
+        }
+
+        public async Task GoToRideScreen(INavigation nav)
+        {
+            await nav.PushAsync(new RideScreen(context));
+        }
+
+        public async Task GoToReviewScreen(INavigation nav, RideModel ride)
+        {
+            await nav.PushAsync(new ReviewScreen(context, ride));
+        }
+
+        public async Task GoToBluetoothScreen(INavigation nav)
+        {
+            await nav.PushAsync(new BluetoothSetupScreen(context));
+        }
+
+        public async Task GoToMainPage(INavigation nav)
+        {
+            await nav.PopToRootAsync();
         }
     }
 }
