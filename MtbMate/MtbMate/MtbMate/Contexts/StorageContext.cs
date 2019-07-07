@@ -19,7 +19,7 @@ namespace MtbMate.Contexts
             return rides.ToList();
         }
 
-        public async Task AddObject<T>(Guid id, T obj)
+        public async Task SaveObject<T>(Guid id, T obj)
         {
             await Storage.InsertObject(id.ToString(), obj);
         }

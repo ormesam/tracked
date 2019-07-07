@@ -18,13 +18,16 @@ namespace MtbMate.Contexts
             Rides = mainContext.Storage.GetRides().ToObservable();
         }
 
-        public async Task AddRide(RideModel ride)
+        public async Task SaveRide(RideModel ride)
         {
-            ride.Id = Guid.NewGuid();
+            if (ride.Id == null)
+            {
+                ride.Id = Guid.NewGuid();
 
-            Rides.Add(ride);
+                Rides.Add(ride);
+            }
 
-            await storage.AddObject(ride.Id.Value, ride);
+            await storage.SaveObject(ride.Id.Value, ride);
         }
 
         public async Task RemoveRide(RideModel ride)

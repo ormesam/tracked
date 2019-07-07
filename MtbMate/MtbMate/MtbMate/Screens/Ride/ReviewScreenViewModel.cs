@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Models;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace MtbMate.Screens.Ride
 {
@@ -26,6 +27,8 @@ namespace MtbMate.Screens.Ride
             }
         }
 
+        public string DisplayName => Ride.DisplayName;
+
         public async Task Export()
         {
             await Share.RequestAsync(new ShareFileRequest
@@ -38,6 +41,18 @@ namespace MtbMate.Screens.Ride
         public async Task Delete()
         {
             await Context.Model.RemoveRide(Ride);
+        }
+
+        public void ChangeName()
+        {
+            Context.UI.ShowInputDialog("Change Name", ride.Name, async (newName) =>
+            {
+                ride.Name = newName;
+
+                OnPropertyChanged(nameof(DisplayName));
+
+                await Context.Model.SaveRide(ride);
+            });
         }
     }
 }

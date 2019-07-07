@@ -9,7 +9,14 @@
     <ContentPage.Content>
         <StackLayout>
             <Label
-                Text="{Binding Ride.DisplayName}" />
+                Margin="10"
+                HorizontalOptions="Center"
+                Text="{Binding DisplayName}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="Name_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition
@@ -27,8 +34,7 @@
                         Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <StackLayout
-                    Padding="10">
+                <StackLayout>
                     <Label
                         HorizontalTextAlignment="Center"
                         Text="Time" />
@@ -39,7 +45,6 @@
                 </StackLayout>
 
                 <StackLayout
-                    Padding="10"
                     Grid.Column="1">
                     <Label
                         HorizontalTextAlignment="Center"
@@ -51,7 +56,8 @@
                 </StackLayout>
             </Grid>
             <Label
-                Text="Options" />
+                Text="Options"
+                FontSize="Large"/>
             <Button
                 Text="Export"
                 Clicked="Export_Clicked"/>

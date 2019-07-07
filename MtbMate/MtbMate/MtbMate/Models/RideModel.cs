@@ -181,7 +181,7 @@ namespace MtbMate.Models
                 distance += lastLocation.DistanceBetween(Locations[0]);
             }
 
-            return distance;
+            return Math.Round(distance);
         }
     }
 }

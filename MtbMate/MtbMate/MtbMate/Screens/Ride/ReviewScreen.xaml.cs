@@ -1,4 +1,6 @@
-﻿using MtbMate.Contexts;
+﻿using System;
+using System.Threading.Tasks;
+using MtbMate.Contexts;
 using MtbMate.Models;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -17,16 +19,21 @@ namespace MtbMate.Screens.Ride
 
         public ReviewScreenViewModel ViewModel => BindingContext as ReviewScreenViewModel;
 
-        private async void Export_Clicked(object sender, System.EventArgs e)
+        private async void Export_Clicked(object sender, EventArgs e)
         {
             await ViewModel.Export();
         }
 
-        private async void Delete_Clicked(object sender, System.EventArgs e)
+        private async void Delete_Clicked(object sender, EventArgs e)
         {
             await ViewModel.Delete();
 
             await Navigation.PopToRootAsync();
+        }
+
+        private void Name_Tapped(object sender, EventArgs e)
+        {
+            ViewModel.ChangeName();
         }
     }
 }

@@ -78,7 +78,7 @@ namespace MtbMate.Screens.Ride
 
         public async Task Save()
         {
-            await Context.Model.AddRide(ride);
+            await Context.Model.SaveRide(ride);
         }
 
         public async Task Export()

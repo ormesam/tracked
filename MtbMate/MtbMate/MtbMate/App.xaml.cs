@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Akavache;
 using MtbMate.Contexts;
 using MtbMate.Home;
@@ -9,7 +10,7 @@ namespace MtbMate
 {
     public partial class App : Application
     {
-        private MainContext mainContext;
+        private readonly MainContext mainContext;
 
         public App()
         {
@@ -28,6 +29,8 @@ namespace MtbMate
             BlobCache.EnsureInitialized();
             BlobCache.ApplicationName = "Mtb Mate";
             BlobCache.ForcedDateTimeKind = DateTimeKind.Utc;
+
+            Debug.WriteLine(BlobCache.LocalMachine.GetType());
         }
 
         protected override void OnSleep()
