@@ -5,13 +5,15 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    x:Class="MtbMate.Screens.Ride.ReviewScreen">
+    x:Class="MtbMate.Screens.Ride.ReviewScreen"
+    Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
             <Label
-                Margin="10"
+                Margin="15"
                 HorizontalOptions="Center"
-                Text="{Binding DisplayName}">
+                Text="{Binding DisplayName}"
+                FontSize="Large">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer
                         Tapped="Name_Tapped" />
@@ -25,11 +27,15 @@
                         Height="Auto" />
                     <RowDefinition
                         Height="Auto" />
+                    <RowDefinition
+                        Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
                         Width="*" />
+                    <ColumnDefinition
+                        Width="Auto" />
                     <ColumnDefinition
                         Width="*" />
                 </Grid.ColumnDefinitions>
@@ -41,31 +47,82 @@
                     <Label
                         FontSize="Large"
                         HorizontalTextAlignment="Center"
-                        Text="{Binding Ride.Time}" />
+                        Text="{Binding Time}" />
                 </StackLayout>
 
+                <BoxView
+                    Grid.Column="1"
+                    WidthRequest="1"
+                    BackgroundColor="LightGray" />
+
                 <StackLayout
-                    Grid.Column="1">
+                    Grid.Column="2">
                     <Label
                         HorizontalTextAlignment="Center"
                         Text="Distance" />
                     <Label
                         FontSize="Large"
                         HorizontalTextAlignment="Center"
-                        Text="{Binding Ride.Distance}" />
+                        Text="{Binding Distance}" />
                 </StackLayout>
+
+                <BoxView
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    HeightRequest="1"
+                    Margin="10"
+                    BackgroundColor="LightGray" />
+
+                <StackLayout
+                    Grid.Column="0"
+                    Grid.Row="2">
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Text="Avg. Speed" />
+                    <Label
+                        FontSize="Large"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding AverageSpeed}" />
+                </StackLayout>
+
+                <BoxView
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    WidthRequest="1"
+                    BackgroundColor="LightGray" />
+
+                <StackLayout
+                    Grid.Column="2"
+                    Grid.Row="2">
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Text="No. of Jumps" />
+                    <Label
+                        FontSize="Large"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding JumpCount}" />
+                </StackLayout>
+
+                <BoxView
+                    Grid.Row="3"
+                    Grid.ColumnSpan="3"
+                    HeightRequest="1"
+                    Margin="10"
+                    BackgroundColor="LightGray" />
             </Grid>
             <Label
                 Text="Options"
-                FontSize="Large"/>
+                FontSize="Large" />
             <Button
                 Text="Export"
-                Clicked="Export_Clicked"/>
+                BackgroundColor="Blue"
+                TextColor="White"
+                Clicked="Export_Clicked" />
             <Button
                 Text="Delete"
                 BackgroundColor="Red"
                 TextColor="White"
-                Clicked="Delete_Clicked"/>
+                Clicked="Delete_Clicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

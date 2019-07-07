@@ -21,8 +21,6 @@ namespace MtbMate.Models
         public IList<JumpModel> Jumps { get; set; }
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
-        public string Time => (End - Start)?.ToString(@"mm\:ss");
-        public string Distance => CalculateDistanceInMetres() + "m";
 
         public IAccelerometerUtility AccelerometerUtility => PhoneAccelerometerUtility.Instance; // BluetoothAccelerometerUtility.Instance;
 
@@ -163,25 +161,6 @@ namespace MtbMate.Models
             File.WriteAllText(filePath, sb.ToString());
 
             return new ShareFile(filePath);
-        }
-
-        private double CalculateDistanceInMetres()
-        {
-            if (Locations.Count < 2)
-            {
-                return 0;
-            }
-
-            double distance = 0;
-
-            for (int i = 1; i < Locations.Count; i++)
-            {
-                LocationModel lastLocation = Locations[i - 1];
-
-                distance += lastLocation.DistanceBetween(Locations[0]);
-            }
-
-            return Math.Round(distance);
         }
     }
 }

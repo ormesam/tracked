@@ -16,5 +16,7 @@ namespace MtbMate.Screens
         {
             OnPropertyChanged();
         }
+
+        public virtual string Title => "Mtb Mate";
     }
 }
