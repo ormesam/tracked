@@ -10,7 +10,7 @@ namespace MtbMate.Contexts
 {
     public class UIContext
     {
-        private MainContext context;
+        private readonly MainContext context;
 
         public UIContext(MainContext context)
         {
