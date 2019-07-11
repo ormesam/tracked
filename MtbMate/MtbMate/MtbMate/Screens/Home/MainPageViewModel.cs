@@ -31,7 +31,7 @@ namespace MtbMate.Home
 
         public async Task GoToCreateRide(INavigation nav)
         {
-            await Context.UI.GoToRideScreen(nav);
+            await Context.UI.GoToBluetoothScreen(nav);
         }
 
         public async Task GoToReview(INavigation nav, RideModel ride)

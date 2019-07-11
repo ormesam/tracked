@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Utilities;
+using Plugin.BLE.Abstractions.Contracts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,28 +17,24 @@ namespace MtbMate.Screens.Bluetooth
             BindingContext = new BluetoothSetupScreenViewModel(context);
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            ViewModel.LoadDeviceList();
-        }
-
         public BluetoothSetupScreenViewModel ViewModel => BindingContext as BluetoothSetupScreenViewModel;
 
-        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void StartScan_Clicked(object sender, EventArgs e)
         {
-            ViewModel.ConnectToDevice(e.Item as DeviceInfo);
+            Task.Run(ViewModel.TryStartScanning);
         }
 
-        private void Disconnect_Clicked(object sender, EventArgs e)
+        private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            ViewModel.DisconnectDevice();
+            if (e.Item is IDevice device)
+            {
+                await ViewModel.ConnectToDevice(device);
+            }
         }
 
-        private void TurnBluetoothOn_Clicked(object sender, EventArgs e)
+        private async void Disconnect_Clicked(object sender, EventArgs e)
         {
-            ViewModel.TurnBluetoothOn();
+            await ViewModel.DisconnectDevice();
         }
     }
 }

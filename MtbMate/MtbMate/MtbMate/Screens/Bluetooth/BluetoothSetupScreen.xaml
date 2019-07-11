@@ -2,8 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="MtbMate.Screens.Bluetooth.BluetoothSetupScreen"
-    Title="{Binding Title}">
+    x:Class="MtbMate.Screens.Bluetooth.BluetoothSetupScreen">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -14,8 +13,8 @@
             </Grid.RowDefinitions>
 
             <ListView
-                ItemsSource="{Binding Devices}"
-                IsVisible="{Binding IsConnected, Converter={StaticResource InvertBoolConverter}}"
+                IsVisible="{Binding ShowDeviceList}"
+                ItemsSource="{Binding DevicesFound}"
                 ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -25,9 +24,16 @@
                 </ListView.ItemTemplate>
             </ListView>
 
+            <Label
+                Grid.Row="1"
+                IsVisible="{Binding IsScanning}"
+                HorizontalOptions="Center"
+                Text="Scanning..."
+                Margin="10" />
+
             <StackLayout
                 Grid.RowSpan="2"
-                IsVisible="{Binding IsConnected}"
+                IsVisible="{Binding IsDeviceConnected}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center">
                 <Label
@@ -40,9 +46,16 @@
 
             <Button
                 Grid.Row="1"
+                IsVisible="{Binding CanStartScanning}"
+                Text="Start Scanning..."
+                Clicked="StartScan_Clicked" />
+
+            <Label
+                Grid.RowSpan="2"
                 IsVisible="{Binding IsBluetoothOn, Converter={StaticResource InvertBoolConverter}}"
-                Text="Turn Bluetooth On"
-                Clicked="TurnBluetoothOn_Clicked"/>
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Text="Turn Bluetooth On" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

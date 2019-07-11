@@ -1,77 +1,133 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Utilities;
+using Plugin.BLE;
+using Plugin.BLE.Abstractions.Contracts;
+using Plugin.BLE.Abstractions.EventArgs;
+using Plugin.BLE.Abstractions.Exceptions;
 using Xamarin.Forms;
 
 namespace MtbMate.Screens.Bluetooth
 {
     public class BluetoothSetupScreenViewModel : ViewModelBase
     {
-        private DeviceInfo connectedDevice;
-        public ObservableCollection<DeviceInfo> Devices { get; set; }
-        public IBluetoothUtility BluetoothUtility => DependencyService.Resolve<IBluetoothUtility>();
+        private bool isScanning;
+        private IBluetoothLE ble => CrossBluetoothLE.Current;
+        private IAdapter adapter => CrossBluetoothLE.Current.Adapter;
+        public ObservableCollection<IDevice> DevicesFound { get; }
+        public bool IsBluetoothOn => ble.IsOn;
+        public bool ShowDeviceList => IsBluetoothOn && !IsDeviceConnected;
+        public bool CanStartScanning => IsBluetoothOn && !IsDeviceConnected && !IsScanning;
+        public bool IsDeviceConnected => ble.Adapter.ConnectedDevices.Any();
 
         public BluetoothSetupScreenViewModel(MainContext context) : base(context)
         {
-            Devices = new ObservableCollection<DeviceInfo>();
+            DevicesFound = new ObservableCollection<IDevice>();
+
+            adapter.DeviceDiscovered += Adapter_DeviceDiscovered;
+            adapter.ScanTimeoutElapsed += Adapter_ScanTimeoutElapsed;
+            adapter.DeviceConnected += Adapter_DeviceConnected;
+            ble.StateChanged += Ble_StateChanged;
         }
 
-        public void LoadDeviceList()
+        public bool IsScanning {
+            get { return isScanning; }
+            set {
+                if (isScanning != value)
+                {
+                    isScanning = value;
+                    OnPropertyChanged(nameof(IsScanning));
+                    OnPropertyChanged(nameof(CanStartScanning));
+                }
+            }
+        }
+
+        private void Adapter_DeviceDiscovered(object sender, DeviceEventArgs e)
         {
-            ConnectedDevice = BluetoothUtility.GetConnectedDevice();
+            if (string.IsNullOrWhiteSpace(e.Device.Name))
+            {
+                return;
+            }
 
-            var pairedDevices = DependencyService.Resolve<IBluetoothUtility>().GetPairedDevices();
+            DevicesFound.Add(e.Device);
 
-            Devices = new ObservableCollection<DeviceInfo>(pairedDevices);
+            Debug.WriteLine($"Device found: {e.Device.Name}");
+        }
 
+        private void Adapter_ScanTimeoutElapsed(object sender, EventArgs e)
+        {
             OnPropertyChanged();
         }
 
-        public void ConnectToDevice(DeviceInfo deviceInfo)
+        private async void Adapter_DeviceConnected(object sender, DeviceEventArgs e)
+        {
+            OnPropertyChanged();
+            var device = e.Device;
+            await Task.Delay(2000);
+            var service = (IService)await device.GetServiceAsync(new Guid("19B10000-E8F2-537E-4F6C-D104768A1214"));
+            await Task.Delay(2000);
+            var characteristics = await service.GetCharacteristicsAsync();
+            var characteristic = characteristics.First();
+            characteristic.ValueUpdated += Characteristic_ValueUpdated;
+            await characteristic.StartUpdatesAsync();
+            Debug.WriteLine(DateTime.Now + " - Started getting updates...");
+        }
+
+        private void Characteristic_ValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
+        {
+            var temp = e.Characteristic.StringValue;
+
+            Debug.WriteLine(DateTime.Now + " - " + temp);
+        }
+
+        private void Ble_StateChanged(object sender, BluetoothStateChangedArgs e)
+        {
+            OnPropertyChanged();
+        }
+
+        public async Task TryStartScanning()
+        {
+            DevicesFound.Clear();
+
+            IsScanning = true;
+
+            await adapter.StartScanningForDevicesAsync();
+
+            IsScanning = false;
+        }
+
+        public async Task ConnectToDevice(IDevice device)
         {
             try
             {
-                if (BluetoothUtility.ConnectToDeviceAndStart(deviceInfo, 250))
-                {
-                    ConnectedDevice = deviceInfo;
-                }
+                await adapter.StopScanningForDevicesAsync();
+
+                IsScanning = false;
+
+                await adapter.ConnectToDeviceAsync(device);
+
+                DevicesFound.Clear();
             }
-            catch (Exception e)
+            catch (DeviceConnectionException e)
             {
                 // ... could not connect to device
                 Debug.WriteLine(e);
             }
         }
 
-        public void TurnBluetoothOn()
+        public async Task DisconnectDevice()
         {
-            BluetoothUtility.TurnBluetoothOn();
+            foreach (var device in adapter.ConnectedDevices)
+            {
+                await adapter.DisconnectDeviceAsync(device);
+            }
 
             OnPropertyChanged();
         }
-
-        public void DisconnectDevice()
-        {
-            BluetoothUtility.DisconnectFromDevice();
-
-            ConnectedDevice = null;
-        }
-
-        public DeviceInfo ConnectedDevice {
-            get { return connectedDevice; }
-            set {
-                if (connectedDevice != value)
-                {
-                    connectedDevice = value;
-                    OnPropertyChanged(nameof(ConnectedDevice));
-                    OnPropertyChanged(nameof(IsConnected));
-                }
-            }
-        }
-
-        public bool IsConnected => IsBluetoothOn && ConnectedDevice != null;
-        public bool IsBluetoothOn => BluetoothUtility.IsBluetoothOn();
     }
 }

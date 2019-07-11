@@ -1,69 +1,97 @@
-#include <SoftwareSerial.h>
-#include<Wire.h>
+// Tested on Arduino Nano 33 IOT
 
-SoftwareSerial BT(10, 11); // Rx, Tx
-char command;
-const int MPU_addr=0x68;  // I2C address of the MPU-6050
-int AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
-bool run = false;
+#include <ArduinoBLE.h>
+#include <Arduino.h>
+#include "LSM6DS3.h"
+#include "Wire.h"
 
-void setup()
-{
-  // set the data rate for the SoftwareSerial port
-  BT.begin(9600);
-  
-  Wire.begin();
-  Wire.beginTransmission(MPU_addr);
-  Wire.write(0x6B);  // PWR_MGMT_1 register
-  Wire.write(0);     // set to zero (wakes up the MPU-6050)
-  Wire.endTransmission(true);
+BLEService accService("19B10001-E8F2-537E-4F6C-D104768A1214");
+BLEStringCharacteristic accCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify, 15);
+
+const int ledPin = LED_BUILTIN;
+
+void setup() {
   Serial.begin(9600);
+  Wire.begin();
+  accelerometer.begin();
+  
+  if(accelerometer.isActive()){
+    Serial.println("Accelerometer already active");
+  }else{
+    if(accelerometer.powerOn()){
+      Serial.println("Accelerometer Power ON");
+    }else{
+      Serial.println("Accelerometer Not Powered On");
+    }
+  }
+
+  // set LED pin to output mode
+  pinMode(ledPin, OUTPUT);
+
+  // begin initialization
+  if (!BLE.begin()) {
+    Serial.println("starting BLE failed!");
+
+    while (1);
+  }
+
+  // set advertised local name and service UUID:
+  BLE.setLocalName("Mtb Mate");
+  BLE.setAdvertisedService(accService);
+
+  // add the characteristic to the service
+  accService.addCharacteristic(accCharacteristic);
+
+  // add service
+  BLE.addService(accService);
+
+  // set the initial value for the characeristic:
+  accCharacteristic.writeValue("");
+
+  // start advertising
+  BLE.advertise();
+
+  Serial.println("Starting Mtb Mate");
 }
 
-void loop()
-{
-  // check if text arrived in from BT serial...
-  if (BT.available())
-  {
-    command = BT.read();
+void loop() {
+  // listen for BLE peripherals to connect:
+  BLEDevice central = BLE.central();
 
-    if (command == 'r') {
-      run = true;
+  // if a central is connected to peripheral:
+  if (central) {
+    Serial.print("Connected to device: ");
+    // print the central's MAC address:
+    Serial.println(central.address());
+
+    // while the central is still connected to peripheral:
+    while (central.connected()) {
+          float x = accelerometer.getConvertedXAxis();
+          float y = accelerometer.getConvertedXAxis();
+          float z = accelerometer.getConvertedXAxis();
+      
+          Serial.print("X = ");
+          Serial.print(x, 2);
+          Serial.print("g  Y = ");
+          Serial.print(y, 2);
+          Serial.print("g  Z = ");
+          Serial.print(z, 2);
+          Serial.println("g");
+
+          String buf;
+            buf += String(roundf(x*100.0)/100.0);
+            buf += F(",");
+            buf += String(roundf(y*100.0)/100.0);
+            buf += F(",");
+            buf += String(roundf(z*100.0)/100.0);
+          
+          accCharacteristic.setValue(buf);
+
+          delay(250);
     }
-    
-    if (command == 'x') {
-      run = false;
-    }
-  }
 
-  if (!run){
-    delay(250);
-  
-    return;
+    // when the central disconnects, print it out:
+    Serial.print(F("Disconnected from device: "));
+    Serial.println(central.address());
   }
-  
-  Wire.beginTransmission(MPU_addr);
-  Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
-  Wire.endTransmission(false);
-  Wire.requestFrom(MPU_addr,14,true);  // request a total of 14 registers
-  AcX=Wire.read()<<8|Wire.read();  // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)    
-  AcY=Wire.read()<<8|Wire.read();  // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
-  AcZ=Wire.read()<<8|Wire.read();  // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
-  Tmp=Wire.read()<<8|Wire.read();  // 0x41 (TEMP_OUT_H) & 0x42 (TEMP_OUT_L) UNUSED FOR NOW
-  GyX=Wire.read()<<8|Wire.read();  // 0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L) UNUSED FOR NOW
-  GyY=Wire.read()<<8|Wire.read();  // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L) UNUSED FOR NOW
-  GyZ=Wire.read()<<8|Wire.read();  // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L) UNUSED FOR NOW
-  
-  String buf;
-  buf += String(AcX);
-  buf += F(",");
-  buf += String(AcY);
-  buf += F(",");
-  buf += String(AcZ);
-
-  Serial.println(buf);
-  
-  BT.println(buf);
-  
-  delay(250);
 }
