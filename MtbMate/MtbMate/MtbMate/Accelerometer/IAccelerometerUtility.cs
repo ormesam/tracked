@@ -1,4 +1,5 @@
-﻿using MtbMate.Models;
+﻿using System.Threading.Tasks;
+using MtbMate.Models;
 
 namespace MtbMate.Accelerometer
 {
@@ -6,7 +7,7 @@ namespace MtbMate.Accelerometer
     {
         event AccelerometerChangedEventHandler AccelerometerChanged;
         void AddReading(AccelerometerReadingModel reading);
-        void Start();
-        void Stop();
+        Task Start();
+        Task Stop();
     }
 }

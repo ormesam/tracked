@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using MtbMate.Models;
 using Xamarin.Essentials;
 
@@ -51,20 +52,24 @@ namespace MtbMate.Accelerometer
             AddReading(model);
         }
 
-        public void Start()
+        public Task Start()
         {
             if (!Xamarin.Essentials.Accelerometer.IsMonitoring)
             {
                 Xamarin.Essentials.Accelerometer.Start(speed);
             }
+
+            return Task.CompletedTask;
         }
 
-        public void Stop()
+        public Task Stop()
         {
             if (Xamarin.Essentials.Accelerometer.IsMonitoring)
             {
                 Xamarin.Essentials.Accelerometer.Stop();
             }
+
+            return Task.CompletedTask;
         }
 
         public void AddReading(AccelerometerReadingModel reading)

@@ -64,18 +64,9 @@ namespace MtbMate.Screens.Bluetooth
             OnPropertyChanged();
         }
 
-        private async void Adapter_DeviceConnected(object sender, DeviceEventArgs e)
+        private void Adapter_DeviceConnected(object sender, DeviceEventArgs e)
         {
             OnPropertyChanged();
-
-            var device = e.Device;
-            var service = (IService)await device.GetServiceAsync(new Guid("19B10000-E8F2-537E-4F6C-D104768A1214"));
-            var characteristics = await service.GetCharacteristicsAsync();
-            var characteristic = characteristics.First();
-            characteristic.ValueUpdated += Characteristic_ValueUpdated;
-            await characteristic.StartUpdatesAsync();
-
-            Debug.WriteLine(DateTime.Now + " - Started getting updates...");
         }
 
         private void Characteristic_ValueUpdated(object sender, CharacteristicUpdatedEventArgs e)

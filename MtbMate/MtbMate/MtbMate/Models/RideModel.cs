@@ -22,7 +22,8 @@ namespace MtbMate.Models
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
 
-        public IAccelerometerUtility AccelerometerUtility => PhoneAccelerometerUtility.Instance; // BluetoothAccelerometerUtility.Instance;
+        //public IAccelerometerUtility AccelerometerUtility => PhoneAccelerometerUtility.Instance;
+        public IAccelerometerUtility AccelerometerUtility => BleAccelerometerUtility.Instance;
 
         public RideModel()
         {
@@ -42,7 +43,7 @@ namespace MtbMate.Models
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
 
             await GeoUtility.Instance.Start();
-            AccelerometerUtility.Start();
+            await AccelerometerUtility.Start();
         }
 
         public async Task StopRide()
@@ -50,7 +51,7 @@ namespace MtbMate.Models
             End = DateTime.UtcNow;
 
             await GeoUtility.Instance.Stop();
-            AccelerometerUtility.Stop();
+            await AccelerometerUtility.Stop();
 
             AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Akavache;
+using MtbMate.Accelerometer;
 using MtbMate.Contexts;
 using MtbMate.Home;
 using Xamarin.Essentials;
@@ -18,7 +20,24 @@ namespace MtbMate
 
             mainContext = new MainContext();
 
-            MainPage = new NavigationPage(new MainPage(mainContext));
+            var navPage = new NavigationPage(new MainPage(mainContext));
+
+            var bleToolbarItem = new ToolbarItem
+            {
+                Text = "BLE",
+            };
+
+            bleToolbarItem.Clicked += async (s, e) =>
+            {
+                await mainContext.UI.GoToBluetoothScreen(navPage.Navigation);
+            };
+
+            navPage.ToolbarItems.Add(bleToolbarItem);
+
+            MainPage = navPage;
+
+            // initialise
+            var temp = BleAccelerometerUtility.Instance;
 
             ExperimentalFeatures.Enable("ShareFileRequest_Experimental");
         }
