@@ -24,7 +24,7 @@ namespace MtbMate
 
             var bleToolbarItem = new ToolbarItem
             {
-                Text = "BLE",
+                IconImageSource = ImageSource.FromFile("bluetooth.png"),
             };
 
             bleToolbarItem.Clicked += async (s, e) =>

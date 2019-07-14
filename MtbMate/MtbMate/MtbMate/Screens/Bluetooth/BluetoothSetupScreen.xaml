@@ -29,7 +29,7 @@
                 IsVisible="{Binding IsScanning}"
                 HorizontalOptions="Center"
                 Text="Scanning..."
-                Margin="10" />
+                Margin="20" />
 
             <StackLayout
                 Grid.RowSpan="2"
@@ -48,7 +48,9 @@
                 Grid.Row="1"
                 IsVisible="{Binding CanStartScanning}"
                 Text="Start Scanning..."
-                Clicked="StartScan_Clicked" />
+                Clicked="StartScan_Clicked"
+                BackgroundColor="Green"
+                TextColor="White" />
 
             <Label
                 Grid.RowSpan="2"
