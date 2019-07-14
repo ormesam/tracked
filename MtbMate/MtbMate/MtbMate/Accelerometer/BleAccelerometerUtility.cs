@@ -39,27 +39,50 @@ namespace MtbMate.Accelerometer
         private BleAccelerometerUtility()
         {
             adapter.DeviceConnected += Adapter_DeviceConnected;
-            adapter.DeviceDisconnected += Adapter_DeviceDisconnected;
-        }
-
-        private async void Adapter_DeviceDisconnected(object sender, DeviceEventArgs e)
-        {
-            await Stop();
-
-            characteristic.ValueUpdated -= Characteristic_ValueUpdated;
-            characteristic = null;
         }
 
         private void Characteristic_ValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
         {
             string value = e.Characteristic.StringValue;
 
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return;
-            }
+            ParseAndAddData(value);
+        }
 
-            Debug.WriteLine(DateTime.Now + " - " + value);
+        private void ParseAndAddData(string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                DateTime timeStamp = DateTime.UtcNow;
+
+                double[] xyz = new double[3];
+                string[] parsedData = value.Split(',');
+
+                if (parsedData.Length != 3)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < xyz.Length; i++)
+                {
+                    if (double.TryParse(parsedData[i], out double result))
+                    {
+                        xyz[i] = result;
+                    }
+                }
+
+                var data = new AccelerometerReadingModel
+                {
+                    TimeStamp = timeStamp,
+                    X = xyz[0],
+                    Y = xyz[1],
+                    Z = xyz[2],
+                };
+
+                AccelerometerChanged?.Invoke(new AccelerometerChangedEventArgs
+                {
+                    Data = data,
+                });
+            }
         }
 
         private void Adapter_DeviceConnected(object sender, DeviceEventArgs e)
@@ -99,6 +122,17 @@ namespace MtbMate.Accelerometer
         public async Task Stop()
         {
             await characteristic?.StopUpdatesAsync();
+        }
+
+        public async Task Reset()
+        {
+            await Stop();
+
+            if (characteristic != null)
+            {
+                characteristic.ValueUpdated -= Characteristic_ValueUpdated;
+                characteristic = null;
+            }
         }
     }
 }

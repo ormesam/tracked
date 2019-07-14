@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using MtbMate.Accelerometer;
 using MtbMate.Contexts;
-using MtbMate.Utilities;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Exceptions;
-using Xamarin.Forms;
 
 namespace MtbMate.Screens.Bluetooth
 {
@@ -113,6 +111,8 @@ namespace MtbMate.Screens.Bluetooth
 
         public async Task DisconnectDevice()
         {
+            await BleAccelerometerUtility.Instance.Reset();
+
             foreach (var device in adapter.ConnectedDevices)
             {
                 await adapter.DisconnectDeviceAsync(device);
