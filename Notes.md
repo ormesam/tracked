@@ -6,3 +6,5 @@
 - Used Arduino Uno with MPU-6050 and HC-06 Bluetooth module to send accelerometer data to the phone via Bluetooth, works well but not tested on the track yet.
 
 - The Arduino Nano 33 IOT has built in Bluetooth and accelerometer/gyro: https://store.arduino.cc/nano-33-iot. Ordered, and tested. Works very well and is much smaller than the Arduino Uno and boards, also we can just upload the code straight to it and it works, no need for plugging additional boards in etc.
+
+- Keeping the work done for the phone accelerometer for now.
