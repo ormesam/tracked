@@ -4,7 +4,6 @@ using Android.Runtime;
 using Android.OS;
 using Plugin.CurrentActivity;
 using Android;
-using Akavache;
 
 namespace MtbMate.Droid
 {
@@ -16,7 +15,8 @@ namespace MtbMate.Droid
             Manifest.Permission.Bluetooth,
             Manifest.Permission.BluetoothAdmin,
             Manifest.Permission.AccessCoarseLocation,
-            Manifest.Permission.AccessFineLocation
+            Manifest.Permission.AccessFineLocation,
+            "android.permission.FOREGROUND_SERVICE",
         };
 
         protected override void OnCreate(Bundle savedInstanceState)
