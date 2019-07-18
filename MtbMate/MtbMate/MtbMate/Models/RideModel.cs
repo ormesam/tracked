@@ -32,7 +32,7 @@ namespace MtbMate.Models
             AccelerometerReadings = new List<AccelerometerReadingModel>();
         }
 
-        public async Task StartRide()
+        public Task StartRide()
         {
             if (Start == null)
             {
@@ -42,21 +42,25 @@ namespace MtbMate.Models
             AccelerometerUtility.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
 
-            await GeoUtility.Instance.Start();
+            GeoUtility.Instance.Start();
             // await AccelerometerUtility.Start();
+
+            return Task.CompletedTask;
         }
 
-        public async Task StopRide()
+        public Task StopRide()
         {
             End = DateTime.UtcNow;
 
-            await GeoUtility.Instance.Stop();
+            GeoUtility.Instance.Stop();
             // await AccelerometerUtility.Stop();
 
             AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
 
             CheckForJumpsAndDrops();
+
+            return Task.CompletedTask;
         }
 
         private void AccelerometerUtility_AccelerometerChanged(Accelerometer.AccelerometerChangedEventArgs e)

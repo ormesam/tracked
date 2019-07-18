@@ -1,8 +1,5 @@
 ﻿using Android.Content;
-using Android.Locations;
 using Android.Preferences;
-using Android.Text.Format;
-using Java.Util;
 
 namespace MtbMate.Droid.Services
 {
@@ -28,24 +25,9 @@ namespace MtbMate.Droid.Services
         public static void SetRequestingLocationUpdates(Context context, bool requestingLocationUpdates)
         {
             PreferenceManager.GetDefaultSharedPreferences(context)
-                    .Edit()
-                    .PutBoolean(KeyRequestingLocationUpdates, requestingLocationUpdates)
-                    .Apply();
-        }
-
-        /**
-		 * Returns the {@code location} object as a human readable string.
-		 * @param location  The {@link Location}.
-		 */
-        public static string GetLocationText(Location location)
-        {
-            return location == null ? "Unknown location" :
-                    "(" + location.Latitude + ", " + location.Longitude + ")";
-        }
-
-        public static string GetLocationTitle(Context context)
-        {
-            return "Location changed: " + DateFormat.GetDateFormat(context).Format(new Date());
+                .Edit()
+                .PutBoolean(KeyRequestingLocationUpdates, requestingLocationUpdates)
+                .Apply();
         }
     }
 }

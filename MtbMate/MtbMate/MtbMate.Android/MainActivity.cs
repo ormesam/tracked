@@ -24,8 +24,6 @@ namespace MtbMate.Droid
             "android.permission.FOREGROUND_SERVICE",
         };
 
-        public MyReceiver myReceiver;
-
         public LocationUpdatesService Service { get; set; }
 
         public bool Bound { get; set; }
@@ -43,7 +41,6 @@ namespace MtbMate.Droid
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            myReceiver = new MyReceiver { Context = this };
             ServiceConnection = new CustomServiceConnection { Activity = this };
 
             CheckPermissions();
@@ -66,9 +63,6 @@ namespace MtbMate.Droid
         {
             base.OnResume();
 
-            LocalBroadcastManager.GetInstance(this).RegisterReceiver(myReceiver,
-                new IntentFilter(LocationUpdatesService.ActionBroadcast));
-
             Console.WriteLine();
             Console.WriteLine("RESUMED");
             Console.WriteLine();
@@ -76,8 +70,6 @@ namespace MtbMate.Droid
 
         protected override void OnPause()
         {
-            LocalBroadcastManager.GetInstance(this).UnregisterReceiver(myReceiver);
-
             base.OnPause();
 
             Console.WriteLine();

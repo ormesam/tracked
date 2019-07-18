@@ -38,87 +38,23 @@ namespace MtbMate.Utilities
         {
         }
 
-        public async Task Start()
+        public void Start()
         {
             DependencyService.Get<INativeGeoUtility>().Start();
-
-            return;
-
-            if (CrossGeolocator.Current.IsListening)
-            {
-                return;
-            }
-
-            var settings = new ListenerSettings
-            {
-                ActivityType = ActivityType.AutomotiveNavigation,
-                AllowBackgroundUpdates = true,
-                DeferLocationUpdates = false,
-                ListenForSignificantChanges = false,
-                PauseLocationUpdatesAutomatically = false,
-            };
-
-            CrossGeolocator.Current.DesiredAccuracy = 5;
-
-            CrossGeolocator.Current.PositionChanged += PositionChanged;
-            CrossGeolocator.Current.PositionError += PositionError;
-
-            SpeedChanged?.Invoke(new SpeedChangedEventArgs
-            {
-                MetresPerSecond = 0,
-            });
-
-            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 3, true, settings);
         }
 
-        private void PositionError(object sender, PositionErrorEventArgs e)
-        {
-            Debug.WriteLine(e.Error);
-        }
-
-        private void PositionChanged(object sender, PositionEventArgs e)
-        {
-            LocationChanged?.Invoke(new LocationChangedEventArgs
-            {
-                Location = new LocationModel
-                {
-                    Timestamp = e.Position.Timestamp.UtcDateTime,
-                    Latitude = e.Position.Latitude,
-                    Longitude = e.Position.Longitude,
-                    MetresPerSecond = e.Position.Speed,
-                }
-            });
-
-            SpeedChanged?.Invoke(new SpeedChangedEventArgs
-            {
-                MetresPerSecond = e.Position.Speed,
-            });
-        }
-
-        public async Task Stop()
+        public void Stop()
         {
             DependencyService.Get<INativeGeoUtility>().Stop();
-
-            return;
-
-            if (!CrossGeolocator.Current.IsListening)
-            {
-                return;
-            }
-
-            await CrossGeolocator.Current.StopListeningAsync();
-
-            SpeedChanged?.Invoke(new SpeedChangedEventArgs
-            {
-                MetresPerSecond = 0,
-            });
-
-            CrossGeolocator.Current.PositionChanged -= PositionChanged;
-            CrossGeolocator.Current.PositionError -= PositionError;
         }
 
         public void UpdateLocation(double latitude, double longitude, float speed)
         {
+            SpeedChanged?.Invoke(new SpeedChangedEventArgs
+            {
+                MetresPerSecond = speed,
+            });
+
             LocationChanged?.Invoke(new LocationChangedEventArgs
             {
                 Location = new LocationModel

@@ -97,7 +97,6 @@
     <Compile Include="Services\CustomServiceConnection.cs" />
     <Compile Include="Services\GetLastLocationOnCompleteListener.cs" />
     <Compile Include="Services\LocationService.cs" />
-    <Compile Include="Services\MyReceiver.cs" />
     <Compile Include="Services\Utils.cs" />
   </ItemGroup>
   <ItemGroup>

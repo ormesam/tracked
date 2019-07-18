@@ -28,73 +28,28 @@ namespace MtbMate.Droid.Services
 	 * continue. When the activity comes back to the foreground, the foreground service stops, and the
 	 * notification assocaited with that service is removed.
 	 */
-    [Service(Label = "LocationUpdatesService", Enabled = true, Exported = true)]
+    [Service(Label = "LocationUpdatesService")]
     [IntentFilter(new string[] { "com.xamarin.LocUpdFgService.LocationUpdatesService" })]
     public class LocationUpdatesService : Service
     {
-        const string LocationPackageName = "com.xamarin.LocUpdFgService";
-
+        private const string LocationPackageName = "com.xamarin.LocUpdFgService";
         public string Tag = "LocationUpdatesService";
-
-        string ChannelId = "channel_01";
-
-        public const string ActionBroadcast = LocationPackageName + ".broadcast";
-
-        public const string ExtraLocation = LocationPackageName + ".location";
-        const string ExtraStartedFromNotification = LocationPackageName + ".started_from_notification";
-
-        IBinder Binder;
-
-        /**
-	     * The desired interval for location updates. Inexact. Updates may be more or less frequent.
-	     */
-        const long UpdateIntervalInMilliseconds = 3000;
-
-        /**
-		 * The fastest rate for active location updates. Updates will never be more frequent
-		 * than this value.
-		 */
-        const long FastestUpdateIntervalInMilliseconds = 2000;
-
-        /**
-		 * The identifier for the notification displayed for the foreground service.
-		 */
-        const int NotificationId = 12345678;
-
-        /**
-		 * Used to check whether the bound activity has really gone away and not unbound as part of an
-		 * orientation change. We create a foreground service notification only if the former takes
-		 * place.
-		 */
-        bool ChangingConfiguration = false;
-
-        NotificationManager NotificationManager;
-
-        /**
-		 * Contains parameters used by {@link com.google.android.gms.location.FusedLocationProviderApi}.
-		 */
-        LocationRequest LocationRequest;
-
-        /**
-		 * Provides access to the Fused Location Provider API.
-		 */
-        FusedLocationProviderClient FusedLocationClient;
-
-        /**
-		 * Callback for changes in location.
-		 */
-        LocationCallback LocationCallback;
-
-        Handler ServiceHandler;
-
-        /**
-		 * The current location.
-		 */
-        public Location Location;
+        private string channelId = "default";
+        public const string actionBroadcast = LocationPackageName + ".broadcast";
+        public const string extraLocation = LocationPackageName + ".location";
+        private IBinder binder;
+        private const int notificationId = 12345678;
+        private bool changingConfiguration = false;
+        private NotificationManager NotificationManager;
+        private LocationRequest locationRequest;
+        private FusedLocationProviderClient fusedLocationClient;
+        private LocationCallback locationCallback;
+        private Handler serviceHandler;
+        public Location location;
 
         public LocationUpdatesService()
         {
-            Binder = new LocationUpdatesServiceBinder(this);
+            binder = new LocationUpdatesServiceBinder(this);
         }
 
         class LocationCallbackImpl : LocationCallback
@@ -109,182 +64,107 @@ namespace MtbMate.Droid.Services
 
         public override void OnCreate()
         {
-            FusedLocationClient = LocationServices.GetFusedLocationProviderClient(this);
+            fusedLocationClient = LocationServices.GetFusedLocationProviderClient(this);
 
-            LocationCallback = new LocationCallbackImpl { Service = this };
+            locationCallback = new LocationCallbackImpl { Service = this };
 
             CreateLocationRequest();
             GetLastLocation();
 
             HandlerThread handlerThread = new HandlerThread(Tag);
             handlerThread.Start();
-            ServiceHandler = new Handler(handlerThread.Looper);
+            serviceHandler = new Handler(handlerThread.Looper);
             NotificationManager = (NotificationManager)GetSystemService(NotificationService);
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
                 string name = "Location Updates ForegroundService";
-                NotificationChannel mChannel = new NotificationChannel(ChannelId, name, NotificationImportance.High);
+                NotificationChannel mChannel = new NotificationChannel(channelId, name, NotificationImportance.High);
                 NotificationManager.CreateNotificationChannel(mChannel);
             }
         }
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-            Log.Info(Tag, "Service started");
-            var startedFromNotification = intent.GetBooleanExtra(ExtraStartedFromNotification, false);
-
-            // We got here because the user decided to remove location updates from the notification.
-            if (startedFromNotification)
-            {
-                RemoveLocationUpdates();
-                StopSelf();
-            }
-            // Tells the system to not try to recreate the service after it has been killed.
             return StartCommandResult.NotSticky;
         }
 
         public override void OnConfigurationChanged(Android.Content.Res.Configuration newConfig)
         {
             base.OnConfigurationChanged(newConfig);
-            ChangingConfiguration = true;
+
+            changingConfiguration = true;
         }
 
         public override IBinder OnBind(Intent intent)
         {
-            // Called when a client (MainActivity in case of this sample) comes to the foreground
-            // and binds with this service. The service should cease to be a foreground service
-            // when that happens.
-            Log.Info(Tag, "in onBind()");
             StopForeground(true);
-            ChangingConfiguration = false;
-            return Binder;
+
+            changingConfiguration = false;
+
+            return binder;
         }
 
         public override void OnRebind(Intent intent)
         {
-            // Called when a client (MainActivity in case of this sample) returns to the foreground
-            // and binds once again with this service. The service should cease to be a foreground
-            // service when that happens.
-            Log.Info(Tag, "in onRebind()");
             StopForeground(true);
-            ChangingConfiguration = false;
+
+            changingConfiguration = false;
+
             base.OnRebind(intent);
         }
 
         public override bool OnUnbind(Intent intent)
         {
-            Log.Info(Tag, "Last client unbound from service");
-
-            // Called when the last client (MainActivity in case of this sample) unbinds from this
-            // service. If this method is called due to a configuration change in MainActivity, we
-            // do nothing. Otherwise, we make this service a foreground service.
-            if (!ChangingConfiguration && Utils.RequestingLocationUpdates(this))
+            if (!changingConfiguration && Utils.RequestingLocationUpdates(this))
             {
-                Log.Info(Tag, "Starting foreground service");
-                /*
-				// TODO(developer). If targeting O, use the following code.
-				if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
-					mNotificationManager.startServiceInForeground(new Intent(this,
-							LocationUpdatesService.class), NOTIFICATION_ID, getNotification());
-				} else {
-					startForeground(NOTIFICATION_ID, getNotification());
-				}
-				 */
-                StartForeground(NotificationId, GetNotification());
+                StartForeground(notificationId, GetNotification());
             }
-            return true; // Ensures onRebind() is called when a client re-binds.
+
+            return true;
         }
 
         public override void OnDestroy()
         {
-            ServiceHandler.RemoveCallbacksAndMessages(null);
+            serviceHandler.RemoveCallbacksAndMessages(null);
         }
 
-        /**
-	     * Makes a request for location updates. Note that in this sample we merely log the
-	     * {@link SecurityException}.
-	     */
         public void RequestLocationUpdates()
         {
             Log.Info(Tag, "Requesting location updates");
+
             Utils.SetRequestingLocationUpdates(this, true);
+
             StartService(new Intent(ApplicationContext, typeof(LocationUpdatesService)));
-            try
-            {
-                FusedLocationClient.RequestLocationUpdates(LocationRequest, LocationCallback, Looper.MyLooper());
-            }
-            catch (SecurityException unlikely)
-            {
-                Utils.SetRequestingLocationUpdates(this, false);
-                Log.Error(Tag, "Lost location permission. Could not request updates. " + unlikely);
-            }
+
+            fusedLocationClient.RequestLocationUpdates(locationRequest, locationCallback, Looper.MyLooper());
         }
 
-        /**
-	     * Removes location updates. Note that in this sample we merely log the
-	     * {@link SecurityException}.
-	     */
         public void RemoveLocationUpdates()
         {
             Log.Info(Tag, "Removing location updates");
-            try
-            {
-                FusedLocationClient.RemoveLocationUpdates(LocationCallback);
-                Utils.SetRequestingLocationUpdates(this, false);
-                StopSelf();
-            }
-            catch (SecurityException unlikely)
-            {
-                Utils.SetRequestingLocationUpdates(this, true);
-                Log.Error(Tag, "Lost location permission. Could not remove updates. " + unlikely);
-            }
+
+            fusedLocationClient.RemoveLocationUpdates(locationCallback);
+            Utils.SetRequestingLocationUpdates(this, false);
+            StopSelf();
         }
 
-        /**
-	     * Returns the {@link NotificationCompat} used as part of the foreground service.
-	     */
-        Notification GetNotification()
+        private Notification GetNotification()
         {
-            Intent intent = new Intent(this, typeof(LocationUpdatesService));
-
-            var text = Utils.GetLocationText(Location);
-
-            // Extra to help us figure out if we arrived in onStartCommand via the notification or not.
-            intent.PutExtra(ExtraStartedFromNotification, true);
-
-            // The PendingIntent that leads to a call to onStartCommand() in this service.
-            var servicePendingIntent = PendingIntent.GetService(this, 0, intent, PendingIntentFlags.UpdateCurrent);
-
-            // The PendingIntent to launch activity.
-            var activityPendingIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(MainActivity)), 0);
-
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, ChannelId)
-                .AddAction(Resource.Drawable.ic_launch, "Launch activity",
-                    activityPendingIntent)
-                .AddAction(Resource.Drawable.ic_cancel, "Remove location updates",
-                    servicePendingIntent)
-                .SetContentText(text)
-                .SetContentTitle(Utils.GetLocationTitle(this))
+            return new NotificationCompat.Builder(this, channelId)
+                .SetContentTitle("Mtb Mate")
+                .SetContentText("Running...")
                 .SetOngoing(true)
                 .SetPriority((int)NotificationPriority.High)
                 .SetSmallIcon(Resource.Mipmap.ic_launcher)
-                .SetTicker(text)
-                .SetWhen(JavaSystem.CurrentTimeMillis());
-
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-            {
-                builder.SetChannelId(ChannelId);
-            }
-
-            return builder.Build();
+                .Build();
         }
 
         private void GetLastLocation()
         {
             try
             {
-                FusedLocationClient.LastLocation.AddOnCompleteListener(new GetLastLocationOnCompleteListener { Service = this });
+                fusedLocationClient.LastLocation.AddOnCompleteListener(new GetLastLocationOnCompleteListener { Service = this });
             }
             catch (SecurityException unlikely)
             {
@@ -296,18 +176,7 @@ namespace MtbMate.Droid.Services
         {
             Log.Info(Tag, "New location: " + location);
 
-            Location = location;
-
-            // Notify anyone listening for broadcasts about the new location.
-            Intent intent = new Intent(ActionBroadcast);
-            intent.PutExtra(ExtraLocation, location);
-            LocalBroadcastManager.GetInstance(ApplicationContext).SendBroadcast(intent);
-
-            // Update notification content if running as a foreground service.
-            if (ServiceIsRunningInForeground(this))
-            {
-                NotificationManager.Notify(NotificationId, GetNotification());
-            }
+            this.location = location;
 
             GeoUtility.Instance.UpdateLocation(location.Latitude, location.Longitude, location.Speed);
         }
@@ -315,34 +184,12 @@ namespace MtbMate.Droid.Services
         /**
 	     * Sets the location request parameters.
 	     */
-        void CreateLocationRequest()
+        private void CreateLocationRequest()
         {
-            LocationRequest = new LocationRequest();
-            LocationRequest.SetInterval(UpdateIntervalInMilliseconds);
-            LocationRequest.SetFastestInterval(FastestUpdateIntervalInMilliseconds);
-            LocationRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
-        }
-
-        /**
-	     * Returns true if this is a foreground service.
-	     *
-	     * @param context The {@link Context}.
-	     */
-        public bool ServiceIsRunningInForeground(Context context)
-        {
-            var manager = (ActivityManager)context.GetSystemService(ActivityService);
-
-            foreach (var service in manager.GetRunningServices(int.MaxValue))
-            {
-                if (Class.Name.Equals(service.Service.ClassName))
-                {
-                    if (service.Foreground)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            locationRequest = new LocationRequest();
+            locationRequest.SetInterval(3000);
+            locationRequest.SetFastestInterval(2000);
+            locationRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
         }
     }
 
