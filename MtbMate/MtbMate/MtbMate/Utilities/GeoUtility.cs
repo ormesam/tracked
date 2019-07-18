@@ -4,6 +4,7 @@ using Plugin.Geolocator.Abstractions;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace MtbMate.Utilities
 {
@@ -39,6 +40,10 @@ namespace MtbMate.Utilities
 
         public async Task Start()
         {
+            DependencyService.Get<INativeGeoUtility>().Start();
+
+            return;
+
             if (CrossGeolocator.Current.IsListening)
             {
                 return;
@@ -92,6 +97,10 @@ namespace MtbMate.Utilities
 
         public async Task Stop()
         {
+            DependencyService.Get<INativeGeoUtility>().Stop();
+
+            return;
+
             if (!CrossGeolocator.Current.IsListening)
             {
                 return;
@@ -106,6 +115,20 @@ namespace MtbMate.Utilities
 
             CrossGeolocator.Current.PositionChanged -= PositionChanged;
             CrossGeolocator.Current.PositionError -= PositionError;
+        }
+
+        public void UpdateLocation(double latitude, double longitude, float speed)
+        {
+            LocationChanged?.Invoke(new LocationChangedEventArgs
+            {
+                Location = new LocationModel
+                {
+                    Timestamp = DateTime.UtcNow,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    MetresPerSecond = speed,
+                }
+            });
         }
     }
 }

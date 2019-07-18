@@ -43,7 +43,7 @@ namespace MtbMate.Models
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
 
             await GeoUtility.Instance.Start();
-            await AccelerometerUtility.Start();
+            // await AccelerometerUtility.Start();
         }
 
         public async Task StopRide()
@@ -51,7 +51,7 @@ namespace MtbMate.Models
             End = DateTime.UtcNow;
 
             await GeoUtility.Instance.Stop();
-            await AccelerometerUtility.Stop();
+            // await AccelerometerUtility.Stop();
 
             AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
