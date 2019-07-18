@@ -5,14 +5,12 @@ using Android.Locations;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Util;
-using Java.Lang;
 using MtbMate.Utilities;
 
 namespace MtbMate.Droid.Services
 {
-    [Service(Label = "LocationUpdatesService")]
-    [IntentFilter(new string[] { "com.xamarin.LocUpdFgService.LocationUpdatesService" })]
-    public class LocationUpdatesService : Service
+    [Service]
+    public class LocationService : Service
     {
         private const string channelId = "default";
         private readonly IBinder binder;
@@ -24,9 +22,9 @@ namespace MtbMate.Droid.Services
         private Handler serviceHandler;
 
         public Location Location { get; set; }
-        public string Tag => "LocationUpdatesService";
+        public string Tag => "LocationService";
 
-        public LocationUpdatesService()
+        public LocationService()
         {
             binder = new LocationUpdatesServiceBinder(this);
         }
@@ -77,7 +75,7 @@ namespace MtbMate.Droid.Services
         {
             Utils.SetRequestingLocationUpdates(this, true);
 
-            StartService(new Intent(ApplicationContext, typeof(LocationUpdatesService)));
+            StartService(new Intent(ApplicationContext, typeof(LocationService)));
 
             fusedLocationClient.RequestLocationUpdates(locationRequest, locationCallback, Looper.MyLooper());
         }
@@ -109,8 +107,6 @@ namespace MtbMate.Droid.Services
 
         public void OnNewLocation(Location location)
         {
-            Log.Info(Tag, "New location: " + location);
-
             this.Location = location;
 
             GeoUtility.Instance.UpdateLocation(location.Latitude, location.Longitude, location.Speed);
@@ -118,7 +114,7 @@ namespace MtbMate.Droid.Services
 
         private class LocationCallbackImpl : LocationCallback
         {
-            public LocationUpdatesService Service { get; set; }
+            public LocationService Service { get; set; }
 
             public override void OnLocationResult(LocationResult result)
             {

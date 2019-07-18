@@ -24,7 +24,7 @@ namespace MtbMate.Droid
             "android.permission.FOREGROUND_SERVICE",
         };
 
-        public LocationUpdatesService Service { get; set; }
+        public LocationService Service { get; set; }
         public bool Bound { get; set; }
         public CustomServiceConnection ServiceConnection { get; set; }
 
@@ -50,7 +50,7 @@ namespace MtbMate.Droid
         {
             base.OnStart();
 
-            BindService(new Intent(this, typeof(LocationUpdatesService)), ServiceConnection, Bind.AutoCreate);
+            BindService(new Intent(this, typeof(LocationService)), ServiceConnection, Bind.AutoCreate);
 
             Console.WriteLine();
             Console.WriteLine("STARTED");

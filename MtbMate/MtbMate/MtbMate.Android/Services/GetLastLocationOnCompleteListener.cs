@@ -8,7 +8,7 @@ namespace MtbMate.Droid.Services
 {
     public class GetLastLocationOnCompleteListener : Object, IOnCompleteListener
     {
-        public LocationUpdatesService Service { get; set; }
+        public LocationService Service { get; set; }
 
         public void OnComplete(Task task)
         {

@@ -4,14 +4,14 @@ namespace MtbMate.Droid.Services
 {
     public class LocationUpdatesServiceBinder : Binder
     {
-        readonly LocationUpdatesService service;
+        readonly LocationService service;
 
-        public LocationUpdatesServiceBinder(LocationUpdatesService service)
+        public LocationUpdatesServiceBinder(LocationService service)
         {
             this.service = service;
         }
 
-        public LocationUpdatesService GetLocationUpdatesService()
+        public LocationService GetLocationService()
         {
             return service;
         }

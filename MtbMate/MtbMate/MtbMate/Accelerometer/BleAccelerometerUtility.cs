@@ -72,7 +72,7 @@ namespace MtbMate.Accelerometer
 
                 var data = new AccelerometerReadingModel
                 {
-                    TimeStamp = timeStamp,
+                    Timestamp = timeStamp,
                     X = xyz[0],
                     Y = xyz[1],
                     Z = xyz[2],

@@ -1,9 +1,5 @@
 ﻿using MtbMate.Models;
-using Plugin.Geolocator;
-using Plugin.Geolocator.Abstractions;
 using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MtbMate.Utilities

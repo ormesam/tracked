@@ -10,7 +10,7 @@ namespace MtbMate.Droid.Services
         public void OnServiceConnected(ComponentName name, IBinder service)
         {
             LocationUpdatesServiceBinder binder = (LocationUpdatesServiceBinder)service;
-            Activity.Service = binder.GetLocationUpdatesService();
+            Activity.Service = binder.GetLocationService();
             Activity.Bound = true;
         }
 
