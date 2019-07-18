@@ -14,10 +14,9 @@ namespace MtbMate.Droid.Services
     [IntentFilter(new string[] { "com.xamarin.LocUpdFgService.LocationUpdatesService" })]
     public class LocationUpdatesService : Service
     {
-        private string channelId = "default";
+        private const string channelId = "default";
         private readonly IBinder binder;
         private const int notificationId = 12345678;
-        private bool changingConfiguration = false;
         private NotificationManager notificationManager;
         private LocationRequest locationRequest;
         private FusedLocationProviderClient fusedLocationClient;
@@ -35,10 +34,13 @@ namespace MtbMate.Droid.Services
         public override void OnCreate()
         {
             fusedLocationClient = LocationServices.GetFusedLocationProviderClient(this);
-
             locationCallback = new LocationCallbackImpl { Service = this };
 
-            CreateLocationRequest();
+            locationRequest = new LocationRequest();
+            locationRequest.SetInterval(3000);
+            locationRequest.SetFastestInterval(2000);
+            locationRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
+
             GetLastLocation();
 
             HandlerThread handlerThread = new HandlerThread(Tag);
@@ -48,7 +50,7 @@ namespace MtbMate.Droid.Services
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
-                string name = "Location Updates ForegroundService";
+                string name = "LocationForegroundService";
                 NotificationChannel mChannel = new NotificationChannel(channelId, name, NotificationImportance.High);
                 notificationManager.CreateNotificationChannel(mChannel);
             }
@@ -56,42 +58,14 @@ namespace MtbMate.Droid.Services
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
+            StartForeground(notificationId, GetNotification());
+
             return StartCommandResult.NotSticky;
-        }
-
-        public override void OnConfigurationChanged(Android.Content.Res.Configuration newConfig)
-        {
-            base.OnConfigurationChanged(newConfig);
-
-            changingConfiguration = true;
         }
 
         public override IBinder OnBind(Intent intent)
         {
-            StopForeground(true);
-
-            changingConfiguration = false;
-
             return binder;
-        }
-
-        public override void OnRebind(Intent intent)
-        {
-            StopForeground(true);
-
-            changingConfiguration = false;
-
-            base.OnRebind(intent);
-        }
-
-        public override bool OnUnbind(Intent intent)
-        {
-            if (!changingConfiguration && Utils.RequestingLocationUpdates(this))
-            {
-                StartForeground(notificationId, GetNotification());
-            }
-
-            return true;
         }
 
         public override void OnDestroy()
@@ -130,14 +104,7 @@ namespace MtbMate.Droid.Services
 
         private void GetLastLocation()
         {
-            try
-            {
-                fusedLocationClient.LastLocation.AddOnCompleteListener(new GetLastLocationOnCompleteListener { Service = this });
-            }
-            catch (SecurityException unlikely)
-            {
-                Log.Error(Tag, "Lost location permission." + unlikely);
-            }
+            fusedLocationClient.LastLocation.AddOnCompleteListener(new GetLastLocationOnCompleteListener { Service = this });
         }
 
         public void OnNewLocation(Location location)
@@ -149,44 +116,16 @@ namespace MtbMate.Droid.Services
             GeoUtility.Instance.UpdateLocation(location.Latitude, location.Longitude, location.Speed);
         }
 
-        /**
-	     * Sets the location request parameters.
-	     */
-        private void CreateLocationRequest()
-        {
-            locationRequest = new LocationRequest();
-            locationRequest.SetInterval(3000);
-            locationRequest.SetFastestInterval(2000);
-            locationRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
-        }
-
         private class LocationCallbackImpl : LocationCallback
         {
             public LocationUpdatesService Service { get; set; }
+
             public override void OnLocationResult(LocationResult result)
             {
                 base.OnLocationResult(result);
+
                 Service.OnNewLocation(result.LastLocation);
             }
-        }
-    }
-
-    /**
-	 * Class used for the client Binder.  Since this service runs in the same process as its
-	 * clients, we don't need to deal with IPC.
-	 */
-    public class LocationUpdatesServiceBinder : Binder
-    {
-        readonly LocationUpdatesService service;
-
-        public LocationUpdatesServiceBinder(LocationUpdatesService service)
-        {
-            this.service = service;
-        }
-
-        public LocationUpdatesService GetLocationUpdatesService()
-        {
-            return service;
         }
     }
 }
