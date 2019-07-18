@@ -25,9 +25,7 @@ namespace MtbMate.Droid
         };
 
         public LocationUpdatesService Service { get; set; }
-
         public bool Bound { get; set; }
-
         public CustomServiceConnection ServiceConnection { get; set; }
 
         protected override void OnCreate(Bundle savedInstanceState)

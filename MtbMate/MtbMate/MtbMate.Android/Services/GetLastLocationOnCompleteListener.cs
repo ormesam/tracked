@@ -14,7 +14,7 @@ namespace MtbMate.Droid.Services
         {
             if (task.IsSuccessful && task.Result != null)
             {
-                Service.location = (Location)task.Result;
+                Service.Location = (Location)task.Result;
             }
             else
             {
