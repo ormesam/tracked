@@ -79,10 +79,10 @@ namespace MtbMate.Screens.Ride
             {
                 LocationModel lastLocation = Ride.Locations[i - 1];
 
-                distance += lastLocation.DistanceBetween(Ride.Locations[0]);
+                distance += lastLocation.DistanceBetween(Ride.Locations[i]);
             }
 
-            return Math.Round(distance / 1000, 2);
+            return Math.Round(distance, 2);
         }
 
         private double GetAverageSpeed()
