@@ -34,6 +34,7 @@ using Android.App;
 [assembly: UsesPermission(Android.Manifest.Permission.AccessFineLocation)]
 [assembly: UsesPermission(Android.Manifest.Permission.Bluetooth)]
 [assembly: UsesPermission(Android.Manifest.Permission.BluetoothAdmin)]
+[assembly: UsesPermission("android.permission.FOREGROUND_SERVICE")]
 [assembly: UsesFeature("android.hardware.location", Required = false)]
 [assembly: UsesFeature("android.hardware.location.gps", Required = false)]
 [assembly: UsesFeature("android.hardware.location.network", Required = false)]

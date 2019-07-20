@@ -42,7 +42,7 @@ namespace MtbMate.Models
             AccelerometerUtility.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
 
-            await GeoUtility.Instance.Start();
+            GeoUtility.Instance.Start();
             await AccelerometerUtility.Start();
         }
 
@@ -50,7 +50,7 @@ namespace MtbMate.Models
         {
             End = DateTime.UtcNow;
 
-            await GeoUtility.Instance.Stop();
+            GeoUtility.Instance.Stop();
             await AccelerometerUtility.Stop();
 
             AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
@@ -68,6 +68,7 @@ namespace MtbMate.Models
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e)
         {
             Locations.Add(e.Location);
+            Debug.WriteLine(e.Location);
         }
 
         private void CheckForJumpsAndDrops()
@@ -103,12 +104,12 @@ namespace MtbMate.Models
             foreach (var drop in dropReadings)
             {
                 var readingsBeforeDrop = AccelerometerReadings
-                    .Where(i => i.TimeStamp >= drop.TimeStamp - jumpAllowance)
-                    .Where(i => i.TimeStamp <= drop.TimeStamp);
+                    .Where(i => i.Timestamp >= drop.Timestamp - jumpAllowance)
+                    .Where(i => i.Timestamp <= drop.Timestamp);
 
                 var readingsAfterDrop = AccelerometerReadings
-                    .Where(i => i.TimeStamp <= drop.TimeStamp + jumpAllowance)
-                    .Where(i => i.TimeStamp >= drop.TimeStamp);
+                    .Where(i => i.Timestamp <= drop.Timestamp + jumpAllowance)
+                    .Where(i => i.Timestamp >= drop.Timestamp);
 
                 var takeOffReading = readingsBeforeDrop
                     .Where(i => i.Z > takeoffUpperLimit)
@@ -128,9 +129,9 @@ namespace MtbMate.Models
                 JumpModel jump = new JumpModel
                 {
                     TakeOffGForce = takeOffReading.Z,
-                    TakeOffTimeStamp = takeOffReading.TimeStamp,
+                    TakeOffTimeStamp = takeOffReading.Timestamp,
                     LandingGForce = landingReading.Z,
-                    LandingTimeStamp = landingReading.TimeStamp,
+                    LandingTimeStamp = landingReading.Timestamp,
                 };
 
                 Jumps.Add(jump);
@@ -145,7 +146,7 @@ namespace MtbMate.Models
 
             foreach (var reading in AccelerometerReadings)
             {
-                sb.AppendLine($"{reading.TimeStamp},{reading.X},{reading.Y},{reading.Z}");
+                sb.AppendLine($"{reading.Timestamp},{reading.X},{reading.Y},{reading.Z}");
             }
 
             sb.AppendLine();

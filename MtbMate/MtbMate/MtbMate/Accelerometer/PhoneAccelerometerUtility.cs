@@ -43,7 +43,7 @@ namespace MtbMate.Accelerometer
 
             var model = new AccelerometerReadingModel
             {
-                TimeStamp = DateTime.UtcNow,
+                Timestamp = DateTime.UtcNow,
                 X = data.Acceleration.X,
                 Y = data.Acceleration.Y,
                 Z = data.Acceleration.Z,
