@@ -116,12 +116,22 @@ namespace MtbMate.Accelerometer
 
         public async Task Start()
         {
-            await characteristic?.StartUpdatesAsync();
+            if (characteristic == null)
+            {
+                return;
+            }
+
+            await characteristic.StartUpdatesAsync();
         }
 
         public async Task Stop()
         {
-            await characteristic?.StopUpdatesAsync();
+            if (characteristic == null)
+            {
+                return;
+            }
+
+            await characteristic.StopUpdatesAsync();
         }
 
         public async Task Reset()
