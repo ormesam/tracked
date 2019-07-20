@@ -4,7 +4,6 @@ using Android.Gms.Location;
 using Android.Locations;
 using Android.OS;
 using Android.Support.V4.App;
-using Android.Util;
 using MtbMate.Utilities;
 
 namespace MtbMate.Droid.Services
@@ -73,8 +72,6 @@ namespace MtbMate.Droid.Services
 
         public void RequestLocationUpdates()
         {
-            Utils.SetRequestingLocationUpdates(this, true);
-
             StartService(new Intent(ApplicationContext, typeof(LocationService)));
 
             fusedLocationClient.RequestLocationUpdates(locationRequest, locationCallback, Looper.MyLooper());
@@ -83,8 +80,6 @@ namespace MtbMate.Droid.Services
         public void RemoveLocationUpdates()
         {
             fusedLocationClient.RemoveLocationUpdates(locationCallback);
-
-            Utils.SetRequestingLocationUpdates(this, false);
 
             StopSelf();
             StopForeground(true);

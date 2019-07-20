@@ -6,14 +6,12 @@ using Plugin.CurrentActivity;
 using Android;
 using MtbMate.Droid.Services;
 using Android.Content;
-using Android.Support.V4.Content;
-using Android.Preferences;
 using System;
 
 namespace MtbMate.Droid
 {
     [Activity(Label = "Mtb Mate", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, ISharedPreferencesOnSharedPreferenceChangeListener
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         private readonly string[] Permissions =
          {
@@ -86,8 +84,6 @@ namespace MtbMate.Droid
                 Bound = false;
             }
 
-            PreferenceManager.GetDefaultSharedPreferences(this).UnregisterOnSharedPreferenceChangeListener(this);
-
             base.OnStop();
 
             Console.WriteLine();
@@ -119,16 +115,6 @@ namespace MtbMate.Droid
             if (!minimumPermissionsGranted)
             {
                 RequestPermissions(Permissions, 0);
-            }
-        }
-
-        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
-        {
-            // Update the buttons state depending on whether location updates are being requested.
-            if (key.Equals(Utils.KeyRequestingLocationUpdates))
-            {
-                Console.WriteLine("OnSharedPreferenceChanged called");
-                // SetButtonsState(sharedPreferences.GetBoolean(Utils.KeyRequestingLocationUpdates, false));
             }
         }
     }
