@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Models;
@@ -31,14 +30,19 @@ namespace MtbMate.Accelerometer
         }
 
         #endregion
+
         private IAdapter adapter => CrossBluetoothLE.Current.Adapter;
+
         private ICharacteristic characteristic;
+        private AccelerometerStatus status;
 
         public event AccelerometerChangedEventHandler AccelerometerChanged;
+        public event AccelerometerStatusChangedEventHandler StatusChanged;
 
         private BleAccelerometerUtility()
         {
             adapter.DeviceConnected += Adapter_DeviceConnected;
+            adapter.DeviceDisconnected += Adapter_DeviceDisconnected;
         }
 
         private void Characteristic_ValueUpdated(object sender, CharacteristicUpdatedEventArgs e)
@@ -47,6 +51,21 @@ namespace MtbMate.Accelerometer
 
             ParseAndAddData(value);
         }
+
+        public AccelerometerStatus Status {
+            get { return status; }
+            set {
+                if (status != value)
+                {
+                    status = value;
+                    StatusChanged?.Invoke(new AccelerometerStatusChangedEventArgs
+                    {
+                        NewStatus = value,
+                    });
+                }
+            }
+        }
+
 
         private void ParseAndAddData(string value)
         {
@@ -101,9 +120,18 @@ namespace MtbMate.Accelerometer
 
                 characteristic = characteristics.First();
                 characteristic.ValueUpdated += Characteristic_ValueUpdated;
+
+                Status = AccelerometerStatus.Ready;
             };
 
+            Status = AccelerometerStatus.NotReady;
+
             device.DiscoverServices();
+        }
+
+        private void Adapter_DeviceDisconnected(object sender, DeviceEventArgs e)
+        {
+            Status = AccelerometerStatus.NotConnected;
         }
 
         public void AddReading(AccelerometerReadingModel reading)
@@ -140,6 +168,7 @@ namespace MtbMate.Accelerometer
 
             if (characteristic != null)
             {
+                Status = AccelerometerStatus.NotReady;
                 characteristic.ValueUpdated -= Characteristic_ValueUpdated;
                 characteristic = null;
             }

@@ -31,11 +31,18 @@ namespace MtbMate.Accelerometer
 
         private SensorSpeed speed = SensorSpeed.Default;
         public event AccelerometerChangedEventHandler AccelerometerChanged;
+        public event AccelerometerStatusChangedEventHandler StatusChanged;
 
         private PhoneAccelerometerUtility()
         {
             Xamarin.Essentials.Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
         }
+
+        public AccelerometerStatus Status {
+            get { return  AccelerometerStatus.Ready; }
+            set { } // Always ready if we are using the phone
+        }
+
 
         private void Accelerometer_ReadingChanged(object sender, Xamarin.Essentials.AccelerometerChangedEventArgs e)
         {

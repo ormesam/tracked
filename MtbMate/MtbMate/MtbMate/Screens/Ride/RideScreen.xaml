@@ -9,36 +9,44 @@
     Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <Grid>
                 <Label
-                    Text="{Binding Mph}"
-                    FontSize="Large"
-                    HorizontalTextAlignment="Center" />
-                <Button
-                    Text="Start"
-                    Clicked="Start_Clicked"
-                    IsVisible="{Binding IsRunning, Converter={StaticResource InvertBoolConverter}}"
-                    BackgroundColor="Green"
-                    TextColor="White" />
-                <Button
-                    Text="Stop"
-                    Clicked="Stop_Clicked"
-                    IsVisible="{Binding IsRunning}"
-                    BackgroundColor="Orange"
-                    TextColor="White"  />
-                <Button
-                    Text="Export"
-                    Clicked="Export_Clicked"
-                    IsVisible="{Binding HasRan}"
-                    BackgroundColor="Blue"
-                    TextColor="White" />
-                <Button
-                    Text="Save"
-                    Clicked="Save_Clicked"
-                    IsVisible="{Binding HasRan}"
-                    BackgroundColor="Blue"
-                    TextColor="White" />
-            </StackLayout>
+                    IsVisible="{Binding IsReady, Converter={StaticResource InvertBoolConverter}}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Text="{Binding ReadyText}" />
+                <StackLayout
+                    IsVisible="{Binding IsReady}">
+                    <Label
+                        Text="{Binding Mph}"
+                        FontSize="Large"
+                        HorizontalTextAlignment="Center" />
+                    <Button
+                        Text="Start"
+                        Clicked="Start_Clicked"
+                        IsVisible="{Binding CanSeeStartButton}"
+                        BackgroundColor="Green"
+                        TextColor="White" />
+                    <Button
+                        Text="Stop"
+                        Clicked="Stop_Clicked"
+                        IsVisible="{Binding IsRunning}"
+                        BackgroundColor="Orange"
+                        TextColor="White" />
+                    <Button
+                        Text="Export"
+                        Clicked="Export_Clicked"
+                        IsVisible="{Binding HasRan}"
+                        BackgroundColor="Blue"
+                        TextColor="White" />
+                    <Button
+                        Text="Save"
+                        Clicked="Save_Clicked"
+                        IsVisible="{Binding HasRan}"
+                        BackgroundColor="Blue"
+                        TextColor="White" />
+                </StackLayout>
+            </Grid>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
