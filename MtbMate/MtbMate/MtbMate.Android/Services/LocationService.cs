@@ -87,6 +87,7 @@ namespace MtbMate.Droid.Services
             Utils.SetRequestingLocationUpdates(this, false);
 
             StopSelf();
+            StopForeground(true);
         }
 
         private Notification GetNotification()
