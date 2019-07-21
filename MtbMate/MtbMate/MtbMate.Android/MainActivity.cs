@@ -20,22 +20,28 @@ namespace MtbMate.Droid
             Manifest.Permission.AccessCoarseLocation,
             Manifest.Permission.AccessFineLocation,
             "android.permission.FOREGROUND_SERVICE",
+            Manifest.Permission.AccessLocationExtraCommands,
+            Manifest.Permission.AccessMockLocation,
+            Manifest.Permission.AccessNetworkState,
+            Manifest.Permission.AccessWifiState,
+            Manifest.Permission.Internet,
         };
 
         public LocationService Service { get; set; }
         public bool Bound { get; set; }
         public CustomServiceConnection ServiceConnection { get; set; }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            base.OnCreate(savedInstanceState);
+            base.OnCreate(bundle);
 
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            CrossCurrentActivity.Current.Init(this, savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, bundle);
+            CrossCurrentActivity.Current.Init(this, bundle);
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.FormsMaps.Init(this, bundle);
 
             ServiceConnection = new CustomServiceConnection { Activity = this };
 
