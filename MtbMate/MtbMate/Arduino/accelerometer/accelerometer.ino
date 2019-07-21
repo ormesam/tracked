@@ -25,6 +25,8 @@ void setup() {
     }
   }
 
+  accelerometer.changeFullScale(XL_FS_16G);
+
   // set LED pin to output mode
   pinMode(ledPin, OUTPUT);
 
@@ -69,7 +71,7 @@ void loop() {
           float x = accelerometer.getConvertedXAxis();
           float y = accelerometer.getConvertedXAxis();
           float z = accelerometer.getConvertedXAxis();
-      
+
           Serial.print("X = ");
           Serial.print(x, 2);
           Serial.print("g  Y = ");
