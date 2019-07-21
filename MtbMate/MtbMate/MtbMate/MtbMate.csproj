@@ -45,4 +45,8 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="cd $(ProjectDir)ApiKeys\&#xD;&#xA;&#xD;&#xA;if not exist ApiKeysLocal.cs (&#xD;&#xA;    type nul &gt; ApiKeysLocal.cs&#xD;&#xA;)" />
+  </Target>
 </Project>
