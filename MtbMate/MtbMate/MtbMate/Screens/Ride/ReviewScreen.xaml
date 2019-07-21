@@ -10,7 +10,16 @@
             <maps:Map
                 x:Name="Map"
                 HeightRequest="200"
-                MapType="Hybrid" />
+                MapType="Hybrid"
+                ItemsSource="{Binding Locations}">
+                <maps:Map.ItemTemplate>
+                    <DataTemplate>
+                        <maps:Pin
+                            Position="{Binding Position}"
+                            Label="{Binding Label}" />
+                    </DataTemplate>
+                </maps:Map.ItemTemplate>
+            </maps:Map>
             <Label
                 Margin="15"
                 HorizontalOptions="Center"

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Models;
+using MtbMate.Utilities;
 using Xamarin.Essentials;
+using Xamarin.Forms.Maps;
 
 namespace MtbMate.Screens.Ride
 {
@@ -38,6 +41,18 @@ namespace MtbMate.Screens.Ride
         public string Time => (Ride.End.Value - Ride.Start.Value).ToString(@"mm\:ss");
 
         public int JumpCount => Ride.Jumps.Count;
+
+        public ObservableCollection<Pin> Locations {
+            get {
+                return Ride.Locations
+                    .Select(i => new Pin
+                    {
+                        Position = new Position(i.Latitude, i.Longitude),
+                        Label = i.Mph + "mph",
+                    })
+                    .ToObservable();
+            }
+        }
 
         public async Task Export()
         {
