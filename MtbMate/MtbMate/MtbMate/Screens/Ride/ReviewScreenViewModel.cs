@@ -59,7 +59,7 @@ namespace MtbMate.Screens.Ride
             await Share.RequestAsync(new ShareFileRequest
             {
                 File = ride.GetReadingsFile(),
-                Title = "Data Readings",
+                Title = ride.Name ?? "Data Readings",
             });
         }
 
