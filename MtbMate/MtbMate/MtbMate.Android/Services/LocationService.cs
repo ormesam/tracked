@@ -34,8 +34,8 @@ namespace MtbMate.Droid.Services
             locationCallback = new LocationCallbackImpl { Service = this };
 
             locationRequest = new LocationRequest();
-            locationRequest.SetInterval(3000);
-            locationRequest.SetFastestInterval(2000);
+            locationRequest.SetInterval(2000);
+            locationRequest.SetFastestInterval(1000);
             locationRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
 
             GetLastLocation();
