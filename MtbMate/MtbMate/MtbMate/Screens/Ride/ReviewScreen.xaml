@@ -10,7 +10,7 @@
             <controls:CustomMap
                 x:Name="Map"
                 HeightRequest="200"
-                MapType="Hybrid" />
+                MapType="Street" />
             <Label
                 Margin="15"
                 HorizontalOptions="Center"
