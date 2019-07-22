@@ -2,24 +2,15 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:controls="clr-namespace:MtbMate.Controls"
     x:Class="MtbMate.Screens.Ride.ReviewScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
-            <maps:Map
+            <controls:CustomMap
                 x:Name="Map"
                 HeightRequest="200"
-                MapType="Hybrid"
-                ItemsSource="{Binding Locations}">
-                <maps:Map.ItemTemplate>
-                    <DataTemplate>
-                        <maps:Pin
-                            Position="{Binding Position}"
-                            Label="{Binding Label}" />
-                    </DataTemplate>
-                </maps:Map.ItemTemplate>
-            </maps:Map>
+                MapType="Hybrid" />
             <Label
                 Margin="15"
                 HorizontalOptions="Center"

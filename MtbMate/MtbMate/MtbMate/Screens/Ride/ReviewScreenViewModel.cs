@@ -42,14 +42,11 @@ namespace MtbMate.Screens.Ride
 
         public int JumpCount => Ride.Jumps.Count;
 
-        public ObservableCollection<Pin> Locations {
+        public ObservableCollection<Position> Locations {
             get {
                 return Ride.Locations
-                    .Select(i => new Pin
-                    {
-                        Position = new Position(i.Latitude, i.Longitude),
-                        Label = i.Mph + "mph",
-                    })
+                    .OrderBy(i => i.Timestamp)
+                    .Select(i => new Position(i.Latitude, i.Longitude))
                     .ToObservable();
             }
         }

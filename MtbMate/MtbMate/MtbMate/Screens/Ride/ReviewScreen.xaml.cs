@@ -2,7 +2,6 @@
 using System.Linq;
 using MtbMate.Contexts;
 using MtbMate.Models;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -16,6 +15,8 @@ namespace MtbMate.Screens.Ride
         {
             InitializeComponent();
             BindingContext = new ReviewScreenViewModel(context, ride);
+
+            Map.RouteCoordinates = ViewModel.Locations;
         }
 
         protected override void OnAppearing()
@@ -26,7 +27,7 @@ namespace MtbMate.Screens.Ride
 
             var pin = new Position(firstLocation.Latitude, firstLocation.Longitude);
 
-            Map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.5)));
+            Map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));
         }
 
         public ReviewScreenViewModel ViewModel => BindingContext as ReviewScreenViewModel;
