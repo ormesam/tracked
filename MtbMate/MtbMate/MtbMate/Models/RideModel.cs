@@ -56,7 +56,7 @@ namespace MtbMate.Models
             AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
 
-            CheckForJumpsAndDrops();
+            // CheckForJumpsAndDrops();
         }
 
         private void AccelerometerUtility_AccelerometerChanged(Accelerometer.AccelerometerChangedEventArgs e)

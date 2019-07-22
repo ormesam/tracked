@@ -159,7 +159,13 @@ namespace MtbMate.Accelerometer
                 return;
             }
 
-            await characteristic.StopUpdatesAsync();
+            try
+            {
+                await characteristic.StopUpdatesAsync();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public async Task Reset()
