@@ -2,9 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     x:Class="MtbMate.Screens.Ride.RideScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
@@ -17,6 +15,12 @@
                     Text="{Binding ReadyText}" />
                 <StackLayout
                     IsVisible="{Binding IsReady}">
+                    <maps:Map
+                        x:Name="Map"
+                        HeightRequest="200"
+                        MapType="Hybrid"
+                        IsShowingUser="True">
+                    </maps:Map>
                     <Label
                         Text="{Binding Mph}"
                         FontSize="Large"
