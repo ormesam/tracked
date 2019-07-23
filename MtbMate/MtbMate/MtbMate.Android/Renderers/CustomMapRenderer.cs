@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.Content;
 using Android.Gms.Maps.Model;
+using Android.Graphics;
 using MtbMate.Controls;
 using MtbMate.Droid.Renderers;
 using MtbMate.Models;
@@ -15,7 +16,7 @@ namespace MtbMate.Droid.Renderers
 {
     public class CustomMapRenderer : MapRenderer
     {
-        private IList<LocationModel> routeCoordinates;
+        private IList<LocationSegmentModel> routeCoordinates;
 
         public CustomMapRenderer(Context context) : base(context)
         {
@@ -47,45 +48,51 @@ namespace MtbMate.Droid.Renderers
                 return;
             }
 
-            var averageSpeed = routeCoordinates.Average(i => i.MetresPerSecond);
+            var averageSpeed = routeCoordinates.Average(i => i.Mph);
 
             IList<LatLng> latLng = new List<LatLng>();
-            var lastColour = GetColour(routeCoordinates.First().MetresPerSecond, averageSpeed);
+            var lastColour = Android.Graphics.Color.Black;
+            bool firstRun = true;
 
-            foreach (var position in routeCoordinates)
+            foreach (var segment in routeCoordinates)
             {
-                var thisColour = GetColour(position.MetresPerSecond, averageSpeed);
+                var thisColour = GetColour(segment.Mph, averageSpeed);
 
-                if (thisColour != lastColour)
+                if (firstRun || thisColour != lastColour)
                 {
-                    PolylineOptions clone = new PolylineOptions();
-                    clone.Add(latLng.ToArray());
-                    clone.InvokeColor(lastColour);
-                    clone.Geodesic(true);
+                    if (!firstRun)
+                    {
+                        AddLine(latLng.ToArray(), lastColour);
+                    }
 
-                    NativeMap.AddPolyline(clone);
+                    firstRun = false;
 
                     lastColour = thisColour;
 
-                    var last = latLng.LastOrDefault();
-
                     latLng.Clear();
 
-                    if (last != null)
-                    {
-                        // need to add the last position to get a complete line
-                        latLng.Add(last);
-                    }
+                    latLng.Add(GetLatLon(segment.Start));
                 }
 
-                latLng.Add(new LatLng(position.Latitude, position.Longitude));
+                latLng.Add(GetLatLon(segment.End));
             }
 
+            AddLine(latLng.ToArray(), lastColour);
+        }
+
+        private void AddLine(LatLng[] latLng, Android.Graphics.Color olour)
+        {
             PolylineOptions options = new PolylineOptions();
             options.Add(latLng.ToArray());
-            options.InvokeColor(lastColour);
+            options.InvokeColor(olour);
             options.Geodesic(true);
+
             NativeMap.AddPolyline(options);
+        }
+
+        private LatLng GetLatLon(LocationModel location)
+        {
+            return new LatLng(location.Latitude, location.Longitude);
         }
 
         private Android.Graphics.Color GetColour(double mps, double averageSpeed)

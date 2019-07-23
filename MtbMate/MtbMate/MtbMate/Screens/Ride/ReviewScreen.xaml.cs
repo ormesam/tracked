@@ -23,9 +23,9 @@ namespace MtbMate.Screens.Ride
         {
             base.OnAppearing();
 
-            var firstLocation = ViewModel.Ride.Locations.FirstOrDefault();
+            var firstLocation = ViewModel.Ride.LocationSegments.FirstOrDefault();
 
-            var pin = new Position(firstLocation.Latitude, firstLocation.Longitude);
+            var pin = new Position(firstLocation.Start.Latitude, firstLocation.Start.Longitude);
 
             Map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));
         }

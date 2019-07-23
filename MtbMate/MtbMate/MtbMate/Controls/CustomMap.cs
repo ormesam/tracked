@@ -6,11 +6,11 @@ namespace MtbMate.Controls
 {
     public class CustomMap : Map
     {
-        public IList<LocationModel> RouteCoordinates { get; set; }
+        public IList<LocationSegmentModel> RouteCoordinates { get; set; }
 
         public CustomMap()
         {
-            RouteCoordinates = new List<LocationModel>();
+            RouteCoordinates = new List<LocationSegmentModel>();
         }
     }
 }

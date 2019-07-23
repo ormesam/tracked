@@ -7,6 +7,6 @@ namespace MtbMate.Utilities
 
     public class LocationChangedEventArgs
     {
-        public LocationModel Location { get; set; }
+        public LocationSegmentModel Location { get; set; }
     }
 }

@@ -13,7 +13,6 @@ namespace MtbMate.Screens.Ride
         private readonly RideModel ride;
         private bool isRunning;
         private bool hasRan;
-        private double mph;
         private AccelerometerStatus accelerometerStatus;
 
         public RideScreenViewModel(MainContext context) : base(context)
@@ -22,20 +21,13 @@ namespace MtbMate.Screens.Ride
             accelerometerStatus = BleAccelerometerUtility.Instance.Status;
             isRunning = false;
             hasRan = false;
-            mph = 0;
 
-            GeoUtility.Instance.SpeedChanged += GeoUtility_SpeedChanged;
             BleAccelerometerUtility.Instance.StatusChanged += BleAccelerometerUtility_StatusChanged;
         }
 
         private void BleAccelerometerUtility_StatusChanged(AccelerometerStatusChangedEventArgs e)
         {
             AccelerometerStatus = e.NewStatus;
-        }
-
-        private void GeoUtility_SpeedChanged(SpeedChangedEventArgs e)
-        {
-            Mph = Math.Round(e.MetresPerSecond * 2.237, 1);
         }
 
         public AccelerometerStatus AccelerometerStatus {
@@ -88,17 +80,6 @@ namespace MtbMate.Screens.Ride
                     hasRan = value;
                     OnPropertyChanged(nameof(HasRan));
                     OnPropertyChanged(nameof(CanSeeStartButton));
-                }
-            }
-        }
-
-        public double Mph {
-            get { return mph; }
-            set {
-                if (mph != value)
-                {
-                    mph = value;
-                    OnPropertyChanged(nameof(Mph));
                 }
             }
         }

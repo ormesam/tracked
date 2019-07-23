@@ -21,10 +21,6 @@
                         MapType="Street"
                         IsShowingUser="True">
                     </maps:Map>
-                    <Label
-                        Text="{Binding Mph}"
-                        FontSize="Large"
-                        HorizontalTextAlignment="Center" />
                     <Button
                         Text="Start"
                         Clicked="Start_Clicked"
