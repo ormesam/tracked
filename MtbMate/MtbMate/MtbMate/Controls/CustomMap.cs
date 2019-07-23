@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using MtbMate.Models;
 using Xamarin.Forms.Maps;
 
 namespace MtbMate.Controls
 {
     public class CustomMap : Map
     {
-        public IList<Position> RouteCoordinates { get; set; }
+        public IList<LocationModel> RouteCoordinates { get; set; }
 
         public CustomMap()
         {
-            RouteCoordinates = new List<Position>();
+            RouteCoordinates = new List<LocationModel>();
         }
     }
 }

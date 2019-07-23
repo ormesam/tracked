@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Models;
-using MtbMate.Utilities;
 using Xamarin.Essentials;
-using Xamarin.Forms.Maps;
 
 namespace MtbMate.Screens.Ride
 {
@@ -42,14 +40,7 @@ namespace MtbMate.Screens.Ride
 
         public int JumpCount => Ride.Jumps.Count;
 
-        public ObservableCollection<Position> Locations {
-            get {
-                return Ride.Locations
-                    .OrderBy(i => i.Timestamp)
-                    .Select(i => new Position(i.Latitude, i.Longitude))
-                    .ToObservable();
-            }
-        }
+        public IList<LocationModel> Locations => Ride.Locations;
 
         public async Task Export()
         {
