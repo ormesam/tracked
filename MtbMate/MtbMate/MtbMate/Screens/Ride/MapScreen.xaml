@@ -8,8 +8,7 @@
     <ContentPage.Content>
         <Grid>
             <controls:CustomMap
-                x:Name="Map"
-                MapType="Street" />
+                x:Name="Map" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

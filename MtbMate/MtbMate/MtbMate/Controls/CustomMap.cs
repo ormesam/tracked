@@ -11,6 +11,7 @@ namespace MtbMate.Controls
         public CustomMap()
         {
             RouteCoordinates = new List<LocationSegmentModel>();
+            MapType = MapType.Street;
         }
     }
 }

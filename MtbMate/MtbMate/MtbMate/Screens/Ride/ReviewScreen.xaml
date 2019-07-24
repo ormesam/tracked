@@ -11,8 +11,9 @@
                 <controls:CustomMap
                     x:Name="Map"
                     HeightRequest="200"
-                    MapType="Street"
-                    MapClicked="Map_MapClicked"/>
+                    MapClicked="Map_MapClicked"
+                    HasScrollEnabled="False"
+                    HasZoomEnabled="False" />
                 <Label
                     Margin="15"
                     HorizontalOptions="Center"
