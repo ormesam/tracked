@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Android.App;
+using MtbMate;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -38,3 +39,11 @@ using Android.App;
 [assembly: UsesFeature("android.hardware.location", Required = false)]
 [assembly: UsesFeature("android.hardware.location.gps", Required = false)]
 [assembly: UsesFeature("android.hardware.location.network", Required = false)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessLocationExtraCommands)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessMockLocation)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessNetworkState)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessWifiState)]
+[assembly: UsesPermission(Android.Manifest.Permission.Internet)]
+
+[assembly: MetaData("com.google.android.maps.v2.API_KEY", Value = ApiKeysLocal.GoogleMapsApiKey)]
+[assembly: UsesLibrary("org.apache.http.legacy", false)]

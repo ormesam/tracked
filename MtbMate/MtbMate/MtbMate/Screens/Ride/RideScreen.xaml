@@ -2,51 +2,61 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     x:Class="MtbMate.Screens.Ride.RideScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <ScrollView>
-            <Grid>
-                <Label
-                    IsVisible="{Binding IsReady, Converter={StaticResource InvertBoolConverter}}"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    Text="{Binding ReadyText}" />
-                <StackLayout
-                    IsVisible="{Binding IsReady}">
-                    <Label
-                        Text="{Binding Mph}"
-                        FontSize="Large"
-                        HorizontalTextAlignment="Center" />
-                    <Button
-                        Text="Start"
-                        Clicked="Start_Clicked"
-                        IsVisible="{Binding CanSeeStartButton}"
-                        BackgroundColor="Green"
-                        TextColor="White" />
-                    <Button
-                        Text="Stop"
-                        Clicked="Stop_Clicked"
-                        IsVisible="{Binding IsRunning}"
-                        BackgroundColor="Orange"
-                        TextColor="White" />
-                    <Button
-                        Text="Export"
-                        Clicked="Export_Clicked"
-                        IsVisible="{Binding HasRan}"
-                        BackgroundColor="Blue"
-                        TextColor="White" />
-                    <Button
-                        Text="Save"
-                        Clicked="Save_Clicked"
-                        IsVisible="{Binding HasRan}"
-                        BackgroundColor="Blue"
-                        TextColor="White" />
-                </StackLayout>
-            </Grid>
-        </ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="*" />
+                <RowDefinition
+                    Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <Label
+                Grid.RowSpan="2"
+                IsVisible="{Binding IsReady, Converter={StaticResource InvertBoolConverter}}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Text="{Binding ReadyText}" />
+            
+            <maps:Map
+                x:Name="Map"
+                HeightRequest="200"
+                IsShowingUser="True"
+                HasScrollEnabled="False"
+                HasZoomEnabled="False"
+                IsVisible="{Binding IsReady}" />
+
+            <StackLayout
+                Grid.Row="1"
+                IsVisible="{Binding IsReady}">
+                <Button
+                    Text="Start"
+                    Clicked="Start_Clicked"
+                    IsVisible="{Binding CanSeeStartButton}"
+                    BackgroundColor="Green"
+                    TextColor="White" />
+                <Button
+                    Text="Stop"
+                    Clicked="Stop_Clicked"
+                    IsVisible="{Binding IsRunning}"
+                    BackgroundColor="Orange"
+                    TextColor="White" />
+                <Button
+                    Text="Export"
+                    Clicked="Export_Clicked"
+                    IsVisible="{Binding HasRan}"
+                    BackgroundColor="Blue"
+                    TextColor="White" />
+                <Button
+                    Text="Save"
+                    Clicked="Save_Clicked"
+                    IsVisible="{Binding HasRan}"
+                    BackgroundColor="Blue"
+                    TextColor="White" />
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -17,7 +17,7 @@ namespace MtbMate.Models
         public string Name { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
-        public IList<LocationModel> Locations { get; set; }
+        public IList<LocationSegmentModel> LocationSegments { get; set; }
         public IList<JumpModel> Jumps { get; set; }
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
@@ -27,7 +27,7 @@ namespace MtbMate.Models
 
         public RideModel()
         {
-            Locations = new List<LocationModel>();
+            LocationSegments = new List<LocationSegmentModel>();
             Jumps = new List<JumpModel>();
             AccelerometerReadings = new List<AccelerometerReadingModel>();
         }
@@ -56,7 +56,12 @@ namespace MtbMate.Models
             AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
 
-            CheckForJumpsAndDrops();
+            foreach (var segment in LocationSegments)
+            {
+                segment.CalculateValues();
+            }
+
+            // CheckForJumpsAndDrops();
         }
 
         private void AccelerometerUtility_AccelerometerChanged(Accelerometer.AccelerometerChangedEventArgs e)
@@ -67,7 +72,7 @@ namespace MtbMate.Models
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e)
         {
-            Locations.Add(e.Location);
+            LocationSegments.Add(e.Location);
             Debug.WriteLine(e.Location);
         }
 
@@ -150,13 +155,6 @@ namespace MtbMate.Models
             }
 
             sb.AppendLine();
-
-            sb.AppendLine("TimeStamp,Lat,Lon,Mph");
-
-            foreach (var location in Locations)
-            {
-                sb.AppendLine($"{location.Timestamp},{location.Latitude},{location.Longitude},{location.Mph}");
-            }
 
             string fileName = "Ride Data.txt";
             string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);

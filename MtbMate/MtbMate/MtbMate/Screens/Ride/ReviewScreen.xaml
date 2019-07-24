@@ -2,127 +2,174 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:controls="clr-namespace:MtbMate.Controls"
     x:Class="MtbMate.Screens.Ride.ReviewScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label
-                Margin="15"
-                HorizontalOptions="Center"
-                Text="{Binding DisplayName}"
-                FontSize="Large">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Tapped="Name_Tapped" />
-                </Label.GestureRecognizers>
-            </Label>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="Auto" />
-                </Grid.RowDefinitions>
+        <ScrollView>
+            <StackLayout>
+                <controls:CustomMap
+                    x:Name="Map"
+                    HeightRequest="200"
+                    MapClicked="Map_MapClicked"
+                    HasScrollEnabled="False"
+                    HasZoomEnabled="False" />
+                <Label
+                    Margin="15"
+                    HorizontalOptions="Center"
+                    Text="{Binding DisplayName}"
+                    FontSize="Large">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="Name_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="*" />
-                    <ColumnDefinition
-                        Width="Auto" />
-                    <ColumnDefinition
-                        Width="*" />
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="*" />
+                        <ColumnDefinition
+                            Width="Auto" />
+                        <ColumnDefinition
+                            Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <StackLayout>
-                    <Label
-                        HorizontalTextAlignment="Center"
-                        Text="Time" />
-                    <Label
-                        FontSize="Large"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding Time}" />
-                </StackLayout>
+                    <StackLayout>
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Time" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Time}" />
+                    </StackLayout>
 
-                <BoxView
-                    Grid.Column="1"
-                    WidthRequest="1"
-                    BackgroundColor="LightGray" />
+                    <BoxView
+                        Grid.Column="1"
+                        WidthRequest="1"
+                        BackgroundColor="LightGray" />
 
-                <StackLayout
-                    Grid.Column="2">
-                    <Label
-                        HorizontalTextAlignment="Center"
-                        Text="Distance" />
-                    <Label
-                        FontSize="Large"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding Distance}" />
-                </StackLayout>
+                    <StackLayout
+                        Grid.Column="2">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Distance" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Distance}" />
+                    </StackLayout>
 
-                <BoxView
-                    Grid.Row="1"
-                    Grid.ColumnSpan="3"
-                    HeightRequest="1"
-                    Margin="10"
-                    BackgroundColor="LightGray" />
+                    <BoxView
+                        Grid.Row="1"
+                        Grid.ColumnSpan="3"
+                        HeightRequest="1"
+                        Margin="10"
+                        BackgroundColor="LightGray" />
 
-                <StackLayout
-                    Grid.Column="0"
-                    Grid.Row="2">
-                    <Label
-                        HorizontalTextAlignment="Center"
-                        Text="Avg. Speed" />
-                    <Label
-                        FontSize="Large"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding AverageSpeed}" />
-                </StackLayout>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="2">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Avg. Speed" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding AverageSpeed}" />
+                    </StackLayout>
 
-                <BoxView
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    WidthRequest="1"
-                    BackgroundColor="LightGray" />
+                    <BoxView
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        WidthRequest="1"
+                        BackgroundColor="LightGray" />
 
-                <StackLayout
-                    Grid.Column="2"
-                    Grid.Row="2">
-                    <Label
-                        HorizontalTextAlignment="Center"
-                        Text="No. of Jumps" />
-                    <Label
-                        FontSize="Large"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding JumpCount}" />
-                </StackLayout>
+                    <StackLayout
+                        Grid.Column="2"
+                        Grid.Row="2">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Max Speed" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding MaxSpeed}" />
+                    </StackLayout>
 
-                <BoxView
-                    Grid.Row="3"
-                    Grid.ColumnSpan="3"
-                    HeightRequest="1"
-                    Margin="10"
-                    BackgroundColor="LightGray" />
-            </Grid>
-            <Label
-                Text="Options"
-                FontSize="Large" />
-            <Button
-                Text="Export"
-                BackgroundColor="Blue"
-                TextColor="White"
-                Clicked="Export_Clicked" />
-            <Button
-                Text="Delete"
-                BackgroundColor="Red"
-                TextColor="White"
-                Clicked="Delete_Clicked" />
-        </StackLayout>
+                    <BoxView
+                        Grid.Row="3"
+                        Grid.ColumnSpan="3"
+                        HeightRequest="1"
+                        Margin="10"
+                        BackgroundColor="LightGray" />
+
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="4">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="No. of Jumps" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding JumpCount}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        WidthRequest="1"
+                        BackgroundColor="LightGray" />
+
+                    <StackLayout
+                        Grid.Column="2"
+                        Grid.Row="4">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Max G Force" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding MaxGForce}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Row="5"
+                        Grid.ColumnSpan="3"
+                        HeightRequest="1"
+                        Margin="10"
+                        BackgroundColor="LightGray" />
+                </Grid>
+                <Label
+                    Text="Options"
+                    FontSize="Large" />
+                <Button
+                    Text="Export"
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    Clicked="Export_Clicked" />
+                <Button
+                    Text="Delete"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    Clicked="Delete_Clicked" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

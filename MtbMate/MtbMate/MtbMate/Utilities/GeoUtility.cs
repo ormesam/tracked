@@ -27,7 +27,7 @@ namespace MtbMate.Utilities
 
         #endregion
 
-        public event SpeedChangedEventHandler SpeedChanged;
+        private LocationModel lastLocation;
         public event LocationChangedEventHandler LocationChanged;
 
         private GeoUtility()
@@ -46,21 +46,27 @@ namespace MtbMate.Utilities
 
         public void UpdateLocation(double latitude, double longitude, float speed)
         {
-            SpeedChanged?.Invoke(new SpeedChangedEventArgs
-            {
-                MetresPerSecond = speed,
-            });
 
-            LocationChanged?.Invoke(new LocationChangedEventArgs
+            LocationModel newLocation = new LocationModel
             {
-                Location = new LocationModel
+                Timestamp = DateTime.UtcNow,
+                Latitude = latitude,
+                Longitude = longitude,
+            };
+
+            if (lastLocation != null)
+            {
+                LocationChanged?.Invoke(new LocationChangedEventArgs
                 {
-                    Timestamp = DateTime.UtcNow,
-                    Latitude = latitude,
-                    Longitude = longitude,
-                    MetresPerSecond = speed,
-                }
-            });
+                    Location = new LocationSegmentModel
+                    {
+                        Start = lastLocation,
+                        End = newLocation,
+                    },
+                });
+            }
+
+            lastLocation = newLocation;
         }
     }
 }
