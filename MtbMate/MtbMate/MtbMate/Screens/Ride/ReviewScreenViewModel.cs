@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Models;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace MtbMate.Screens.Ride
 {
@@ -60,6 +61,11 @@ namespace MtbMate.Screens.Ride
 
                 await Context.Model.SaveRide(Ride);
             });
+        }
+
+        public async Task GoToMapScreen(INavigation nav)
+        {
+            await Context.UI.GoToMapScreen(nav, Ride);
         }
     }
 }

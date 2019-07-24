@@ -48,5 +48,10 @@ namespace MtbMate.Screens.Ride
         {
             ViewModel.ChangeName();
         }
+
+        private async void Map_MapClicked(object sender, MapClickedEventArgs e)
+        {
+            await ViewModel.GoToMapScreen(Navigation);
+        }
     }
 }
