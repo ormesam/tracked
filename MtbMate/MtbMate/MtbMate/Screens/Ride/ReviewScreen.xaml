@@ -5,6 +5,12 @@
     xmlns:controls="clr-namespace:MtbMate.Controls"
     x:Class="MtbMate.Screens.Ride.ReviewScreen"
     Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Delete"
+            Clicked="Delete_Clicked"
+            Order="Secondary" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
@@ -72,7 +78,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding Distance}" />
+                            Text="{Binding Distance, StringFormat='{}{0:F1} mi'}" />
                     </StackLayout>
 
                     <BoxView
@@ -91,7 +97,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding AverageSpeed}" />
+                            Text="{Binding AverageSpeed, StringFormat='{}{0:F1} mi/h'}" />
                     </StackLayout>
 
                     <BoxView
@@ -109,7 +115,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding MaxSpeed}" />
+                            Text="{Binding MaxSpeed, StringFormat='{}{0:F1} mi/h'}" />
                     </StackLayout>
 
                     <BoxView
@@ -164,11 +170,6 @@
                     BackgroundColor="Blue"
                     TextColor="White"
                     Clicked="Export_Clicked" />
-                <Button
-                    Text="Delete"
-                    BackgroundColor="Red"
-                    TextColor="White"
-                    Clicked="Delete_Clicked" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

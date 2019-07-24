@@ -22,11 +22,38 @@ namespace MtbMate.Screens.Ride
 
         public string DisplayName => Ride.DisplayName;
 
-        public string AverageSpeed => Math.Round(Ride.LocationSegments.Average(i => i.Mph), 1) + " mi/h";
+        public double AverageSpeed {
+            get {
+                if (!Ride.LocationSegments.Any())
+                {
+                    return 0;
+                }
 
-        public string MaxSpeed => Math.Round(Ride.LocationSegments.Max(i => i.Mph)) + " mi/h";
+                return Math.Round(Ride.LocationSegments.Average(i => i.Mph), 1);
+            }
+        }
 
-        public string Distance => Ride.LocationSegments.Sum(i => i.Distance) + " mi";
+        public double MaxSpeed {
+            get {
+                if (!Ride.LocationSegments.Any())
+                {
+                    return 0;
+                }
+
+                return Math.Round(Ride.LocationSegments.Max(i => i.Mph), 1);
+            }
+        }
+
+        public double Distance {
+            get {
+                if (!Ride.LocationSegments.Any())
+                {
+                    return 0;
+                }
+
+                return Math.Round(Ride.LocationSegments.Sum(i => i.Distance), 1);
+            }
+        }
 
         public string Time => (Ride.End.Value - Ride.Start.Value).ToString(@"mm\:ss");
 
