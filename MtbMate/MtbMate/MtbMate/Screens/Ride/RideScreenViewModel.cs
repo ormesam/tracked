@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Accelerometer;
 using MtbMate.Contexts;
 using MtbMate.Models;
 using MtbMate.Utilities;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace MtbMate.Screens.Ride
 {
@@ -93,11 +95,13 @@ namespace MtbMate.Screens.Ride
             await ride.StartRide();
         }
 
-        public async Task Stop()
+        public async Task Stop(INavigation nav)
         {
             await ride.StopRide();
-            HasRan = true;
-            IsRunning = false;
+
+            await Context.Model.SaveRide(ride);
+
+            await nav.PopToRootAsync();
         }
 
         public async Task Save()

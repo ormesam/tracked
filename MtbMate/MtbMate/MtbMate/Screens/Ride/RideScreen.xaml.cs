@@ -33,32 +33,18 @@ namespace MtbMate.Screens.Ride
                     Map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.5)));
                 });
             });
-
-
         }
 
         public RideScreenViewModel ViewModel => BindingContext as RideScreenViewModel;
 
-        private async void Start_Clicked(object sender, System.EventArgs e)
+        private async void Start_Clicked(object sender, EventArgs e)
         {
             await ViewModel.Start();
         }
 
-        private async void Stop_Clicked(object sender, System.EventArgs e)
+        private async void Stop_Clicked(object sender, EventArgs e)
         {
-            await ViewModel.Stop();
-        }
-
-        private async void Export_Clicked(object sender, System.EventArgs e)
-        {
-            await ViewModel.Export();
-        }
-
-        private async void Save_Clicked(object sender, System.EventArgs e)
-        {
-            await ViewModel.Save();
-
-            await Navigation.PopToRootAsync();
+            await ViewModel.Stop(Navigation);
         }
     }
 }

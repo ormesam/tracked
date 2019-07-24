@@ -44,18 +44,6 @@
                     IsVisible="{Binding IsRunning}"
                     BackgroundColor="Orange"
                     TextColor="White" />
-                <Button
-                    Text="Export"
-                    Clicked="Export_Clicked"
-                    IsVisible="{Binding HasRan}"
-                    BackgroundColor="Blue"
-                    TextColor="White" />
-                <Button
-                    Text="Save"
-                    Clicked="Save_Clicked"
-                    IsVisible="{Binding HasRan}"
-                    BackgroundColor="Blue"
-                    TextColor="White" />
             </StackLayout>
         </Grid>
     </ContentPage.Content>
