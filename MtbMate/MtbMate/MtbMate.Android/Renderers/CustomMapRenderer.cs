@@ -49,6 +49,7 @@ namespace MtbMate.Droid.Renderers
             }
 
             var averageSpeed = routeCoordinates.Average(i => i.Mph);
+            var maxSpeed = routeCoordinates.Max(i => i.Mph);
 
             IList<LatLng> latLng = new List<LatLng>();
             var lastColour = Android.Graphics.Color.Black;
@@ -75,9 +76,24 @@ namespace MtbMate.Droid.Renderers
                 }
 
                 latLng.Add(GetLatLon(segment.End));
+
+                if (segment.Mph == maxSpeed)
+                {
+                    AddMaxSpeedPin(segment);
+                }
             }
 
             AddLine(latLng.ToArray(), lastColour);
+        }
+
+        private void AddMaxSpeedPin(LocationSegmentModel segment)
+        {
+            MarkerOptions marker = new MarkerOptions();
+            marker.SetPosition(GetLatLon(segment.End));
+            marker.SetTitle(Math.Round(segment.Mph, 1) + " mi/h");
+            marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.speed_icon));
+
+            NativeMap.AddMarker(marker);
         }
 
         private void AddLine(LatLng[] latLng, Android.Graphics.Color olour)
