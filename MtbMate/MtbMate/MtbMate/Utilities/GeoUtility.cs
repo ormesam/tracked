@@ -42,6 +42,8 @@ namespace MtbMate.Utilities
         public void Stop()
         {
             DependencyService.Get<INativeGeoUtility>().Stop();
+
+            lastLocation = null;
         }
 
         public void UpdateLocation(double latitude, double longitude, float speed)
