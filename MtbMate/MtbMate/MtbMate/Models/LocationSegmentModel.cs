@@ -9,7 +9,7 @@ namespace MtbMate.Models
         public double Distance { get; set; }
         public double Mph { get; set; }
 
-        public double CalculateValues()
+        public void CalculateValues()
         {
             GeoCoordinate pin1 = new GeoCoordinate(Start.Latitude, Start.Longitude);
             GeoCoordinate pin2 = new GeoCoordinate(End.Latitude, End.Longitude);
@@ -20,8 +20,7 @@ namespace MtbMate.Models
             var speed = miles / (End.Timestamp - Start.Timestamp).TotalHours;
 
             Mph = speed;
-
-            return miles;
+            Distance = miles;
         }
     }
 }

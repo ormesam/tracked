@@ -60,5 +60,10 @@ namespace MtbMate.Screens.Ride
         {
             await ViewModel.GoToMapScreen(Navigation);
         }
+
+        private async void ExportLocation_Clicked(object sender, EventArgs e)
+        {
+            await ViewModel.ExportLocation();
+        }
     }
 }

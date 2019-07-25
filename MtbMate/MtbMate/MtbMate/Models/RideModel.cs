@@ -162,5 +162,27 @@ namespace MtbMate.Models
 
             return new ShareFile(filePath);
         }
+
+        public ShareFile GetLocationFile()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("TimeStamp,Lat,Lon,Timestamp,Lat,Lon,Distance,Speed");
+
+            foreach (var segment in LocationSegments)
+            {
+                sb.AppendLine($"{segment.Start.Timestamp},{segment.Start.Latitude},{segment.Start.Longitude}" +
+                    $",{segment.End.Timestamp},{segment.End.Latitude},{segment.End.Longitude}" +
+                    $",{segment.Distance},{segment.Mph}");
+            }
+
+            sb.AppendLine();
+
+            string fileName = "Ride Data.txt";
+            string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+            File.WriteAllText(filePath, sb.ToString());
+
+            return new ShareFile(filePath);
+        }
     }
 }

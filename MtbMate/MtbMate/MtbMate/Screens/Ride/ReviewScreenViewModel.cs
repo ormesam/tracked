@@ -63,15 +63,6 @@ namespace MtbMate.Screens.Ride
 
         public IList<LocationSegmentModel> Locations => Ride.LocationSegments;
 
-        public async Task Export()
-        {
-            await Share.RequestAsync(new ShareFileRequest
-            {
-                File = Ride.GetReadingsFile(),
-                Title = Ride.Name ?? "Data Readings",
-            });
-        }
-
         public async Task Delete()
         {
             await Context.Model.RemoveRide(Ride);
@@ -93,6 +84,24 @@ namespace MtbMate.Screens.Ride
         public async Task GoToMapScreen(INavigation nav)
         {
             await Context.UI.GoToMapScreen(nav, Ride);
+        }
+
+        public async Task Export()
+        {
+            await Share.RequestAsync(new ShareFileRequest
+            {
+                File = Ride.GetReadingsFile(),
+                Title = Ride.Name ?? "Data Readings",
+            });
+        }
+
+        public async Task ExportLocation()
+        {
+            await Share.RequestAsync(new ShareFileRequest
+            {
+                File = Ride.GetLocationFile(),
+                Title = Ride.Name ?? "Data Readings",
+            });
         }
     }
 }

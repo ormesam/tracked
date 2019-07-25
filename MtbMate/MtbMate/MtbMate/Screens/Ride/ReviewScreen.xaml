@@ -166,10 +166,15 @@
                     Text="Options"
                     FontSize="Large" />
                 <Button
-                    Text="Export"
+                    Text="Export Jump Data"
                     BackgroundColor="Blue"
                     TextColor="White"
                     Clicked="Export_Clicked" />
+                <Button
+                    Text="Export Location"
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    Clicked="ExportLocation_Clicked" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
