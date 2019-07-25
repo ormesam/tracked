@@ -46,16 +46,8 @@ namespace MtbMate.Utilities
             lastLocation = null;
         }
 
-        public void UpdateLocation(double latitude, double longitude, float speed)
+        public void UpdateLocation(LocationModel newLocation)
         {
-
-            LocationModel newLocation = new LocationModel
-            {
-                Timestamp = DateTime.UtcNow,
-                Latitude = latitude,
-                Longitude = longitude,
-            };
-
             if (lastLocation != null)
             {
                 LocationChanged?.Invoke(new LocationChangedEventArgs

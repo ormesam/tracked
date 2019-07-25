@@ -1,9 +1,11 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content;
 using Android.Gms.Location;
 using Android.Locations;
 using Android.OS;
 using Android.Support.V4.App;
+using MtbMate.Models;
 using MtbMate.Utilities;
 
 namespace MtbMate.Droid.Services
@@ -101,11 +103,22 @@ namespace MtbMate.Droid.Services
             fusedLocationClient.LastLocation.AddOnCompleteListener(new GetLastLocationOnCompleteListener { Service = this });
         }
 
-        public void OnNewLocation(Location location)
+        public void OnNewLocation(Location l)
         {
-            this.Location = location;
+            this.Location = l;
 
-            GeoUtility.Instance.UpdateLocation(location.Latitude, location.Longitude, location.Speed);
+            LocationModel model = new LocationModel
+            {
+                Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(l.Time).DateTime,
+                Latitude = l.Latitude,
+                Longitude = l.Longitude,
+                AccuracyInMetres = l.Accuracy,
+                SpeedMetresPerSecond = l.Speed,
+                SpeedAccuracyMetresPerSecond = l.SpeedAccuracyMetersPerSecond,
+                Altitude = l.Altitude,
+            };
+
+            GeoUtility.Instance.UpdateLocation(model);
         }
 
         private class LocationCallbackImpl : LocationCallback
