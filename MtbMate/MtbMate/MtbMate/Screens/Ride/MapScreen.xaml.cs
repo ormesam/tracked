@@ -16,7 +16,7 @@ namespace MtbMate.Screens.Ride
             InitializeComponent();
             BindingContext = new MapScreenViewModel(context, ride);
 
-            Map.RouteCoordinates = ViewModel.Ride.LocationSegments;
+            Map.RouteCoordinates = ViewModel.Ride.GetLocationSegments();
         }
 
         public MapScreenViewModel ViewModel => BindingContext as MapScreenViewModel;
@@ -27,9 +27,9 @@ namespace MtbMate.Screens.Ride
 
             Task.Run(() =>
             {
-                var firstLocation = ViewModel.Ride.LocationSegments.FirstOrDefault();
+                var firstLocation = ViewModel.Ride.Locations.FirstOrDefault();
 
-                var pin = new Position(firstLocation.Start.Latitude, firstLocation.Start.Longitude);
+                var pin = new Position(firstLocation.Latitude, firstLocation.Longitude);
 
                 Device.BeginInvokeOnMainThread(() =>
                 {

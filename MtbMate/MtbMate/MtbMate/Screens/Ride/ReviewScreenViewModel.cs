@@ -24,34 +24,34 @@ namespace MtbMate.Screens.Ride
 
         public double AverageSpeed {
             get {
-                if (!Ride.LocationSegments.Any())
+                if (!Ride.Locations.Any())
                 {
                     return 0;
                 }
 
-                return Math.Round(Ride.LocationSegments.Average(i => i.Mph), 1);
+                return Math.Round(Ride.Locations.Average(i => i.Mph), 1);
             }
         }
 
         public double MaxSpeed {
             get {
-                if (!Ride.LocationSegments.Any())
+                if (!Ride.Locations.Any())
                 {
                     return 0;
                 }
 
-                return Math.Round(Ride.LocationSegments.Max(i => i.Mph), 1);
+                return Math.Round(Ride.Locations.Max(i => i.Mph), 1);
             }
         }
 
         public double Distance {
             get {
-                if (!Ride.LocationSegments.Any())
+                if (!Ride.Locations.Any())
                 {
                     return 0;
                 }
 
-                return Math.Round(Ride.LocationSegments.Sum(i => i.Distance), 1);
+                return Math.Round(Ride.GetLocationSegments().Sum(i => i.Distance), 1);
             }
         }
 
@@ -61,7 +61,7 @@ namespace MtbMate.Screens.Ride
 
         public string MaxGForce => 0 + "g"; // temp
 
-        public IList<LocationSegmentModel> Locations => Ride.LocationSegments;
+        public IList<LocationSegmentModel> Locations => Ride.GetLocationSegments();
 
         public async Task Delete()
         {

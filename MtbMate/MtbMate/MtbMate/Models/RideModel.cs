@@ -17,7 +17,7 @@ namespace MtbMate.Models
         public string Name { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
-        public IList<LocationSegmentModel> LocationSegments { get; set; }
+        public IList<LocationModel> Locations { get; set; }
         public IList<JumpModel> Jumps { get; set; }
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
@@ -27,7 +27,7 @@ namespace MtbMate.Models
 
         public RideModel()
         {
-            LocationSegments = new List<LocationSegmentModel>();
+            Locations = new List<LocationModel>();
             Jumps = new List<JumpModel>();
             AccelerometerReadings = new List<AccelerometerReadingModel>();
         }
@@ -55,13 +55,6 @@ namespace MtbMate.Models
 
             AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
-
-            foreach (var segment in LocationSegments)
-            {
-                segment.CalculateValues();
-            }
-
-            // CheckForJumpsAndDrops();
         }
 
         private void AccelerometerUtility_AccelerometerChanged(Accelerometer.AccelerometerChangedEventArgs e)
@@ -72,7 +65,7 @@ namespace MtbMate.Models
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e)
         {
-            LocationSegments.Add(e.Location);
+            Locations.Add(e.Location);
         }
 
         public ShareFile GetReadingsFile()
@@ -99,13 +92,13 @@ namespace MtbMate.Models
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("TimeStamp,Lat,Lon,Timestamp,Lat,Lon,Distance,Speed");
+            sb.AppendLine("TimeStamp,Lat,Lon,Position Accuracy,Mps,Mps Accuracy (m),Mph,Altitude");
 
-            foreach (var segment in LocationSegments)
+            foreach (var location in Locations)
             {
-                sb.AppendLine($"{segment.Start.Timestamp},{segment.Start.Latitude},{segment.Start.Longitude}" +
-                    $",{segment.End.Timestamp},{segment.End.Latitude},{segment.End.Longitude}" +
-                    $",{segment.Distance},{segment.Mph}");
+                sb.AppendLine($"{location.Timestamp},{location.Latitude},{location.Longitude},{location.AccuracyInMetres}," +
+                    $"{location.SpeedMetresPerSecond},{location.SpeedAccuracyMetresPerSecond},{location.Mph}," +
+                    $"{location.Altitude}");
             }
 
             sb.AppendLine();
@@ -115,6 +108,26 @@ namespace MtbMate.Models
             File.WriteAllText(filePath, sb.ToString());
 
             return new ShareFile(filePath);
+        }
+
+        public IList<LocationSegmentModel> GetLocationSegments()
+        {
+            var segments = new List<LocationSegmentModel>();
+
+            for (int i = 1; i < Locations.Count; i++)
+            {
+                var segment = new LocationSegmentModel
+                {
+                    Start = Locations[i - 1],
+                    End = Locations[i],
+                };
+
+                segment.CalculateValues();
+
+                segments.Add(segment);
+            }
+
+            return segments;
         }
     }
 }

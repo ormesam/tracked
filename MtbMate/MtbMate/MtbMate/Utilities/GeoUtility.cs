@@ -27,7 +27,6 @@ namespace MtbMate.Utilities
 
         #endregion
 
-        private LocationModel lastLocation;
         public event LocationChangedEventHandler LocationChanged;
 
         private GeoUtility()
@@ -42,25 +41,14 @@ namespace MtbMate.Utilities
         public void Stop()
         {
             DependencyService.Get<INativeGeoUtility>().Stop();
-
-            lastLocation = null;
         }
 
         public void UpdateLocation(LocationModel newLocation)
         {
-            if (lastLocation != null)
+            LocationChanged?.Invoke(new LocationChangedEventArgs
             {
-                LocationChanged?.Invoke(new LocationChangedEventArgs
-                {
-                    Location = new LocationSegmentModel
-                    {
-                        Start = lastLocation,
-                        End = newLocation,
-                    },
-                });
-            }
-
-            lastLocation = newLocation;
+                Location = newLocation,
+            });
         }
     }
 }
