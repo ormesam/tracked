@@ -28,5 +28,29 @@ namespace MtbMate.Contexts
         {
             await Storage.InvalidateObject<T>(id.ToString());
         }
+
+        public SettingsModel GetSettings()
+        {
+            var settings = Storage.GetAllObjects<SettingsModel>().Wait().SingleOrDefault();
+
+            if (settings == null)
+            {
+                settings = new SettingsModel();
+                SaveSettings(settings).Wait();
+            }
+
+            return settings;
+        }
+
+        public async Task SaveSettings(SettingsModel settings)
+        {
+            if (settings.Id == null)
+            {
+                settings.Id = Guid.NewGuid();
+                settings.ResetDefaults();
+            }
+
+            await SaveObject(settings.Id.Value, settings);
+        }
     }
 }
