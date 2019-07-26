@@ -38,11 +38,7 @@ namespace MtbMate.Accelerometer
             Xamarin.Essentials.Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
         }
 
-        public AccelerometerStatus Status {
-            get { return  AccelerometerStatus.Ready; }
-            set { } // Always ready if we are using the phone
-        }
-
+        public AccelerometerStatus Status => AccelerometerStatus.Ready;
 
         private void Accelerometer_ReadingChanged(object sender, Xamarin.Essentials.AccelerometerChangedEventArgs e)
         {

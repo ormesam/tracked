@@ -1,5 +1,4 @@
 ﻿using MtbMate.Models;
-using System;
 using Xamarin.Forms;
 
 namespace MtbMate.Utilities

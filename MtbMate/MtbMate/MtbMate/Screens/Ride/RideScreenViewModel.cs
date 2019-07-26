@@ -1,26 +1,33 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MtbMate.Accelerometer;
 using MtbMate.Contexts;
-using MtbMate.Models;
 using MtbMate.Utilities;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MtbMate.Screens.Ride
 {
     public class RideScreenViewModel : ViewModelBase
     {
-        private readonly RideModel ride;
+        private readonly RideController rideController;
         private bool isRunning;
         private bool hasRan;
         private AccelerometerStatus accelerometerStatus;
 
         public RideScreenViewModel(MainContext context) : base(context)
         {
-            ride = new RideModel();
-            accelerometerStatus = BleAccelerometerUtility.Instance.Status;
+            IAccelerometerUtility accelerometerUtility;
+
+            if (context.Settings.AccelerometerType == AccelerometerType.Phone)
+            {
+                accelerometerUtility = PhoneAccelerometerUtility.Instance;
+            }
+            else
+            {
+                accelerometerUtility = BleAccelerometerUtility.Instance;
+            }
+
+            rideController = new RideController(accelerometerUtility);
+            accelerometerStatus = accelerometerUtility.Status;
             isRunning = false;
             hasRan = false;
 
@@ -92,30 +99,21 @@ namespace MtbMate.Screens.Ride
         {
             IsRunning = true;
             HasRan = false;
-            await ride.StartRide();
+            await rideController.StartRide();
         }
 
         public async Task Stop(INavigation nav)
         {
-            await ride.StopRide();
+            await rideController.StopRide();
 
-            await Context.Model.SaveRide(ride);
+            await Context.Model.SaveRide(rideController.Ride);
 
             await nav.PopToRootAsync();
         }
 
         public async Task Save()
         {
-            await Context.Model.SaveRide(ride);
-        }
-
-        public async Task Export()
-        {
-            await Share.RequestAsync(new ShareFileRequest
-            {
-                File = ride.GetReadingsFile(),
-                Title = "Data Readings",
-            });
+            await Context.Model.SaveRide(rideController.Ride);
         }
     }
 }

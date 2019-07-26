@@ -58,6 +58,7 @@ namespace MtbMate.Accelerometer
                 if (status != value)
                 {
                     status = value;
+
                     StatusChanged?.Invoke(new AccelerometerStatusChangedEventArgs
                     {
                         NewStatus = value,

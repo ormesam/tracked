@@ -22,50 +22,11 @@ namespace MtbMate.Models
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
 
-        //public IAccelerometerUtility AccelerometerUtility => PhoneAccelerometerUtility.Instance;
-        public IAccelerometerUtility AccelerometerUtility => BleAccelerometerUtility.Instance;
-
         public RideModel()
         {
             Locations = new List<LocationModel>();
             Jumps = new List<JumpModel>();
             AccelerometerReadings = new List<AccelerometerReadingModel>();
-        }
-
-        public async Task StartRide()
-        {
-            if (Start == null)
-            {
-                Start = DateTime.UtcNow;
-            }
-
-            AccelerometerUtility.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
-            GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
-
-            GeoUtility.Instance.Start();
-            await AccelerometerUtility.Start();
-        }
-
-        public async Task StopRide()
-        {
-            End = DateTime.UtcNow;
-
-            GeoUtility.Instance.Stop();
-            await AccelerometerUtility.Stop();
-
-            AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
-            GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
-        }
-
-        private void AccelerometerUtility_AccelerometerChanged(Accelerometer.AccelerometerChangedEventArgs e)
-        {
-            AccelerometerReadings.Add(e.Data);
-            Debug.WriteLine(e.Data);
-        }
-
-        private void GeoUtility_LocationChanged(LocationChangedEventArgs e)
-        {
-            Locations.Add(e.Location);
         }
 
         public ShareFile GetReadingsFile()
