@@ -48,7 +48,6 @@ namespace MtbMate.Droid.Renderers
                 return;
             }
 
-            var averageSpeed = routeCoordinates.Average(i => i.Mph);
             var maxSpeed = routeCoordinates.Max(i => i.Mph);
 
             IList<LatLng> latLng = new List<LatLng>();
@@ -57,7 +56,7 @@ namespace MtbMate.Droid.Renderers
 
             foreach (var segment in routeCoordinates)
             {
-                var thisColour = GetColour(segment.Mph, averageSpeed);
+                var thisColour = GetMaxSpeedColour(segment.Mph, maxSpeed);
 
                 if (firstRun || thisColour != lastColour)
                 {
@@ -96,11 +95,11 @@ namespace MtbMate.Droid.Renderers
             NativeMap.AddMarker(marker);
         }
 
-        private void AddLine(LatLng[] latLng, Android.Graphics.Color olour)
+        private void AddLine(LatLng[] latLng, Android.Graphics.Color colour)
         {
             PolylineOptions options = new PolylineOptions();
             options.Add(latLng.ToArray());
-            options.InvokeColor(olour);
+            options.InvokeColor(colour);
             options.Geodesic(true);
 
             NativeMap.AddPolyline(options);
@@ -111,28 +110,28 @@ namespace MtbMate.Droid.Renderers
             return new LatLng(location.Latitude, location.Longitude);
         }
 
-        private Android.Graphics.Color GetColour(double mps, double averageSpeed)
+        private Android.Graphics.Color GetMaxSpeedColour(double mph, double maxSpeed)
         {
-            double greenLimit = averageSpeed;
-            double yellowLimit = averageSpeed * 0.6;
-            double orangeLimit = averageSpeed * 0.3;
+            double redLimit = maxSpeed * 0.95;
+            double orangeLimit = maxSpeed * 0.85;
+            double yellowLimit = maxSpeed * 0.75;
 
-            if (mps > greenLimit)
+            if (mph > redLimit)
             {
-                return Android.Graphics.Color.Green;
+                return Android.Graphics.Color.Red;
             }
 
-            if (mps > yellowLimit)
-            {
-                return Android.Graphics.Color.Yellow;
-            }
-
-            if (mps > orangeLimit)
+            if (mph > orangeLimit)
             {
                 return Android.Graphics.Color.Orange;
             }
 
-            return Android.Graphics.Color.Red;
+            if (mph > yellowLimit)
+            {
+                return Android.Graphics.Color.Yellow;
+            }
+
+            return Android.Graphics.Color.Green;
         }
     }
 }
