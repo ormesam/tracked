@@ -112,19 +112,20 @@ namespace MtbMate.Models
 
         public IList<LocationSegmentModel> GetLocationSegments()
         {
+            if (Locations.Count < 2)
+            {
+                return new List<LocationSegmentModel>();
+            }
+
             var segments = new List<LocationSegmentModel>();
 
             for (int i = 1; i < Locations.Count; i++)
             {
-                var segment = new LocationSegmentModel
+                segments.Add(new LocationSegmentModel
                 {
                     Start = Locations[i - 1],
                     End = Locations[i],
-                };
-
-                segment.CalculateValues();
-
-                segments.Add(segment);
+                });
             }
 
             return segments;
