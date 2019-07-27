@@ -26,13 +26,14 @@ void setup() {
   }
 
   accelerometer.changeFullScale(XL_FS_16G);
+  accelerometer.changeOutputDataRate(POWER_416_HZ);
 
   // set LED pin to output mode
   pinMode(ledPin, OUTPUT);
 
   // begin initialization
   if (!BLE.begin()) {
-    Serial.println("starting BLE failed!");
+    Serial.println("Starting BLE failed!");
 
     while (1);
   }
@@ -57,28 +58,13 @@ void setup() {
 }
 
 void loop() {
-  // listen for BLE peripherals to connect:
   BLEDevice central = BLE.central();
 
-  // if a central is connected to peripheral:
   if (central) {
-    Serial.print("Connected to device: ");
-    // print the central's MAC address:
-    Serial.println(central.address());
-
-    // while the central is still connected to peripheral:
     while (central.connected()) {
           float x = accelerometer.getConvertedXAxis();
           float y = accelerometer.getConvertedXAxis();
           float z = accelerometer.getConvertedXAxis();
-
-          Serial.print("X = ");
-          Serial.print(x, 2);
-          Serial.print("g  Y = ");
-          Serial.print(y, 2);
-          Serial.print("g  Z = ");
-          Serial.print(z, 2);
-          Serial.println("g");
 
           String buf;
             buf += String(roundf(x*100.0)/100.0);
@@ -89,11 +75,7 @@ void loop() {
           
           accCharacteristic.setValue(buf);
 
-          delay(250);
+          delay(100);
     }
-
-    // when the central disconnects, print it out:
-    Serial.print(F("Disconnected from device: "));
-    Serial.println(central.address());
   }
 }
