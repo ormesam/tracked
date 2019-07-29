@@ -23,7 +23,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell
-                        Text="{Binding DisplayName}" />
+                        Text="{Binding DisplayName}"
+                        Detail="{Binding Start, StringFormat='{0:d MMM yy HH:mm}'}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

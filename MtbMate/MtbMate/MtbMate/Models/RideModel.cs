@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using MtbMate.Accelerometer;
-using MtbMate.Utilities;
 using Xamarin.Essentials;
 
 namespace MtbMate.Models
