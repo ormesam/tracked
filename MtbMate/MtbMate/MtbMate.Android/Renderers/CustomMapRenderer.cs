@@ -16,7 +16,7 @@ namespace MtbMate.Droid.Renderers
 {
     public class CustomMapRenderer : MapRenderer
     {
-        private IList<LocationSegmentModel> routeCoordinates;
+        private IList<LocationStepModel> routeCoordinates;
 
         public CustomMapRenderer(Context context) : base(context)
         {
@@ -54,9 +54,9 @@ namespace MtbMate.Droid.Renderers
             var lastColour = Android.Graphics.Color.Black;
             bool firstRun = true;
 
-            foreach (var segment in routeCoordinates)
+            foreach (var step in routeCoordinates)
             {
-                var thisColour = GetMaxSpeedColour(segment.Mph, maxSpeed);
+                var thisColour = GetMaxSpeedColour(step.Mph, maxSpeed);
 
                 if (firstRun || thisColour != lastColour)
                 {
@@ -71,25 +71,25 @@ namespace MtbMate.Droid.Renderers
 
                     latLng.Clear();
 
-                    latLng.Add(GetLatLon(segment.Start));
+                    latLng.Add(GetLatLon(step.Start));
                 }
 
-                latLng.Add(GetLatLon(segment.End));
+                latLng.Add(GetLatLon(step.End));
 
-                if (segment.Mph == maxSpeed)
+                if (step.Mph == maxSpeed)
                 {
-                    AddMaxSpeedPin(segment);
+                    AddMaxSpeedPin(step);
                 }
             }
 
             AddLine(latLng.ToArray(), lastColour);
         }
 
-        private void AddMaxSpeedPin(LocationSegmentModel segment)
+        private void AddMaxSpeedPin(LocationStepModel step)
         {
             MarkerOptions marker = new MarkerOptions();
-            marker.SetPosition(GetLatLon(segment.End));
-            marker.SetTitle(Math.Round(segment.Mph, 1) + " mi/h");
+            marker.SetPosition(GetLatLon(step.End));
+            marker.SetTitle(Math.Round(step.Mph, 1) + " mi/h");
             marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.speed_icon));
 
             NativeMap.AddMarker(marker);

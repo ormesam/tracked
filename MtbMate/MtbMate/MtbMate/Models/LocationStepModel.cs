@@ -2,7 +2,7 @@
 
 namespace MtbMate.Models
 {
-    public class LocationSegmentModel
+    public class LocationStepModel
     {
         public LocationModel Start { get; set; }
         public LocationModel End { get; set; }

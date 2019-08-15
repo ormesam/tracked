@@ -51,7 +51,7 @@ namespace MtbMate.Screens.Ride
                     return 0;
                 }
 
-                return Ride.GetLocationSegments().Sum(i => i.Distance);
+                return Ride.GetLocationSteps().Sum(i => i.Distance);
             }
         }
 
@@ -61,7 +61,7 @@ namespace MtbMate.Screens.Ride
 
         public string MaxGForce => 0 + "g"; // temp
 
-        public IList<LocationSegmentModel> Locations => Ride.GetLocationSegments();
+        public IList<LocationStepModel> Locations => Ride.GetLocationSteps();
 
         public async Task Delete()
         {

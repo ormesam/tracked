@@ -16,7 +16,7 @@ namespace MtbMate.Screens.Ride
             InitializeComponent();
             BindingContext = new MapScreenViewModel(context, ride);
 
-            Map.RouteCoordinates = ViewModel.Ride.GetLocationSegments();
+            Map.RouteCoordinates = ViewModel.Ride.GetLocationSteps();
         }
 
         public MapScreenViewModel ViewModel => BindingContext as MapScreenViewModel;
