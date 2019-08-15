@@ -11,8 +11,8 @@ namespace MtbMate.Models
 
         public double CalculateDistance()
         {
-            GeoCoordinate pin1 = new GeoCoordinate(Start.Latitude, Start.Longitude);
-            GeoCoordinate pin2 = new GeoCoordinate(End.Latitude, End.Longitude);
+            GeoCoordinate pin1 = new GeoCoordinate(Start.LatLong.Latitude, Start.LatLong.Longitude);
+            GeoCoordinate pin2 = new GeoCoordinate(End.LatLong.Latitude, End.LatLong.Longitude);
 
             var km = pin2.GetDistanceTo(pin1) / 1000;
             var miles = km * 0.621371192;

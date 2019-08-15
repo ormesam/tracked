@@ -107,7 +107,7 @@ namespace MtbMate.Droid.Renderers
 
         private LatLng GetLatLon(LocationModel location)
         {
-            return new LatLng(location.Latitude, location.Longitude);
+            return new LatLng(location.LatLong.Latitude, location.LatLong.Longitude);
         }
 
         private Android.Graphics.Color GetMaxSpeedColour(double mph, double maxSpeed)

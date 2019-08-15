@@ -52,7 +52,7 @@ namespace MtbMate.Models
 
             foreach (var location in Locations)
             {
-                sb.AppendLine($"{location.Timestamp},{location.Latitude},{location.Longitude},{location.AccuracyInMetres}," +
+                sb.AppendLine($"{location.Timestamp},{location.LatLong.Latitude},{location.LatLong.Longitude},{location.AccuracyInMetres}," +
                     $"{location.SpeedMetresPerSecond},{location.SpeedAccuracyMetresPerSecond},{location.Mph}," +
                     $"{location.Altitude}");
             }

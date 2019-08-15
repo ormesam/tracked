@@ -6,8 +6,7 @@ namespace MtbMate.Models
     {
         public long Time { get; set; }
         public DateTime Timestamp { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public LatLongModel LatLong { get; set; }
         public double? AccuracyInMetres { get; set; }
         public double SpeedMetresPerSecond { get; set; }
         public double? SpeedAccuracyMetresPerSecond { get; set; }
@@ -17,7 +16,7 @@ namespace MtbMate.Models
 
         public override string ToString()
         {
-            return $"{Timestamp}: Lat: {Latitude}, Lon: {Longitude}, Mph: {Mph}";
+            return $"{Timestamp}: Lat: {LatLong.Latitude}, Lon: {LatLong.Longitude}, Mph: {Mph}";
         }
     }
 }

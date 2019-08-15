@@ -20,6 +20,8 @@ namespace MtbMate.Screens.Ride
             Map.RouteCoordinates = ViewModel.Locations;
         }
 
+        public ReviewScreenViewModel ViewModel => BindingContext as ReviewScreenViewModel;
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -28,7 +30,7 @@ namespace MtbMate.Screens.Ride
             {
                 var firstLocation = ViewModel.Ride.Locations.FirstOrDefault();
 
-                var pin = new Position(firstLocation.Latitude, firstLocation.Longitude);
+                var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -36,8 +38,6 @@ namespace MtbMate.Screens.Ride
                 });
             });
         }
-
-        public ReviewScreenViewModel ViewModel => BindingContext as ReviewScreenViewModel;
 
         private async void Export_Clicked(object sender, EventArgs e)
         {

@@ -29,7 +29,7 @@ namespace MtbMate.Screens.Ride
             {
                 var firstLocation = ViewModel.Ride.Locations.FirstOrDefault();
 
-                var pin = new Position(firstLocation.Latitude, firstLocation.Longitude);
+                var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
