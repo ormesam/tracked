@@ -29,7 +29,7 @@ namespace MtbMate.Screens.Ride
                     return 0;
                 }
 
-                return Math.Round(Ride.Locations.Average(i => i.Mph), 1);
+                return Ride.Locations.Average(i => i.Mph);
             }
         }
 
@@ -40,7 +40,7 @@ namespace MtbMate.Screens.Ride
                     return 0;
                 }
 
-                return Math.Round(Ride.Locations.Max(i => i.Mph), 1);
+                return Ride.Locations.Max(i => i.Mph);
             }
         }
 
@@ -51,7 +51,7 @@ namespace MtbMate.Screens.Ride
                     return 0;
                 }
 
-                return Math.Round(Ride.GetLocationSegments().Sum(i => i.Distance), 1);
+                return Ride.GetLocationSegments().Sum(i => i.Distance);
             }
         }
 
