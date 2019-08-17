@@ -11,13 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="akavache" Version="6.5.9" />
+    <PackageReference Include="akavache" Version="6.7.1" />
     <PackageReference Include="GeoCoordinate" Version="1.1.0" />
     <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.6" />
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
+    <PackageReference Include="Xamarin.Forms" Version="4.1.0.673156" />
     <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
-    <PackageReference Include="Xamarin.Forms.Maps" Version="4.1.0.581479" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="4.1.0.673156" />
   </ItemGroup>
 
   <ItemGroup>
