@@ -111,7 +111,7 @@ namespace MtbMate.Screens.Bluetooth
 
         public async Task DisconnectDevice()
         {
-            await BleAccelerometerUtility.Instance.Reset();
+            await AccelerometerUtility.Instance.Reset();
 
             foreach (var device in adapter.ConnectedDevices)
             {

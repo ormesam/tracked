@@ -8,20 +8,20 @@ using Plugin.BLE.Abstractions.EventArgs;
 
 namespace MtbMate.Accelerometer
 {
-    public class BleAccelerometerUtility : IAccelerometerUtility
+    public class AccelerometerUtility
     {
         #region Singleton stuff
 
-        private static BleAccelerometerUtility instance;
+        private static AccelerometerUtility instance;
         private static readonly object _lock = new object();
 
-        public static BleAccelerometerUtility Instance {
+        public static AccelerometerUtility Instance {
             get {
                 lock (_lock)
                 {
                     if (instance == null)
                     {
-                        instance = new BleAccelerometerUtility();
+                        instance = new AccelerometerUtility();
                     }
 
                     return instance;
@@ -39,7 +39,7 @@ namespace MtbMate.Accelerometer
         public event AccelerometerChangedEventHandler AccelerometerChanged;
         public event AccelerometerStatusChangedEventHandler StatusChanged;
 
-        private BleAccelerometerUtility()
+        private AccelerometerUtility()
         {
             adapter.DeviceConnected += Adapter_DeviceConnected;
             adapter.DeviceDisconnected += Adapter_DeviceDisconnected;

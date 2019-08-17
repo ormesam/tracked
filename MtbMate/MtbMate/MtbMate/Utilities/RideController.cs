@@ -9,12 +9,12 @@ namespace MtbMate.Utilities
     public class RideController
     {
         public readonly RideModel Ride;
-        private readonly IAccelerometerUtility accelerometerUtility;
+        private readonly AccelerometerUtility accelerometerUtility;
 
-        public RideController(IAccelerometerUtility accelerometerUtility)
+        public RideController()
         {
             Ride = new RideModel();
-            this.accelerometerUtility = accelerometerUtility;
+            accelerometerUtility = AccelerometerUtility.Instance;
         }
 
         public async Task StartRide()

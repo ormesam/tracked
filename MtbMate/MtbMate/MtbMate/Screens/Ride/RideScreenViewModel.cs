@@ -15,23 +15,12 @@ namespace MtbMate.Screens.Ride
 
         public RideScreenViewModel(MainContext context) : base(context)
         {
-            IAccelerometerUtility accelerometerUtility;
-
-            if (context.Settings.AccelerometerType == AccelerometerType.Phone)
-            {
-                accelerometerUtility = PhoneAccelerometerUtility.Instance;
-            }
-            else
-            {
-                accelerometerUtility = BleAccelerometerUtility.Instance;
-            }
-
-            rideController = new RideController(accelerometerUtility);
-            accelerometerStatus = accelerometerUtility.Status;
+            rideController = new RideController();
+            accelerometerStatus = AccelerometerUtility.Instance.Status;
             isRunning = false;
             hasRan = false;
 
-            BleAccelerometerUtility.Instance.StatusChanged += BleAccelerometerUtility_StatusChanged;
+            AccelerometerUtility.Instance.StatusChanged += BleAccelerometerUtility_StatusChanged;
         }
 
         private void BleAccelerometerUtility_StatusChanged(AccelerometerStatusChangedEventArgs e)

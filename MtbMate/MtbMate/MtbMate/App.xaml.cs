@@ -37,7 +37,7 @@ namespace MtbMate
             MainPage = navPage;
 
             // initialise
-            _ = BleAccelerometerUtility.Instance;
+            _ = AccelerometerUtility.Instance;
 
             ExperimentalFeatures.Enable("ShareFileRequest_Experimental");
         }
