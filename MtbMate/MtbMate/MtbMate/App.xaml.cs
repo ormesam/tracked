@@ -22,17 +22,7 @@ namespace MtbMate
 
             var navPage = new NavigationPage(new MainPage(mainContext));
 
-            var bleToolbarItem = new ToolbarItem
-            {
-                IconImageSource = ImageSource.FromFile("bluetooth.png"),
-            };
-
-            bleToolbarItem.Clicked += async (s, e) =>
-            {
-                await mainContext.UI.GoToBluetoothScreen(navPage.Navigation);
-            };
-
-            navPage.ToolbarItems.Add(bleToolbarItem);
+            SetupMenuItems(navPage);
 
             MainPage = navPage;
 
@@ -40,6 +30,24 @@ namespace MtbMate
             _ = AccelerometerUtility.Instance;
 
             ExperimentalFeatures.Enable("ShareFileRequest_Experimental");
+        }
+
+        private void SetupMenuItems(NavigationPage navPage)
+        {
+
+            var settingsToolbarItem = new ToolbarItem
+            {
+                Text = "Settings",
+                Order = ToolbarItemOrder.Secondary,
+            };
+
+
+            settingsToolbarItem.Clicked += async (s, e) =>
+            {
+                await mainContext.UI.GoToSettingsScreen(navPage.Navigation);
+            };
+
+            navPage.ToolbarItems.Add(settingsToolbarItem);
         }
 
         protected override void OnStart()

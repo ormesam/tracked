@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MtbMate.Models;
 using MtbMate.Screens.Bluetooth;
 using MtbMate.Screens.Ride;
+using MtbMate.Screens.Settings;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
@@ -40,6 +41,11 @@ namespace MtbMate.Contexts
         public async Task GoToBluetoothScreen(INavigation nav)
         {
             await nav.PushAsync(new BluetoothSetupScreen(context));
+        }
+
+        public async Task GoToSettingsScreen(INavigation nav)
+        {
+            await nav.PushAsync(new SettingsScreen(context));
         }
 
         public async Task GoToMainPage(INavigation nav)

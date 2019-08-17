@@ -8,10 +8,10 @@
         <TableView
             Intent="Settings">
             <TableSection
-                Title="Bluetooth Accelerometer">
-                <SwitchCell
-                    Text="Detect Jumps"
-                    On="{Binding ShouldDetectJumps}"/>
+                Title="Accelerometer">
+                <TextCell
+                    Text="Bluetooth"
+                    Tapped="Bluetooth_Tapped"/>
             </TableSection>
         </TableView>
     </ContentPage.Content>

@@ -1,4 +1,5 @@
-﻿using MtbMate.Contexts;
+﻿using System;
+using MtbMate.Contexts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,5 +15,10 @@ namespace MtbMate.Screens.Settings
         }
 
         public SettingsScreenViewModel ViewModel => BindingContext as SettingsScreenViewModel;
+
+        private async void Bluetooth_Tapped(object sender, EventArgs e)
+        {
+            await ViewModel.Context.UI.GoToBluetoothScreen(Navigation);
+        }
     }
 }
