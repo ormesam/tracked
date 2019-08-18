@@ -5,6 +5,7 @@ using Akavache;
 using MtbMate.Accelerometer;
 using MtbMate.Contexts;
 using MtbMate.Home;
+using MtbMate.Screens.Master;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -13,6 +14,8 @@ namespace MtbMate
     public partial class App : Application
     {
         private readonly MainContext mainContext;
+        public static new App Current => (App)Application.Current;
+        public static MasterScreen RootPage => Current.MainPage as MasterScreen;
 
         public App()
         {
@@ -20,34 +23,12 @@ namespace MtbMate
 
             mainContext = new MainContext();
 
-            var navPage = new NavigationPage(new MainPage(mainContext));
-
-            SetupMenuItems(navPage);
-
-            MainPage = navPage;
+            MainPage = new MasterScreen(mainContext);
 
             // initialise
             _ = AccelerometerUtility.Instance;
 
             ExperimentalFeatures.Enable("ShareFileRequest_Experimental");
-        }
-
-        private void SetupMenuItems(NavigationPage navPage)
-        {
-
-            var settingsToolbarItem = new ToolbarItem
-            {
-                Text = "Settings",
-                Order = ToolbarItemOrder.Secondary,
-            };
-
-
-            settingsToolbarItem.Clicked += async (s, e) =>
-            {
-                await mainContext.UI.GoToSettingsScreen(navPage.Navigation);
-            };
-
-            navPage.ToolbarItems.Add(settingsToolbarItem);
         }
 
         protected override void OnStart()

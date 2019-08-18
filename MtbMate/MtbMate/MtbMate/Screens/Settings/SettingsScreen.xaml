@@ -7,18 +7,6 @@
     <ContentPage.Content>
         <TableView
             Intent="Settings">
-            <TableSection
-                Title="Accelerometer">
-                <TextCell
-                    Text="Bluetooth"
-                    Tapped="Bluetooth_Tapped"/>
-            </TableSection>
-            <TableSection
-                Title="Segments">
-                <TextCell
-                    Text="Explore Segments"
-                    Tapped="ExploreSegments_Tapped" />
-            </TableSection>
         </TableView>
     </ContentPage.Content>
 </ContentPage>

@@ -19,12 +19,12 @@ namespace MtbMate.Screens.Settings
 
         public async Task AddSegment(INavigation nav)
         {
-            await Context.UI.GoToCreateSegment(nav);
+            await Context.UI.GoToCreateSegmentScreenAsync(nav);
         }
 
         public async Task GoToSegment(INavigation nav, SegmentModel segment)
         {
-            await Context.UI.GoToSegment(nav, segment);
+            await Context.UI.GoToSegmentScreenAsync(nav, segment);
         }
     }
 }

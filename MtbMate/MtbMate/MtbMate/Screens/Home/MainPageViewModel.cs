@@ -24,19 +24,14 @@ namespace MtbMate.Home
 
         public bool HasRides => Rides.Any();
 
-        public async Task GoToBluetoothSettings(INavigation nav)
-        {
-            await Context.UI.GoToBluetoothScreen(nav);
-        }
-
         public async Task GoToCreateRide(INavigation nav)
         {
-            await Context.UI.GoToRideScreen(nav);
+            await Context.UI.GoToRideScreenAsync(nav);
         }
 
         public async Task GoToReview(INavigation nav, RideModel ride)
         {
-            await Context.UI.GoToReviewScreen(nav, ride);
+            await Context.UI.GoToReviewScreenAsync(nav, ride);
         }
     }
 }

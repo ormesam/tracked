@@ -83,7 +83,7 @@ namespace MtbMate.Screens.Ride
 
         public async Task GoToMapScreen(INavigation nav)
         {
-            await Context.UI.GoToMapScreen(nav, Ride);
+            await Context.UI.GoToMapScreenAsync(nav, Ride);
         }
 
         public async Task Export()

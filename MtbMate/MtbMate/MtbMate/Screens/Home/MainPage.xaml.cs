@@ -24,11 +24,6 @@ namespace MtbMate.Home
             base.OnAppearing();
         }
 
-        private async void Bluetooth_Clicked(object sender, EventArgs e)
-        {
-            await ViewModel.GoToBluetoothSettings(Navigation);
-        }
-
         private async void Add_Clicked(object sender, EventArgs e)
         {
             await ViewModel.GoToCreateRide(Navigation);
