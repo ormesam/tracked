@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MtbMate.Models;
 using MtbMate.Screens.Bluetooth;
 using MtbMate.Screens.Ride;
+using MtbMate.Screens.Segments;
 using MtbMate.Screens.Settings;
 using MtbMate.Utilities;
 using Xamarin.Forms;
@@ -56,6 +57,21 @@ namespace MtbMate.Contexts
         public async Task GoToMapScreen(INavigation nav, RideModel ride)
         {
             await nav.PushAsync(new MapScreen(context, ride));
+        }
+
+        public async Task GoToExploreSegments(INavigation nav)
+        {
+            await nav.PushAsync(new ExploreSegmentsScreen(context));
+        }
+
+        public async Task GoToCreateSegment(INavigation nav)
+        {
+            await nav.PushAsync(new CreateSegmentScreen(context));
+        }
+
+        public async Task GoToSegment(INavigation nav, SegmentModel segment)
+        {
+            await nav.PushAsync(new SegmentScreen(context, segment));
         }
     }
 }

@@ -11,11 +11,13 @@ namespace MtbMate.Contexts
         private StorageContext storage;
 
         public ObservableCollection<RideModel> Rides { get; set; }
+        public ObservableCollection<SegmentModel> Segments { get; set; }
 
         public ModelContext(MainContext mainContext)
         {
             storage = mainContext.Storage;
             Rides = mainContext.Storage.GetRides().ToObservable();
+            Segments = mainContext.Storage.GetSegments().ToObservable();
         }
 
         public async Task SaveRide(RideModel ride)
@@ -34,7 +36,26 @@ namespace MtbMate.Contexts
         {
             Rides.Remove(ride);
 
-            await storage.RemoveObject<RideModel>(ride.Id.Value);
+            await storage.RemoveObject<SegmentModel>(ride.Id.Value);
+        }
+
+        public async Task SaveSegments(SegmentModel segment)
+        {
+            if (segment.Id == null)
+            {
+                segment.Id = Guid.NewGuid();
+
+                Segments.Add(segment);
+            }
+
+            await storage.SaveObject(segment.Id.Value, segment);
+        }
+
+        public async Task RemoveSegments(SegmentModel segment)
+        {
+            Segments.Remove(segment);
+
+            await storage.RemoveObject<SegmentModel>(segment.Id.Value);
         }
     }
 }

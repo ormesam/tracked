@@ -19,6 +19,13 @@ namespace MtbMate.Contexts
             return rides.ToList();
         }
 
+        public IList<SegmentModel> GetSegments()
+        {
+            var segments = Storage.GetAllObjects<SegmentModel>().Wait();
+
+            return segments.ToList();
+        }
+
         public async Task SaveObject<T>(Guid id, T obj)
         {
             await Storage.InsertObject(id.ToString(), obj);

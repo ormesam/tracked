@@ -20,5 +20,10 @@ namespace MtbMate.Screens.Settings
         {
             await ViewModel.Context.UI.GoToBluetoothScreen(Navigation);
         }
+
+        private async void ExploreSegments_Tapped(object sender, EventArgs e)
+        {
+            await ViewModel.Context.UI.GoToExploreSegments(Navigation);
+        }
     }
 }
