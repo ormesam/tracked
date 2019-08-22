@@ -87,6 +87,9 @@
     <PackageReference Include="Xamarin.Forms.Maps">
       <Version>4.1.0.673156</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Forms.RangeSlider">
+      <Version>1.0.2</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Location">
       <Version>60.1142.1</Version>
     </PackageReference>
@@ -155,6 +158,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\add_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\tick_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

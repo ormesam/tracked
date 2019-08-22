@@ -61,8 +61,6 @@ namespace MtbMate.Screens.Ride
 
         public string MaxGForce => 0 + "g"; // temp
 
-        public IList<LocationStepModel> Locations => Ride.GetLocationSteps();
-
         public async Task Delete()
         {
             await Context.Model.RemoveRide(Ride);

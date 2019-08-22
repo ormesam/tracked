@@ -16,52 +16,45 @@ namespace MtbMate.Droid.Renderers
 {
     public class CustomMapRenderer : MapRenderer
     {
-        private IList<LocationStepModel> routeCoordinates;
+        private IList<LocationModel> routeCoordinates;
+        private bool showSpeed;
 
-        public CustomMapRenderer(Context context) : base(context)
-        {
+        public CustomMapRenderer(Context context) : base(context) {
         }
 
-        protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Map> e)
-        {
+        protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Map> e) {
             base.OnElementChanged(e);
 
-            if (e.OldElement != null)
-            {
+            if (e.OldElement != null) {
                 // Unsubscribe
             }
 
-            if (e.NewElement != null)
-            {
+            if (e.NewElement != null) {
                 var formsMap = (CustomMap)e.NewElement;
                 routeCoordinates = formsMap.RouteCoordinates;
+                showSpeed = formsMap.ShowSpeed;
                 Control.GetMapAsync(this);
             }
         }
 
-        protected override void OnMapReady(Android.Gms.Maps.GoogleMap map)
-        {
+        protected override void OnMapReady(Android.Gms.Maps.GoogleMap map) {
             base.OnMapReady(map);
 
-            if (!routeCoordinates.Any())
-            {
+            if (!routeCoordinates.Any()) {
                 return;
             }
 
             var maxSpeed = routeCoordinates.Max(i => i.Mph);
 
             IList<LatLng> latLng = new List<LatLng>();
-            var lastColour = Android.Graphics.Color.Black;
+            var lastColour = Android.Graphics.Color.Blue;
             bool firstRun = true;
 
-            foreach (var step in routeCoordinates)
-            {
-                var thisColour = GetMaxSpeedColour(step.Mph, maxSpeed);
+            foreach (var location in routeCoordinates) {
+                var thisColour = showSpeed ? GetMaxSpeedColour(location.Mph, maxSpeed) : Android.Graphics.Color.Blue;
 
-                if (firstRun || thisColour != lastColour)
-                {
-                    if (!firstRun)
-                    {
+                if (firstRun || thisColour != lastColour) {
+                    if (!firstRun) {
                         AddLine(latLng.ToArray(), lastColour);
                     }
 
@@ -69,34 +62,35 @@ namespace MtbMate.Droid.Renderers
 
                     lastColour = thisColour;
 
+                    var lastLatLon = latLng.LastOrDefault();
+
                     latLng.Clear();
 
-                    latLng.Add(GetLatLon(step.Start));
+                    if (lastLatLon != null) {
+                        latLng.Add(lastLatLon);
+                    }
                 }
 
-                latLng.Add(GetLatLon(step.End));
+                latLng.Add(GetLatLon(location));
 
-                if (step.Mph == maxSpeed)
-                {
-                    AddMaxSpeedPin(step);
+                if (showSpeed && location.Mph == maxSpeed) {
+                    AddMaxSpeedPin(location);
                 }
             }
 
             AddLine(latLng.ToArray(), lastColour);
         }
 
-        private void AddMaxSpeedPin(LocationStepModel step)
-        {
+        private void AddMaxSpeedPin(LocationModel location) {
             MarkerOptions marker = new MarkerOptions();
-            marker.SetPosition(GetLatLon(step.End));
-            marker.SetTitle(Math.Round(step.Mph, 1) + " mi/h");
+            marker.SetPosition(GetLatLon(location));
+            marker.SetTitle(Math.Round(location.Mph, 1) + " mi/h");
             marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.speed_icon));
 
             NativeMap.AddMarker(marker);
         }
 
-        private void AddLine(LatLng[] latLng, Android.Graphics.Color colour)
-        {
+        private void AddLine(LatLng[] latLng, Android.Graphics.Color colour) {
             PolylineOptions options = new PolylineOptions();
             options.Add(latLng.ToArray());
             options.InvokeColor(colour);
@@ -105,29 +99,24 @@ namespace MtbMate.Droid.Renderers
             NativeMap.AddPolyline(options);
         }
 
-        private LatLng GetLatLon(LocationModel location)
-        {
+        private LatLng GetLatLon(LocationModel location) {
             return new LatLng(location.LatLong.Latitude, location.LatLong.Longitude);
         }
 
-        private Android.Graphics.Color GetMaxSpeedColour(double mph, double maxSpeed)
-        {
+        private Android.Graphics.Color GetMaxSpeedColour(double mph, double maxSpeed) {
             double redLimit = maxSpeed * 0.95;
             double orangeLimit = maxSpeed * 0.85;
             double yellowLimit = maxSpeed * 0.75;
 
-            if (mph > redLimit)
-            {
+            if (mph > redLimit) {
                 return Android.Graphics.Color.Red;
             }
 
-            if (mph > orangeLimit)
-            {
+            if (mph > orangeLimit) {
                 return Android.Graphics.Color.Orange;
             }
 
-            if (mph > yellowLimit)
-            {
+            if (mph > yellowLimit) {
                 return Android.Graphics.Color.Yellow;
             }
 

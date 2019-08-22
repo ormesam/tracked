@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MtbMate.Home;
 using MtbMate.Models;
@@ -66,6 +67,10 @@ namespace MtbMate.Contexts
 
         public async Task GoToMapScreenAsync(INavigation nav, RideModel ride) {
             await nav.PushAsync(new MapScreen(context, ride));
+        }
+
+        public async Task GoToMapScreenAsync(INavigation nav, string title, IList<LatLongModel> locations) {
+            await nav.PushAsync(new MapScreen(context, title, locations));
         }
 
         public async Task GoToExploreSegmentsScreenAsync() {

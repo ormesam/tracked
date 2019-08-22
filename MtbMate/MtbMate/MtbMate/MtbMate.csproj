@@ -18,6 +18,7 @@
     <PackageReference Include="Xamarin.Forms" Version="4.1.0.673156" />
     <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="4.1.0.673156" />
+    <PackageReference Include="Xamarin.Forms.RangeSlider" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -39,7 +39,7 @@ namespace MtbMate.Contexts
             await storage.RemoveObject<SegmentModel>(ride.Id.Value);
         }
 
-        public async Task SaveSegments(SegmentModel segment)
+        public async Task SaveSegment(SegmentModel segment)
         {
             if (segment.Id == null)
             {
@@ -51,7 +51,7 @@ namespace MtbMate.Contexts
             await storage.SaveObject(segment.Id.Value, segment);
         }
 
-        public async Task RemoveSegments(SegmentModel segment)
+        public async Task RemoveSegment(SegmentModel segment)
         {
             Segments.Remove(segment);
 

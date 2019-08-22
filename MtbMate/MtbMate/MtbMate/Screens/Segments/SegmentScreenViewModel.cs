@@ -1,5 +1,10 @@
 ﻿using MtbMate.Contexts;
 using MtbMate.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace MtbMate.Screens.Segments
 {
@@ -13,5 +18,28 @@ namespace MtbMate.Screens.Segments
         }
 
         public override string Title => Segment.Name;
+
+        public string DisplayName => Segment.DisplayName;
+
+        public IList<LocationModel> Locations => Segment.Points
+            .Select(i => new LocationModel {
+                LatLong = i,
+            })
+            .ToList();
+
+        public void ChangeName() {
+            Context.UI.ShowInputDialog("Change Name", Segment.Name, async (newName) => {
+                Segment.Name = newName;
+
+                OnPropertyChanged(nameof(Title));
+                OnPropertyChanged(nameof(DisplayName));
+
+                await Context.Model.SaveSegment(Segment);
+            });
+        }
+
+        public async Task GoToMapScreen(INavigation nav) {
+            await Context.UI.GoToMapScreenAsync(nav, DisplayName, Segment.Points);
+        }
     }
 }

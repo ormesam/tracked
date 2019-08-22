@@ -4,12 +4,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MtbMate.Screens.Segments.CreateSegmentScreen"
     xmlns:controls="clr-namespace:MtbMate.Controls"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:forms="clr-namespace:Xamarin.RangeSlider.Forms;assembly=Xamarin.RangeSlider.Forms"
     Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            IconImageSource="tick_icon.png"
+            Clicked="Save_Clicked" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
             <StackLayout
                 IsVisible="{Binding ShowRideList}">
                 <Label
+                    Margin="10"
                     Text="Select a ride to create a segment from it. You can trim the start and end points after selection." />
                 <ListView
                     ItemsSource="{Binding Rides}"
@@ -17,7 +25,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <TextCell
-                                Text="{Binding DisplayName}" />
+                                Text="{Binding DisplayName}"
+                                Detail="{Binding Start, StringFormat='{0:d MMM yy HH:mm}'}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -27,6 +36,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -35,16 +45,36 @@
                 </Grid.ColumnDefinitions>
 
                 <Label
-                    Text="Name:" />
-
-                <Entry
-                    Grid.Column="1"
-                    Text="{Binding Name}" />
+                    Margin="10"
+                    Text="Use the slider to trim the segment." />
 
                 <controls:CustomMap
                     Grid.Row="1"
                     Grid.ColumnSpan="2"
-                    x:Name="Map" />
+                    x:Name="Map"
+                    IsShowingUser="False"
+                    ItemsSource="{Binding FilteredLocations}"
+                    MapType="Hybrid">
+                    <controls:CustomMap.ItemTemplate>
+                        <DataTemplate>
+                            <maps:Pin
+                                Position="{Binding Position}"
+                                Label="{Binding Label}" />
+                        </DataTemplate>
+                    </controls:CustomMap.ItemTemplate>
+                </controls:CustomMap>
+
+                <forms:RangeSlider 
+                    Grid.Row="2"
+                    Margin="10"
+                    MinimumValue="0"
+                    MaximumValue="{Binding PointCount, Mode=TwoWay}"
+                    LowerValue="{Binding LowerIndex, Mode=TwoWay}"
+                    UpperValue="{Binding UpperIndex, Mode=TwoWay}"
+                    StepValue="0"
+                    StepValueContinuously="True"
+                    VerticalOptions="Center"
+                    TextSize="15" />
             </Grid>
         </Grid>
     </ContentPage.Content>

@@ -12,5 +12,6 @@ namespace MtbMate.Models
         public DateTime Created { get; set; }
         public LatLongModel Start => Points.FirstOrDefault();
         public LatLongModel End => Points.LastOrDefault();
+        public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Created.ToString("dd/MM/yy HH:mm") : Name;
     }
 }
