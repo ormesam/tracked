@@ -1,6 +1,5 @@
 ﻿using MtbMate.Contexts;
 using MtbMate.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,8 +11,7 @@ namespace MtbMate.Screens.Segments
     {
         public SegmentModel Segment { get; }
 
-        public SegmentScreenViewModel(MainContext context, SegmentModel segment) : base(context)
-        {
+        public SegmentScreenViewModel(MainContext context, SegmentModel segment) : base(context) {
             Segment = segment;
         }
 
@@ -25,6 +23,10 @@ namespace MtbMate.Screens.Segments
             .Select(i => new LocationModel {
                 LatLong = i,
             })
+            .ToList();
+
+        public IList<SegmentAttemptModel> Attempts => Context.Model.SegmentAttempts
+            .Where(i => i.SegmentId == Segment.Id)
             .ToList();
 
         public void ChangeName() {

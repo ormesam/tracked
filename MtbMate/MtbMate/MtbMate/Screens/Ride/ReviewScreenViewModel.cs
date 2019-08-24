@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MtbMate.Contexts;
+using MtbMate.Models;
+using MtbMate.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MtbMate.Contexts;
-using MtbMate.Models;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -13,8 +13,7 @@ namespace MtbMate.Screens.Ride
     {
         public readonly RideModel Ride;
 
-        public ReviewScreenViewModel(MainContext context, RideModel ride) : base(context)
-        {
+        public ReviewScreenViewModel(MainContext context, RideModel ride) : base(context) {
             Ride = ride;
         }
 
@@ -24,8 +23,7 @@ namespace MtbMate.Screens.Ride
 
         public double AverageSpeed {
             get {
-                if (!Ride.Locations.Any())
-                {
+                if (!Ride.Locations.Any()) {
                     return 0;
                 }
 
@@ -35,8 +33,7 @@ namespace MtbMate.Screens.Ride
 
         public double MaxSpeed {
             get {
-                if (!Ride.Locations.Any())
-                {
+                if (!Ride.Locations.Any()) {
                     return 0;
                 }
 
@@ -46,12 +43,11 @@ namespace MtbMate.Screens.Ride
 
         public double Distance {
             get {
-                if (!Ride.Locations.Any())
-                {
+                if (!Ride.Locations.Any()) {
                     return 0;
                 }
 
-                return Ride.GetLocationSteps().Sum(i => i.Distance);
+                return Ride.Locations.CalculateDistanceMi();
             }
         }
 
@@ -61,15 +57,16 @@ namespace MtbMate.Screens.Ride
 
         public string MaxGForce => 0 + "g"; // temp
 
-        public async Task Delete()
-        {
+        public IList<SegmentAttemptModel> Attempts => Context.Model.SegmentAttempts
+            .Where(i => i.RideId == Ride.Id)
+            .ToList();
+
+        public async Task Delete() {
             await Context.Model.RemoveRide(Ride);
         }
 
-        public void ChangeName()
-        {
-            Context.UI.ShowInputDialog("Change Name", Ride.Name, async (newName) =>
-            {
+        public void ChangeName() {
+            Context.UI.ShowInputDialog("Change Name", Ride.Name, async (newName) => {
                 Ride.Name = newName;
 
                 OnPropertyChanged(nameof(Title));
@@ -79,24 +76,19 @@ namespace MtbMate.Screens.Ride
             });
         }
 
-        public async Task GoToMapScreen(INavigation nav)
-        {
+        public async Task GoToMapScreen(INavigation nav) {
             await Context.UI.GoToMapScreenAsync(nav, Ride);
         }
 
-        public async Task Export()
-        {
-            await Share.RequestAsync(new ShareFileRequest
-            {
+        public async Task Export() {
+            await Share.RequestAsync(new ShareFileRequest {
                 File = Ride.GetReadingsFile(),
                 Title = Ride.Name ?? "Data Readings",
             });
         }
 
-        public async Task ExportLocation()
-        {
-            await Share.RequestAsync(new ShareFileRequest
-            {
+        public async Task ExportLocation() {
+            await Share.RequestAsync(new ShareFileRequest {
                 File = Ride.GetLocationFile(),
                 Title = Ride.Name ?? "Data Readings",
             });

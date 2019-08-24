@@ -7,23 +7,32 @@
     Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
-          <StackLayout>
-              <controls:CustomMap
-                  x:Name="Map"
-                  HeightRequest="200"
-                  MapClicked="Map_MapClicked"
-                  HasScrollEnabled="False"
-                  HasZoomEnabled="False" />
-              <Label
-                  Margin="15"
-                  HorizontalOptions="Center"
-                  Text="{Binding DisplayName}"
-                  FontSize="Large">
-                  <Label.GestureRecognizers>
-                      <TapGestureRecognizer
-                          Tapped="Name_Tapped" />
-                  </Label.GestureRecognizers>
-              </Label>
+              <StackLayout>
+                  <controls:CustomMap
+                      x:Name="Map"
+                      HeightRequest="200"
+                      MapClicked="Map_MapClicked"
+                      HasScrollEnabled="False"
+                      HasZoomEnabled="False" />
+                <Label
+                      Margin="15"
+                      HorizontalOptions="Center"
+                      Text="{Binding DisplayName}"
+                      FontSize="Large">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                              Tapped="Name_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <ListView
+                    ItemsSource="{Binding Attempts}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell
+                                Text="{Binding DisplayName}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

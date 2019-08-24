@@ -65,26 +65,5 @@ namespace MtbMate.Models
 
             return new ShareFile(filePath);
         }
-
-        public IList<LocationStepModel> GetLocationSteps()
-        {
-            if (Locations.Count < 2)
-            {
-                return new List<LocationStepModel>();
-            }
-
-            var steps = new List<LocationStepModel>();
-
-            for (int i = 1; i < Locations.Count; i++)
-            {
-                steps.Add(new LocationStepModel
-                {
-                    Start = Locations[i - 1],
-                    End = Locations[i],
-                });
-            }
-
-            return steps;
-        }
     }
 }
