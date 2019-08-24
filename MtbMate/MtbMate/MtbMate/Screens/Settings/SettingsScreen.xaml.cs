@@ -15,5 +15,9 @@ namespace MtbMate.Screens.Settings
         }
 
         public SettingsScreenViewModel ViewModel => BindingContext as SettingsScreenViewModel;
+
+        private async void Save_Clicked(object sender, EventArgs e) {
+            await ViewModel.Save(Navigation);
+        }
     }
 }

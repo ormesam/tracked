@@ -6,11 +6,11 @@ namespace MtbMate.Models
     public class SettingsModel
     {
         public Guid? Id { get; set; }
-        public AccelerometerType AccelerometerType { get; set; }
+        public bool DetectJumps { get; set; }
 
         public void ResetDefaults()
         {
-            AccelerometerType = AccelerometerType.Ble;
+            DetectJumps = true;
         }
     }
 }

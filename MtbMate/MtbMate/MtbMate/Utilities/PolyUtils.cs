@@ -9,11 +9,11 @@ namespace MtbMate.Utilities
     public static class PolyUtils
     {
         public static bool HasPointOnLine(this IList<LatLongModel> path, LocationModel point, int toleranceInMetres) {
-            var p = GetModel(point);
+            var p = GetGeoModel(point);
 
             for (int i = 0; i < path.Count - 1; i++) {
-                var geo1 = GetModel(path[i]);
-                var geo2 = GetModel(path[i + 1]);
+                var geo1 = GetGeoModel(path[i]);
+                var geo2 = GetGeoModel(path[i + 1]);
 
                 if (Math.Round(geo1.GetDistanceTo(p) + geo2.GetDistanceTo(p), toleranceInMetres) == Math.Round(geo1.GetDistanceTo(geo2), toleranceInMetres)) {
                     return true;
@@ -27,10 +27,10 @@ namespace MtbMate.Utilities
             double totalKm = 0;
 
             for (int i = 0; i < path.Count - 1; i++) {
-                var pin1 = GetModel(path[i]);
-                var pin2 = GetModel(path[i + 1]);
+                var pin1 = GetGeoModel(path[i]);
+                var pin2 = GetGeoModel(path[i + 1]);
 
-                var km = pin1.GetDistanceTo(pin2) / 1000;
+                var km = pin2.GetDistanceTo(pin1) / 1000;
                 totalKm += km;
             }
 
@@ -51,12 +51,12 @@ namespace MtbMate.Utilities
             return path.CalculateDistanceKm() * 0.621371192;
         }
 
-        private static GeoCoordinate GetModel(LatLongModel model) {
+        private static GeoCoordinate GetGeoModel(LatLongModel model) {
             return new GeoCoordinate(model.Latitude, model.Longitude);
         }
 
-        private static GeoCoordinate GetModel(LocationModel model) {
-            return GetModel(model.LatLong);
+        private static GeoCoordinate GetGeoModel(LocationModel model) {
+            return GetGeoModel(model.LatLong);
         }
     }
 }

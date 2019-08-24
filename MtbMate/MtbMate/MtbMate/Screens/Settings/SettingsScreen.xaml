@@ -4,9 +4,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MtbMate.Screens.Settings.SettingsScreen"
     Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            IconImageSource="tick_icon.png"
+            Clicked="Save_Clicked" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <TableView
             Intent="Settings">
+            <TableSection
+                Title="Jumps">
+                <SwitchCell
+                    Text="Detect Jumps"
+                    On="{Binding DetectJumps}" />
+            </TableSection>
         </TableView>
     </ContentPage.Content>
 </ContentPage>
