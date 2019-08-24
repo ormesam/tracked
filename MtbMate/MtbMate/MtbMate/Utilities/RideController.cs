@@ -8,19 +8,19 @@ namespace MtbMate.Utilities
 {
     public class RideController
     {
-        public readonly RideModel Ride;
+        private readonly bool detectJumps;
         private readonly AccelerometerUtility accelerometerUtility;
 
-        public RideController()
-        {
+        public readonly RideModel Ride;
+
+        public RideController(bool detectJumps) {
+            this.detectJumps = detectJumps;
             Ride = new RideModel();
             accelerometerUtility = AccelerometerUtility.Instance;
         }
 
-        public async Task StartRide()
-        {
-            if (Ride.Start == null)
-            {
+        public async Task StartRide() {
+            if (Ride.Start == null) {
                 Ride.Start = DateTime.UtcNow;
             }
 
@@ -28,11 +28,13 @@ namespace MtbMate.Utilities
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
 
             GeoUtility.Instance.Start();
-            await accelerometerUtility.Start();
+
+            if (detectJumps) {
+                await accelerometerUtility.Start();
+            }
         }
 
-        public async Task StopRide()
-        {
+        public async Task StopRide() {
             Ride.End = DateTime.UtcNow;
 
             GeoUtility.Instance.Stop();
@@ -42,14 +44,12 @@ namespace MtbMate.Utilities
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
         }
 
-        private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e)
-        {
+        private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {
             Ride.AccelerometerReadings.Add(e.Data);
             Debug.WriteLine(e.Data);
         }
 
-        private void GeoUtility_LocationChanged(LocationChangedEventArgs e)
-        {
+        private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {
             Ride.Locations.Add(e.Location);
         }
     }
