@@ -3,6 +3,7 @@ using MtbMate.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -40,7 +41,12 @@ namespace MtbMate.Screens.Segments
         }
 
         private async void Map_MapClicked(object sender, MapClickedEventArgs e) {
-            await ViewModel.GoToMapScreen(Navigation);
+            //await ViewModel.GoToMapScreen(Navigation);
+
+            await Share.RequestAsync(new ShareFileRequest {
+                File = ViewModel.Segment.GetLocationFile(),
+                Title = "Segment Readings",
+            });
         }
 
         private void Analyse_Clicked(object sender, EventArgs e) {

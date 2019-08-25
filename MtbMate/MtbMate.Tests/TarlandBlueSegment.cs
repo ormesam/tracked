@@ -5,7 +5,7 @@ using MtbMate.Utilities;
 namespace MtbMate.Tests
 {
     [TestClass]
-    public class SegmentMatching
+    public class TarlandBlueSegment
     {
         [TestMethod]
         public void Tarland_Blue_Blue1() {
