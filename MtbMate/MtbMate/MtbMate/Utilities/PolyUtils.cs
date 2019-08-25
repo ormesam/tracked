@@ -8,7 +8,7 @@ namespace MtbMate.Utilities
 {
     public static class PolyUtils
     {
-        public static bool HasPointOnLine(this IList<LatLongModel> path, LatLongModel point, int toleranceInMetres = 10) {
+        public static bool HasPointOnLine(this IList<LatLongModel> path, LatLongModel point, int toleranceInMetres = 16) {
             //var p = GetGeoModel(point);
 
             foreach (var location in path) {
@@ -95,20 +95,21 @@ namespace MtbMate.Utilities
             int startIdx = rideLocations.IndexOf(closestPointToSegmentStart);
             int endIdx = rideLocations.IndexOf(closestPointToSegmentEnd);
 
-            var segmentLocations = rideLocations.ToList().GetRange(startIdx, endIdx - startIdx);
+            var filteredRideLocations = rideLocations.ToList().GetRange(startIdx, endIdx - startIdx);
 
             int matchedPointCount = 0;
             int missedPointCount = 0;
 
-            foreach (var segmentLocation in segmentLocations) {
-                if (segment.Points.HasPointOnLine(segmentLocation)) {
+            foreach (var segmentLocation in segment.Points) {
+                if (filteredRideLocations.HasPointOnLine(segmentLocation)) {
                     matchedPointCount++;
                 } else {
                     missedPointCount++;
                 }
             }
 
-            return matchedPointCount >= segment.Points.Count * 0.9;
+            // return true if 60% of the segment points match the ride
+            return matchedPointCount >= segment.Points.Count * 0.6;
         }
     }
 }
