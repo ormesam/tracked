@@ -18,20 +18,20 @@ namespace MtbMate.Models
         public LatLongModel End => Points.LastOrDefault();
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Created.ToString("dd/MM/yy HH:mm") : Name;
 
-        public LocationModel GetClosestStartPoint(IList<LocationModel> locations) {
+        public LatLongModel GetClosestStartPoint(IList<LatLongModel> locations) {
             return GetClosestPoint(locations, Start);
         }
 
-        public LocationModel GetClosestEndPoint(IList<LocationModel> locations) {
+        public LatLongModel GetClosestEndPoint(IList<LatLongModel> locations) {
             return GetClosestPoint(locations, End);
         }
 
-        private LocationModel GetClosestPoint(IList<LocationModel> locations, LatLongModel point) {
-            LocationModel closestLocation = null;
+        private LatLongModel GetClosestPoint(IList<LatLongModel> locations, LatLongModel point) {
+            LatLongModel closestLocation = null;
             double lastDistance = double.MaxValue;
 
             foreach (var location in locations) {
-                double distance = location.LatLong.CalculateDistance(point);
+                double distance = location.CalculateDistance(point);
 
                 if (distance < lastDistance) {
                     lastDistance = distance;

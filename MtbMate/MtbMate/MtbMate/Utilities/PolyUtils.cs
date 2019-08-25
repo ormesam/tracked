@@ -73,5 +73,42 @@ namespace MtbMate.Utilities
                 latLong2,
             }.CalculateDistanceKm();
         }
+
+        public static bool LocationsMatch(SegmentModel segment, IList<LatLongModel> rideLocations) {
+            bool matchesStart = rideLocations
+                .HasPointOnLine(segment.Start);
+
+            bool matchesEnd = rideLocations
+                .HasPointOnLine(segment.End);
+
+            if (!matchesStart || !matchesEnd) {
+                return false;
+            };
+
+            var closestPointToSegmentStart = segment.GetClosestStartPoint(rideLocations);
+            var closestPointToSegmentEnd = segment.GetClosestEndPoint(rideLocations);
+
+            if (closestPointToSegmentStart == null || closestPointToSegmentEnd == null) {
+                return false;
+            }
+
+            int startIdx = rideLocations.IndexOf(closestPointToSegmentStart);
+            int endIdx = rideLocations.IndexOf(closestPointToSegmentEnd);
+
+            var segmentLocations = rideLocations.ToList().GetRange(startIdx, endIdx - startIdx);
+
+            int matchedPointCount = 0;
+            int missedPointCount = 0;
+
+            foreach (var segmentLocation in segmentLocations) {
+                if (segment.Points.HasPointOnLine(segmentLocation)) {
+                    matchedPointCount++;
+                } else {
+                    missedPointCount++;
+                }
+            }
+
+            return matchedPointCount >= segment.Points.Count * 0.9;
+        }
     }
 }

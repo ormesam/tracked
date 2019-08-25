@@ -27,45 +27,46 @@ namespace MtbMate.Models
         }
 
         public bool MatchesSegment(SegmentModel segment) {
-            var latLongs = Locations
-                .Select(i => i.LatLong)
-                .ToList();
+            return false;
+            //var latLongs = Locations
+            //    .Select(i => i.LatLong)
+            //    .ToList();
 
-            bool matchesStart = latLongs
-                .HasPointOnLine(segment.Start);
+            //bool matchesStart = latLongs
+            //    .HasPointOnLine(segment.Start);
 
-            bool matchesEnd = latLongs
-                .HasPointOnLine(segment.End);
+            //bool matchesEnd = latLongs
+            //    .HasPointOnLine(segment.End);
 
-            if (!matchesStart || !matchesEnd) {
-                return false;
-            };
+            //if (!matchesStart || !matchesEnd) {
+            //    return false;
+            //};
 
-            var closestPointToSegmentStart = segment.GetClosestStartPoint(Locations);
-            var closestPointToSegmentEnd = segment.GetClosestEndPoint(Locations);
+            //var closestPointToSegmentStart = segment.GetClosestStartPoint(Locations);
+            //var closestPointToSegmentEnd = segment.GetClosestEndPoint(Locations);
 
-            if (closestPointToSegmentStart == null || closestPointToSegmentEnd == null) {
-                return false;
-            }
+            //if (closestPointToSegmentStart == null || closestPointToSegmentEnd == null) {
+            //    return false;
+            //}
 
-            var segmentLocations = Locations
-                .Where(i => i.SpeedMetresPerSecond > 0)
-                .Where(i => i.Timestamp >= closestPointToSegmentStart.Timestamp)
-                .Where(i => i.Timestamp <= closestPointToSegmentEnd.Timestamp)
-                .ToList();
+            //var segmentLocations = Locations
+            //    .Where(i => i.SpeedMetresPerSecond > 0)
+            //    .Where(i => i.Timestamp >= closestPointToSegmentStart.Timestamp)
+            //    .Where(i => i.Timestamp <= closestPointToSegmentEnd.Timestamp)
+            //    .ToList();
 
-            int matchedPointCount = 0;
-            int missedPointCount = 0;
+            //int matchedPointCount = 0;
+            //int missedPointCount = 0;
 
-            foreach (var segmentLocation in segmentLocations) {
-                if (segment.Points.HasPointOnLine(segmentLocation.LatLong)) {
-                    matchedPointCount++;
-                } else {
-                    missedPointCount++;
-                }
-            }
+            //foreach (var segmentLocation in segmentLocations) {
+            //    if (segment.Points.HasPointOnLine(segmentLocation.LatLong)) {
+            //        matchedPointCount++;
+            //    } else {
+            //        missedPointCount++;
+            //    }
+            //}
 
-            return matchedPointCount >= segment.Points.Count * 0.9;
+            //return matchedPointCount >= segment.Points.Count * 0.9;
         }
 
         public ShareFile GetReadingsFile() {
