@@ -5,6 +5,11 @@
     x:Class="MtbMate.Screens.Segments.SegmentScreen"
     xmlns:controls="clr-namespace:MtbMate.Controls"
     Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            IconImageSource="tick_icon.png"
+            Clicked="Analyse_Clicked" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
               <StackLayout>

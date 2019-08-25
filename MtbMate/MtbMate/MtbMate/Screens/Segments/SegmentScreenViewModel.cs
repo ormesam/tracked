@@ -1,6 +1,8 @@
 ﻿using MtbMate.Contexts;
 using MtbMate.Models;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -42,6 +44,16 @@ namespace MtbMate.Screens.Segments
 
         public async Task GoToMapScreen(INavigation nav) {
             await Context.UI.GoToMapScreenAsync(nav, DisplayName, Segment.Points);
+        }
+
+        public void AnalyseExistingRides() {
+            foreach (var ride in Context.Model.Rides) {
+                Debug.WriteLine($"Attempting to match ride {ride.Name} to segment {Segment.Name}");
+
+                bool matches = ride.MatchesSegment(Segment);
+
+                Debug.WriteLine("Matches: " + matches);
+            }
         }
     }
 }

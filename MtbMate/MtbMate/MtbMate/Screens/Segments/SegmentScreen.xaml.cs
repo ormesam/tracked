@@ -43,5 +43,9 @@ namespace MtbMate.Screens.Segments
         private async void Map_MapClicked(object sender, MapClickedEventArgs e) {
             await ViewModel.GoToMapScreen(Navigation);
         }
+
+        private void Analyse_Clicked(object sender, EventArgs e) {
+            ViewModel.AnalyseExistingRides();
+        }
     }
 }

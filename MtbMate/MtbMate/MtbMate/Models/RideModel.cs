@@ -1,6 +1,9 @@
-﻿using System;
+﻿using MtbMate.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Xamarin.Essentials;
 
@@ -17,21 +20,60 @@ namespace MtbMate.Models
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
 
-        public RideModel()
-        {
+        public RideModel() {
             Locations = new List<LocationModel>();
             Jumps = new List<JumpModel>();
             AccelerometerReadings = new List<AccelerometerReadingModel>();
         }
 
-        public ShareFile GetReadingsFile()
-        {
+        public bool MatchesSegment(SegmentModel segment) {
+            var latLongs = Locations
+                .Select(i => i.LatLong)
+                .ToList();
+
+            bool matchesStart = latLongs
+                .HasPointOnLine(segment.Start);
+
+            bool matchesEnd = latLongs
+                .HasPointOnLine(segment.End);
+
+            if (!matchesStart || !matchesEnd) {
+                return false;
+            };
+
+            var closestPointToSegmentStart = segment.GetClosestStartPoint(Locations);
+            var closestPointToSegmentEnd = segment.GetClosestEndPoint(Locations);
+
+            if (closestPointToSegmentStart == null || closestPointToSegmentEnd == null) {
+                return false;
+            }
+
+            var segmentLocations = Locations
+                .Where(i => i.SpeedMetresPerSecond > 0)
+                .Where(i => i.Timestamp >= closestPointToSegmentStart.Timestamp)
+                .Where(i => i.Timestamp <= closestPointToSegmentEnd.Timestamp)
+                .ToList();
+
+            int matchedPointCount = 0;
+            int missedPointCount = 0;
+
+            foreach (var segmentLocation in segmentLocations) {
+                if (segment.Points.HasPointOnLine(segmentLocation.LatLong)) {
+                    matchedPointCount++;
+                } else {
+                    missedPointCount++;
+                }
+            }
+
+            return matchedPointCount >= segment.Points.Count * 0.9;
+        }
+
+        public ShareFile GetReadingsFile() {
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("TimeStamp,X,Y,Z");
 
-            foreach (var reading in AccelerometerReadings)
-            {
+            foreach (var reading in AccelerometerReadings) {
                 sb.AppendLine($"{reading.Timestamp},{reading.X},{reading.Y},{reading.Z}");
             }
 
@@ -44,14 +86,12 @@ namespace MtbMate.Models
             return new ShareFile(filePath);
         }
 
-        public ShareFile GetLocationFile()
-        {
+        public ShareFile GetLocationFile() {
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("TimeStamp,Lat,Lon,Position Accuracy,Mps,Mps Accuracy (m),Mph,Altitude");
 
-            foreach (var location in Locations)
-            {
+            foreach (var location in Locations) {
                 sb.AppendLine($"{location.Timestamp},{location.LatLong.Latitude},{location.LatLong.Longitude},{location.AccuracyInMetres}," +
                     $"{location.SpeedMetresPerSecond},{location.SpeedAccuracyMetresPerSecond},{location.Mph}," +
                     $"{location.Altitude}");
