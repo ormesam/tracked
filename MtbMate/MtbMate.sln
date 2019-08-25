@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtbMate.Android", "MtbMate\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MtbMate", "MtbMate\MtbMate\MtbMate.csproj", "{93E0597C-E825-4076-A5B1-90ED1414A347}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtbMate.Tests", "MtbMate.Tests\MtbMate.Tests.csproj", "{43E12396-CC15-4C5A-A728-451E2BF1B23B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{93E0597C-E825-4076-A5B1-90ED1414A347}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93E0597C-E825-4076-A5B1-90ED1414A347}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93E0597C-E825-4076-A5B1-90ED1414A347}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,10 @@
 ﻿using MtbMate.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using Xamarin.Essentials;
 
 namespace MtbMate.Models
 {
@@ -37,6 +40,22 @@ namespace MtbMate.Models
             }
 
             return closestLocation;
+        }
+
+        public ShareFile GetLocationFile() {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var point in Points) {
+                sb.AppendLine($"S,{point.Latitude},{point.Longitude},E");
+            }
+
+            sb.AppendLine();
+
+            string fileName = "Segment Data.txt";
+            string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+            File.WriteAllText(filePath, sb.ToString());
+
+            return new ShareFile(filePath);
         }
     }
 }

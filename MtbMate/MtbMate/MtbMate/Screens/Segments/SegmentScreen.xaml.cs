@@ -12,8 +12,7 @@ namespace MtbMate.Screens.Segments
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SegmentScreen : ContentPage
     {
-        public SegmentScreen(MainContext context, SegmentModel segment)
-        {
+        public SegmentScreen(MainContext context, SegmentModel segment) {
             InitializeComponent();
             BindingContext = new SegmentScreenViewModel(context, segment);
 
