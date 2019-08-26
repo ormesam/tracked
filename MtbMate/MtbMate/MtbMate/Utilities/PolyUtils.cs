@@ -8,7 +8,7 @@ namespace MtbMate.Utilities
 {
     public static class PolyUtils
     {
-        public static bool HasPointOnLine(this IList<LatLongModel> path, LatLongModel point, int toleranceInMetres = 25) {
+        public static bool HasPointOnLine(this IList<LatLngModel> path, LatLngModel point, int toleranceInMetres = 25) {
             //var p = GetGeoModel(point);
 
             foreach (var location in path) {
@@ -35,7 +35,7 @@ namespace MtbMate.Utilities
             return false;
         }
 
-        public static double CalculateDistanceKm(this IList<LatLongModel> path) {
+        public static double CalculateDistanceKm(this IList<LatLngModel> path) {
             double totalKm = 0;
 
             for (int i = 0; i < path.Count - 1; i++) {
@@ -55,7 +55,7 @@ namespace MtbMate.Utilities
                 .CalculateDistanceKm();
         }
 
-        public static double CalculateDistanceMi(this IList<LatLongModel> path) {
+        public static double CalculateDistanceMi(this IList<LatLngModel> path) {
             return path.CalculateDistanceKm() * 0.621371192;
         }
 
@@ -63,22 +63,18 @@ namespace MtbMate.Utilities
             return path.CalculateDistanceKm() * 0.621371192;
         }
 
-        private static GeoCoordinate GetGeoModel(LatLongModel model) {
+        private static GeoCoordinate GetGeoModel(LatLngModel model) {
             return new GeoCoordinate(model.Latitude, model.Longitude);
         }
 
-        public static double CalculateDistance(this LatLongModel latLong1, LatLongModel latLong2) {
-            return new List<LatLongModel>() {
+        public static double CalculateDistance(this LatLngModel latLong1, LatLngModel latLong2) {
+            return new List<LatLngModel>() {
                 latLong1,
                 latLong2,
             }.CalculateDistanceKm();
         }
 
-        public static bool LocationsMatch(SegmentModel segment, IList<LatLongModel> rideLocations) {
-            rideLocations = rideLocations
-                .Where(i => i.Speed >= 1)
-                .ToList();
-
+        public static bool LocationsMatch(SegmentModel segment, IList<LatLngModel> rideLocations) {
             bool matchesStart = rideLocations
                 .HasPointOnLine(segment.Start);
 
@@ -99,7 +95,7 @@ namespace MtbMate.Utilities
             int startIdx = rideLocations.IndexOf(closestPointToSegmentStart);
             int endIdx = rideLocations.IndexOf(closestPointToSegmentEnd);
 
-            var filteredRideLocations = rideLocations.ToList().GetRange(startIdx, endIdx - startIdx);
+            var filteredRideLocations = rideLocations.ToList().GetRange(startIdx, (endIdx - startIdx) + 1);
 
             int matchedPointCount = 0;
             int missedPointCount = 0;

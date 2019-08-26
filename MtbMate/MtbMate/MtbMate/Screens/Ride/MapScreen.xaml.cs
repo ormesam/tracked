@@ -20,7 +20,7 @@ namespace MtbMate.Screens.Ride
             Map.ShowSpeed = ViewModel.ShowSpeed;
         }
 
-        public MapScreen(MainContext context, string title, IList<LatLongModel> locations) {
+        public MapScreen(MainContext context, string title, IList<LatLngModel> locations) {
             InitializeComponent();
             BindingContext = new MapScreenViewModel(context, title, locations);
 

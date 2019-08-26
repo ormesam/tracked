@@ -47,11 +47,11 @@ namespace MtbMate.Screens.Segments
         }
 
         public void AnalyseExistingRides() {
-            foreach (var ride in Context.Model.Rides) {
-                bool matches = ride.MatchesSegment(Segment);
+            ////foreach (var ride in Context.Model.Rides) {
+            ////    bool matches = ride.MatchesSegments(Context.Model.);
 
-                Debug.WriteLine($"Attempt to match ride {ride.Name} to segment {Segment.Name}: {matches}");
-            }
+            ////    Debug.WriteLine($"Attempt to match ride {ride.Name} to segment {Segment.Name}: {matches}");
+            ////}
         }
     }
 }

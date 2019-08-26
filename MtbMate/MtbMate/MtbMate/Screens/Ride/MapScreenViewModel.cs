@@ -24,7 +24,7 @@ namespace MtbMate.Screens.Ride
         public MapScreenViewModel(
             MainContext context,
             string title,
-            IList<LatLongModel> locations) : base(context) {
+            IList<LatLngModel> locations) : base(context) {
 
             this.title = title;
             ShowSpeed = false;

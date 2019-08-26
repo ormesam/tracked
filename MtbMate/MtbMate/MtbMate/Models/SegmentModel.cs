@@ -12,22 +12,22 @@ namespace MtbMate.Models
     {
         public Guid? Id { get; set; }
         public string Name { get; set; }
-        public IList<LatLongModel> Points { get; set; }
+        public IList<LatLngModel> Points { get; set; }
         public DateTime Created { get; set; }
-        public LatLongModel Start => Points.FirstOrDefault();
-        public LatLongModel End => Points.LastOrDefault();
+        public LatLngModel Start => Points.FirstOrDefault();
+        public LatLngModel End => Points.LastOrDefault();
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Created.ToString("dd/MM/yy HH:mm") : Name;
 
-        public LatLongModel GetClosestStartPoint(IList<LatLongModel> locations) {
+        public LatLngModel GetClosestStartPoint(IList<LatLngModel> locations) {
             return GetClosestPoint(locations, Start);
         }
 
-        public LatLongModel GetClosestEndPoint(IList<LatLongModel> locations) {
+        public LatLngModel GetClosestEndPoint(IList<LatLngModel> locations) {
             return GetClosestPoint(locations, End);
         }
 
-        private LatLongModel GetClosestPoint(IList<LatLongModel> locations, LatLongModel point) {
-            LatLongModel closestLocation = null;
+        private LatLngModel GetClosestPoint(IList<LatLngModel> locations, LatLngModel point) {
+            LatLngModel closestLocation = null;
             double lastDistance = double.MaxValue;
 
             foreach (var location in locations) {

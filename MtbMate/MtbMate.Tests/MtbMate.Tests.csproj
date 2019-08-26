@@ -52,7 +52,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LatLng.cs" />
     <Compile Include="TarlandRedSegment.cs" />
     <Compile Include="TarlandOrangeSegment.cs" />
     <Compile Include="TarlandBlueSegment.cs" />

@@ -6,7 +6,7 @@ namespace MtbMate.Models
     {
         public long Time { get; set; }
         public DateTime Timestamp { get; set; }
-        public LatLongModel LatLong { get; set; }
+        public LatLngModel LatLong { get; set; }
         public double? AccuracyInMetres { get; set; }
         public double SpeedMetresPerSecond { get; set; }
         public double? SpeedAccuracyMetresPerSecond { get; set; }
