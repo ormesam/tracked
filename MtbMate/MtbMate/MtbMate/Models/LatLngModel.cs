@@ -1,5 +1,8 @@
-﻿namespace MtbMate.Models
+﻿using System.Diagnostics;
+
+namespace MtbMate.Models
 {
+    [DebuggerDisplay("Lat: {Latitude} Lng: {Longitude}")]
     public class LatLngModel
     {
         public double Latitude { get; set; }

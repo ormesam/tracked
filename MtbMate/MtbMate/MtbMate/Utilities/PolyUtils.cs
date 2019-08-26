@@ -8,7 +8,7 @@ namespace MtbMate.Utilities
 {
     public static class PolyUtils
     {
-        public static bool HasPointOnLine(this IList<LatLngModel> path, LatLngModel point, int toleranceInMetres = 25) {
+        public static bool HasPointOnLine(this IList<LatLngModel> path, LatLngModel point, int toleranceInMetres = 20) {
             //var p = GetGeoModel(point);
 
             foreach (var location in path) {
@@ -108,8 +108,8 @@ namespace MtbMate.Utilities
                 }
             }
 
-            // return true if 60% of the segment points match the ride
-            return matchedPointCount >= segment.Points.Count * 0.65;
+            // return true if 70% of the segment points match the ride
+            return matchedPointCount >= segment.Points.Count * 0.70;
         }
     }
 }

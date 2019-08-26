@@ -40,7 +40,7 @@ namespace MtbMate.Screens.Segments
                     selectedRide = value;
 
                     LowerIndex = 0;
-                    UpperIndex = value?.Locations.Count - 1 ?? 0;
+                    UpperIndex = Locations?.Count - 1 ?? 0;
 
                     OnPropertyChanged(nameof(SelectedRide));
                     OnPropertyChanged(nameof(ShowRideList));
@@ -50,23 +50,35 @@ namespace MtbMate.Screens.Segments
             }
         }
 
-        public IList<Pin> FilteredLocations {
+        private IList<LocationModel> Locations {
             get {
                 if (SelectedRide == null) {
-                    return new List<Pin>();
+                    return null;
                 }
 
                 return SelectedRide.Locations
+                    .Where(i => i.Mph >= 1)
+                    .ToList();
+            }
+        }
+
+        public IList<Pin> FilteredLocations {
+            get {
+                if (Locations == null) {
+                    return new List<Pin>();
+                }
+
+                return Locations
                     .Select(i => new Pin {
                         Position = new Position(i.LatLong.Latitude, i.LatLong.Longitude),
                         Label = i.Timestamp.ToShortTimeString(),
                     })
                     .ToList()
-                    .GetRange(lowerIndex, upperIndex - lowerIndex);
+                    .GetRange(lowerIndex, (upperIndex - lowerIndex) + 1);
             }
         }
 
-        public int PointCount => SelectedRide?.Locations.Count - 1 ?? 0;
+        public int PointCount => Locations?.Count - 1 ?? 0;
 
         public bool ShowRideList => SelectedRide == null;
 
@@ -94,9 +106,10 @@ namespace MtbMate.Screens.Segments
 
         public void Save(INavigation nav) {
             segment.Points = SelectedRide.Locations
+                .Where(i => i.Mph >= 1)
                 .Select(i => i.LatLong)
                 .ToList()
-                .GetRange(lowerIndex, upperIndex - lowerIndex);
+                .GetRange(lowerIndex, (upperIndex - lowerIndex) + 1);
 
             if (!segment.Points.Any()) {
                 return;
