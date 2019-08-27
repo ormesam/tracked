@@ -11,7 +11,8 @@
             Clicked="Analyse_Clicked" />
         <ToolbarItem
             Text="Delete"
-            Clicked="Delete_Clicked" />
+            Clicked="Delete_Clicked"
+            Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>

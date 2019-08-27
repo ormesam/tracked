@@ -1,7 +1,9 @@
 ﻿using MtbMate.Models;
 using MtbMate.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MtbMate.Contexts
@@ -33,6 +35,10 @@ namespace MtbMate.Contexts
         }
 
         public async Task RemoveRide(RideModel ride) {
+            var attempts = SegmentAttempts.Where(i => i.RideId == ride.Id);
+
+            await RemoveSegmentAttempts(attempts);
+
             Rides.Remove(ride);
 
             await storage.RemoveObject<SegmentModel>(ride.Id.Value);
@@ -49,9 +55,21 @@ namespace MtbMate.Contexts
         }
 
         public async Task RemoveSegment(SegmentModel segment) {
+            var attempts = SegmentAttempts.Where(i => i.SegmentId == segment.Id);
+
+            await RemoveSegmentAttempts(attempts);
+
             Segments.Remove(segment);
 
             await storage.RemoveObject<SegmentModel>(segment.Id.Value);
+        }
+
+        private async Task RemoveSegmentAttempts(IEnumerable<SegmentAttemptModel> attempts) {
+
+            foreach (var attempt in attempts) {
+                SegmentAttempts.Remove(attempt);
+                await storage.RemoveObject<SegmentAttemptModel>(attempt.Id.Value);
+            }
         }
 
         public async Task SaveSegmentAttempt(SegmentAttemptModel segmentAttempt) {
