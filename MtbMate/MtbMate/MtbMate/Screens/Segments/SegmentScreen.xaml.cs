@@ -52,5 +52,9 @@ namespace MtbMate.Screens.Segments
         private void Analyse_Clicked(object sender, EventArgs e) {
             ViewModel.AnalyseExistingRides();
         }
+
+        private async void Delete_Clicked(object sender, EventArgs e) {
+            await ViewModel.DeleteSegment(Navigation);
+        }
     }
 }

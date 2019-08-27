@@ -78,7 +78,11 @@ namespace MtbMate.Contexts
         }
 
         public async Task GoToCreateSegmentScreenAsync(INavigation nav) {
-            await nav.PushAsync(new CreateSegmentScreen(context));
+            await nav.PushAsync(new SelectRideScreen(context));
+        }
+
+        public async Task GoToCreateSegmentScreenAsync(INavigation nav, RideModel ride) {
+            await nav.PushAsync(new CreateSegmentScreen(context, ride));
         }
 
         public async Task GoToSegmentScreenAsync(INavigation nav, SegmentModel segment) {

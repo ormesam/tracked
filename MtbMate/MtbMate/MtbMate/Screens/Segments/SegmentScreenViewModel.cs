@@ -53,5 +53,11 @@ namespace MtbMate.Screens.Segments
             ////    Debug.WriteLine($"Attempt to match ride {ride.Name} to segment {Segment.Name}: {matches}");
             ////}
         }
+
+        public async Task DeleteSegment(INavigation nav) {
+            await Context.Model.RemoveSegment(Segment);
+
+            await nav.PopAsync();
+        }
     }
 }

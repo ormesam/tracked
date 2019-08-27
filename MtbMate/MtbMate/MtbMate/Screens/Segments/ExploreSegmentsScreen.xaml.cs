@@ -16,6 +16,12 @@ namespace MtbMate.Screens.Settings
 
         public ExploreSegmentsScreenViewModel ViewModel => BindingContext as ExploreSegmentsScreenViewModel;
 
+        protected override void OnAppearing() {
+            base.OnAppearing();
+
+            ViewModel.Refresh();
+        }
+
         private async void Add_Clicked(object sender, System.EventArgs e)
         {
             await ViewModel.AddSegment(Navigation);

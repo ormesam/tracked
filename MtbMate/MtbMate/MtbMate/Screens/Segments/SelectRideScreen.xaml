@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Class="MtbMate.Screens.Segments.SelectRideScreen">
+    <ContentPage.Content>
+        <StackLayout
+            IsVisible="{Binding ShowRideList}">
+            <Label
+                Margin="10"
+                Text="Select a ride to create a segment from it. You can trim the start and end points after selection." />
+            <ListView
+                ItemsSource="{Binding Rides}"
+                ItemTapped="Ride_Tapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell
+                            Text="{Binding DisplayName}"
+                            Detail="{Binding Start, StringFormat='{0:d MMM yy HH:mm}'}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

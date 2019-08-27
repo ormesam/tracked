@@ -9,16 +9,7 @@ namespace MtbMate.Utilities
     public static class PolyUtils
     {
         public static bool HasPointOnLine(this IList<LatLngModel> path, LatLngModel point, int toleranceInMetres = 25) {
-            foreach (var location in path) {
-                // gets distance in Km so convert to meters
-                double distance = location.CalculateDistance(point) * 1000;
-
-                if (distance <= toleranceInMetres) {
-                    return true;
-                }
-            }
-
-            return false;
+            return path.Any(i => i.CalculateDistance(point) * 1000 <= toleranceInMetres);
         }
 
         public static double CalculateDistanceKm(this IList<LatLngModel> path) {
