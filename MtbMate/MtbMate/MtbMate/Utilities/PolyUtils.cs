@@ -8,9 +8,7 @@ namespace MtbMate.Utilities
 {
     public static class PolyUtils
     {
-        public static bool HasPointOnLine(this IList<LatLngModel> path, LatLngModel point, int toleranceInMetres = 20) {
-            //var p = GetGeoModel(point);
-
+        public static bool HasPointOnLine(this IList<LatLngModel> path, LatLngModel point, int toleranceInMetres = 25) {
             foreach (var location in path) {
                 // gets distance in Km so convert to meters
                 double distance = location.CalculateDistance(point) * 1000;
@@ -19,18 +17,6 @@ namespace MtbMate.Utilities
                     return true;
                 }
             }
-
-            //for (int i = 0; i < path.Count - 1; i++) {
-            //    var geo1 = GetGeoModel(path[i]);
-            //    var geo2 = GetGeoModel(path[i + 1]);
-
-            //    var distance1 = Math.Round(geo1.GetDistanceTo(p) + geo2.GetDistanceTo(p), toleranceInMetres);
-            //    var distance2 = Math.Round(geo1.GetDistanceTo(geo2), toleranceInMetres);
-
-            //    if (distance1 == distance2) {
-            //        return true;
-            //    }
-            //}
 
             return false;
         }
@@ -108,8 +94,8 @@ namespace MtbMate.Utilities
                 }
             }
 
-            // return true if 70% of the segment points match the ride
-            return matchedPointCount >= segment.Points.Count * 0.70;
+            // return true if 90% of the segment points match the ride
+            return matchedPointCount >= segment.Points.Count * 0.9;
         }
     }
 }
