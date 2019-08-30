@@ -31,7 +31,8 @@
                     </Label.GestureRecognizers>
                 </Label>
                 <ListView
-                    ItemsSource="{Binding Attempts}">
+                    ItemsSource="{Binding Attempts}"
+                    ItemTapped="Attempt_Tapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <TextCell

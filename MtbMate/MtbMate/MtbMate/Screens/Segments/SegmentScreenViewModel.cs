@@ -51,5 +51,9 @@ namespace MtbMate.Screens.Segments
 
             await nav.PopAsync();
         }
+
+        public async Task GoToAttempt(INavigation nav, SegmentAttemptModel attempt) {
+            await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
+        }
     }
 }

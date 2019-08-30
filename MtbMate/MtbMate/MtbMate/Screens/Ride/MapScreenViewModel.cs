@@ -12,20 +12,13 @@ namespace MtbMate.Screens.Ride
         public bool ShowSpeed { get; }
         public IList<LocationModel> Locations { get; }
 
-        public MapScreenViewModel(
-            MainContext context,
-            RideModel ride) : base(context) {
-
-            title = ride.Name;
+        public MapScreenViewModel(MainContext context, string title, IList<LocationModel> locations) : base(context) {
+            this.title = title;
             ShowSpeed = true;
-            Locations = ride.Locations;
+            Locations = locations;
         }
 
-        public MapScreenViewModel(
-            MainContext context,
-            string title,
-            IList<LatLngModel> locations) : base(context) {
-
+        public MapScreenViewModel(MainContext context, string title, IList<LatLngModel> locations) : base(context) {
             this.title = title;
             ShowSpeed = false;
 
