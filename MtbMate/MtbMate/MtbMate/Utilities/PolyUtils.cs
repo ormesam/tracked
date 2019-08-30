@@ -51,7 +51,7 @@ namespace MtbMate.Utilities
             }.CalculateDistanceKm();
         }
 
-        public static bool LocationsMatch(SegmentModel segment, IList<LatLngModel> rideLocations) {
+        public static LocationMatchResult LocationsMatch(SegmentModel segment, IList<LatLngModel> rideLocations) {
             bool matchesStart = rideLocations
                 .HasPointOnLine(segment.Start);
 
@@ -59,14 +59,18 @@ namespace MtbMate.Utilities
                 .HasPointOnLine(segment.End);
 
             if (!matchesStart || !matchesEnd) {
-                return false;
+                return new LocationMatchResult {
+                    MatchesSegment = false,
+                };
             };
 
             var closestPointToSegmentStart = segment.GetClosestStartPoint(rideLocations);
             var closestPointToSegmentEnd = segment.GetClosestEndPoint(rideLocations);
 
             if (closestPointToSegmentStart == null || closestPointToSegmentEnd == null) {
-                return false;
+                return new LocationMatchResult {
+                    MatchesSegment = false,
+                };
             }
 
             int startIdx = rideLocations.IndexOf(closestPointToSegmentStart);
@@ -86,7 +90,11 @@ namespace MtbMate.Utilities
             }
 
             // return true if 90% of the segment points match the ride
-            return matchedPointCount >= segment.Points.Count * 0.9;
+            return new LocationMatchResult {
+                MatchesSegment = matchedPointCount >= segment.Points.Count * 0.9,
+                StartIdx = startIdx,
+                EndIdx = endIdx,
+            };
         }
     }
 }

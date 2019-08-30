@@ -41,16 +41,7 @@ namespace MtbMate.Screens.Segments
         }
 
         private async void Map_MapClicked(object sender, MapClickedEventArgs e) {
-            //await ViewModel.GoToMapScreen(Navigation);
-
-            await Share.RequestAsync(new ShareFileRequest {
-                File = ViewModel.Segment.GetLocationFile(),
-                Title = "Segment Readings",
-            });
-        }
-
-        private void Analyse_Clicked(object sender, EventArgs e) {
-            ViewModel.AnalyseExistingRides();
+            await ViewModel.GoToMapScreen(Navigation);
         }
 
         private async void Delete_Clicked(object sender, EventArgs e) {

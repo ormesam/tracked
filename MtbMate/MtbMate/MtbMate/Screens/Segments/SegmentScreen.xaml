@@ -7,9 +7,6 @@
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
-            IconImageSource="tick_icon.png"
-            Clicked="Analyse_Clicked" />
-        <ToolbarItem
             Text="Delete"
             Clicked="Delete_Clicked"
             Order="Secondary" />

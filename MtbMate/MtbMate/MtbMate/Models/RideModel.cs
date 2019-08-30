@@ -19,6 +19,9 @@ namespace MtbMate.Models
         public IList<JumpModel> Jumps { get; set; }
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
+        public IList<LocationModel> MovingLocations => Locations
+            .Where(i => i.Mph >= 1)
+            .ToList();
 
         public RideModel() {
             Locations = new List<LocationModel>();
@@ -26,27 +29,24 @@ namespace MtbMate.Models
             AccelerometerReadings = new List<AccelerometerReadingModel>();
         }
 
-        public IList<SegmentAttemptModel> GetMatchingSegments(IList<SegmentModel> segments) {
-            IList<LatLngModel> locationsToAnalyse = Locations
-                .Where(i => i.Mph >= 1)
+        public SegmentAttemptModel MatchesSegment(SegmentModel segment) {
+            List<LatLngModel> locationLatLngs = MovingLocations
                 .Select(i => i.LatLong)
                 .ToList();
 
-            IList<SegmentAttemptModel> matchingSegments = new List<SegmentAttemptModel>();
+            var result = PolyUtils.LocationsMatch(segment, locationLatLngs);
 
-            foreach (var segment in segments) {
-                if (locationsToAnalyse.HasPointOnLine(segment.Start) && locationsToAnalyse.HasPointOnLine(segment.End)) {
-                    if (PolyUtils.LocationsMatch(segment, locationsToAnalyse)) {
-                        matchingSegments.Add(new SegmentAttemptModel {
-                            Created = DateTime.UtcNow,
-                            RideId = Id,
-                            SegmentId = segment.Id,
-                        });
-                    }
-                }
+            if (!result.MatchesSegment) {
+                return null;
             }
 
-            return matchingSegments;
+            return new SegmentAttemptModel {
+                Created = MovingLocations.First().Timestamp,
+                RideId = Id,
+                SegmentId = segment.Id,
+                StartIdx = result.StartIdx,
+                EndIdx = result.EndIdx,
+            };
         }
 
         public ShareFile GetReadingsFile() {

@@ -35,7 +35,9 @@ namespace MtbMate.Contexts
         }
 
         public async Task RemoveRide(RideModel ride) {
-            var attempts = SegmentAttempts.Where(i => i.RideId == ride.Id);
+            var attempts = SegmentAttempts
+                .Where(i => i.RideId == ride.Id)
+                .ToList(); ;
 
             await RemoveSegmentAttempts(attempts);
 
@@ -49,13 +51,27 @@ namespace MtbMate.Contexts
                 segment.Id = Guid.NewGuid();
 
                 Segments.Add(segment);
+
+                await AnalyseExistingRides(segment);
             }
 
             await storage.SaveObject(segment.Id.Value, segment);
         }
 
+        private async Task AnalyseExistingRides(SegmentModel segment) {
+            foreach (var ride in Rides) {
+                SegmentAttemptModel result = ride.MatchesSegment(segment);
+
+                if (result != null) {
+                    await SaveSegmentAttempt(result);
+                }
+            }
+        }
+
         public async Task RemoveSegment(SegmentModel segment) {
-            var attempts = SegmentAttempts.Where(i => i.SegmentId == segment.Id);
+            var attempts = SegmentAttempts
+                .Where(i => i.SegmentId == segment.Id)
+                .ToList();
 
             await RemoveSegmentAttempts(attempts);
 
@@ -65,7 +81,6 @@ namespace MtbMate.Contexts
         }
 
         private async Task RemoveSegmentAttempts(IEnumerable<SegmentAttemptModel> attempts) {
-
             foreach (var attempt in attempts) {
                 SegmentAttempts.Remove(attempt);
                 await storage.RemoveObject<SegmentAttemptModel>(attempt.Id.Value);
