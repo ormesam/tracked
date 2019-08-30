@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Models;
-using MtbMate.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -13,18 +10,16 @@ namespace MtbMate.Screens.Segments
 {
     public class CreateSegmentScreenViewModel : ViewModelBase
     {
-        private SegmentModel segment;
-        private RideModel selectedRide;
-        private int lowerIndex;
-        private int upperIndex;
+        private readonly SegmentModel segment;
+        public readonly RideModel Ride;
+        private int count;
 
-        public CreateSegmentScreenViewModel(MainContext context) : base(context) {
+        public CreateSegmentScreenViewModel(MainContext context, RideModel ride) : base(context) {
             segment = new SegmentModel();
+            Ride = ride;
+            Points = new ObservableCollection<Pin>();
+            count = 1;
         }
-
-        public ObservableCollection<RideModel> Rides => Context.Model.Rides
-            .OrderByDescending(i => i.Start)
-            .ToObservable();
 
         public string Name {
             get { return segment.Name; }
@@ -33,74 +28,16 @@ namespace MtbMate.Screens.Segments
 
         public override string Title => "Create Segment";
 
-        public RideModel SelectedRide {
-            get { return selectedRide; }
-            set {
-                if (selectedRide != value) {
-                    selectedRide = value;
-
-                    LowerIndex = 0;
-                    UpperIndex = value?.Locations.Count - 1 ?? 0;
-
-                    OnPropertyChanged(nameof(SelectedRide));
-                    OnPropertyChanged(nameof(ShowRideList));
-                    OnPropertyChanged(nameof(FilteredLocations));
-                    OnPropertyChanged(nameof(PointCount));
-                }
-            }
-        }
-
-        public IList<Pin> FilteredLocations {
-            get {
-                if (SelectedRide == null) {
-                    return new List<Pin>();
-                }
-
-                return SelectedRide.Locations
-                    .Select(i => new Pin {
-                        Position = new Position(i.LatLong.Latitude, i.LatLong.Longitude),
-                        Label = i.Timestamp.ToShortTimeString(),
-                    })
-                    .ToList()
-                    .GetRange(lowerIndex, upperIndex - lowerIndex);
-            }
-        }
-
-        public int PointCount => SelectedRide?.Locations.Count - 1 ?? 0;
-
-        public bool ShowRideList => SelectedRide == null;
-
-        public int LowerIndex {
-            get { return lowerIndex; }
-            set {
-                if (lowerIndex != value) {
-                    lowerIndex = value;
-                    OnPropertyChanged(nameof(LowerIndex));
-                    OnPropertyChanged(nameof(FilteredLocations));
-                }
-            }
-        }
-
-        public int UpperIndex {
-            get { return upperIndex; }
-            set {
-                if (upperIndex != value) {
-                    upperIndex = value;
-                    OnPropertyChanged(nameof(UpperIndex));
-                    OnPropertyChanged(nameof(FilteredLocations));
-                }
-            }
-        }
+        public ObservableCollection<Pin> Points { get; }
 
         public void Save(INavigation nav) {
-            segment.Points = SelectedRide.Locations
-                .Select(i => i.LatLong)
-                .ToList()
-                .GetRange(lowerIndex, upperIndex - lowerIndex);
-
-            if (!segment.Points.Any()) {
+            if (!Points.Any()) {
                 return;
             }
+
+            segment.Points = Points
+                .Select(i => new LatLngModel(i.Position.Latitude, i.Position.Longitude))
+                .ToList();
 
             Context.UI.ShowInputDialog("Segment Name", string.Empty, async (newName) => {
                 if (string.IsNullOrWhiteSpace(newName)) {
@@ -114,6 +51,19 @@ namespace MtbMate.Screens.Segments
 
                 await nav.PopAsync();
             });
+        }
+
+        public void AddPin(double latitude, double longitude) {
+            var pin = new Pin {
+                Position = new Position(latitude, longitude),
+                Label = $"Point {count++}\nTap to delete",
+            };
+
+            pin.Clicked += (s, e) => {
+                Points.Remove(pin);
+            };
+
+            Points.Add(pin);
         }
     }
 }

@@ -7,8 +7,9 @@
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
-            IconImageSource="tick_icon.png"
-            Clicked="Analyse_Clicked" />
+            Text="Delete"
+            Clicked="Delete_Clicked"
+            Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
@@ -30,7 +31,8 @@
                     </Label.GestureRecognizers>
                 </Label>
                 <ListView
-                    ItemsSource="{Binding Attempts}">
+                    ItemsSource="{Binding Attempts}"
+                    ItemTapped="Attempt_Tapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <TextCell

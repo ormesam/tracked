@@ -46,12 +46,14 @@ namespace MtbMate.Screens.Segments
             await Context.UI.GoToMapScreenAsync(nav, DisplayName, Segment.Points);
         }
 
-        public void AnalyseExistingRides() {
-            foreach (var ride in Context.Model.Rides) {
-                bool matches = ride.MatchesSegment(Segment);
+        public async Task DeleteSegment(INavigation nav) {
+            await Context.Model.RemoveSegment(Segment);
 
-                Debug.WriteLine($"Attempt to match ride {ride.Name} to segment {Segment.Name}: {matches}");
-            }
+            await nav.PopAsync();
+        }
+
+        public async Task GoToAttempt(INavigation nav, SegmentAttemptModel attempt) {
+            await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
         }
     }
 }

@@ -93,5 +93,9 @@ namespace MtbMate.Screens.Ride
                 Title = Ride.Name ?? "Data Readings",
             });
         }
+
+        public async Task GoToAttempt(INavigation nav, SegmentAttemptModel attempt) {
+            await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
+        }
     }
 }

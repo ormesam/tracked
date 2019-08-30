@@ -11,30 +11,35 @@ namespace MtbMate.Screens.Segments
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreateSegmentScreen : ContentPage
     {
-        public CreateSegmentScreen(MainContext context)
+        public CreateSegmentScreen(MainContext context, RideModel ride)
         {
             InitializeComponent();
-            BindingContext = new CreateSegmentScreenViewModel(context);
+            BindingContext = new CreateSegmentScreenViewModel(context, ride);
+
+            Map.RouteCoordinates = ride.Locations;
+            Map.ShowSpeed = false;
         }
 
-        public CreateSegmentScreenViewModel ViewModel => BindingContext as CreateSegmentScreenViewModel;
+        protected override void OnAppearing() {
+            base.OnAppearing();
 
-        private void Ride_Tapped(object sender, ItemTappedEventArgs e)
-        {
-            ViewModel.SelectedRide = e.Item as RideModel;
-
-            var firstLocation = ViewModel.SelectedRide.Locations.FirstOrDefault();
+            var firstLocation = ViewModel.Ride.Locations.FirstOrDefault();
 
             var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
 
-            Device.BeginInvokeOnMainThread(() =>
-            {
+            Device.BeginInvokeOnMainThread(() => {
                 Map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));
             });
         }
 
+        public CreateSegmentScreenViewModel ViewModel => BindingContext as CreateSegmentScreenViewModel;
+
         private void Save_Clicked(object sender, EventArgs e) {
             ViewModel.Save(Navigation);
+        }
+
+        private void Map_MapClicked(object sender, MapClickedEventArgs e) {
+            ViewModel.AddPin(e.Position.Latitude, e.Position.Longitude);
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using MtbMate.Contexts;
 using MtbMate.Models;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -11,16 +9,17 @@ using Xamarin.Forms.Xaml;
 namespace MtbMate.Screens.Segments
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SegmentScreen : ContentPage
+    public partial class AttemptScreen : ContentPage
     {
-        public SegmentScreen(MainContext context, SegmentModel segment) {
+        public AttemptScreen(MainContext context, SegmentAttemptModel attempt) {
             InitializeComponent();
-            BindingContext = new SegmentScreenViewModel(context, segment);
+            BindingContext = new AttemptScreenViewModel(context, attempt);
 
             Map.RouteCoordinates = ViewModel.Locations;
+            Map.ShowSpeed = true;
         }
 
-        public SegmentScreenViewModel ViewModel => BindingContext as SegmentScreenViewModel;
+        public AttemptScreenViewModel ViewModel => BindingContext as AttemptScreenViewModel;
 
         protected override void OnAppearing() {
             base.OnAppearing();
@@ -36,20 +35,8 @@ namespace MtbMate.Screens.Segments
             });
         }
 
-        private void Name_Tapped(object sender, EventArgs e) {
-            ViewModel.ChangeName();
-        }
-
         private async void Map_MapClicked(object sender, MapClickedEventArgs e) {
             await ViewModel.GoToMapScreen(Navigation);
-        }
-
-        private async void Delete_Clicked(object sender, EventArgs e) {
-            await ViewModel.DeleteSegment(Navigation);
-        }
-
-        private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttemptModel);
         }
     }
 }

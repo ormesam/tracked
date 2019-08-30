@@ -19,6 +19,9 @@ namespace MtbMate.Models
         public IList<JumpModel> Jumps { get; set; }
         public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
+        public IList<LocationModel> MovingLocations => Locations
+            .Where(i => i.Mph >= 1)
+            .ToList();
 
         public RideModel() {
             Locations = new List<LocationModel>();
@@ -26,46 +29,24 @@ namespace MtbMate.Models
             AccelerometerReadings = new List<AccelerometerReadingModel>();
         }
 
-        public bool MatchesSegment(SegmentModel segment) {
-            var latLongs = Locations
+        public SegmentAttemptModel MatchesSegment(SegmentModel segment) {
+            List<LatLngModel> locationLatLngs = MovingLocations
                 .Select(i => i.LatLong)
                 .ToList();
 
-            bool matchesStart = latLongs
-                .HasPointOnLine(segment.Start);
+            var result = PolyUtils.LocationsMatch(segment, locationLatLngs);
 
-            bool matchesEnd = latLongs
-                .HasPointOnLine(segment.End);
+            if (!result.MatchesSegment) {
+                return null;
+            }
 
-            if (!matchesStart || !matchesEnd) {
-                return false;
+            return new SegmentAttemptModel {
+                Created = MovingLocations.First().Timestamp,
+                RideId = Id,
+                SegmentId = segment.Id,
+                StartIdx = result.StartIdx,
+                EndIdx = result.EndIdx,
             };
-
-            var closestPointToSegmentStart = segment.GetClosestStartPoint(Locations);
-            var closestPointToSegmentEnd = segment.GetClosestEndPoint(Locations);
-
-            if (closestPointToSegmentStart == null || closestPointToSegmentEnd == null) {
-                return false;
-            }
-
-            var segmentLocations = Locations
-                .Where(i => i.SpeedMetresPerSecond > 0)
-                .Where(i => i.Timestamp >= closestPointToSegmentStart.Timestamp)
-                .Where(i => i.Timestamp <= closestPointToSegmentEnd.Timestamp)
-                .ToList();
-
-            int matchedPointCount = 0;
-            int missedPointCount = 0;
-
-            foreach (var segmentLocation in segmentLocations) {
-                if (segment.Points.HasPointOnLine(segmentLocation.LatLong)) {
-                    matchedPointCount++;
-                } else {
-                    missedPointCount++;
-                }
-            }
-
-            return matchedPointCount >= segment.Points.Count * 0.9;
         }
 
         public ShareFile GetReadingsFile() {

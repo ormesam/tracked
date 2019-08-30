@@ -8,34 +8,11 @@ namespace MtbMate.Utilities
 {
     public static class PolyUtils
     {
-        public static bool HasPointOnLine(this IList<LatLongModel> path, LatLongModel point, int toleranceInMetres = 10) {
-            //var p = GetGeoModel(point);
-
-            foreach (var location in path) {
-                // gets distance in Km so convert to meters
-                double distance = location.CalculateDistance(point) * 1000;
-
-                if (distance <= toleranceInMetres) {
-                    return true;
-                }
-            }
-
-            //for (int i = 0; i < path.Count - 1; i++) {
-            //    var geo1 = GetGeoModel(path[i]);
-            //    var geo2 = GetGeoModel(path[i + 1]);
-
-            //    var distance1 = Math.Round(geo1.GetDistanceTo(p) + geo2.GetDistanceTo(p), toleranceInMetres);
-            //    var distance2 = Math.Round(geo1.GetDistanceTo(geo2), toleranceInMetres);
-
-            //    if (distance1 == distance2) {
-            //        return true;
-            //    }
-            //}
-
-            return false;
+        public static bool HasPointOnLine(this IList<LatLngModel> path, LatLngModel point, int toleranceInMetres = 25) {
+            return path.Any(i => i.CalculateDistance(point) * 1000 <= toleranceInMetres);
         }
 
-        public static double CalculateDistanceKm(this IList<LatLongModel> path) {
+        public static double CalculateDistanceKm(this IList<LatLngModel> path) {
             double totalKm = 0;
 
             for (int i = 0; i < path.Count - 1; i++) {
@@ -55,7 +32,7 @@ namespace MtbMate.Utilities
                 .CalculateDistanceKm();
         }
 
-        public static double CalculateDistanceMi(this IList<LatLongModel> path) {
+        public static double CalculateDistanceMi(this IList<LatLngModel> path) {
             return path.CalculateDistanceKm() * 0.621371192;
         }
 
@@ -63,15 +40,61 @@ namespace MtbMate.Utilities
             return path.CalculateDistanceKm() * 0.621371192;
         }
 
-        private static GeoCoordinate GetGeoModel(LatLongModel model) {
+        private static GeoCoordinate GetGeoModel(LatLngModel model) {
             return new GeoCoordinate(model.Latitude, model.Longitude);
         }
 
-        public static double CalculateDistance(this LatLongModel latLong1, LatLongModel latLong2) {
-            return new List<LatLongModel>() {
+        public static double CalculateDistance(this LatLngModel latLong1, LatLngModel latLong2) {
+            return new List<LatLngModel>() {
                 latLong1,
                 latLong2,
             }.CalculateDistanceKm();
+        }
+
+        public static LocationMatchResult LocationsMatch(SegmentModel segment, IList<LatLngModel> rideLocations) {
+            bool matchesStart = rideLocations
+                .HasPointOnLine(segment.Start);
+
+            bool matchesEnd = rideLocations
+                .HasPointOnLine(segment.End);
+
+            if (!matchesStart || !matchesEnd) {
+                return new LocationMatchResult {
+                    MatchesSegment = false,
+                };
+            };
+
+            var closestPointToSegmentStart = segment.GetClosestStartPoint(rideLocations);
+            var closestPointToSegmentEnd = segment.GetClosestEndPoint(rideLocations);
+
+            if (closestPointToSegmentStart == null || closestPointToSegmentEnd == null) {
+                return new LocationMatchResult {
+                    MatchesSegment = false,
+                };
+            }
+
+            int startIdx = rideLocations.IndexOf(closestPointToSegmentStart);
+            int endIdx = rideLocations.IndexOf(closestPointToSegmentEnd);
+
+            var filteredRideLocations = rideLocations.ToList().GetRange(startIdx, (endIdx - startIdx) + 1);
+
+            int matchedPointCount = 0;
+            int missedPointCount = 0;
+
+            foreach (var segmentLocation in segment.Points) {
+                if (filteredRideLocations.HasPointOnLine(segmentLocation)) {
+                    matchedPointCount++;
+                } else {
+                    missedPointCount++;
+                }
+            }
+
+            // return true if 90% of the segment points match the ride
+            return new LocationMatchResult {
+                MatchesSegment = matchedPointCount >= segment.Points.Count * 0.9,
+                StartIdx = startIdx,
+                EndIdx = endIdx,
+            };
         }
     }
 }

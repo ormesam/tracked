@@ -14,68 +14,36 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
-            <StackLayout
-                IsVisible="{Binding ShowRideList}">
-                <Label
-                    Margin="10"
-                    Text="Select a ride to create a segment from it. You can trim the start and end points after selection." />
-                <ListView
-                    ItemsSource="{Binding Rides}"
-                    ItemTapped="Ride_Tapped">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextCell
-                                Text="{Binding DisplayName}"
-                                Detail="{Binding Start, StringFormat='{0:d MMM yy HH:mm}'}"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
-            <Grid
-                IsVisible="{Binding ShowRideList, Converter={StaticResource InvertBoolConverter}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <Label
-                    Margin="10"
-                    Text="Use the slider to trim the segment." />
+            <Label
+                Margin="10"
+                Text="" />
 
-                <controls:CustomMap
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    x:Name="Map"
-                    IsShowingUser="False"
-                    ItemsSource="{Binding FilteredLocations}"
-                    MapType="Hybrid">
-                    <controls:CustomMap.ItemTemplate>
-                        <DataTemplate>
-                            <maps:Pin
-                                Position="{Binding Position}"
-                                Label="{Binding Label}" />
-                        </DataTemplate>
-                    </controls:CustomMap.ItemTemplate>
-                </controls:CustomMap>
-
-                <forms:RangeSlider 
-                    Grid.Row="2"
-                    Margin="10"
-                    MinimumValue="0"
-                    MaximumValue="{Binding PointCount, Mode=TwoWay}"
-                    LowerValue="{Binding LowerIndex, Mode=TwoWay}"
-                    UpperValue="{Binding UpperIndex, Mode=TwoWay}"
-                    StepValue="0"
-                    StepValueContinuously="True"
-                    VerticalOptions="Center"
-                    TextSize="15" />
-            </Grid>
+            <controls:CustomMap
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                x:Name="Map"
+                IsShowingUser="False"
+                ItemsSource="{Binding Points}"
+                MapType="Hybrid"
+                MapClicked="Map_MapClicked">
+                <controls:CustomMap.ItemTemplate>
+                    <DataTemplate>
+                        <maps:Pin
+                            Position="{Binding Position}"
+                            Label="{Binding Label}" />
+                    </DataTemplate>
+                </controls:CustomMap.ItemTemplate>
+            </controls:CustomMap>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

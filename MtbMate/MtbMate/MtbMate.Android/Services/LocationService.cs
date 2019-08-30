@@ -25,13 +25,11 @@ namespace MtbMate.Droid.Services
         public Location Location { get; set; }
         public string Tag => "LocationService";
 
-        public LocationService()
-        {
+        public LocationService() {
             binder = new LocationUpdatesServiceBinder(this);
         }
 
-        public override void OnCreate()
-        {
+        public override void OnCreate() {
             fusedLocationClient = LocationServices.GetFusedLocationProviderClient(this);
             locationCallback = new LocationCallbackImpl { Service = this };
 
@@ -47,48 +45,41 @@ namespace MtbMate.Droid.Services
             serviceHandler = new Handler(handlerThread.Looper);
             notificationManager = (NotificationManager)GetSystemService(NotificationService);
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-            {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O) {
                 string name = "LocationForegroundService";
                 NotificationChannel mChannel = new NotificationChannel(channelId, name, NotificationImportance.High);
                 notificationManager.CreateNotificationChannel(mChannel);
             }
         }
 
-        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
-        {
+        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId) {
             StartForeground(notificationId, GetNotification());
 
             return StartCommandResult.NotSticky;
         }
 
-        public override IBinder OnBind(Intent intent)
-        {
+        public override IBinder OnBind(Intent intent) {
             return binder;
         }
 
-        public override void OnDestroy()
-        {
+        public override void OnDestroy() {
             serviceHandler.RemoveCallbacksAndMessages(null);
         }
 
-        public void RequestLocationUpdates()
-        {
+        public void RequestLocationUpdates() {
             StartService(new Intent(ApplicationContext, typeof(LocationService)));
 
             fusedLocationClient.RequestLocationUpdates(locationRequest, locationCallback, Looper.MyLooper());
         }
 
-        public void RemoveLocationUpdates()
-        {
+        public void RemoveLocationUpdates() {
             fusedLocationClient.RemoveLocationUpdates(locationCallback);
 
             StopSelf();
             StopForeground(true);
         }
 
-        private Notification GetNotification()
-        {
+        private Notification GetNotification() {
             return new NotificationCompat.Builder(this, channelId)
                 .SetContentTitle("Mtb Mate")
                 .SetContentText("Running...")
@@ -98,23 +89,16 @@ namespace MtbMate.Droid.Services
                 .Build();
         }
 
-        private void GetLastLocation()
-        {
+        private void GetLastLocation() {
             fusedLocationClient.LastLocation.AddOnCompleteListener(new GetLastLocationOnCompleteListener { Service = this });
         }
 
-        public void OnNewLocation(Location l)
-        {
+        public void OnNewLocation(Location l) {
             this.Location = l;
 
-            LocationModel model = new LocationModel
-            {
+            LocationModel model = new LocationModel {
                 Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(l.Time).DateTime,
-                LatLong = new LatLongModel
-                {
-                    Latitude = l.Latitude,
-                    Longitude = l.Longitude
-                },
+                LatLong = new LatLngModel(l.Latitude, l.Longitude),
                 AccuracyInMetres = l.Accuracy,
                 SpeedMetresPerSecond = l.Speed,
                 SpeedAccuracyMetresPerSecond = l.SpeedAccuracyMetersPerSecond,
@@ -128,8 +112,7 @@ namespace MtbMate.Droid.Services
         {
             public LocationService Service { get; set; }
 
-            public override void OnLocationResult(LocationResult result)
-            {
+            public override void OnLocationResult(LocationResult result) {
                 base.OnLocationResult(result);
 
                 Service.OnNewLocation(result.LastLocation);
