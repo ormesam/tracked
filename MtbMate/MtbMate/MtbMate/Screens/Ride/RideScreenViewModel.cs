@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MtbMate.Accelerometer;
 using MtbMate.Contexts;
+using MtbMate.Models;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
@@ -87,13 +88,13 @@ namespace MtbMate.Screens.Ride
         public async Task Stop(INavigation nav) {
             await rideController.StopRide();
 
-            await Context.Model.SaveRide(rideController.Ride);
+            await Model.Instance.SaveRide(rideController.Ride);
 
             await nav.PopToRootAsync();
         }
 
         public async Task Save() {
-            await Context.Model.SaveRide(rideController.Ride);
+            await Model.Instance.SaveRide(rideController.Ride);
         }
     }
 }

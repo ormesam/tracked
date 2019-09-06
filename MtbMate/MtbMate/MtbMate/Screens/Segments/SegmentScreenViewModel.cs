@@ -27,8 +27,9 @@ namespace MtbMate.Screens.Segments
             })
             .ToList();
 
-        public IList<SegmentAttemptModel> Attempts => Context.Model.SegmentAttempts
+        public IList<SegmentAttemptModel> Attempts => Model.Instance.SegmentAttempts
             .Where(i => i.SegmentId == Segment.Id)
+            .OrderByDescending(i => i.Created)
             .ToList();
 
         public void ChangeName() {
@@ -38,7 +39,7 @@ namespace MtbMate.Screens.Segments
                 OnPropertyChanged(nameof(Title));
                 OnPropertyChanged(nameof(DisplayName));
 
-                await Context.Model.SaveSegment(Segment);
+                await Model.Instance.SaveSegment(Segment);
             });
         }
 
@@ -47,7 +48,7 @@ namespace MtbMate.Screens.Segments
         }
 
         public async Task DeleteSegment(INavigation nav) {
-            await Context.Model.RemoveSegment(Segment);
+            await Model.Instance.RemoveSegment(Segment);
 
             await nav.PopAsync();
         }

@@ -13,7 +13,7 @@ namespace MtbMate.Screens.Settings
         {
         }
 
-        public ObservableCollection<SegmentModel> Segments => Context.Model.Segments;
+        public ObservableCollection<SegmentModel> Segments => Model.Instance.Segments;
 
         public override string Title => "Segments";
 

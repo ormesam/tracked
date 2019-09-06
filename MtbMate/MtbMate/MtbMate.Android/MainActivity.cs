@@ -7,6 +7,7 @@ using Android;
 using MtbMate.Droid.Services;
 using Android.Content;
 using System;
+using Xamarin.Forms;
 
 namespace MtbMate.Droid
 {
@@ -37,6 +38,8 @@ namespace MtbMate.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
+
+            Forms.SetFlags("CollectionView_Experimental");
 
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);

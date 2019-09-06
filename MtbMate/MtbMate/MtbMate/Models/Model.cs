@@ -1,22 +1,42 @@
-﻿using MtbMate.Models;
-using MtbMate.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using MtbMate.Contexts;
+using MtbMate.Utilities;
 
-namespace MtbMate.Contexts
-{
-    public class ModelContext
-    {
+namespace MtbMate.Models {
+    public class Model {
+        #region Singleton stuff
+
+        private static Model instance;
+        private static readonly object _lock = new object();
+
+        public static Model Instance {
+            get {
+                lock (_lock) {
+                    if (instance == null) {
+                        instance = new Model();
+                    }
+
+                    return instance;
+                }
+            }
+        }
+
+        #endregion
+
         private StorageContext storage;
 
         public ObservableCollection<RideModel> Rides { get; set; }
         public ObservableCollection<SegmentModel> Segments { get; set; }
         public ObservableCollection<SegmentAttemptModel> SegmentAttempts { get; set; }
 
-        public ModelContext(MainContext mainContext) {
+        private Model() {
+        }
+
+        public void Init(MainContext mainContext) {
             storage = mainContext.Storage;
 
             Rides = storage.GetRides().ToObservable();

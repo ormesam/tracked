@@ -15,7 +15,7 @@ namespace MtbMate.Screens.Segments
 
         public override string Title => "Create Segment";
 
-        public ObservableCollection<RideModel> Rides => Context.Model.Rides
+        public ObservableCollection<RideModel> Rides => Model.Instance.Rides
             .OrderByDescending(i => i.Start)
             .ToObservable();
 

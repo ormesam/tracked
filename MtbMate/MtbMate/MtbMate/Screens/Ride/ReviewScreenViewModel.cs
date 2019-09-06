@@ -1,6 +1,7 @@
 ﻿using MtbMate.Contexts;
 using MtbMate.Models;
 using MtbMate.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,12 +58,13 @@ namespace MtbMate.Screens.Ride
 
         public string MaxGForce => 0 + "g"; // temp
 
-        public IList<SegmentAttemptModel> Attempts => Context.Model.SegmentAttempts
+        public IList<SegmentAttemptModel> Attempts => Model.Instance.SegmentAttempts
             .Where(i => i.RideId == Ride.Id)
+            .OrderByDescending(i => i.Created)
             .ToList();
 
         public async Task Delete() {
-            await Context.Model.RemoveRide(Ride);
+            await Model.Instance.RemoveRide(Ride);
         }
 
         public void ChangeName() {
@@ -72,7 +74,7 @@ namespace MtbMate.Screens.Ride
                 OnPropertyChanged(nameof(Title));
                 OnPropertyChanged(nameof(DisplayName));
 
-                await Context.Model.SaveRide(Ride);
+                await Model.Instance.SaveRide(Ride);
             });
         }
 

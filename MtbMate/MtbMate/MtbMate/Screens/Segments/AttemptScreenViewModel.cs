@@ -17,11 +17,11 @@ namespace MtbMate.Screens.Segments
             this.attempt = attempt;
         }
 
-        public RideModel Ride => Context.Model.Rides
+        public RideModel Ride => Model.Instance.Rides
             .Where(i => i.Id == attempt.RideId)
             .Single();
 
-        public SegmentModel Segment => Context.Model.Segments
+        public SegmentModel Segment => Model.Instance.Segments
             .Where(i => i.Id == attempt.SegmentId)
             .Single();
 

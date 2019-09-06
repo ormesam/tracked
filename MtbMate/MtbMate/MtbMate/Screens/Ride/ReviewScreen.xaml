@@ -163,6 +163,22 @@
                         BackgroundColor="LightGray" />
                 </Grid>
                 <Label
+                    Text="Segments" />
+                <controls:RepeaterView
+                    ItemsSource="{Binding Attempts}">
+                    <controls:RepeaterView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <controls:TextViewCell
+                                    Tapped="Attempt_Tapped"
+                                    Text="{Binding DisplayName}"
+                                    TextColor="Black"
+                                    Detail="{Binding DisplayName}" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </controls:RepeaterView.ItemTemplate>
+                </controls:RepeaterView>
+                <Label
                     Text="Options"
                     FontSize="Large" />
                 <Button

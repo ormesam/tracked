@@ -47,7 +47,7 @@ namespace MtbMate.Screens.Segments
                 segment.Name = newName;
                 segment.Created = DateTime.UtcNow;
 
-                await Context.Model.SaveSegment(segment);
+                await Model.Instance.SaveSegment(segment);
 
                 await nav.PopAsync();
             });
