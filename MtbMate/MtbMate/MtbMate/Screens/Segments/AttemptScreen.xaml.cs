@@ -23,13 +23,7 @@ namespace MtbMate.Screens.Segments {
             base.OnAppearing();
 
             Task.Run(() => {
-                var firstLocation = ViewModel.Locations.Midpoint();
-
-                var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
-
-                Device.BeginInvokeOnMainThread(() => {
-                    Map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));
-                });
+                Map.GoToLocations(ViewModel.Locations);
             });
         }
 

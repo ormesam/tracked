@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Models;
 using MtbMate.Utilities;
@@ -20,12 +21,8 @@ namespace MtbMate.Screens.Segments {
         protected override void OnAppearing() {
             base.OnAppearing();
 
-            var firstLocation = ViewModel.Ride.Locations.Midpoint();
-
-            var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
-
-            Device.BeginInvokeOnMainThread(() => {
-                Map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));
+            Task.Run(() => {
+                Map.GoToLocations(ViewModel.Ride.Locations);
             });
         }
 

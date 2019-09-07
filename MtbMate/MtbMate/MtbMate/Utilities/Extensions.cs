@@ -1,11 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using MtbMate.Models;
+using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace MtbMate.Utilities {
     public static class Extensions {
         public static ObservableCollection<T> ToObservable<T>(this IEnumerable<T> list) {
             return new ObservableCollection<T>(list);
+        }
+
+        public static void GoToLocations(this Map map, IList<LocationModel> locations) {
+            var firstLocation = locations.Midpoint();
+
+            var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
+
+            Device.BeginInvokeOnMainThread(() => {
+                map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));
+            });
         }
 
         public static T Midpoint<T>(this IList<T> list) {
