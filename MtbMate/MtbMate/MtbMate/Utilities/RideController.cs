@@ -1,22 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using MtbMate.Accelerometer;
 using MtbMate.Models;
 
-namespace MtbMate.Utilities
-{
-    public class RideController
-    {
+namespace MtbMate.Utilities {
+    public class RideController {
         private readonly bool detectJumps;
-        private readonly AccelerometerUtility accelerometerUtility;
 
         public readonly RideModel Ride;
+        public IList<SegmentAttemptModel> SegmentAttempts;
 
         public RideController(bool detectJumps) {
             this.detectJumps = detectJumps;
             Ride = new RideModel();
-            accelerometerUtility = AccelerometerUtility.Instance;
+            SegmentAttempts = new List<SegmentAttemptModel>();
         }
 
         public async Task StartRide() {
@@ -24,13 +23,13 @@ namespace MtbMate.Utilities
                 Ride.Start = DateTime.UtcNow;
             }
 
-            accelerometerUtility.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
+            AccelerometerUtility.Instance.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
 
             GeoUtility.Instance.Start();
 
             if (detectJumps) {
-                await accelerometerUtility.Start();
+                await AccelerometerUtility.Instance.Start();
             }
         }
 
@@ -38,10 +37,22 @@ namespace MtbMate.Utilities
             Ride.End = DateTime.UtcNow;
 
             GeoUtility.Instance.Stop();
-            await accelerometerUtility.Stop();
+            await AccelerometerUtility.Instance.Stop();
 
-            accelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
+            AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
+
+            CompareSegments();
+        }
+
+        private void CompareSegments() {
+            foreach (var segment in Model.Instance.Segments) {
+                SegmentAttemptModel result = Ride.MatchesSegment(segment);
+
+                if (result != null) {
+                    SegmentAttempts.Add(result);
+                }
+            }
         }
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {

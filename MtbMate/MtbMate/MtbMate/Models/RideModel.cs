@@ -1,16 +1,13 @@
-﻿using MtbMate.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MtbMate.Utilities;
 using Xamarin.Essentials;
 
-namespace MtbMate.Models
-{
-    public class RideModel
-    {
+namespace MtbMate.Models {
+    public class RideModel {
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public DateTime? Start { get; set; }

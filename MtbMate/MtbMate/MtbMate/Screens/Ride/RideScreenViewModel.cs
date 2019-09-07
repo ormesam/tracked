@@ -5,10 +5,8 @@ using MtbMate.Models;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Ride
-{
-    public class RideScreenViewModel : ViewModelBase
-    {
+namespace MtbMate.Screens.Ride {
+    public class RideScreenViewModel : ViewModelBase {
         private readonly RideController rideController;
         private bool isRunning;
         private bool hasRan;
@@ -89,6 +87,7 @@ namespace MtbMate.Screens.Ride
             await rideController.StopRide();
 
             await Model.Instance.SaveRide(rideController.Ride);
+            await Model.Instance.SaveSegmentAttempts(rideController.SegmentAttempts);
 
             await nav.PopToRootAsync();
         }
