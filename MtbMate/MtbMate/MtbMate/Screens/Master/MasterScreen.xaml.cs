@@ -4,11 +4,9 @@ using MtbMate.Home;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Master
-{
+namespace MtbMate.Screens.Master {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterScreen : MasterDetailPage
-    {
+    public partial class MasterScreen : MasterDetailPage {
         public MasterScreen(MainContext context) {
             InitializeComponent();
 

@@ -3,10 +3,8 @@ using MtbMate.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MtbMate.Screens.Ride
-{
-    public class MapScreenViewModel : ViewModelBase
-    {
+namespace MtbMate.Screens.Ride {
+    public class MapScreenViewModel : ViewModelBase {
         private readonly string title;
 
         public bool ShowSpeed { get; }

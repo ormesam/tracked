@@ -1,10 +1,8 @@
 ﻿using MtbMate.Models;
 using Xamarin.Forms;
 
-namespace MtbMate.Utilities
-{
-    public class GeoUtility
-    {
+namespace MtbMate.Utilities {
+    public class GeoUtility {
         #region Singleton stuff
 
         private static GeoUtility instance;
@@ -12,10 +10,8 @@ namespace MtbMate.Utilities
 
         public static GeoUtility Instance {
             get {
-                lock (_lock)
-                {
-                    if (instance == null)
-                    {
+                lock (_lock) {
+                    if (instance == null) {
                         instance = new GeoUtility();
                     }
 
@@ -28,24 +24,19 @@ namespace MtbMate.Utilities
 
         public event LocationChangedEventHandler LocationChanged;
 
-        private GeoUtility()
-        {
+        private GeoUtility() {
         }
 
-        public void Start()
-        {
+        public void Start() {
             DependencyService.Get<INativeGeoUtility>().Start();
         }
 
-        public void Stop()
-        {
+        public void Stop() {
             DependencyService.Get<INativeGeoUtility>().Stop();
         }
 
-        public void UpdateLocation(LocationModel newLocation)
-        {
-            LocationChanged?.Invoke(new LocationChangedEventArgs
-            {
+        public void UpdateLocation(LocationModel newLocation) {
+            LocationChanged?.Invoke(new LocationChangedEventArgs {
                 Location = newLocation,
             });
         }

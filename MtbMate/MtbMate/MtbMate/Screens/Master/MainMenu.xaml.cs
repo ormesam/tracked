@@ -3,11 +3,9 @@ using MtbMate.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Master
-{
+namespace MtbMate.Screens.Master {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainMenu : ContentPage
-    {
+    public partial class MainMenu : ContentPage {
         public MainMenu(MainContext context) {
             InitializeComponent();
             BindingContext = new MainMenuViewModel(context);

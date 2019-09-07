@@ -8,11 +8,9 @@ using Android.Support.V4.App;
 using MtbMate.Models;
 using MtbMate.Utilities;
 
-namespace MtbMate.Droid.Services
-{
+namespace MtbMate.Droid.Services {
     [Service]
-    public class LocationService : Service
-    {
+    public class LocationService : Service {
         private const string channelId = "default";
         private readonly IBinder binder;
         private const int notificationId = 12345678;
@@ -108,8 +106,7 @@ namespace MtbMate.Droid.Services
             GeoUtility.Instance.UpdateLocation(model);
         }
 
-        private class LocationCallbackImpl : LocationCallback
-        {
+        private class LocationCallbackImpl : LocationCallback {
             public LocationService Service { get; set; }
 
             public override void OnLocationResult(LocationResult result) {

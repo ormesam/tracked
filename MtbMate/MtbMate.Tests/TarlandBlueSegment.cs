@@ -1,12 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MtbMate.Utilities;
 
-namespace MtbMate.Tests
-{
+namespace MtbMate.Tests {
     [TestClass]
-    public class TarlandBlueSegment
-    {
+    public class TarlandBlueSegment {
         [TestMethod]
         public void Tarland_Blue_Blue1() {
             Assert.IsTrue(PolyUtils.LocationsMatch(TestSegments.TarlandBlueSegment, TestSegments.TarlandBlue1).MatchesSegment);

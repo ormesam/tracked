@@ -1,10 +1,8 @@
 ﻿using MtbMate.Contexts;
 using System.Threading.Tasks;
 
-namespace MtbMate.Screens.Settings
-{
-    public class SettingsScreenViewModel : ViewModelBase
-    {
+namespace MtbMate.Screens.Settings {
+    public class SettingsScreenViewModel : ViewModelBase {
         private bool detectJumps;
 
         public SettingsScreenViewModel(MainContext context) : base(context) {

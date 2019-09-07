@@ -6,10 +6,8 @@ using System.Linq;
 using System.Text;
 using Xamarin.Essentials;
 
-namespace MtbMate.Models
-{
-    public class SegmentModel
-    {
+namespace MtbMate.Models {
+    public class SegmentModel {
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public IList<LatLngModel> Points { get; set; }

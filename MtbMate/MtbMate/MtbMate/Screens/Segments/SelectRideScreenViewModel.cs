@@ -6,10 +6,8 @@ using MtbMate.Models;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Segments
-{
-    public class SelectRideScreenViewModel : ViewModelBase
-    {
+namespace MtbMate.Screens.Segments {
+    public class SelectRideScreenViewModel : ViewModelBase {
         public SelectRideScreenViewModel(MainContext context) : base(context) {
         }
 

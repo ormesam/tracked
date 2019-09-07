@@ -1,10 +1,8 @@
 ﻿using MtbMate.Models;
 using System.Collections.Generic;
 
-namespace MtbMate.Tests
-{
-    public static class TestSegments
-    {
+namespace MtbMate.Tests {
+    public static class TestSegments {
         public static SegmentModel TarlandBlueSegment = new SegmentModel {
             Points = new List<LatLngModel>() {
                 new LatLngModel(57.1219799383307,-2.87067275494337),

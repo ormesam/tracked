@@ -10,10 +10,8 @@ using MtbMate.Screens.Settings;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
-namespace MtbMate.Contexts
-{
-    public class UIContext
-    {
+namespace MtbMate.Contexts {
+    public class UIContext {
         private readonly MainContext context;
         private bool isNavigating;
 

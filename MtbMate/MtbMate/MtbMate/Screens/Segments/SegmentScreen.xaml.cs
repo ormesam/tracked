@@ -3,16 +3,13 @@ using MtbMate.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Segments
-{
+namespace MtbMate.Screens.Segments {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SegmentScreen : ContentPage
-    {
+    public partial class SegmentScreen : ContentPage {
         public SegmentScreen(MainContext context, SegmentModel segment) {
             InitializeComponent();
             BindingContext = new SegmentScreenViewModel(context, segment);

@@ -1,8 +1,6 @@
 ﻿using System;
-using MtbMate.Accelerometer;
 
-namespace MtbMate.Models
-{
+namespace MtbMate.Models {
     public class SettingsModel
     {
         public Guid? Id { get; set; }

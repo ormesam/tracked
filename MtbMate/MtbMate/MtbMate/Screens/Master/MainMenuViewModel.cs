@@ -2,10 +2,8 @@
 using MtbMate.Controls;
 using System.Collections.ObjectModel;
 
-namespace MtbMate.Screens.Master
-{
-    public class MainMenuViewModel : ViewModelBase
-    {
+namespace MtbMate.Screens.Master {
+    public class MainMenuViewModel : ViewModelBase {
         public MainMenuViewModel(MainContext context) : base(context) {
             MenuItems = new ObservableCollection<ExtendedMenuItem>
             {

@@ -1,17 +1,14 @@
 ﻿using MtbMate.Contexts;
 using MtbMate.Models;
 using MtbMate.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Ride
-{
-    public class ReviewScreenViewModel : ViewModelBase
-    {
+namespace MtbMate.Screens.Ride {
+    public class ReviewScreenViewModel : ViewModelBase {
         public readonly RideModel Ride;
 
         public ReviewScreenViewModel(MainContext context, RideModel ride) : base(context) {

@@ -7,10 +7,8 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace MtbMate.Contexts
-{
-    public class StorageContext
-    {
+namespace MtbMate.Contexts {
+    public class StorageContext {
         public readonly IBlobCache Storage = BlobCache.LocalMachine;
 
         public IList<RideModel> GetRides() {

@@ -7,12 +7,9 @@ using MtbMate.Utilities;
 using Plugin.CurrentActivity;
 
 [assembly: Xamarin.Forms.Dependency(typeof(PromptUtility))]
-namespace MtbMate.Droid.Dependancies
-{
-    public class PromptUtility : IPromptUtility
-    {
-        public void ShowInputDialog(string title, string defaultValue, Action<string> onOk)
-        {
+namespace MtbMate.Droid.Dependancies {
+    public class PromptUtility : IPromptUtility {
+        public void ShowInputDialog(string title, string defaultValue, Action<string> onOk) {
             EditText et = new EditText(CrossCurrentActivity.Current.Activity);
             et.Text = defaultValue;
 
@@ -31,8 +28,7 @@ namespace MtbMate.Droid.Dependancies
             ad.Show();
         }
 
-        public void ShowInputDialog(string title, string defaultValue, Func<string, Task<string>> onOk)
-        {
+        public void ShowInputDialog(string title, string defaultValue, Func<string, Task<string>> onOk) {
             EditText et = new EditText(CrossCurrentActivity.Current.Activity);
             et.Text = defaultValue;
 

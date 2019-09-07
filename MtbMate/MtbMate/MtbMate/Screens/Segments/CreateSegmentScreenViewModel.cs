@@ -6,10 +6,8 @@ using MtbMate.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
-namespace MtbMate.Screens.Segments
-{
-    public class CreateSegmentScreenViewModel : ViewModelBase
-    {
+namespace MtbMate.Screens.Segments {
+    public class CreateSegmentScreenViewModel : ViewModelBase {
         private readonly SegmentModel segment;
         public readonly RideModel Ride;
         private int count;

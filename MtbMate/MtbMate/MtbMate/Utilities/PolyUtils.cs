@@ -1,13 +1,10 @@
 ﻿using GeoCoordinatePortable;
 using MtbMate.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MtbMate.Utilities
-{
-    public static class PolyUtils
-    {
+namespace MtbMate.Utilities {
+    public static class PolyUtils {
         public static bool HasPointOnLine(this IList<LatLngModel> path, LatLngModel point, int toleranceInMetres = 25) {
             return path.Any(i => i.CalculateDistance(point) * 1000 <= toleranceInMetres);
         }

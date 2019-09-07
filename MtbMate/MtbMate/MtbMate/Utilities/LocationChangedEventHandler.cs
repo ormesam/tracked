@@ -1,8 +1,6 @@
-﻿using System;
-using MtbMate.Models;
+﻿using MtbMate.Models;
 
-namespace MtbMate.Utilities
-{
+namespace MtbMate.Utilities {
     public delegate void LocationChangedEventHandler(LocationChangedEventArgs e);
 
     public class LocationChangedEventArgs

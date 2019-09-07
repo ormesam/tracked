@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MtbMate.Models
-{
+﻿namespace MtbMate.Models {
     public class LocationMatchResult
     {
         public bool MatchesSegment { get; set; }

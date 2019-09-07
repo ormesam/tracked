@@ -7,11 +7,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Ride
-{
+namespace MtbMate.Screens.Ride {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MapScreen : ContentPage
-    {
+    public partial class MapScreen : ContentPage {
         private MapScreen(MapScreenViewModel viewModel) {
             InitializeComponent();
             BindingContext = viewModel;

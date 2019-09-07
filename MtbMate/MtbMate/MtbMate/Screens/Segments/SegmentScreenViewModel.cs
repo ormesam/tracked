@@ -1,16 +1,12 @@
 ﻿using MtbMate.Contexts;
 using MtbMate.Models;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Segments
-{
-    public class SegmentScreenViewModel : ViewModelBase
-    {
+namespace MtbMate.Screens.Segments {
+    public class SegmentScreenViewModel : ViewModelBase {
         public SegmentModel Segment { get; }
 
         public SegmentScreenViewModel(MainContext context, SegmentModel segment) : base(context) {

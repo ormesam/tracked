@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.Content;
 using Android.Gms.Maps.Model;
-using Android.Graphics;
 using MtbMate.Controls;
 using MtbMate.Droid.Renderers;
 using MtbMate.Models;
@@ -12,10 +11,8 @@ using Xamarin.Forms.Maps;
 using Xamarin.Forms.Maps.Android;
 
 [assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
-namespace MtbMate.Droid.Renderers
-{
-    public class CustomMapRenderer : MapRenderer
-    {
+namespace MtbMate.Droid.Renderers {
+    public class CustomMapRenderer : MapRenderer {
         private IList<LocationModel> routeCoordinates;
         private bool showSpeed;
 
