@@ -9,6 +9,7 @@
     <ContentView.Content>
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
@@ -19,9 +20,11 @@
             </Grid.RowDefinitions>
 
             <Label
+                Grid.Column="1"
                 x:Name="TitleLabel" />
 
             <Label
+                Grid.Column="1"
                 Grid.Row="1"
                 x:Name="DetailLabel" />
             
