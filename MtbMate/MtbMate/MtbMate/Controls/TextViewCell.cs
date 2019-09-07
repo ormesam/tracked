@@ -24,7 +24,7 @@ namespace MtbMate.Controls {
             nameof(TextColor),
             typeof(Color),
             typeof(TextViewCell),
-            Color.Default,
+            Color.Black,
             propertyChanged: UpdateTextColor);
 
         public static readonly BindableProperty DetailColorProperty = BindableProperty.Create(

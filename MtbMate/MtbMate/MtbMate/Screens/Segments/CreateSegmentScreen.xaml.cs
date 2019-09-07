@@ -1,7 +1,7 @@
-﻿using MtbMate.Contexts;
+﻿using System;
+using MtbMate.Contexts;
 using MtbMate.Models;
-using System;
-using System.Linq;
+using MtbMate.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -20,7 +20,7 @@ namespace MtbMate.Screens.Segments {
         protected override void OnAppearing() {
             base.OnAppearing();
 
-            var firstLocation = ViewModel.Ride.Locations.FirstOrDefault();
+            var firstLocation = ViewModel.Ride.Locations.Midpoint();
 
             var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
 

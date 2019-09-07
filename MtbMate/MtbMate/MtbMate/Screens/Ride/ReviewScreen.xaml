@@ -172,7 +172,6 @@
                                 <controls:TextViewCell
                                     Tapped="Attempt_Tapped"
                                     Text="{Binding Segment.DisplayName}"
-                                    TextColor="Black"
                                     Detail="{Binding Time}" />
                             </ViewCell>
                         </DataTemplate>

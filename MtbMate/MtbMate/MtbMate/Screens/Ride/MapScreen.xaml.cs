@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Models;
+using MtbMate.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -32,7 +32,7 @@ namespace MtbMate.Screens.Ride {
             base.OnAppearing();
 
             Task.Run(() => {
-                var firstLocation = ViewModel.Locations.FirstOrDefault();
+                var firstLocation = ViewModel.Locations.Midpoint();
 
                 var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
 

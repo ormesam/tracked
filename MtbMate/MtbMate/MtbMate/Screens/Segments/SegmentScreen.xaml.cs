@@ -1,8 +1,8 @@
-﻿using MtbMate.Contexts;
-using MtbMate.Models;
-using System;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
+using MtbMate.Contexts;
+using MtbMate.Models;
+using MtbMate.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -23,7 +23,7 @@ namespace MtbMate.Screens.Segments {
             base.OnAppearing();
 
             Task.Run(() => {
-                var firstLocation = ViewModel.Locations.FirstOrDefault();
+                var firstLocation = ViewModel.Locations.Midpoint();
 
                 var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
 
@@ -45,8 +45,10 @@ namespace MtbMate.Screens.Segments {
             await ViewModel.DeleteSegment(Navigation);
         }
 
-        private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttemptModel);
+        private async void Attempt_Tapped(object sender, EventArgs e) {
+            var item = (sender as View).BindingContext;
+
+            await ViewModel.GoToAttempt(Navigation, item as SegmentAttemptModel);
         }
     }
 }

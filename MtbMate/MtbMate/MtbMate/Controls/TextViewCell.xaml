@@ -17,6 +17,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Label
@@ -27,7 +28,12 @@
                 Grid.Column="1"
                 Grid.Row="1"
                 x:Name="DetailLabel" />
-            
+
+            <BoxView
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
+                HeightRequest="0.5"
+                BackgroundColor="LightGray"/>
         </Grid>
     </ContentView.Content>
     <ContentView.GestureRecognizers>

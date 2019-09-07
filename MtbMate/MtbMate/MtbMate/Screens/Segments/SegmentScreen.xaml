@@ -20,27 +20,29 @@
                       MapClicked="Map_MapClicked"
                       HasScrollEnabled="False"
                       HasZoomEnabled="False" />
-                <Label
+                  <Label
                       Margin="15"
                       HorizontalOptions="Center"
                       Text="{Binding DisplayName}"
                       FontSize="Large">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
+                      <Label.GestureRecognizers>
+                          <TapGestureRecognizer
                               Tapped="Name_Tapped" />
-                    </Label.GestureRecognizers>
+                      </Label.GestureRecognizers>
                 </Label>
-                <ListView
-                    ItemsSource="{Binding Attempts}"
-                    ItemTapped="Attempt_Tapped">
-                    <ListView.ItemTemplate>
+                <controls:RepeaterView
+                    ItemsSource="{Binding Attempts}">
+                    <controls:RepeaterView.ItemTemplate>
                         <DataTemplate>
-                            <TextCell
-                                Text="{Binding Ride.DisplayName}"
-                                Detail="{Binding Time}"/>
+                            <ViewCell>
+                                <controls:TextViewCell
+                                    Tapped="Attempt_Tapped"
+                                    Text="{Binding DisplayName}"
+                                    Detail="{Binding Time}" />
+                            </ViewCell>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    </controls:RepeaterView.ItemTemplate>
+                </controls:RepeaterView>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
