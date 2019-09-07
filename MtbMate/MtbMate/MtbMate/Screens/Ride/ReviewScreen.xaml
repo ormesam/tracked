@@ -171,9 +171,9 @@
                             <ViewCell>
                                 <controls:TextViewCell
                                     Tapped="Attempt_Tapped"
-                                    Text="{Binding DisplayName}"
+                                    Text="{Binding Segment.DisplayName}"
                                     TextColor="Black"
-                                    Detail="{Binding DisplayName}" />
+                                    Detail="{Binding Time}" />
                             </ViewCell>
                         </DataTemplate>
                     </controls:RepeaterView.ItemTemplate>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Akavache;
 using MtbMate.Accelerometer;
 using MtbMate.Contexts;
@@ -33,8 +32,6 @@ namespace MtbMate {
             BlobCache.EnsureInitialized();
             BlobCache.ApplicationName = "Mtb Mate";
             BlobCache.ForcedDateTimeKind = DateTimeKind.Utc;
-
-            Debug.WriteLine(BlobCache.LocalMachine.GetType());
         }
 
         protected override void OnSleep() {

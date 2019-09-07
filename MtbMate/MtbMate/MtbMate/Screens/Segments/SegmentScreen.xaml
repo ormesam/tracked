@@ -36,7 +36,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <TextCell
-                                Text="{Binding DisplayName}" />
+                                Text="{Binding Ride.DisplayName}"
+                                Detail="{Binding Time}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
