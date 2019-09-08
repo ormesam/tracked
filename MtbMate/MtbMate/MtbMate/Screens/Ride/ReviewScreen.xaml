@@ -163,6 +163,7 @@
                         BackgroundColor="LightGray" />
                 </Grid>
                 <Label
+                    Margin="4"
                     Text="Segments" />
                 <controls:RepeaterView
                     ItemsSource="{Binding Attempts}">

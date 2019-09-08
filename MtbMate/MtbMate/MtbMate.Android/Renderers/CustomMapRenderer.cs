@@ -28,7 +28,11 @@ namespace MtbMate.Droid.Renderers {
 
             if (e.NewElement != null) {
                 var formsMap = (CustomMap)e.NewElement;
-                routeCoordinates = formsMap.RouteCoordinates;
+
+                routeCoordinates = formsMap.RouteCoordinates
+                    .OrderBy(i => i.Timestamp)
+                    .ToList();
+
                 showSpeed = formsMap.ShowSpeed;
                 Control.GetMapAsync(this);
             }
