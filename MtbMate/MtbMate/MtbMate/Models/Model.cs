@@ -78,7 +78,7 @@ namespace MtbMate.Models {
             await storage.SaveObject(segment.Id.Value, segment);
         }
 
-        private async Task AnalyseExistingRides(SegmentModel segment) {
+        public async Task AnalyseExistingRides(SegmentModel segment) {
             foreach (var ride in Rides) {
                 SegmentAttemptModel result = ride.MatchesSegment(segment);
 
@@ -100,7 +100,7 @@ namespace MtbMate.Models {
             await storage.RemoveObject<SegmentModel>(segment.Id.Value);
         }
 
-        private async Task RemoveSegmentAttempts(IEnumerable<SegmentAttemptModel> attempts) {
+        public async Task RemoveSegmentAttempts(IEnumerable<SegmentAttemptModel> attempts) {
             foreach (var attempt in attempts) {
                 SegmentAttempts.Remove(attempt);
                 await storage.RemoveObject<SegmentAttemptModel>(attempt.Id.Value);

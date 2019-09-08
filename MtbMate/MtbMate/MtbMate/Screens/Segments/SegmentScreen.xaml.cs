@@ -44,5 +44,9 @@ namespace MtbMate.Screens.Segments {
 
             await ViewModel.GoToAttempt(Navigation, item as SegmentAttemptModel);
         }
+
+        private async void RecompareRides_Clicked(object sender, EventArgs e) {
+            await ViewModel.RecompareRides();
+        }
     }
 }

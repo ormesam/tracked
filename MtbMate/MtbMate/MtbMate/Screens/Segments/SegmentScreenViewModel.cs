@@ -1,8 +1,8 @@
-﻿using MtbMate.Contexts;
-using MtbMate.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MtbMate.Contexts;
+using MtbMate.Models;
 using Xamarin.Forms;
 
 namespace MtbMate.Screens.Segments {
@@ -51,6 +51,14 @@ namespace MtbMate.Screens.Segments {
 
         public async Task GoToAttempt(INavigation nav, SegmentAttemptModel attempt) {
             await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
+        }
+
+        public async Task RecompareRides() {
+            await Model.Instance.RemoveSegmentAttempts(Attempts);
+
+            await Model.Instance.AnalyseExistingRides(Segment);
+
+            OnPropertyChanged(nameof(Attempts));
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using MtbMate.Accelerometer;
@@ -10,12 +9,10 @@ namespace MtbMate.Utilities {
         private readonly bool detectJumps;
 
         public readonly RideModel Ride;
-        public IList<SegmentAttemptModel> SegmentAttempts;
 
         public RideController(bool detectJumps) {
             this.detectJumps = detectJumps;
             Ride = new RideModel();
-            SegmentAttempts = new List<SegmentAttemptModel>();
         }
 
         public async Task StartRide() {
@@ -42,15 +39,17 @@ namespace MtbMate.Utilities {
             AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
 
-            CompareSegments();
+            await Model.Instance.SaveRide(Ride);
+
+            await CompareSegments();
         }
 
-        private void CompareSegments() {
+        private async Task CompareSegments() {
             foreach (var segment in Model.Instance.Segments) {
                 SegmentAttemptModel result = Ride.MatchesSegment(segment);
 
                 if (result != null) {
-                    SegmentAttempts.Add(result);
+                    await Model.Instance.SaveSegmentAttempt(result);
                 }
             }
         }
