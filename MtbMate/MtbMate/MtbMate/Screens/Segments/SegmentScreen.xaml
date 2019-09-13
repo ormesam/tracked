@@ -34,19 +34,17 @@
                               Tapped="Name_Tapped" />
                       </Label.GestureRecognizers>
                 </Label>
-                <controls:RepeaterView
-                    ItemsSource="{Binding Attempts}">
-                    <controls:RepeaterView.ItemTemplate>
+                <controls:ExtendedListView
+                    ItemsSource="{Binding Attempts}"
+                    IsScrollEnabled="False">
+                    <controls:ExtendedListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <controls:TextViewCell
-                                    Tapped="Attempt_Tapped"
-                                    Text="{Binding DisplayName}"
-                                    Detail="{Binding Time}" />
-                            </ViewCell>
+                            <TextCell
+                                Text="{Binding DisplayName}"
+                                Detail="{Binding Time}" />
                         </DataTemplate>
-                    </controls:RepeaterView.ItemTemplate>
-                </controls:RepeaterView>
+                    </controls:ExtendedListView.ItemTemplate>
+                </controls:ExtendedListView>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

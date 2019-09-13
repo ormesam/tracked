@@ -117,12 +117,6 @@ namespace MtbMate.Accelerometer {
             Status = AccelerometerStatus.NotConnected;
         }
 
-        public void AddReading(AccelerometerReadingModel reading) {
-            AccelerometerChanged?.Invoke(new AccelerometerChangedEventArgs {
-                Data = reading,
-            });
-        }
-
         public async Task Start() {
             if (characteristic == null) {
                 return;

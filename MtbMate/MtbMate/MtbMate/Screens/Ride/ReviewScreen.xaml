@@ -165,19 +165,18 @@
                 <Label
                     Margin="4"
                     Text="Segments" />
-                <controls:RepeaterView
-                    ItemsSource="{Binding Attempts}">
-                    <controls:RepeaterView.ItemTemplate>
+                <controls:ExtendedListView
+                    ItemsSource="{Binding Attempts}"
+                    ItemTapped="Attempt_Tapped"
+                    IsScrollEnabled="False">
+                    <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <controls:TextViewCell
-                                    Tapped="Attempt_Tapped"
-                                    Text="{Binding Segment.DisplayName}"
-                                    Detail="{Binding Time}" />
-                            </ViewCell>
+                            <TextCell
+                                Text="{Binding Segment.DisplayName}"
+                                Detail="{Binding Time}" />
                         </DataTemplate>
-                    </controls:RepeaterView.ItemTemplate>
-                </controls:RepeaterView>
+                    </ListView.ItemTemplate>
+                </controls:ExtendedListView>
                 <Label
                     Text="Options"
                     FontSize="Large" />
