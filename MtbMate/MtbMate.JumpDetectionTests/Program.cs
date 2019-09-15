@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace MtbMate.JumpDetectionTests {
     class Program {
-        static string file = "test2.csv";
+        static string file = "test1.csv";
         static double tolerance = 0.8;
         static double startTolerance = 2;
         static double minJumpSeconds = 0.3;
-        static IList<Reading> readings = new List<Reading>();
+        static List<Reading> readings = new List<Reading>();
         static IList<Jump> jumps = new List<Jump>();
 
         static void Main(string[] args) {
             PopulateReadings();
-            // PrintReadings();
+            PrintReadings();
             ConvertReadings();
             SmoothReadings();
             AnalyseReadings();
@@ -26,13 +26,13 @@ namespace MtbMate.JumpDetectionTests {
 
         private static void PrintJumps() {
             foreach (var jump in jumps) {
-                Console.WriteLine($"Jump Detected: {jump.Readings.First().Date} for {jump.Readings.GetTime()} seconds");
+                Console.WriteLine($"Jump Detected: {jump.Readings.First().Date} for {jump.Readings.GetTime()} seconds with {Math.Round(jump.LandingReading, 1)}g landing force");
             }
         }
 
         private static void SmoothReadings() {
-            for (int i = 2; i < readings.Count; i++) {
-                readings[i].Value = (readings[i - 2].Value + readings[i - 1].Value + readings[i].Value) / 3;
+            for (int i = 1; i < readings.Count; i++) {
+                readings[i].Value = (readings[i - 1].Value + readings[i].Value) / 2;
             }
         }
 
@@ -63,7 +63,13 @@ namespace MtbMate.JumpDetectionTests {
                     potentialJumpReadings.Add(reading);
                 } else {
                     if (potentialJumpReadings.GetTime() > minJumpSeconds) {
-                        jumps.Add(new Jump(potentialJumpReadings.ToList()));
+                        if (i + 4 <= readings.Count) {
+                            double maxReading = readings
+                                .GetRange(i, 4)
+                                .Max(v => v.Value);
+
+                            jumps.Add(new Jump(potentialJumpReadings.ToList(), maxReading));
+                        }
                     }
 
                     potentialJumpReadings.Clear();
@@ -90,6 +96,10 @@ namespace MtbMate.JumpDetectionTests {
 
                 readings.Add(new Reading(DateTime.Parse(line[0]), double.Parse(line[1])));
             }
+
+            readings = readings
+                .OrderBy(i => i.Date)
+                .ToList();
         }
     }
 
@@ -105,9 +115,11 @@ namespace MtbMate.JumpDetectionTests {
 
     class Jump {
         public IList<Reading> Readings { get; set; }
+        public double LandingReading { get; set; }
 
-        public Jump(IList<Reading> readings) {
+        public Jump(IList<Reading> readings, double landingReading) {
             Readings = readings;
+            LandingReading = landingReading;
         }
     }
 
@@ -117,7 +129,7 @@ namespace MtbMate.JumpDetectionTests {
                 return 0;
             }
 
-            return (readings.Last().Date - readings.First().Date).TotalSeconds;
+            return (readings.Select(i => i.Date).Max() - readings.Select(i => i.Date).Min()).TotalSeconds;
         }
     }
 }
