@@ -52,7 +52,7 @@ namespace MtbMate.Models {
             sb.AppendLine("TimeStamp,X,Y,Z");
 
             foreach (var reading in AccelerometerReadings.OrderBy(i => i.Timestamp)) {
-                sb.AppendLine($"{reading.Timestamp.ToString("HH:mm:ss.fff")},{reading.X},{reading.Y},{reading.Z}");
+                sb.AppendLine($"{reading.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{reading.X},{reading.Y},{reading.Z}");
             }
 
             sb.AppendLine();
@@ -70,7 +70,7 @@ namespace MtbMate.Models {
             sb.AppendLine("TimeStamp,Lat,Lon,Position Accuracy,Mps,Mps Accuracy (m),Mph,Altitude");
 
             foreach (var location in Locations.OrderBy(i => i.Timestamp)) {
-                sb.AppendLine($"{location.Timestamp.ToString("HH:mm:ss.fff")},{location.LatLong.Latitude},{location.LatLong.Longitude},{location.AccuracyInMetres}," +
+                sb.AppendLine($"{location.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{location.LatLong.Latitude},{location.LatLong.Longitude},{location.AccuracyInMetres}," +
                     $"{location.SpeedMetresPerSecond},{location.SpeedAccuracyMetresPerSecond},{location.Mph}," +
                     $"{location.Altitude}");
             }
