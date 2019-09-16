@@ -5,10 +5,11 @@ using System.Linq;
 
 namespace MtbMate.JumpDetectionTests {
     class Program {
-        static string file = "test1.csv";
+        static string file = "test2.csv";
         static double tolerance = 0.8;
         static double startTolerance = 2;
         static double minJumpSeconds = 0.3;
+        static double maxJumpSeconds = 8;
         static List<Reading> readings = new List<Reading>();
         static IList<Jump> jumps = new List<Jump>();
 
@@ -62,7 +63,9 @@ namespace MtbMate.JumpDetectionTests {
                 if (reading.Value <= tolerance) {
                     potentialJumpReadings.Add(reading);
                 } else {
-                    if (potentialJumpReadings.GetTime() > minJumpSeconds) {
+                    double jumpTime = potentialJumpReadings.GetTime();
+
+                    if (jumpTime >= minJumpSeconds && jumpTime <= maxJumpSeconds) {
                         if (i + 4 <= readings.Count) {
                             double maxReading = readings
                                 .GetRange(i, 4)
