@@ -14,7 +14,7 @@ namespace MtbMate.Screens.Segments {
 
         public override string Title => DisplayName;
 
-        public IList<LocationModel> Locations => attempt.Locations;
+        public IList<Location> Locations => attempt.Locations;
         public string DisplayName => attempt.Segment.DisplayName;
         public double AverageSpeed => attempt.AverageSpeed;
         public double MaxSpeed => attempt.MaxSpeed;

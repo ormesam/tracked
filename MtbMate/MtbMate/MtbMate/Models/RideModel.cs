@@ -12,22 +12,22 @@ namespace MtbMate.Models {
         public string Name { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
-        public IList<LocationModel> Locations { get; set; }
-        public IList<JumpModel> Jumps { get; set; }
-        public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
+        public IList<Location> Locations { get; set; }
+        public IList<Jump> Jumps { get; set; }
+        public IList<AccelerometerReading> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
-        public IList<LocationModel> MovingLocations => Locations
+        public IList<Location> MovingLocations => Locations
             .Where(i => i.Mph >= 1)
             .ToList();
 
         public RideModel() {
-            Locations = new List<LocationModel>();
-            Jumps = new List<JumpModel>();
-            AccelerometerReadings = new List<AccelerometerReadingModel>();
+            Locations = new List<Location>();
+            Jumps = new List<Jump>();
+            AccelerometerReadings = new List<AccelerometerReading>();
         }
 
         public SegmentAttemptModel MatchesSegment(SegmentModel segment) {
-            List<LatLngModel> locationLatLngs = MovingLocations
+            List<LatLng> locationLatLngs = MovingLocations
                 .Select(i => i.LatLong)
                 .ToList();
 

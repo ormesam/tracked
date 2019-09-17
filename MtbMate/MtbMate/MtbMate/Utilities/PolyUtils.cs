@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace MtbMate.Utilities {
     public static class PolyUtils {
-        public static bool HasPointOnLine(this IList<LatLngModel> path, LatLngModel point, int toleranceInMetres = 25) {
+        public static bool HasPointOnLine(this IList<LatLng> path, LatLng point, int toleranceInMetres = 25) {
             return path.Any(i => i.CalculateDistance(point) * 1000 <= toleranceInMetres);
         }
 
-        public static double CalculateDistanceKm(this IList<LatLngModel> path) {
+        public static double CalculateDistanceKm(this IList<LatLng> path) {
             double totalKm = 0;
 
             for (int i = 0; i < path.Count - 1; i++) {
@@ -23,32 +23,32 @@ namespace MtbMate.Utilities {
             return totalKm;
         }
 
-        public static double CalculateDistanceKm(this IList<LocationModel> path) {
+        public static double CalculateDistanceKm(this IList<Location> path) {
             return path.Select(i => i.LatLong)
                 .ToList()
                 .CalculateDistanceKm();
         }
 
-        public static double CalculateDistanceMi(this IList<LatLngModel> path) {
+        public static double CalculateDistanceMi(this IList<LatLng> path) {
             return path.CalculateDistanceKm() * 0.621371192;
         }
 
-        public static double CalculateDistanceMi(this IList<LocationModel> path) {
+        public static double CalculateDistanceMi(this IList<Location> path) {
             return path.CalculateDistanceKm() * 0.621371192;
         }
 
-        private static GeoCoordinate GetGeoModel(LatLngModel model) {
+        private static GeoCoordinate GetGeoModel(LatLng model) {
             return new GeoCoordinate(model.Latitude, model.Longitude);
         }
 
-        public static double CalculateDistance(this LatLngModel latLong1, LatLngModel latLong2) {
-            return new List<LatLngModel>() {
+        public static double CalculateDistance(this LatLng latLong1, LatLng latLong2) {
+            return new List<LatLng>() {
                 latLong1,
                 latLong2,
             }.CalculateDistanceKm();
         }
 
-        public static LocationMatchResult LocationsMatch(SegmentModel segment, IList<LatLngModel> rideLocations) {
+        public static LocationMatchResult LocationsMatch(SegmentModel segment, IList<LatLng> rideLocations) {
             bool matchesStart = rideLocations
                 .HasPointOnLine(segment.Start);
 

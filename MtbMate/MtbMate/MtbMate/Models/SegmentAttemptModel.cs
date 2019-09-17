@@ -21,7 +21,7 @@ namespace MtbMate.Models {
             .Where(i => i.Id == RideId)
             .SingleOrDefault();
 
-        public IList<LocationModel> Locations => Ride.MovingLocations
+        public IList<Location> Locations => Ride.MovingLocations
             .ToList()
             .GetRange(StartIdx, (EndIdx - StartIdx) + 1);
 

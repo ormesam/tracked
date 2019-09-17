@@ -1,10 +1,10 @@
 ﻿using System;
 
 namespace MtbMate.Models {
-    public class LocationModel {
+    public class Location {
         public long Time { get; set; }
         public DateTime Timestamp { get; set; }
-        public LatLngModel LatLong { get; set; }
+        public LatLng LatLong { get; set; }
         public double? AccuracyInMetres { get; set; }
         public double SpeedMetresPerSecond { get; set; }
         public double? SpeedAccuracyMetresPerSecond { get; set; }

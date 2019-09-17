@@ -35,7 +35,7 @@ namespace MtbMate.Utilities {
             DependencyService.Get<INativeGeoUtility>().Stop();
         }
 
-        public void UpdateLocation(LocationModel newLocation) {
+        public void UpdateLocation(Location newLocation) {
             LocationChanged?.Invoke(new LocationChangedEventArgs {
                 Location = newLocation,
             });

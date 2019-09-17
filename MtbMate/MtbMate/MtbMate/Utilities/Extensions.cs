@@ -11,7 +11,7 @@ namespace MtbMate.Utilities {
             return new ObservableCollection<T>(list);
         }
 
-        public static void GoToLocations(this Map map, IList<LocationModel> locations) {
+        public static void GoToLocations(this Map map, IList<Location> locations) {
             var firstLocation = locations.Midpoint();
 
             var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
@@ -31,7 +31,7 @@ namespace MtbMate.Utilities {
             return list[midpoint];
         }
 
-        public static double GetTime(this IList<AccelerometerReadingModel> readings) {
+        public static double GetTime(this IList<AccelerometerReading> readings) {
             if (!readings.Any()) {
                 return 0;
             }

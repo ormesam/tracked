@@ -37,7 +37,7 @@ namespace MtbMate.Utilities {
         }
 
         private void AnalyseReadings() {
-            IList<AccelerometerReadingModel> potentialJumpReadings = new List<AccelerometerReadingModel>();
+            IList<AccelerometerReading> potentialJumpReadings = new List<AccelerometerReading>();
             bool started = false;
 
             for (int i = 0; i < ride.AccelerometerReadings.Count; i++) {
@@ -62,7 +62,7 @@ namespace MtbMate.Utilities {
                                 .GetRange(i, 4)
                                 .Max(v => v.Value);
 
-                            ride.Jumps.Add(new JumpModel {
+                            ride.Jumps.Add(new Jump {
                                 Time = potentialJumpReadings.Select(j => j.Timestamp).Min(),
                                 Airtime = potentialJumpReadings.GetTime(),
                                 LandingGForce = maxReading,

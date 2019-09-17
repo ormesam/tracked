@@ -17,8 +17,8 @@ namespace MtbMate.Screens.Segments {
 
         public string DisplayName => Segment.DisplayName;
 
-        public IList<LocationModel> Locations => Segment.Points
-            .Select(i => new LocationModel {
+        public IList<Location> Locations => Segment.Points
+            .Select(i => new Location {
                 LatLong = i,
             })
             .ToList();

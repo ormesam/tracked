@@ -13,7 +13,7 @@ using Xamarin.Forms.Maps.Android;
 [assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
 namespace MtbMate.Droid.Renderers {
     public class CustomMapRenderer : MapRenderer {
-        private IList<LocationModel> routeCoordinates;
+        private IList<Location> routeCoordinates;
         private bool showSpeed;
 
         public CustomMapRenderer(Context context) : base(context) {
@@ -47,7 +47,7 @@ namespace MtbMate.Droid.Renderers {
 
             var maxSpeed = routeCoordinates.Max(i => i.Mph);
 
-            IList<LatLng> latLng = new List<LatLng>();
+            IList<Android.Gms.Maps.Model.LatLng> latLng = new List<Android.Gms.Maps.Model.LatLng>();
             var lastColour = Android.Graphics.Color.Blue;
             bool firstRun = true;
 
@@ -82,7 +82,7 @@ namespace MtbMate.Droid.Renderers {
             AddLine(latLng.ToArray(), lastColour);
         }
 
-        private void AddMaxSpeedPin(LocationModel location) {
+        private void AddMaxSpeedPin(Location location) {
             MarkerOptions marker = new MarkerOptions();
             marker.SetPosition(GetLatLon(location));
             marker.SetTitle(Math.Round(location.Mph, 1) + " mi/h");
@@ -91,7 +91,7 @@ namespace MtbMate.Droid.Renderers {
             NativeMap.AddMarker(marker);
         }
 
-        private void AddLine(LatLng[] latLng, Android.Graphics.Color colour) {
+        private void AddLine(Android.Gms.Maps.Model.LatLng[] latLng, Android.Graphics.Color colour) {
             PolylineOptions options = new PolylineOptions();
             options.Add(latLng.ToArray());
             options.InvokeColor(colour);
@@ -100,8 +100,8 @@ namespace MtbMate.Droid.Renderers {
             NativeMap.AddPolyline(options);
         }
 
-        private LatLng GetLatLon(LocationModel location) {
-            return new LatLng(location.LatLong.Latitude, location.LatLong.Longitude);
+        private Android.Gms.Maps.Model.LatLng GetLatLon(Location location) {
+            return new Android.Gms.Maps.Model.LatLng(location.LatLong.Latitude, location.LatLong.Longitude);
         }
 
         private Android.Graphics.Color GetMaxSpeedColour(double mph, double maxSpeed) {

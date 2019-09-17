@@ -4,7 +4,7 @@ namespace MtbMate.Contexts {
     public class MainContext {
         public StorageContext Storage { get; }
         public UIContext UI { get; }
-        public SettingsModel Settings { get; }
+        public Settings Settings { get; }
 
         public MainContext() {
             Storage = new StorageContext();

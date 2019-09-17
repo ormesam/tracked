@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace MtbMate.Models {
-    public class AccelerometerReadingModel {
+    public class AccelerometerReading {
         public DateTime Timestamp { get; set; }
         public double Value { get; set; }
 
