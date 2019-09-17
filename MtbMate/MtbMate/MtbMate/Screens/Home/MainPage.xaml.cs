@@ -31,7 +31,7 @@ namespace MtbMate.Home
 
         private async void Ride_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            await ViewModel.GoToReview(Navigation, e.Item as RideModel);
+            await ViewModel.GoToReview(Navigation, e.Item as Ride);
         }
     }
 }

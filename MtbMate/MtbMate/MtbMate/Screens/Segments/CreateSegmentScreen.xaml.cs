@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace MtbMate.Screens.Segments {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreateSegmentScreen : ContentPage {
-        public CreateSegmentScreen(MainContext context, RideModel ride) {
+        public CreateSegmentScreen(MainContext context, Ride ride) {
             InitializeComponent();
             BindingContext = new CreateSegmentScreenViewModel(context, ride);
 
@@ -22,7 +22,7 @@ namespace MtbMate.Screens.Segments {
             base.OnAppearing();
 
             Task.Run(() => {
-                Map.GoToLocations(ViewModel.Ride.Locations);
+                Map.GoToLocations((System.Collections.Generic.IList<Location>)ViewModel.Ride.Locations);
             });
         }
 

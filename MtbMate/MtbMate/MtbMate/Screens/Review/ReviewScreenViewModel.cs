@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Ride {
+namespace MtbMate.Screens.Review {
     public class ReviewScreenViewModel : ViewModelBase {
-        public readonly RideModel Ride;
+        public readonly Ride Ride;
 
-        public ReviewScreenViewModel(MainContext context, RideModel ride) : base(context) {
+        public ReviewScreenViewModel(MainContext context, Ride ride) : base(context) {
             Ride = ride;
         }
 
@@ -55,7 +55,7 @@ namespace MtbMate.Screens.Ride {
 
         public string MaxGForce => 0 + "g"; // temp
 
-        public IList<SegmentAttemptModel> Attempts => Model.Instance.SegmentAttempts
+        public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
             .Where(i => i.RideId == Ride.Id)
             .OrderByDescending(i => i.Created)
             .ToList();
@@ -93,7 +93,7 @@ namespace MtbMate.Screens.Ride {
             });
         }
 
-        public async Task GoToAttempt(INavigation nav, SegmentAttemptModel attempt) {
+        public async Task GoToAttempt(INavigation nav, SegmentAttempt attempt) {
             await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
         }
     }

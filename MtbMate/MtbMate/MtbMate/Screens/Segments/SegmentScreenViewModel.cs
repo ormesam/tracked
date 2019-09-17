@@ -7,9 +7,9 @@ using Xamarin.Forms;
 
 namespace MtbMate.Screens.Segments {
     public class SegmentScreenViewModel : ViewModelBase {
-        public SegmentModel Segment { get; }
+        public Segment Segment { get; }
 
-        public SegmentScreenViewModel(MainContext context, SegmentModel segment) : base(context) {
+        public SegmentScreenViewModel(MainContext context, Segment segment) : base(context) {
             Segment = segment;
         }
 
@@ -17,13 +17,13 @@ namespace MtbMate.Screens.Segments {
 
         public string DisplayName => Segment.DisplayName;
 
-        public IList<LocationModel> Locations => Segment.Points
-            .Select(i => new LocationModel {
+        public IList<Location> Locations => Segment.Points
+            .Select(i => new Location {
                 LatLong = i,
             })
             .ToList();
 
-        public IList<SegmentAttemptModel> Attempts => Model.Instance.SegmentAttempts
+        public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
             .Where(i => i.SegmentId == Segment.Id)
             .OrderByDescending(i => i.Created)
             .ToList();
@@ -49,7 +49,7 @@ namespace MtbMate.Screens.Segments {
             await nav.PopAsync();
         }
 
-        public async Task GoToAttempt(INavigation nav, SegmentAttemptModel attempt) {
+        public async Task GoToAttempt(INavigation nav, SegmentAttempt attempt) {
             await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
         }
 

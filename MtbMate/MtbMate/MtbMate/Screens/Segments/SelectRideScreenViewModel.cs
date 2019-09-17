@@ -13,11 +13,11 @@ namespace MtbMate.Screens.Segments {
 
         public override string Title => "Create Segment";
 
-        public ObservableCollection<RideModel> Rides => Model.Instance.Rides
+        public ObservableCollection<Ride> Rides => Model.Instance.Rides
             .OrderByDescending(i => i.Start)
             .ToObservable();
 
-        public async Task CreateSegment(INavigation nav, RideModel ride) {
+        public async Task CreateSegment(INavigation nav, Ride ride) {
             await Context.UI.GoToCreateSegmentScreenAsync(nav, ride);
         }
     }

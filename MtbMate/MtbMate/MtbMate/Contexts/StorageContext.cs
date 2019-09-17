@@ -1,30 +1,30 @@
-﻿using Akavache;
-using MtbMate.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Akavache;
+using MtbMate.Models;
 
 namespace MtbMate.Contexts {
     public class StorageContext {
         public readonly IBlobCache Storage = BlobCache.LocalMachine;
 
-        public IList<RideModel> GetRides() {
-            var rides = Storage.GetAllObjects<RideModel>().Wait();
+        public IList<Ride> GetRides() {
+            var rides = Storage.GetAllObjects<Ride>().Wait();
 
             return rides.ToList();
         }
 
-        public IList<SegmentModel> GetSegments() {
-            var segments = Storage.GetAllObjects<SegmentModel>().Wait();
+        public IList<Segment> GetSegments() {
+            var segments = Storage.GetAllObjects<Segment>().Wait();
 
             return segments.ToList();
         }
 
-        public IList<SegmentAttemptModel> GetSegmentAttempts() {
-            var attempts = Storage.GetAllObjects<SegmentAttemptModel>().Wait();
+        public IList<SegmentAttempt> GetSegmentAttempts() {
+            var attempts = Storage.GetAllObjects<SegmentAttempt>().Wait();
 
             return attempts.ToList();
         }
@@ -37,11 +37,11 @@ namespace MtbMate.Contexts {
             await Storage.InvalidateObject<T>(id.ToString());
         }
 
-        public SettingsModel GetSettings() {
-            var settings = Storage.GetAllObjects<SettingsModel>().Wait().SingleOrDefault();
+        public Settings GetSettings() {
+            var settings = Storage.GetAllObjects<Settings>().Wait().SingleOrDefault();
 
             if (settings == null) {
-                settings = new SettingsModel();
+                settings = new Settings();
                 SaveSettings(settings).Wait();
             }
 
@@ -50,7 +50,7 @@ namespace MtbMate.Contexts {
             return settings;
         }
 
-        public async Task SaveSettings(SettingsModel settings) {
+        public async Task SaveSettings(Settings settings) {
             if (settings.Id == null) {
                 settings.Id = Guid.NewGuid();
                 settings.ResetDefaults();

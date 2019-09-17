@@ -77,11 +77,9 @@ namespace MtbMate.Accelerometer {
                     }
                 }
 
-                var data = new AccelerometerReadingModel {
+                var data = new AccelerometerReading {
                     Timestamp = timeStamp,
-                    X = xyz[0],
-                    Y = xyz[1],
-                    Z = xyz[2],
+                    Value = xyz[0],
                 };
 
                 AccelerometerChanged?.Invoke(new AccelerometerChangedEventArgs {

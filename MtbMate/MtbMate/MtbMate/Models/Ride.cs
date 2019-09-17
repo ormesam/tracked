@@ -7,27 +7,27 @@ using MtbMate.Utilities;
 using Xamarin.Essentials;
 
 namespace MtbMate.Models {
-    public class RideModel {
+    public class Ride {
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
-        public IList<LocationModel> Locations { get; set; }
-        public IList<JumpModel> Jumps { get; set; }
-        public IList<AccelerometerReadingModel> AccelerometerReadings { get; set; }
+        public IList<Location> Locations { get; set; }
+        public IList<Jump> Jumps { get; set; }
+        public IList<AccelerometerReading> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
-        public IList<LocationModel> MovingLocations => Locations
+        public IList<Location> MovingLocations => Locations
             .Where(i => i.Mph >= 1)
             .ToList();
 
-        public RideModel() {
-            Locations = new List<LocationModel>();
-            Jumps = new List<JumpModel>();
-            AccelerometerReadings = new List<AccelerometerReadingModel>();
+        public Ride() {
+            Locations = new List<Location>();
+            Jumps = new List<Jump>();
+            AccelerometerReadings = new List<AccelerometerReading>();
         }
 
-        public SegmentAttemptModel MatchesSegment(SegmentModel segment) {
-            List<LatLngModel> locationLatLngs = MovingLocations
+        public SegmentAttempt MatchesSegment(Segment segment) {
+            List<LatLng> locationLatLngs = MovingLocations
                 .Select(i => i.LatLong)
                 .ToList();
 
@@ -37,7 +37,7 @@ namespace MtbMate.Models {
                 return null;
             }
 
-            return new SegmentAttemptModel {
+            return new SegmentAttempt {
                 Created = MovingLocations.First().Timestamp,
                 RideId = Id,
                 SegmentId = segment.Id,
@@ -49,10 +49,10 @@ namespace MtbMate.Models {
         public ShareFile GetReadingsFile() {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("TimeStamp,X,Y,Z");
+            sb.AppendLine("TimeStamp,Value");
 
             foreach (var reading in AccelerometerReadings.OrderBy(i => i.Timestamp)) {
-                sb.AppendLine($"{reading.Timestamp.ToString("HH:mm:ss.fff")},{reading.X},{reading.Y},{reading.Z}");
+                sb.AppendLine($"{reading.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{reading.Value}");
             }
 
             sb.AppendLine();
@@ -70,7 +70,7 @@ namespace MtbMate.Models {
             sb.AppendLine("TimeStamp,Lat,Lon,Position Accuracy,Mps,Mps Accuracy (m),Mph,Altitude");
 
             foreach (var location in Locations.OrderBy(i => i.Timestamp)) {
-                sb.AppendLine($"{location.Timestamp.ToString("HH:mm:ss.fff")},{location.LatLong.Latitude},{location.LatLong.Longitude},{location.AccuracyInMetres}," +
+                sb.AppendLine($"{location.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{location.LatLong.Latitude},{location.LatLong.Longitude},{location.AccuracyInMetres}," +
                     $"{location.SpeedMetresPerSecond},{location.SpeedAccuracyMetresPerSecond},{location.Mph}," +
                     $"{location.Altitude}");
             }

@@ -4,11 +4,11 @@ using Xamarin.Forms.Maps;
 
 namespace MtbMate.Controls {
     public class CustomMap : Map {
-        public IList<LocationModel> RouteCoordinates { get; set; }
+        public IList<Location> RouteCoordinates { get; set; }
         public bool ShowSpeed { get; set; }
 
         public CustomMap() {
-            RouteCoordinates = new List<LocationModel>();
+            RouteCoordinates = new List<Location>();
             MapType = MapType.Street;
             ShowSpeed = false;
         }

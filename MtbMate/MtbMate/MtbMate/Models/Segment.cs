@@ -7,25 +7,25 @@ using System.Text;
 using Xamarin.Essentials;
 
 namespace MtbMate.Models {
-    public class SegmentModel {
+    public class Segment {
         public Guid? Id { get; set; }
         public string Name { get; set; }
-        public IList<LatLngModel> Points { get; set; }
+        public IList<LatLng> Points { get; set; }
         public DateTime Created { get; set; }
-        public LatLngModel Start => Points.FirstOrDefault();
-        public LatLngModel End => Points.LastOrDefault();
+        public LatLng Start => Points.FirstOrDefault();
+        public LatLng End => Points.LastOrDefault();
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Created.ToString("dd/MM/yy HH:mm") : Name;
 
-        public LatLngModel GetClosestStartPoint(IList<LatLngModel> locations) {
+        public LatLng GetClosestStartPoint(IList<LatLng> locations) {
             return GetClosestPoint(locations, Start);
         }
 
-        public LatLngModel GetClosestEndPoint(IList<LatLngModel> locations) {
+        public LatLng GetClosestEndPoint(IList<LatLng> locations) {
             return GetClosestPoint(locations, End);
         }
 
-        private LatLngModel GetClosestPoint(IList<LatLngModel> locations, LatLngModel point) {
-            LatLngModel closestLocation = null;
+        private LatLng GetClosestPoint(IList<LatLng> locations, LatLng point) {
+            LatLng closestLocation = null;
             double lastDistance = double.MaxValue;
 
             foreach (var location in locations) {

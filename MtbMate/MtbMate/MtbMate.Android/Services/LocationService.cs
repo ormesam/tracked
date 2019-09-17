@@ -2,7 +2,6 @@
 using Android.App;
 using Android.Content;
 using Android.Gms.Location;
-using Android.Locations;
 using Android.OS;
 using Android.Support.V4.App;
 using MtbMate.Models;
@@ -20,7 +19,7 @@ namespace MtbMate.Droid.Services {
         private LocationCallback locationCallback;
         private Handler serviceHandler;
 
-        public Location Location { get; set; }
+        public Android.Locations.Location Location { get; set; }
         public string Tag => "LocationService";
 
         public LocationService() {
@@ -91,12 +90,12 @@ namespace MtbMate.Droid.Services {
             fusedLocationClient.LastLocation.AddOnCompleteListener(new GetLastLocationOnCompleteListener { Service = this });
         }
 
-        public void OnNewLocation(Location l) {
+        public void OnNewLocation(Android.Locations.Location l) {
             this.Location = l;
 
-            LocationModel model = new LocationModel {
+            Models.Location model = new Models.Location {
                 Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(l.Time).DateTime,
-                LatLong = new LatLngModel(l.Latitude, l.Longitude),
+                LatLong = new LatLng(l.Latitude, l.Longitude),
                 AccuracyInMetres = l.Accuracy,
                 SpeedMetresPerSecond = l.Speed,
                 SpeedAccuracyMetresPerSecond = l.SpeedAccuracyMetersPerSecond,

@@ -6,15 +6,15 @@ using Xamarin.Forms;
 
 namespace MtbMate.Screens.Segments {
     public class AttemptScreenViewModel : ViewModelBase {
-        private readonly SegmentAttemptModel attempt;
+        private readonly SegmentAttempt attempt;
 
-        public AttemptScreenViewModel(MainContext context, SegmentAttemptModel attempt) : base(context) {
+        public AttemptScreenViewModel(MainContext context, SegmentAttempt attempt) : base(context) {
             this.attempt = attempt;
         }
 
         public override string Title => DisplayName;
 
-        public IList<LocationModel> Locations => attempt.Locations;
+        public IList<Location> Locations => attempt.Locations;
         public string DisplayName => attempt.Segment.DisplayName;
         public double AverageSpeed => attempt.AverageSpeed;
         public double MaxSpeed => attempt.MaxSpeed;

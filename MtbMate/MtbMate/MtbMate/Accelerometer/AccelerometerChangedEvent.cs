@@ -6,7 +6,7 @@ namespace MtbMate.Accelerometer
 
     public class AccelerometerChangedEventArgs
     {
-        public AccelerometerReadingModel Data { get; set; }
+        public AccelerometerReading Data { get; set; }
     }
 
     public delegate void AccelerometerStatusChangedEventHandler(AccelerometerStatusChangedEventArgs e);

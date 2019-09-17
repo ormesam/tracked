@@ -4,7 +4,7 @@ using MtbMate.Contexts;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Ride {
+namespace MtbMate.Screens.Review {
     public class RideScreenViewModel : ViewModelBase {
         private readonly RideController rideController;
         private bool isRunning;

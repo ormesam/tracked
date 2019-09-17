@@ -1,13 +1,11 @@
 ﻿using System;
 
 namespace MtbMate.Models {
-    public class SettingsModel
-    {
+    public class Settings {
         public Guid? Id { get; set; }
         public bool DetectJumps { get; set; }
 
-        public void ResetDefaults()
-        {
+        public void ResetDefaults() {
             DetectJumps = true;
         }
     }

@@ -14,7 +14,7 @@ namespace MtbMate.Screens.Segments {
         public SelectRideScreenViewModel ViewModel => BindingContext as SelectRideScreenViewModel;
 
         private async void Ride_Tapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.CreateSegment(Navigation, e.Item as RideModel);
+            await ViewModel.CreateSegment(Navigation, e.Item as Ride);
         }
     }
 }
