@@ -5,6 +5,7 @@ using MtbMate.Models;
 namespace MtbMate.Utilities {
     public class JumpDetectionUtility {
         private Ride ride;
+        private IList<AccelerometerReading> readings;
         private double tolerance = 0.75;
         private double startTolerance = 2;
         private double minJumpSeconds = 0.5;
@@ -12,6 +13,7 @@ namespace MtbMate.Utilities {
 
         public JumpDetectionUtility(Ride ride) {
             this.ride = ride;
+            this.readings = ride.AccelerometerReadings.ToList();
         }
 
         public void Run() {
@@ -23,13 +25,13 @@ namespace MtbMate.Utilities {
         }
 
         private void SmoothReadings() {
-            for (int i = 1; i < ride.AccelerometerReadings.Count; i++) {
-                ride.AccelerometerReadings[i].Value = (ride.AccelerometerReadings[i - 1].Value + ride.AccelerometerReadings[i].Value) / 2;
+            for (int i = 1; i < readings.Count; i++) {
+                readings[i].Value = (readings[i - 1].Value + readings[i].Value) / 2;
             }
         }
 
         private void ConvertReadings() {
-            foreach (var reading in ride.AccelerometerReadings) {
+            foreach (var reading in readings) {
                 if (reading.Value < 0) {
                     reading.Value = -reading.Value;
                 }
@@ -40,8 +42,8 @@ namespace MtbMate.Utilities {
             IList<AccelerometerReading> potentialJumpReadings = new List<AccelerometerReading>();
             bool started = false;
 
-            for (int i = 0; i < ride.AccelerometerReadings.Count; i++) {
-                var reading = ride.AccelerometerReadings[i];
+            for (int i = 0; i < readings.Count; i++) {
+                var reading = readings[i];
 
                 if (!started && reading.Value >= startTolerance) {
                     started = true;
@@ -57,8 +59,8 @@ namespace MtbMate.Utilities {
                     double jumpTime = potentialJumpReadings.GetTime();
 
                     if (jumpTime >= minJumpSeconds && jumpTime <= maxJumpSeconds) {
-                        if (i + 4 <= ride.AccelerometerReadings.Count) {
-                            double maxReading = ride.AccelerometerReadings
+                        if (i + 4 <= readings.Count) {
+                            double maxReading = readings
                                 .GetRange(i, 4)
                                 .Max(v => v.Value);
 
