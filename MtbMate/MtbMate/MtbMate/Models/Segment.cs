@@ -7,7 +7,7 @@ using System.Text;
 using Xamarin.Essentials;
 
 namespace MtbMate.Models {
-    public class SegmentModel {
+    public class Segment {
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public IList<LatLng> Points { get; set; }

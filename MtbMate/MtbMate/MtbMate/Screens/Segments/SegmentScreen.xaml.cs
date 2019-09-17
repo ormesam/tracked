@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace MtbMate.Screens.Segments {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SegmentScreen : ContentPage {
-        public SegmentScreen(MainContext context, SegmentModel segment) {
+        public SegmentScreen(MainContext context, Segment segment) {
             InitializeComponent();
             BindingContext = new SegmentScreenViewModel(context, segment);
 
@@ -42,7 +42,7 @@ namespace MtbMate.Screens.Segments {
         private async void Attempt_Tapped(object sender, EventArgs e) {
             var item = (sender as View).BindingContext;
 
-            await ViewModel.GoToAttempt(Navigation, item as SegmentAttemptModel);
+            await ViewModel.GoToAttempt(Navigation, item as SegmentAttempt);
         }
 
         private async void RecompareRides_Clicked(object sender, EventArgs e) {

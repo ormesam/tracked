@@ -48,7 +48,7 @@ namespace MtbMate.Utilities {
             }.CalculateDistanceKm();
         }
 
-        public static LocationMatchResult LocationsMatch(SegmentModel segment, IList<LatLng> rideLocations) {
+        public static LocationMatchResult LocationsMatch(Segment segment, IList<LatLng> rideLocations) {
             bool matchesStart = rideLocations
                 .HasPointOnLine(segment.Start);
 

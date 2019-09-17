@@ -4,7 +4,7 @@ using System.Linq;
 using MtbMate.Utilities;
 
 namespace MtbMate.Models {
-    public class SegmentAttemptModel {
+    public class SegmentAttempt {
         public Guid? Id { get; set; }
         public Guid? SegmentId { get; set; }
         public Guid? RideId { get; set; }
@@ -13,11 +13,11 @@ namespace MtbMate.Models {
         public int EndIdx { get; set; }
         public string DisplayName => Created.ToString("dd/MM/yy HH:mm");
 
-        public SegmentModel Segment => Model.Instance.Segments
+        public Segment Segment => Model.Instance.Segments
             .Where(i => i.Id == SegmentId)
             .SingleOrDefault();
 
-        public RideModel Ride => Model.Instance.Rides
+        public Ride Ride => Model.Instance.Rides
             .Where(i => i.Id == RideId)
             .SingleOrDefault();
 

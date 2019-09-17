@@ -8,12 +8,12 @@ using Xamarin.Forms.Maps;
 
 namespace MtbMate.Screens.Segments {
     public class CreateSegmentScreenViewModel : ViewModelBase {
-        private readonly SegmentModel segment;
-        public readonly RideModel Ride;
+        private readonly Segment segment;
+        public readonly Ride Ride;
         private int count;
 
-        public CreateSegmentScreenViewModel(MainContext context, RideModel ride) : base(context) {
-            segment = new SegmentModel();
+        public CreateSegmentScreenViewModel(MainContext context, Ride ride) : base(context) {
+            segment = new Segment();
             Ride = ride;
             Points = new ObservableCollection<Pin>();
             count = 1;

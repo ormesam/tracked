@@ -52,13 +52,13 @@
     <EmbeddedResource Update="Screens\Master\MasterScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Ride\MapScreen.xaml">
+    <EmbeddedResource Update="Screens\Review\MapScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Ride\ReviewScreen.xaml">
+    <EmbeddedResource Update="Screens\Review\ReviewScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Ride\RideScreen.xaml">
+    <EmbeddedResource Update="Screens\Review\RideScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Segments\AttemptScreen.xaml">

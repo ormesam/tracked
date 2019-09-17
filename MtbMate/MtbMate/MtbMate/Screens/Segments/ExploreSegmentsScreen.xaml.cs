@@ -24,7 +24,7 @@ namespace MtbMate.Screens.Settings {
         }
 
         private async void Segments_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToSegment(Navigation, e.Item as SegmentModel);
+            await ViewModel.GoToSegment(Navigation, e.Item as Segment);
         }
     }
 }

@@ -7,10 +7,10 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Ride {
+namespace MtbMate.Screens.Review {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ReviewScreen : ContentPage {
-        public ReviewScreen(MainContext context, RideModel ride) {
+        public ReviewScreen(MainContext context, Ride ride) {
             InitializeComponent();
             BindingContext = new ReviewScreenViewModel(context, ride);
 
@@ -24,7 +24,7 @@ namespace MtbMate.Screens.Ride {
             base.OnAppearing();
 
             Task.Run(() => {
-                Map.GoToLocations(ViewModel.Ride.Locations);
+                Map.GoToLocations((System.Collections.Generic.IList<Location>)ViewModel.Ride.Locations);
             });
         }
 
@@ -51,13 +51,13 @@ namespace MtbMate.Screens.Ride {
         }
 
         private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttemptModel);
+            await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttempt);
         }
 
         private async void Attempt_Tapped(object sender, EventArgs e) {
             var item = (sender as View).BindingContext;
 
-            await ViewModel.GoToAttempt(Navigation, item as SegmentAttemptModel);
+            await ViewModel.GoToAttempt(Navigation, item as SegmentAttempt);
         }
     }
 }

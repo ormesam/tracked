@@ -4,13 +4,13 @@ using MtbMate.Models;
 
 namespace MtbMate.Utilities {
     public class JumpDetectionUtility {
-        private RideModel ride;
+        private Ride ride;
         private double tolerance = 0.75;
         private double startTolerance = 2;
         private double minJumpSeconds = 0.5;
         private double maxJumpSeconds = 8;
 
-        public JumpDetectionUtility(RideModel ride) {
+        public JumpDetectionUtility(Ride ride) {
             this.ride = ride;
         }
 

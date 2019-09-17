@@ -8,11 +8,11 @@ namespace MtbMate.Utilities {
     public class RideController {
         private readonly bool detectJumps;
 
-        public readonly RideModel Ride;
+        public readonly Ride Ride;
 
         public RideController(bool detectJumps) {
             this.detectJumps = detectJumps;
-            Ride = new RideModel();
+            Ride = new Ride();
         }
 
         public async Task StartRide() {
@@ -50,7 +50,7 @@ namespace MtbMate.Utilities {
 
         private async Task CompareSegments() {
             foreach (var segment in Model.Instance.Segments) {
-                SegmentAttemptModel result = Ride.MatchesSegment(segment);
+                SegmentAttempt result = Ride.MatchesSegment(segment);
 
                 if (result != null) {
                     await Model.Instance.SaveSegmentAttempt(result);

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MtbMate.Home;
 using MtbMate.Models;
 using MtbMate.Screens.Bluetooth;
-using MtbMate.Screens.Ride;
+using MtbMate.Screens.Review;
 using MtbMate.Screens.Segments;
 using MtbMate.Screens.Settings;
 using MtbMate.Utilities;
@@ -47,7 +47,7 @@ namespace MtbMate.Contexts {
             await nav.PushAsync(new RideScreen(context));
         }
 
-        public async Task GoToReviewScreenAsync(INavigation nav, RideModel ride) {
+        public async Task GoToReviewScreenAsync(INavigation nav, Ride ride) {
             await nav.PushAsync(new ReviewScreen(context, ride));
         }
 
@@ -63,7 +63,7 @@ namespace MtbMate.Contexts {
             await GoToScreenAsync(new MainPage(context));
         }
 
-        public async Task GoToMapScreenAsync(INavigation nav, RideModel ride) {
+        public async Task GoToMapScreenAsync(INavigation nav, Ride ride) {
             await GoToMapScreenAsync(nav, ride.DisplayName, ride.Locations);
         }
 
@@ -83,15 +83,15 @@ namespace MtbMate.Contexts {
             await nav.PushAsync(new SelectRideScreen(context));
         }
 
-        public async Task GoToCreateSegmentScreenAsync(INavigation nav, RideModel ride) {
+        public async Task GoToCreateSegmentScreenAsync(INavigation nav, Ride ride) {
             await nav.PushAsync(new CreateSegmentScreen(context, ride));
         }
 
-        public async Task GoToSegmentScreenAsync(INavigation nav, SegmentModel segment) {
+        public async Task GoToSegmentScreenAsync(INavigation nav, Segment segment) {
             await nav.PushAsync(new SegmentScreen(context, segment));
         }
 
-        public async Task GoToSegmentAttemptScreenAsync(INavigation nav, SegmentAttemptModel attempt) {
+        public async Task GoToSegmentAttemptScreenAsync(INavigation nav, SegmentAttempt attempt) {
             await nav.PushAsync(new AttemptScreen(context, attempt));
         }
     }

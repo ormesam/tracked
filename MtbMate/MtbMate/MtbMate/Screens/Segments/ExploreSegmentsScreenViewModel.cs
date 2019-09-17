@@ -11,7 +11,7 @@ namespace MtbMate.Screens.Settings {
         {
         }
 
-        public ObservableCollection<SegmentModel> Segments => Model.Instance.Segments;
+        public ObservableCollection<Segment> Segments => Model.Instance.Segments;
 
         public override string Title => "Segments";
 
@@ -20,7 +20,7 @@ namespace MtbMate.Screens.Settings {
             await Context.UI.GoToCreateSegmentScreenAsync(nav);
         }
 
-        public async Task GoToSegment(INavigation nav, SegmentModel segment)
+        public async Task GoToSegment(INavigation nav, Segment segment)
         {
             await Context.UI.GoToSegmentScreenAsync(nav, segment);
         }

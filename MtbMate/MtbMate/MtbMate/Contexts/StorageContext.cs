@@ -11,20 +11,20 @@ namespace MtbMate.Contexts {
     public class StorageContext {
         public readonly IBlobCache Storage = BlobCache.LocalMachine;
 
-        public IList<RideModel> GetRides() {
-            var rides = Storage.GetAllObjects<RideModel>().Wait();
+        public IList<Ride> GetRides() {
+            var rides = Storage.GetAllObjects<Ride>().Wait();
 
             return rides.ToList();
         }
 
-        public IList<SegmentModel> GetSegments() {
-            var segments = Storage.GetAllObjects<SegmentModel>().Wait();
+        public IList<Segment> GetSegments() {
+            var segments = Storage.GetAllObjects<Segment>().Wait();
 
             return segments.ToList();
         }
 
-        public IList<SegmentAttemptModel> GetSegmentAttempts() {
-            var attempts = Storage.GetAllObjects<SegmentAttemptModel>().Wait();
+        public IList<SegmentAttempt> GetSegmentAttempts() {
+            var attempts = Storage.GetAllObjects<SegmentAttempt>().Wait();
 
             return attempts.ToList();
         }

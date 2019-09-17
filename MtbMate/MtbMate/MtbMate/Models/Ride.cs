@@ -7,7 +7,7 @@ using MtbMate.Utilities;
 using Xamarin.Essentials;
 
 namespace MtbMate.Models {
-    public class RideModel {
+    public class Ride {
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public DateTime? Start { get; set; }
@@ -20,13 +20,13 @@ namespace MtbMate.Models {
             .Where(i => i.Mph >= 1)
             .ToList();
 
-        public RideModel() {
+        public Ride() {
             Locations = new List<Location>();
             Jumps = new List<Jump>();
             AccelerometerReadings = new List<AccelerometerReading>();
         }
 
-        public SegmentAttemptModel MatchesSegment(SegmentModel segment) {
+        public SegmentAttempt MatchesSegment(Segment segment) {
             List<LatLng> locationLatLngs = MovingLocations
                 .Select(i => i.LatLong)
                 .ToList();
@@ -37,7 +37,7 @@ namespace MtbMate.Models {
                 return null;
             }
 
-            return new SegmentAttemptModel {
+            return new SegmentAttempt {
                 Created = MovingLocations.First().Timestamp,
                 RideId = Id,
                 SegmentId = segment.Id,

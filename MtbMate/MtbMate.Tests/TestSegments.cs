@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MtbMate.Tests {
     public static class TestSegments {
-        public static SegmentModel TarlandBlueSegment = new SegmentModel {
+        public static Segment TarlandBlueSegment = new Segment {
             Points = new List<LatLng>() {
                 new LatLng(57.1219799383307,-2.87067275494337),
                 new LatLng(57.1220811332065,-2.87011351436377),
@@ -34,7 +34,7 @@ namespace MtbMate.Tests {
              },
         };
 
-        public static SegmentModel TarlandOrangeSegment = new SegmentModel {
+        public static Segment TarlandOrangeSegment = new Segment {
             Points = new List<LatLng>() {
                 new LatLng(57.1220574725589,-2.87070762366056),
                 new LatLng(57.1223843521681,-2.87068482488394),
@@ -55,7 +55,7 @@ namespace MtbMate.Tests {
             },
         };
 
-        public static SegmentModel TarlandRedSegment = new SegmentModel {
+        public static Segment TarlandRedSegment = new Segment {
             Points = new List<LatLng>() {
                 new LatLng(57.1219881285737,-2.87077032029629),
                 new LatLng(57.1223892662605,-2.87070661783218),

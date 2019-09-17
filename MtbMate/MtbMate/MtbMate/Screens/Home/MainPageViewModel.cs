@@ -12,7 +12,7 @@ namespace MtbMate.Home {
         public MainPageViewModel(MainContext context) : base(context) {
         }
 
-        public ObservableCollection<RideModel> Rides => Model.Instance.Rides
+        public ObservableCollection<Ride> Rides => Model.Instance.Rides
             .OrderByDescending(i => i.Start)
             .ToObservable();
 
@@ -22,7 +22,7 @@ namespace MtbMate.Home {
             await Context.UI.GoToRideScreenAsync(nav);
         }
 
-        public async Task GoToReview(INavigation nav, RideModel ride) {
+        public async Task GoToReview(INavigation nav, Ride ride) {
             await Context.UI.GoToReviewScreenAsync(nav, ride);
         }
     }
