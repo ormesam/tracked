@@ -1,17 +1,12 @@
 ﻿using System;
 
-namespace MtbMate.Models
-{
-    public class AccelerometerReadingModel
-    {
+namespace MtbMate.Models {
+    public class AccelerometerReadingModel {
         public DateTime Timestamp { get; set; }
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double Z { get; set; }
+        public double Value { get; set; }
 
-        public override string ToString()
-        {
-            return $"{Timestamp} Reading: X: {X}, Y: {Y}, Z: {Z}";
+        public override string ToString() {
+            return $"{Timestamp} Reading: {Value}";
         }
     }
 }

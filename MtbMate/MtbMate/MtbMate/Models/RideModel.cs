@@ -49,10 +49,10 @@ namespace MtbMate.Models {
         public ShareFile GetReadingsFile() {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("TimeStamp,X,Y,Z");
+            sb.AppendLine("TimeStamp,Value");
 
             foreach (var reading in AccelerometerReadings.OrderBy(i => i.Timestamp)) {
-                sb.AppendLine($"{reading.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{reading.X},{reading.Y},{reading.Z}");
+                sb.AppendLine($"{reading.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{reading.Value}");
             }
 
             sb.AppendLine();

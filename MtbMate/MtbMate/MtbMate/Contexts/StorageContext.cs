@@ -1,11 +1,11 @@
-﻿using Akavache;
-using MtbMate.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Akavache;
+using MtbMate.Models;
 
 namespace MtbMate.Contexts {
     public class StorageContext {

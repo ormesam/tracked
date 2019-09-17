@@ -5,19 +5,19 @@ using System.Linq;
 
 namespace MtbMate.JumpDetectionTests {
     class Program {
-        static string file = "test3.csv";
-        static double tolerance = 0.8;
+        static string file = "test4.csv";
+        static double tolerance = 0.75;
         static double startTolerance = 2;
-        static double minJumpSeconds = 0.34;
+        static double minJumpSeconds = 0.5;
         static double maxJumpSeconds = 8;
-        static List<Reading> readings = new List<Reading>();
+        static IList<Reading> readings = new List<Reading>();
         static IList<Jump> jumps = new List<Jump>();
 
         static void Main(string[] args) {
             PopulateReadings();
             PrintReadings();
-            ConvertReadings();
             SmoothReadings();
+            ConvertReadings();
             AnalyseReadings();
             PrintJumps();
 
@@ -133,6 +133,20 @@ namespace MtbMate.JumpDetectionTests {
             }
 
             return (readings.Select(i => i.Date).Max() - readings.Select(i => i.Date).Min()).TotalSeconds;
+        }
+
+        public static IList<T> GetRange<T>(this IEnumerable<T> enumerable, int index, int count) {
+            if (!enumerable.Any()) {
+                return default;
+            }
+
+            var list = enumerable as List<T>;
+
+            if (list == null) {
+                list = enumerable.ToList();
+            }
+
+            return list.GetRange(index, count);
         }
     }
 }
