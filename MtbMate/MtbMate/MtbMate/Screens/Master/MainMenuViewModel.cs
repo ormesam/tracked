@@ -1,6 +1,7 @@
-﻿using MtbMate.Contexts;
+﻿using System.Collections.ObjectModel;
+using MtbMate.Contexts;
 using MtbMate.Controls;
-using System.Collections.ObjectModel;
+using MtbMate.Models;
 
 namespace MtbMate.Screens.Master {
     public class MainMenuViewModel : ViewModelBase {
@@ -22,11 +23,13 @@ namespace MtbMate.Screens.Master {
                       Title = "Segments",
                       OnClick = Context.UI.GoToExploreSegmentsScreenAsync,
                  },
-                 new ExtendedMenuItem
+#if DEBUG
+                new ExtendedMenuItem
                  {
-                      Title = "Settings",
-                      OnClick = Context.UI.GoToSettingsScreenAsync,
+                      Title = "Run Utility",
+                      OnClick = Model.Instance.RunUtilityAsync,
                  },
+#endif
             };
         }
 

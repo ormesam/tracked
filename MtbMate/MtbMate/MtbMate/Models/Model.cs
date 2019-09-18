@@ -122,5 +122,13 @@ namespace MtbMate.Models {
 
             await storage.SaveObject(segmentAttempt.Id.Value, segmentAttempt);
         }
+
+#if DEBUG
+        public async Task RunUtilityAsync() {
+            // Perform single use operations here such as fixing data.
+
+            await Task.CompletedTask;
+        }
+#endif
     }
 }
