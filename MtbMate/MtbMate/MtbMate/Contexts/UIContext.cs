@@ -71,7 +71,7 @@ namespace MtbMate.Contexts {
             await nav.PushAsync(new MapScreen(context, title, locations));
         }
 
-        public async Task GoToMapScreenAsync(INavigation nav, string title, IList<LatLng> locations) {
+        public async Task GoToMapScreenAsync(INavigation nav, string title, IList<SegmentLocation> locations) {
             await nav.PushAsync(new MapScreen(context, title, locations));
         }
 

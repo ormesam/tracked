@@ -14,7 +14,7 @@ namespace MtbMate.Screens.Segments {
             InitializeComponent();
             BindingContext = new CreateSegmentScreenViewModel(context, ride);
 
-            Map.RouteCoordinates = ride.Locations;
+            Map.RouteCoordinates = PolyUtils.GetMapLocations(ride.Locations);
             Map.ShowSpeed = false;
         }
 

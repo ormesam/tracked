@@ -13,7 +13,7 @@ using Xamarin.Forms.Maps.Android;
 [assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
 namespace MtbMate.Droid.Renderers {
     public class CustomMapRenderer : MapRenderer {
-        private IList<Location> routeCoordinates;
+        private IList<MapLocation> routeCoordinates;
         private bool showSpeed;
 
         public CustomMapRenderer(Context context) : base(context) {
@@ -29,9 +29,7 @@ namespace MtbMate.Droid.Renderers {
             if (e.NewElement != null) {
                 var formsMap = (CustomMap)e.NewElement;
 
-                routeCoordinates = formsMap.RouteCoordinates
-                    .OrderBy(i => i.Timestamp)
-                    .ToList();
+                routeCoordinates = formsMap.RouteCoordinates;
 
                 showSpeed = formsMap.ShowSpeed;
                 Control.GetMapAsync(this);
@@ -82,7 +80,7 @@ namespace MtbMate.Droid.Renderers {
             AddLine(latLng.ToArray(), lastColour);
         }
 
-        private void AddMaxSpeedPin(Location location) {
+        private void AddMaxSpeedPin(MapLocation location) {
             MarkerOptions marker = new MarkerOptions();
             marker.SetPosition(GetLatLon(location));
             marker.SetTitle(Math.Round(location.Mph, 1) + " mi/h");
@@ -100,8 +98,8 @@ namespace MtbMate.Droid.Renderers {
             NativeMap.AddPolyline(options);
         }
 
-        private Android.Gms.Maps.Model.LatLng GetLatLon(Location location) {
-            return new Android.Gms.Maps.Model.LatLng(location.LatLong.Latitude, location.LatLong.Longitude);
+        private Android.Gms.Maps.Model.LatLng GetLatLon(MapLocation location) {
+            return new Android.Gms.Maps.Model.LatLng(location.Point.Latitude, location.Point.Longitude);
         }
 
         private Android.Graphics.Color GetMaxSpeedColour(double mph, double maxSpeed) {

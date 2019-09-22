@@ -23,6 +23,11 @@ namespace MtbMate.Screens.Master {
                       Title = "Segments",
                       OnClick = Context.UI.GoToExploreSegmentsScreenAsync,
                  },
+                 new ExtendedMenuItem
+                 {
+                      Title = "Settings",
+                      OnClick = Context.UI.GoToSettingsScreenAsync,
+                 },
 #if DEBUG
                 new ExtendedMenuItem
                  {

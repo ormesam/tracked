@@ -1,7 +1,7 @@
-﻿using GeoCoordinatePortable;
-using MtbMate.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using GeoCoordinatePortable;
+using MtbMate.Models;
 
 namespace MtbMate.Utilities {
     public static class PolyUtils {
@@ -24,7 +24,7 @@ namespace MtbMate.Utilities {
         }
 
         public static double CalculateDistanceKm(this IList<Location> path) {
-            return path.Select(i => i.LatLong)
+            return path.Select(i => i.Point)
                 .ToList()
                 .CalculateDistanceKm();
         }
@@ -50,10 +50,10 @@ namespace MtbMate.Utilities {
 
         public static LocationMatchResult LocationsMatch(Segment segment, IList<LatLng> rideLocations) {
             bool matchesStart = rideLocations
-                .HasPointOnLine(segment.Start);
+                .HasPointOnLine(segment.Start.Point);
 
             bool matchesEnd = rideLocations
-                .HasPointOnLine(segment.End);
+                .HasPointOnLine(segment.End.Point);
 
             if (!matchesStart || !matchesEnd) {
                 return new LocationMatchResult {
@@ -79,7 +79,7 @@ namespace MtbMate.Utilities {
             int missedPointCount = 0;
 
             foreach (var segmentLocation in segment.Points) {
-                if (filteredRideLocations.HasPointOnLine(segmentLocation)) {
+                if (filteredRideLocations.HasPointOnLine(segmentLocation.Point)) {
                     matchedPointCount++;
                 } else {
                     missedPointCount++;
@@ -92,6 +92,26 @@ namespace MtbMate.Utilities {
                 StartIdx = startIdx,
                 EndIdx = endIdx,
             };
+        }
+
+        public static IList<MapLocation> GetMapLocations(IList<Location> locations) {
+            return locations
+                .OrderBy(i => i.Timestamp)
+                .Select(i => new MapLocation {
+                    Point = i.Point,
+                    Mph = i.Mph,
+                })
+                .ToList();
+        }
+
+        public static IList<MapLocation> GetMapLocations(IList<SegmentLocation> locations) {
+            return locations
+                .OrderBy(i => i.Order)
+                .Select(i => new MapLocation {
+                    Point = i.Point,
+                    Mph = 0,
+                })
+                .ToList();
         }
     }
 }

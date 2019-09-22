@@ -18,8 +18,10 @@ namespace MtbMate.Screens.Segments {
         public string DisplayName => Segment.DisplayName;
 
         public IList<Location> Locations => Segment.Points
+            .OrderBy(i => i.Order)
             .Select(i => new Location {
-                LatLong = i,
+                Point = i.Point,
+                SpeedMetresPerSecond = 0,
             })
             .ToList();
 

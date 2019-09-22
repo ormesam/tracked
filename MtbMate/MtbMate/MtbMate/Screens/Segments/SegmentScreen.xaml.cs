@@ -14,7 +14,7 @@ namespace MtbMate.Screens.Segments {
             InitializeComponent();
             BindingContext = new SegmentScreenViewModel(context, segment);
 
-            Map.RouteCoordinates = ViewModel.Locations;
+            Map.RouteCoordinates = PolyUtils.GetMapLocations(ViewModel.Locations);
         }
 
         public SegmentScreenViewModel ViewModel => BindingContext as SegmentScreenViewModel;

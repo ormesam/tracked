@@ -14,7 +14,17 @@ namespace MtbMate.Utilities {
         public static void GoToLocations(this Map map, IList<Location> locations) {
             var firstLocation = locations.Midpoint();
 
-            var pin = new Position(firstLocation.LatLong.Latitude, firstLocation.LatLong.Longitude);
+            var pin = new Position(firstLocation.Point.Latitude, firstLocation.Point.Longitude);
+
+            Device.BeginInvokeOnMainThread(() => {
+                map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));
+            });
+        }
+
+        public static void GoToLocations(this Map map, IList<MapLocation> locations) {
+            var firstLocation = locations.Midpoint();
+
+            var pin = new Position(firstLocation.Point.Latitude, firstLocation.Point.Longitude);
 
             Device.BeginInvokeOnMainThread(() => {
                 map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));

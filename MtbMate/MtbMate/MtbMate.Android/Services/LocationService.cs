@@ -95,7 +95,7 @@ namespace MtbMate.Droid.Services {
 
             Models.Location model = new Models.Location {
                 Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(l.Time).DateTime,
-                LatLong = new LatLng(l.Latitude, l.Longitude),
+                Point = new LatLng(l.Latitude, l.Longitude),
                 AccuracyInMetres = l.Accuracy,
                 SpeedMetresPerSecond = l.Speed,
                 SpeedAccuracyMetresPerSecond = l.SpeedAccuracyMetersPerSecond,

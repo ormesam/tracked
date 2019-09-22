@@ -1,27 +1,27 @@
-﻿using MtbMate.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MtbMate.Utilities;
 using Xamarin.Essentials;
 
 namespace MtbMate.Models {
     public class Segment {
         public Guid? Id { get; set; }
         public string Name { get; set; }
-        public IList<LatLng> Points { get; set; }
+        public IList<SegmentLocation> Points { get; set; }
         public DateTime Created { get; set; }
-        public LatLng Start => Points.FirstOrDefault();
-        public LatLng End => Points.LastOrDefault();
+        public SegmentLocation Start => Points.FirstOrDefault();
+        public SegmentLocation End => Points.LastOrDefault();
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Created.ToString("dd/MM/yy HH:mm") : Name;
 
         public LatLng GetClosestStartPoint(IList<LatLng> locations) {
-            return GetClosestPoint(locations, Start);
+            return GetClosestPoint(locations, Start.Point);
         }
 
         public LatLng GetClosestEndPoint(IList<LatLng> locations) {
-            return GetClosestPoint(locations, End);
+            return GetClosestPoint(locations, End.Point);
         }
 
         private LatLng GetClosestPoint(IList<LatLng> locations, LatLng point) {
@@ -44,7 +44,7 @@ namespace MtbMate.Models {
             StringBuilder sb = new StringBuilder();
 
             foreach (var point in Points) {
-                sb.AppendLine($"S,{point.Latitude},{point.Longitude},E");
+                sb.AppendLine($"S,{point.Point.Latitude},{point.Point.Longitude},E");
             }
 
             sb.AppendLine();

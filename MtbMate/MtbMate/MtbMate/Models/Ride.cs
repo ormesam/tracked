@@ -28,7 +28,7 @@ namespace MtbMate.Models {
 
         public SegmentAttempt MatchesSegment(Segment segment) {
             List<LatLng> locationLatLngs = MovingLocations
-                .Select(i => i.LatLong)
+                .Select(i => i.Point)
                 .ToList();
 
             var result = PolyUtils.LocationsMatch(segment, locationLatLngs);
@@ -88,7 +88,7 @@ namespace MtbMate.Models {
             sb.AppendLine("TimeStamp,Lat,Lon,Position Accuracy,Mps,Mps Accuracy (m),Mph,Altitude");
 
             foreach (var location in Locations.OrderBy(i => i.Timestamp)) {
-                sb.AppendLine($"{location.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{location.LatLong.Latitude},{location.LatLong.Longitude},{location.AccuracyInMetres}," +
+                sb.AppendLine($"{location.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{location.Point.Latitude},{location.Point.Longitude},{location.AccuracyInMetres}," +
                     $"{location.SpeedMetresPerSecond},{location.SpeedAccuracyMetresPerSecond},{location.Mph}," +
                     $"{location.Altitude}");
             }

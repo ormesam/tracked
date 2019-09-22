@@ -21,7 +21,7 @@ namespace MtbMate.Screens.Review {
             : this(new MapScreenViewModel(context, title, locations)) {
         }
 
-        public MapScreen(MainContext context, string title, IList<LatLng> locations)
+        public MapScreen(MainContext context, string title, IList<SegmentLocation> locations)
             : this(new MapScreenViewModel(context, title, locations)) {
         }
 

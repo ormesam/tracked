@@ -14,7 +14,7 @@ namespace MtbMate.Screens.Review {
             InitializeComponent();
             BindingContext = new ReviewScreenViewModel(context, ride);
 
-            Map.RouteCoordinates = ride.Locations;
+            Map.RouteCoordinates = PolyUtils.GetMapLocations(ride.Locations);
             Map.ShowSpeed = true;
         }
 

@@ -4,7 +4,7 @@ namespace MtbMate.Models {
     public class Location {
         public long Time { get; set; }
         public DateTime Timestamp { get; set; }
-        public LatLng LatLong { get; set; }
+        public LatLng Point { get; set; }
         public double? AccuracyInMetres { get; set; }
         public double SpeedMetresPerSecond { get; set; }
         public double? SpeedAccuracyMetresPerSecond { get; set; }
@@ -13,7 +13,7 @@ namespace MtbMate.Models {
         public double Mph => SpeedMetresPerSecond * 2.23694;
 
         public override string ToString() {
-            return $"{Timestamp}: Lat: {LatLong.Latitude}, Lon: {LatLong.Longitude}, Mph: {Mph}";
+            return $"{Timestamp}: Lat: {Point.Latitude}, Lon: {Point.Longitude}, Mph: {Mph}";
         }
     }
 }

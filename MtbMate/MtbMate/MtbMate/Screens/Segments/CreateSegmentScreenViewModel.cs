@@ -33,8 +33,10 @@ namespace MtbMate.Screens.Segments {
                 return;
             }
 
+            int order = 0;
+
             segment.Points = Points
-                .Select(i => new LatLng(i.Position.Latitude, i.Position.Longitude))
+                .Select(i => new SegmentLocation(order++, i.Position.Latitude, i.Position.Longitude))
                 .ToList();
 
             Context.UI.ShowInputDialog("Segment Name", string.Empty, async (newName) => {
