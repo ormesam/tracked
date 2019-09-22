@@ -31,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\TextViewCell.xaml.cs">
-      <DependentUpon>TextViewCell.xaml</DependentUpon>
+    <Compile Update="Controls\MedalsCell.xaml.cs">
+      <DependentUpon>MedalsCell.xaml</DependentUpon>
     </Compile>
     <Compile Update="Screens\Bluetooth\BluetoothSetupScreen.xaml.cs">
       <DependentUpon>BluetoothSetupScreen.xaml</DependentUpon>
@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Controls\TextViewCell.xaml">
+    <EmbeddedResource Update="Controls\MedalsCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Bluetooth\BluetoothSetupScreen.xaml">

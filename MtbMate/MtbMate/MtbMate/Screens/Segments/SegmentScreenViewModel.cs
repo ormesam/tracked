@@ -17,13 +17,7 @@ namespace MtbMate.Screens.Segments {
 
         public string DisplayName => Segment.DisplayName;
 
-        public IList<Location> Locations => Segment.Points
-            .OrderBy(i => i.Order)
-            .Select(i => new Location {
-                Point = i.Point,
-                SpeedMetresPerSecond = 0,
-            })
-            .ToList();
+        public IList<SegmentLocation> Locations => Segment.Points;
 
         public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
             .Where(i => i.SegmentId == Segment.Id)

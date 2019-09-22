@@ -17,31 +17,35 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
-              <StackLayout>
-                  <controls:CustomMap
+            <StackLayout>
+                <controls:CustomMap
                       x:Name="Map"
                       HeightRequest="200"
                       MapClicked="Map_MapClicked"
                       HasScrollEnabled="False"
                       HasZoomEnabled="False" />
-                  <Label
+                <Label
                       Margin="15"
                       HorizontalOptions="Center"
                       Text="{Binding DisplayName}"
                       FontSize="Large">
-                      <Label.GestureRecognizers>
-                          <TapGestureRecognizer
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
                               Tapped="Name_Tapped" />
-                      </Label.GestureRecognizers>
+                    </Label.GestureRecognizers>
                 </Label>
                 <controls:ExtendedListView
                     ItemsSource="{Binding Attempts}"
-                    IsScrollEnabled="False">
+                    IsScrollEnabled="False"
+                    ItemTapped="Attempt_Tapped">
                     <controls:ExtendedListView.ItemTemplate>
                         <DataTemplate>
-                            <TextCell
-                                Text="{Binding DisplayName}"
-                                Detail="{Binding FormattedTime}" />
+                            <ViewCell>
+                                <controls:MedalsCell
+                                    Text="{Binding DisplayName}"
+                                    Detail="{Binding FormattedTime}"
+                                    Medal="{Binding Medal}" />
+                            </ViewCell>
                         </DataTemplate>
                     </controls:ExtendedListView.ItemTemplate>
                 </controls:ExtendedListView>

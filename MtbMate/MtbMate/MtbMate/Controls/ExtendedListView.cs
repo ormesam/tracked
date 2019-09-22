@@ -7,7 +7,7 @@ namespace MtbMate.Controls {
         public static readonly BindableProperty IsScrollEnabledProperty = BindableProperty.Create(
             nameof(IsScrollEnabledProperty),
             typeof(bool),
-            typeof(TextViewCell),
+            typeof(ExtendedListView),
             true);
 
         public bool IsScrollEnabled {

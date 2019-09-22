@@ -51,11 +51,13 @@ namespace MtbMate.Models {
                 .Select(i => i.Time)
                 .ToList();
 
-            if (attempt.Time > existingAttempts.FirstOrDefault()) {
+            if (!existingAttempts.Any()) {
+                attempt.Medal = Medal.None;
+            } else if (attempt.Time < existingAttempts.FirstOrDefault()) {
                 attempt.Medal = Medal.Gold;
-            } else if (attempt.Time > existingAttempts.Skip(1).FirstOrDefault()) {
+            } else if (attempt.Time < existingAttempts.Skip(1).FirstOrDefault()) {
                 attempt.Medal = Medal.Silver;
-            } else if (attempt.Time > existingAttempts.Skip(2).FirstOrDefault()) {
+            } else if (attempt.Time < existingAttempts.Skip(2).FirstOrDefault()) {
                 attempt.Medal = Medal.Bronze;
             } else {
                 attempt.Medal = Medal.None;
