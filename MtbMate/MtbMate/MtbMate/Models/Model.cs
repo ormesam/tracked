@@ -79,7 +79,7 @@ namespace MtbMate.Models {
         }
 
         public async Task AnalyseExistingRides(Segment segment) {
-            foreach (var ride in Rides) {
+            foreach (var ride in Rides.OrderBy(i => i.Start)) {
                 SegmentAttempt result = ride.MatchesSegment(segment);
 
                 if (result != null) {

@@ -22,7 +22,7 @@ namespace MtbMate.Screens.Segments {
             base.OnAppearing();
 
             Task.Run(() => {
-                Map.GoToLocations((System.Collections.Generic.IList<Location>)ViewModel.Ride.Locations);
+                Map.GoToLocations(ViewModel.Ride.Locations);
             });
         }
 

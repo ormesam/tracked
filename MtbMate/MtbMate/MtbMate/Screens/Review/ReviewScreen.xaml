@@ -173,7 +173,7 @@
                         <DataTemplate>
                             <TextCell
                                 Text="{Binding Segment.DisplayName}"
-                                Detail="{Binding Time}" />
+                                Detail="{Binding FormattedTime}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </controls:ExtendedListView>

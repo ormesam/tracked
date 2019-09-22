@@ -37,13 +37,31 @@ namespace MtbMate.Models {
                 return null;
             }
 
-            return new SegmentAttempt {
+            SegmentAttempt attempt = new SegmentAttempt {
                 Created = MovingLocations.First().Timestamp,
                 RideId = Id,
                 SegmentId = segment.Id,
                 StartIdx = result.StartIdx,
                 EndIdx = result.EndIdx,
             };
+
+            var existingAttempts = Model.Instance.SegmentAttempts
+                .Where(i => i.SegmentId == segment.Id)
+                .OrderBy(i => i.Time)
+                .Select(i => i.Time)
+                .ToList();
+
+            if (attempt.Time > existingAttempts.FirstOrDefault()) {
+                attempt.Medal = Medal.Gold;
+            } else if (attempt.Time > existingAttempts.Skip(1).FirstOrDefault()) {
+                attempt.Medal = Medal.Silver;
+            } else if (attempt.Time > existingAttempts.Skip(2).FirstOrDefault()) {
+                attempt.Medal = Medal.Bronze;
+            } else {
+                attempt.Medal = Medal.None;
+            }
+
+            return attempt;
         }
 
         public ShareFile GetReadingsFile() {

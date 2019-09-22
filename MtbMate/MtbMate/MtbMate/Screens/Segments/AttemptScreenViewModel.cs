@@ -19,7 +19,7 @@ namespace MtbMate.Screens.Segments {
         public double AverageSpeed => attempt.AverageSpeed;
         public double MaxSpeed => attempt.MaxSpeed;
         public double Distance => attempt.Distance;
-        public string Time => attempt.Time;
+        public string Time => attempt.FormattedTime;
 
         public async Task GoToMapScreen(INavigation nav) {
             await Context.UI.GoToMapScreenAsync(nav, DisplayName, Locations);

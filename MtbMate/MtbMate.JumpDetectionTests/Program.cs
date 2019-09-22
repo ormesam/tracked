@@ -143,7 +143,7 @@ namespace MtbMate.JumpDetectionTests {
             var list = enumerable as List<T>;
 
             if (list == null) {
-                list = enumerable.ToList();
+                list = new List<T>(enumerable);
             }
 
             return list.GetRange(index, count);

@@ -41,7 +41,7 @@
                         <DataTemplate>
                             <TextCell
                                 Text="{Binding DisplayName}"
-                                Detail="{Binding Time}" />
+                                Detail="{Binding FormattedTime}" />
                         </DataTemplate>
                     </controls:ExtendedListView.ItemTemplate>
                 </controls:ExtendedListView>

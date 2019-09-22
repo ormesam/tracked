@@ -12,6 +12,7 @@ namespace MtbMate.Models {
         public int StartIdx { get; set; }
         public int EndIdx { get; set; }
         public string DisplayName => Created.ToString("dd/MM/yy HH:mm");
+        public Medal Medal { get; set; }
 
         public Segment Segment => Model.Instance.Segments
             .Where(i => i.Id == SegmentId)
@@ -22,10 +23,13 @@ namespace MtbMate.Models {
             .SingleOrDefault();
 
         public IList<Location> Locations => Ride.MovingLocations
-            .ToList()
             .GetRange(StartIdx, (EndIdx - StartIdx) + 1);
 
-        public string Time => (Locations.Last().Timestamp - Locations.First().Timestamp).ToString(@"mm\:ss");
+        public TimeSpan Time => Locations.Last().Timestamp - Locations.First().Timestamp;
+
+        public int Seconds => Time.Seconds;
+
+        public string FormattedTime => Time.ToString(@"mm\:ss");
 
         public double Distance => Locations.CalculateDistanceKm();
 
