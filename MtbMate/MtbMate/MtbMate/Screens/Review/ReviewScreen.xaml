@@ -171,9 +171,12 @@
                     IsScrollEnabled="False">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextCell
+                            <ViewCell>
+                                <controls:MedalsCell
                                 Text="{Binding Segment.DisplayName}"
-                                Detail="{Binding FormattedTime}" />
+                                Detail="{Binding FormattedTime}"
+                                Medal="{Binding Medal}" />
+                            </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </controls:ExtendedListView>

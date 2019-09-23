@@ -45,25 +45,39 @@ namespace MtbMate.Models {
                 EndIdx = result.EndIdx,
             };
 
+            attempt.Medal = GetMedal(attempt.Time, segment.Id.Value);
+
+            return attempt;
+        }
+
+        private Medal GetMedal(TimeSpan time, Guid segmentId) {
             var existingAttempts = Model.Instance.SegmentAttempts
-                .Where(i => i.SegmentId == segment.Id)
+                .Where(i => i.SegmentId == segmentId)
                 .OrderBy(i => i.Time)
                 .Select(i => i.Time)
                 .ToList();
 
             if (!existingAttempts.Any()) {
-                attempt.Medal = Medal.None;
-            } else if (attempt.Time < existingAttempts.FirstOrDefault()) {
-                attempt.Medal = Medal.Gold;
-            } else if (attempt.Time < existingAttempts.Skip(1).FirstOrDefault()) {
-                attempt.Medal = Medal.Silver;
-            } else if (attempt.Time < existingAttempts.Skip(2).FirstOrDefault()) {
-                attempt.Medal = Medal.Bronze;
-            } else {
-                attempt.Medal = Medal.None;
+                return Medal.None;
             }
 
-            return attempt;
+            if (existingAttempts.Count == 1) {
+                return time < existingAttempts[0] ? Medal.Gold : Medal.Silver;
+            }
+
+            if (existingAttempts.Count == 2) {
+                return time < existingAttempts[0] ? Medal.Gold : time < existingAttempts[1] ? Medal.Silver : Medal.Bronze;
+            }
+
+            if (time < existingAttempts.FirstOrDefault()) {
+                return Medal.Gold;
+            } else if (time < existingAttempts.Skip(1).FirstOrDefault()) {
+                return Medal.Silver;
+            } else if (time < existingAttempts.Skip(2).FirstOrDefault()) {
+                return Medal.Bronze;
+            }
+
+            return Medal.None;
         }
 
         public ShareFile GetReadingsFile() {
