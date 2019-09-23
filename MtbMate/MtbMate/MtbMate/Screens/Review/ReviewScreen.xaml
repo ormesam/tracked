@@ -173,9 +173,9 @@
                         <DataTemplate>
                             <ViewCell>
                                 <controls:MedalsCell
-                                Text="{Binding Segment.DisplayName}"
-                                Detail="{Binding FormattedTime}"
-                                Medal="{Binding Medal}" />
+                                    Text="{Binding Segment.DisplayName}"
+                                    Detail="{Binding FormattedTime}"
+                                    Medal="{Binding Medal}" />
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>

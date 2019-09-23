@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using MtbMate.Models;
 using Xamarin.Forms;
 
@@ -35,7 +36,7 @@ namespace MtbMate.Controls {
         public static readonly BindableProperty MedalsProperty =
             BindableProperty.Create(
                 nameof(Medals),
-                typeof(IEnumerable<Medal>),
+                typeof(IEnumerable),
                 typeof(MedalsCell),
                 null);
 
@@ -66,8 +67,8 @@ namespace MtbMate.Controls {
             set { SetValue(TextColorProperty, value); }
         }
 
-        public IEnumerable<Medal> Medals {
-            get => (IEnumerable<Medal>)GetValue(MedalsProperty);
+        public IEnumerable Medals {
+            get => (IEnumerable)GetValue(MedalsProperty);
             set => SetValue(MedalsProperty, value);
         }
 
@@ -100,7 +101,15 @@ namespace MtbMate.Controls {
 
         public void Populate() {
             if (Medals != null || Medal != null) {
-                var source = Medal != null ? new List<Medal>() { Medal.Value } : Medals;
+                var source = new List<Medal>();
+
+                if (Medals != null) {
+                    foreach (var item in Medals) {
+                        source.Add((Medal)item);
+                    }
+                } else {
+                    source.Add(Medal.Value);
+                }
 
                 medals.Children.Clear();
 

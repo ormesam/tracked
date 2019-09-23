@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MtbMate.Home.MainPage"
+    xmlns:controls="clr-namespace:MtbMate.Controls"
     Title="{Binding Title}">
     <Grid>
         <Grid.RowDefinitions>
@@ -22,9 +23,12 @@
             ItemTapped="Ride_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell
-                        Text="{Binding DisplayName}"
-                        Detail="{Binding Start, StringFormat='{0:d MMM yy HH:mm}'}"/>
+                    <ViewCell>
+                        <controls:MedalsCell
+                            Text="{Binding DisplayName}"
+                            Detail="{Binding Start, StringFormat='{0:d MMM yy HH:mm}'}"
+                            Medals="{Binding Medals}" />
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

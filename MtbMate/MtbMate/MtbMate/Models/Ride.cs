@@ -20,6 +20,11 @@ namespace MtbMate.Models {
             .Where(i => i.Mph >= 1)
             .ToList();
 
+        public IList<Medal> Medals => Model.Instance.SegmentAttempts
+            .Where(i => i.RideId == Id)
+            .Select(i => i.Medal)
+            .ToList();
+
         public Ride() {
             Locations = new List<Location>();
             Jumps = new List<Jump>();
