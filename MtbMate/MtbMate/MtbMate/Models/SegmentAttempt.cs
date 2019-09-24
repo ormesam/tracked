@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using MtbMate.Utilities;
+using Newtonsoft.Json;
 
 namespace MtbMate.Models {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class SegmentAttempt {
+        [JsonProperty]
         public Guid? Id { get; set; }
+        [JsonProperty]
         public Guid? SegmentId { get; set; }
+        [JsonProperty]
         public Guid? RideId { get; set; }
+        [JsonProperty]
         public DateTime Created { get; set; }
+        [JsonProperty]
         public int StartIdx { get; set; }
+        [JsonProperty]
         public int EndIdx { get; set; }
-        public string DisplayName => Created.ToString("dd/MM/yy HH:mm");
+        [JsonProperty]
         public Medal Medal { get; set; }
+        public string DisplayName => Created.ToString("dd/MM/yy HH:mm");
 
         public Segment Segment => Model.Instance.Segments
             .Where(i => i.Id == SegmentId)

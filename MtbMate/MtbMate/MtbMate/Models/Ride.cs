@@ -4,16 +4,25 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using MtbMate.Utilities;
+using Newtonsoft.Json;
 using Xamarin.Essentials;
 
 namespace MtbMate.Models {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Ride {
+        [JsonProperty]
         public Guid? Id { get; set; }
+        [JsonProperty]
         public string Name { get; set; }
+        [JsonProperty]
         public DateTime? Start { get; set; }
+        [JsonProperty]
         public DateTime? End { get; set; }
+        [JsonProperty]
         public IList<Location> Locations { get; set; }
+        [JsonProperty]
         public IList<Jump> Jumps { get; set; }
+        [JsonProperty]
         public IList<AccelerometerReading> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
         public IList<Location> MovingLocations => Locations

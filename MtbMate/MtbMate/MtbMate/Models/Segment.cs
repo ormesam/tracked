@@ -4,13 +4,19 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using MtbMate.Utilities;
+using Newtonsoft.Json;
 using Xamarin.Essentials;
 
 namespace MtbMate.Models {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Segment {
+        [JsonProperty]
         public Guid? Id { get; set; }
+        [JsonProperty]
         public string Name { get; set; }
+        [JsonProperty]
         public IList<SegmentLocation> Points { get; set; }
+        [JsonProperty]
         public DateTime Created { get; set; }
         public SegmentLocation Start => Points.FirstOrDefault();
         public SegmentLocation End => Points.LastOrDefault();

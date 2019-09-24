@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using MtbMate.Achievements;
 using MtbMate.Contexts;
 using MtbMate.Utilities;
 
@@ -32,6 +33,7 @@ namespace MtbMate.Models {
         public ObservableCollection<Ride> Rides { get; set; }
         public ObservableCollection<Segment> Segments { get; set; }
         public ObservableCollection<SegmentAttempt> SegmentAttempts { get; set; }
+        public ObservableCollection<IAchievement> Achievements { get; set; }
 
         private Model() {
         }
@@ -42,6 +44,33 @@ namespace MtbMate.Models {
             Rides = storage.GetRides().ToObservable();
             Segments = storage.GetSegments().ToObservable();
             SegmentAttempts = storage.GetSegmentAttempts().ToObservable();
+            var achievementResults = storage.GetAchievementResults();
+            Achievements = LoadAchievements(achievementResults).ToObservable();
+        }
+
+        private IList<IAchievement> LoadAchievements(IList<AchievementResult> achievementResults) {
+            var achievements = new List<IAchievement>() {
+                new SpeedAchievement(1, 20),
+                new SpeedAchievement(2, 22.5),
+                new SpeedAchievement(3, 25),
+                new JumpAchievement(4, 0.6),
+                new JumpAchievement(5, 0.8),
+                new JumpAchievement(6, 1),
+                new JumpAchievement(7, 1.2),
+                new JumpAchievement(8, 1.4),
+                new JumpAchievement(9, 1.5),
+            };
+
+            foreach (var achievementResult in achievementResults) {
+                var achievement = achievements
+                    .SingleOrDefault(i => i.Id == achievementResult.AcheivementId);
+
+                achievement.IsAchieved = true;
+                achievement.Time = achievementResult.Time;
+                achievement.RideId = achievementResult.RideId;
+            }
+
+            return achievements;
         }
 
         public async Task SaveRide(Ride ride) {
@@ -121,6 +150,14 @@ namespace MtbMate.Models {
             }
 
             await storage.SaveObject(segmentAttempt.Id.Value, segmentAttempt);
+        }
+
+        public async Task SaveAchievementResult(AchievementResult achievementResult) {
+            if (achievementResult.Id == null) {
+                achievementResult.Id = Guid.NewGuid();
+            }
+
+            await storage.SaveObject(achievementResult.Id.Value, achievementResult);
         }
 
 #if DEBUG

@@ -3,14 +3,14 @@ using Newtonsoft.Json;
 
 namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class Settings {
+    public class AchievementResult {
         [JsonProperty]
         public Guid? Id { get; set; }
         [JsonProperty]
-        public bool DetectJumps { get; set; }
-
-        public void ResetDefaults() {
-            DetectJumps = true;
-        }
+        public int AcheivementId { get; set; }
+        [JsonProperty]
+        public DateTime Time { get; set; }
+        [JsonProperty]
+        public Guid RideId { get; set; }
     }
 }
