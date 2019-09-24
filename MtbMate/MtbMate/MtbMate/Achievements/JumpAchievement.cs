@@ -10,6 +10,7 @@ namespace MtbMate.Achievements {
         public double MinimumAirtime { get; set; }
         public DateTime? Time { get; set; }
         public Guid? RideId { get; set; }
+        public string AchievedText => IsAchieved ? "Achieved " + Time.Value.ToString("dd/MM/yy HH:mm") : "Not Achieved Yet";
 
         public JumpAchievement(int id, double minimumAirtime) {
             Id = id;
@@ -17,6 +18,14 @@ namespace MtbMate.Achievements {
         }
 
         public bool Check(Ride ride) {
+            if (IsAchieved) {
+                return false;
+            }
+
+            if (!ride.Jumps.Any()) {
+                return false;
+            }
+
             return ride.Jumps.Max(i => i.Airtime) >= MinimumAirtime;
         }
     }

@@ -15,13 +15,18 @@ namespace MtbMate.Screens.Master {
                  },
                  new ExtendedMenuItem
                  {
-                      Title = "Bluetooth",
-                      OnClick = Context.UI.GoToBluetoothScreenAsync,
+                      Title = "Segments",
+                      OnClick = Context.UI.GoToExploreSegmentsScreenAsync,
                  },
                  new ExtendedMenuItem
                  {
-                      Title = "Segments",
-                      OnClick = Context.UI.GoToExploreSegmentsScreenAsync,
+                      Title = "Achievements",
+                      OnClick = Context.UI.GoToAchievementScreenAsync,
+                 },
+                 new ExtendedMenuItem
+                 {
+                      Title = "Bluetooth",
+                      OnClick = Context.UI.GoToBluetoothScreenAsync,
                  },
                  new ExtendedMenuItem
                  {

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MtbMate.Screens.Review.AchievementScreen"
+    Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Re-compare Rides"
+            Clicked="RecompareRides_Clicked"
+            Order="Secondary" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ListView
+            ItemsSource="{Binding Achievements}"
+            ItemTapped="Achievements_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid
+                            RowSpacing="0"
+                            Padding="10,0,10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label
+                                Text="{Binding Name}"
+                                TextColor="Black" />
+
+                            <Label
+                                Grid.Row="1"
+                                Text="{Binding AchievedText}"
+                                TextColor="Default"/>
+
+                            <Image
+                                Grid.Column="1"
+                                Grid.RowSpan="2"
+                                HeightRequest="20"
+                                VerticalOptions="Center"
+                                IsVisible="{Binding IsAchieved}"
+                                Source="gold.png" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

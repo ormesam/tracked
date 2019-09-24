@@ -63,6 +63,10 @@ namespace MtbMate.Contexts {
             await GoToScreenAsync(new MainPage(context));
         }
 
+        public async Task GoToAchievementScreenAsync() {
+            await GoToScreenAsync(new AchievementScreen(context));
+        }
+
         public async Task GoToMapScreenAsync(INavigation nav, Ride ride) {
             await GoToMapScreenAsync(nav, ride.DisplayName, ride.Locations);
         }

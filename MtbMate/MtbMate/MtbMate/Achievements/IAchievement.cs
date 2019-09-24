@@ -8,6 +8,7 @@ namespace MtbMate.Achievements {
         bool IsAchieved { get; set; }
         DateTime? Time { get; set; }
         Guid? RideId { get; set; }
+        string AchievedText { get; }
 
         bool Check(Ride ride);
     }
