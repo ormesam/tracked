@@ -5,12 +5,12 @@ using MtbMate.Accelerometer;
 using MtbMate.Models;
 
 namespace MtbMate.Utilities {
-    public class RideController {
+    public class RideRecorder {
         private readonly bool detectJumps;
 
         public readonly Ride Ride;
 
-        public RideController(bool detectJumps) {
+        public RideRecorder(bool detectJumps) {
             this.detectJumps = detectJumps;
             Ride = new Ride();
         }
@@ -48,6 +48,8 @@ namespace MtbMate.Utilities {
             await Model.Instance.SaveRide(Ride);
 
             await CompareSegments();
+
+            await AchievementUtility.Instance.AnalyseRide(Ride);
         }
 
         private async Task CompareSegments() {
