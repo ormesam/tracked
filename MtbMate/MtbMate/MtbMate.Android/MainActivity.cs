@@ -7,7 +7,6 @@ using Android.OS;
 using Android.Runtime;
 using MtbMate.Droid.Services;
 using Plugin.CurrentActivity;
-using Xamarin.Forms;
 
 namespace MtbMate.Droid {
     [Activity(Label = "Mtb Mate", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -35,8 +34,6 @@ namespace MtbMate.Droid {
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-
-            Forms.SetFlags("CollectionView_Experimental");
 
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);

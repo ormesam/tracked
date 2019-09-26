@@ -63,15 +63,8 @@ void loop() {
   if (central) {
     while (central.connected()) {
           float x = accelerometer.getConvertedXAxis();
-          float y = accelerometer.getConvertedXAxis();
-          float z = accelerometer.getConvertedXAxis();
 
-          String buf;
-            buf += String(roundf(x*100.0)/100.0);
-            buf += F(",");
-            buf += String(roundf(y*100.0)/100.0);
-            buf += F(",");
-            buf += String(roundf(z*100.0)/100.0);
+          String buf = String(roundf(x*100.0)/100.0);
           
           accCharacteristic.setValue(buf);
 
