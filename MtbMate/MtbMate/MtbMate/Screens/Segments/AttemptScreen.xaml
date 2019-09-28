@@ -8,12 +8,9 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <controls:CustomMap
-                    x:Name="Map"
+                <controls:MapControl
                     HeightRequest="200"
-                    MapClicked="Map_MapClicked"
-                    HasScrollEnabled="False"
-                    HasZoomEnabled="False" />
+                    BindingContext="{Binding MapViewModel}" />
                 <Label
                     Margin="15"
                     HorizontalOptions="Center"

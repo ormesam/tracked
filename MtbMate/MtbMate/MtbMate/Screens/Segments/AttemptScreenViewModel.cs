@@ -1,15 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using MtbMate.Contexts;
+using MtbMate.Controls;
 using MtbMate.Models;
-using Xamarin.Forms;
+using MtbMate.Utilities;
 
 namespace MtbMate.Screens.Segments {
     public class AttemptScreenViewModel : ViewModelBase {
         private readonly SegmentAttempt attempt;
 
+        public MapControlViewModel MapViewModel { get; }
+
         public AttemptScreenViewModel(MainContext context, SegmentAttempt attempt) : base(context) {
             this.attempt = attempt;
+
+            MapViewModel = new MapControlViewModel(
+                context,
+                attempt.DisplayName,
+                PolyUtils.GetMapLocations(attempt.Locations));
         }
 
         public override string Title => DisplayName;
@@ -20,9 +27,5 @@ namespace MtbMate.Screens.Segments {
         public double MaxSpeed => attempt.MaxSpeed;
         public double Distance => attempt.Distance;
         public string Time => attempt.FormattedTime;
-
-        public async Task GoToMapScreen(INavigation nav) {
-            await Context.UI.GoToMapScreenAsync(nav, DisplayName, Locations);
-        }
     }
 }

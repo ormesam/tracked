@@ -2,15 +2,23 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Contexts;
+using MtbMate.Controls;
 using MtbMate.Models;
+using MtbMate.Utilities;
 using Xamarin.Forms;
 
 namespace MtbMate.Screens.Segments {
     public class SegmentScreenViewModel : ViewModelBase {
         public Segment Segment { get; }
+        public MapControlViewModel MapViewModel { get; }
 
         public SegmentScreenViewModel(MainContext context, Segment segment) : base(context) {
             Segment = segment;
+            MapViewModel = new MapControlViewModel(
+                context,
+                Segment.DisplayName,
+                PolyUtils.GetMapLocations(Segment.Points),
+                showSpeed: false);
         }
 
         public override string Title => Segment.Name;
@@ -33,10 +41,6 @@ namespace MtbMate.Screens.Segments {
 
                 await Model.Instance.SaveSegment(Segment);
             });
-        }
-
-        public async Task GoToMapScreen(INavigation nav) {
-            await Context.UI.GoToMapScreenAsync(nav, DisplayName, Segment.Points);
         }
 
         public async Task DeleteSegment(INavigation nav) {

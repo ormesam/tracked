@@ -1,27 +1,23 @@
 ﻿using System.Collections.Generic;
 using MtbMate.Contexts;
+using MtbMate.Controls;
 using MtbMate.Models;
-using MtbMate.Utilities;
 
 namespace MtbMate.Screens.Review {
     public class MapScreenViewModel : ViewModelBase {
-        private readonly string title;
+        public MapControlViewModel MapViewModel { get; }
 
-        public bool ShowSpeed { get; }
-        public IList<MapLocation> Locations { get; }
+        public MapScreenViewModel(MainContext context, string title, IList<MapLocation> locations, bool showSpeed)
+            : base(context) {
 
-        public MapScreenViewModel(MainContext context, string title, IList<Location> locations) : base(context) {
-            this.title = title;
-            ShowSpeed = true;
-            Locations = PolyUtils.GetMapLocations(locations);
+            MapViewModel = new MapControlViewModel(
+                context,
+                title,
+                locations,
+                isReadonly: false,
+                showSpeed: showSpeed,
+                showUser: false,
+                registerMapClick: false);
         }
-
-        public MapScreenViewModel(MainContext context, string title, IList<SegmentLocation> locations) : base(context) {
-            this.title = title;
-            ShowSpeed = false;
-            Locations = PolyUtils.GetMapLocations(locations);
-        }
-
-        public override string Title => title;
     }
 }

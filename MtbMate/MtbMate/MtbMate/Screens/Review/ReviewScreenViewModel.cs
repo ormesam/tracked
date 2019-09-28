@@ -1,9 +1,10 @@
-﻿using MtbMate.Contexts;
-using MtbMate.Models;
-using MtbMate.Utilities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MtbMate.Contexts;
+using MtbMate.Controls;
+using MtbMate.Models;
+using MtbMate.Utilities;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -13,11 +14,17 @@ namespace MtbMate.Screens.Review {
 
         public ReviewScreenViewModel(MainContext context, Ride ride) : base(context) {
             Ride = ride;
+            MapViewModel = new MapControlViewModel(
+                context,
+                Ride.DisplayName,
+                PolyUtils.GetMapLocations(Ride.Locations));
         }
 
         public override string Title => DisplayName;
 
         public string DisplayName => Ride.DisplayName;
+
+        public MapControlViewModel MapViewModel { get; }
 
         public double AverageSpeed {
             get {
@@ -73,10 +80,6 @@ namespace MtbMate.Screens.Review {
 
                 await Model.Instance.SaveRide(Ride);
             });
-        }
-
-        public async Task GoToMapScreen(INavigation nav) {
-            await Context.UI.GoToMapScreenAsync(nav, Ride);
         }
 
         public async Task Export() {

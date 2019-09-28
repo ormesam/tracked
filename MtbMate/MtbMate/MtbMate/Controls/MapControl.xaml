@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MtbMate.Controls"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    x:Class="MtbMate.Controls.MapControl">
+    <ContentView.Content>
+        <Grid
+            x:Name="grid">
+            <!--<controls:CustomMap
+                HasScrollEnabled="{Binding IsReadonly, Converter={StaticResource InvertBoolConverter}}"
+                HasZoomEnabled="{Binding IsReadonly, Converter={StaticResource InvertBoolConverter}}"
+                IsShowingUser="{Binding IsShowingUser}"
+                ShowSpeed="{Binding ShowSpeed}"
+                RouteCoordinates="{Binding Locations}">
+                <x:Arguments>
+                    <maps:MapSpan>
+                        <x:Arguments>
+                            <maps:Position>
+                                <x:Arguments>
+                                    <x:Double>40.748450</x:Double>
+                                    <x:Double>-73.985690</x:Double>
+                                </x:Arguments>
+                            </maps:Position>
+                            <x:Double>5</x:Double>
+                            <x:Double>5</x:Double>
+                        </x:Arguments>
+                    </maps:MapSpan>
+                </x:Arguments>
+            </controls:CustomMap>-->
+        </Grid>
+    </ContentView.Content>
+</ContentView>
