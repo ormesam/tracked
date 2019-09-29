@@ -14,7 +14,7 @@ namespace MtbMate.Controls {
 
         private void MapControl_LayoutChanged(object sender, EventArgs e) {
             Device.BeginInvokeOnMainThread(() => {
-                CustomMap map = new CustomMap(MapSpan.FromCenterAndRadius(ViewModel.InitialLocation, Distance.FromMiles(0.25)));
+                CustomMap map = new CustomMap(MapSpan.FromCenterAndRadius(ViewModel.InitialLocation, ViewModel.InitialDistance));
                 map.SetBinding(Map.IsShowingUserProperty, nameof(MapControlViewModel.IsShowingUser));
                 map.SetBinding(CustomMap.RouteCoordinatesProperty, nameof(MapControlViewModel.Locations));
                 map.SetBinding(CustomMap.ShowSpeedProperty, nameof(MapControlViewModel.ShowSpeed));

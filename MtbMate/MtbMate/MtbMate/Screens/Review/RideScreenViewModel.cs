@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MtbMate.Accelerometer;
 using MtbMate.Contexts;
+using MtbMate.Controls;
+using MtbMate.Models;
 using MtbMate.Utilities;
 using Xamarin.Forms;
 
@@ -9,6 +12,9 @@ namespace MtbMate.Screens.Review {
         private readonly RideRecorder rideController;
         private bool isRunning;
         private bool hasRan;
+
+        public MapControlViewModel MapViewModel { get; }
+
         private AccelerometerStatus accelerometerStatus;
 
         public RideScreenViewModel(MainContext context) : base(context) {
@@ -16,6 +22,15 @@ namespace MtbMate.Screens.Review {
             accelerometerStatus = AccelerometerUtility.Instance.Status;
             isRunning = false;
             hasRan = false;
+
+            MapViewModel = new MapControlViewModel(
+                context,
+                Title,
+                new List<MapLocation>(),
+                isReadonly: false,
+                showSpeed: false,
+                showUser: true,
+                registerMapClick: false);
 
             AccelerometerUtility.Instance.StatusChanged += BleAccelerometerUtility_StatusChanged;
         }

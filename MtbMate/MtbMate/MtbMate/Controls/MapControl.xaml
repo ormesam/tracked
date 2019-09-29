@@ -8,27 +8,6 @@
     <ContentView.Content>
         <Grid
             x:Name="grid">
-            <!--<controls:CustomMap
-                HasScrollEnabled="{Binding IsReadonly, Converter={StaticResource InvertBoolConverter}}"
-                HasZoomEnabled="{Binding IsReadonly, Converter={StaticResource InvertBoolConverter}}"
-                IsShowingUser="{Binding IsShowingUser}"
-                ShowSpeed="{Binding ShowSpeed}"
-                RouteCoordinates="{Binding Locations}">
-                <x:Arguments>
-                    <maps:MapSpan>
-                        <x:Arguments>
-                            <maps:Position>
-                                <x:Arguments>
-                                    <x:Double>40.748450</x:Double>
-                                    <x:Double>-73.985690</x:Double>
-                                </x:Arguments>
-                            </maps:Position>
-                            <x:Double>5</x:Double>
-                            <x:Double>5</x:Double>
-                        </x:Arguments>
-                    </maps:MapSpan>
-                </x:Arguments>
-            </controls:CustomMap>-->
         </Grid>
     </ContentView.Content>
 </ContentView>

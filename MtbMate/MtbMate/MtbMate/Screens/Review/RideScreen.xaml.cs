@@ -14,21 +14,6 @@ namespace MtbMate.Screens.Review {
             BindingContext = new RideScreenViewModel(context);
         }
 
-        protected override void OnAppearing() {
-            base.OnAppearing();
-
-            Task.Run(async () => {
-                var locator = CrossGeolocator.Current;
-                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(10));
-
-                var pin = new Position(position.Latitude, position.Longitude);
-
-                Device.BeginInvokeOnMainThread(() => {
-                    Map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.5)));
-                });
-            });
-        }
-
         public RideScreenViewModel ViewModel => BindingContext as RideScreenViewModel;
 
         private async void Start_Clicked(object sender, EventArgs e) {

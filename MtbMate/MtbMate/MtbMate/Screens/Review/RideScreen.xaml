@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:controls="clr-namespace:MtbMate.Controls"
     x:Class="MtbMate.Screens.Review.RideScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
@@ -21,12 +22,9 @@
                 VerticalOptions="Center"
                 Text="{Binding ReadyText}" />
             
-            <maps:Map
-                x:Name="Map"
+            <controls:MapControl
                 HeightRequest="200"
-                IsShowingUser="True"
-                HasScrollEnabled="False"
-                HasZoomEnabled="False"
+                BindingContext="{Binding MapViewModel}"
                 IsVisible="{Binding IsReady}" />
 
             <StackLayout
