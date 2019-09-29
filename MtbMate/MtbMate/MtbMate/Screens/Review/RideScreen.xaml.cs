@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using MtbMate.Contexts;
-using Plugin.Geolocator;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
 
 namespace MtbMate.Screens.Review {

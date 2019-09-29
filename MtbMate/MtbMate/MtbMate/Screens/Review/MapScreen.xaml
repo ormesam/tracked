@@ -6,7 +6,6 @@
     x:Class="MtbMate.Screens.Review.MapScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <controls:MapControl
-            BindingContext="{Binding MapViewModel}" />
+        <controls:MapControl />
     </ContentPage.Content>
 </ContentPage>
