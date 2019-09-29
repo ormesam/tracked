@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MtbMate.Screens.Segments.CreateSegmentScreen"
     xmlns:controls="clr-namespace:MtbMate.Controls"
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-    xmlns:forms="clr-namespace:Xamarin.RangeSlider.Forms;assembly=Xamarin.RangeSlider.Forms"
+    xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
@@ -28,22 +27,14 @@
                 Margin="10"
                 Text="" />
 
-            <controls:CustomMap
+            <maps:Map
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
                 x:Name="Map"
                 IsShowingUser="False"
                 ItemsSource="{Binding Points}"
                 MapType="Hybrid"
-                MapClicked="Map_MapClicked">
-                <controls:CustomMap.ItemTemplate>
-                    <DataTemplate>
-                        <maps:Pin
-                            Position="{Binding Position}"
-                            Label="{Binding Label}" />
-                    </DataTemplate>
-                </controls:CustomMap.ItemTemplate>
-            </controls:CustomMap>
+                MapClicked="Map_MapClicked" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

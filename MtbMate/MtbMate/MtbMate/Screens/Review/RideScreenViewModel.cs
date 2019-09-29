@@ -29,7 +29,7 @@ namespace MtbMate.Screens.Review {
                 new List<MapLocation>(),
                 isReadonly: false,
                 showSpeed: false,
-                showUser: true,
+                isShowingUser: true,
                 registerMapClick: false);
 
             AccelerometerUtility.Instance.StatusChanged += BleAccelerometerUtility_StatusChanged;

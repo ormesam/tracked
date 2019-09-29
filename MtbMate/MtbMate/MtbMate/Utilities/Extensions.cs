@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using MtbMate.Models;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
+using Xamarin.Forms.GoogleMaps;
 
 namespace MtbMate.Utilities {
     public static class Extensions {

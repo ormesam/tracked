@@ -4,7 +4,7 @@ using System.Linq;
 using MtbMate.Contexts;
 using MtbMate.Models;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
+using Xamarin.Forms.GoogleMaps;
 
 namespace MtbMate.Screens.Segments {
     public class CreateSegmentScreenViewModel : ViewModelBase {

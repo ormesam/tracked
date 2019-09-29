@@ -38,7 +38,7 @@ namespace MtbMate.Droid {
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            Xamarin.FormsMaps.Init(this, bundle);
+            Xamarin.FormsGoogleMaps.Init(this, bundle);
 
             ServiceConnection = new CustomServiceConnection { Activity = this };
 

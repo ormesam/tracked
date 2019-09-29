@@ -2,12 +2,17 @@
 <ContentView 
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:MtbMate.Controls"
-    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+    xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
     x:Class="MtbMate.Controls.MapControl">
     <ContentView.Content>
-        <Grid
-            x:Name="grid">
+        <Grid>
+            <maps:Map
+                x:Name="map"
+                InitialCameraUpdate="{Binding InitalCamera}"
+                HasScrollEnabled="{Binding IsReadOnly, Converter={StaticResource InvertBoolConverter}}"
+                HasRotationEnabled="{Binding IsReadOnly, Converter={StaticResource InvertBoolConverter}}"
+                MyLocationEnabled="{Binding IsShowingUser}"
+                MapClicked="Map_MapClicked"/>
         </Grid>
     </ContentView.Content>
 </ContentView>

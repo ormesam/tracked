@@ -11,7 +11,7 @@ namespace MtbMate.Screens.Review {
                 locations,
                 isReadonly: false,
                 showSpeed: showSpeed,
-                showUser: false,
+                isShowingUser: false,
                 registerMapClick: false) {
         }
     }
