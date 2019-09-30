@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MtbMate.Screens.Segments.CreateSegmentScreen"
     xmlns:controls="clr-namespace:MtbMate.Controls"
-    xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
@@ -25,16 +24,12 @@
 
             <Label
                 Margin="10"
-                Text="" />
+                Text="{Binding DisplayText}" />
 
-            <maps:Map
+            <controls:MapControl
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
-                x:Name="Map"
-                IsShowingUser="False"
-                ItemsSource="{Binding Points}"
-                MapType="Hybrid"
-                MapClicked="Map_MapClicked" />
+                BindingContext="{Binding MapViewModel}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

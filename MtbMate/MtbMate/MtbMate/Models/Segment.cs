@@ -22,6 +22,10 @@ namespace MtbMate.Models {
         public SegmentLocation End => Points.LastOrDefault();
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Created.ToString("dd/MM/yy HH:mm") : Name;
 
+        public Segment() {
+            Points = new List<SegmentLocation>();
+        }
+
         public LatLng GetClosestStartPoint(IList<LatLng> locations) {
             return GetClosestPoint(locations, Start.Point);
         }

@@ -12,16 +12,17 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace MtbMate.Controls {
     public class MapControlViewModel : ViewModelBase {
-        private bool registerMapClick;
+        private bool goToMapPageOnClick;
         private string title;
+        private Map map;
+
+        public event EventHandler<MapClickedEventArgs> MapTapped;
 
         public bool IsReadOnly { get; }
         public bool IsShowingUser { get; }
         public bool ShowSpeed { get; }
         public CameraUpdate InitalCamera { get; }
         public IList<MapLocation> Locations { get; }
-        public IList<Polyline> Polylines { get; }
-        public IList<Pin> Pins { get; set; }
         public override string Title => title;
 
         public MapControlViewModel(
@@ -35,10 +36,8 @@ namespace MtbMate.Controls {
             : base(context) {
 
             this.title = title;
-            this.registerMapClick = registerMapClick;
+            this.goToMapPageOnClick = registerMapClick;
 
-            Polylines = new List<Polyline>();
-            Pins = new List<Pin>();
             Locations = locations;
             IsReadOnly = isReadonly;
             IsShowingUser = isShowingUser;
@@ -60,27 +59,31 @@ namespace MtbMate.Controls {
             }
 
             InitalCamera = CameraUpdateFactory.NewPositionZoom(new Position(centre.Latitude, centre.Longitude), zoom);
-
-            CreatePolylines(locations);
         }
 
-        private void CreatePolylines(IList<MapLocation> locations) {
-            if (!locations.Any()) {
+        public void Init(Map map) {
+            this.map = map;
+
+            CreatePolylines();
+        }
+
+        private void CreatePolylines() {
+            if (!Locations.Any()) {
                 return;
             }
 
-            var maxSpeed = locations.Max(i => i.Mph);
+            var maxSpeed = Locations.Max(i => i.Mph);
 
             IList<LatLng> latLng = new List<LatLng>();
             var lastColour = Color.Blue;
             bool firstRun = true;
 
-            foreach (var location in locations) {
+            foreach (var location in Locations) {
                 var thisColour = ShowSpeed ? GetMaxSpeedColour(location.Mph, maxSpeed) : Color.Blue;
 
                 if (firstRun || thisColour != lastColour) {
                     if (!firstRun) {
-                        AddLine(latLng.ToArray(), lastColour);
+                        AddPolyLine(latLng.ToArray(), lastColour);
                     }
 
                     firstRun = false;
@@ -103,11 +106,19 @@ namespace MtbMate.Controls {
                 }
             }
 
-            AddLine(latLng.ToArray(), lastColour);
+            AddPolyLine(latLng.ToArray(), lastColour);
         }
 
-        public async Task GoToMapScreenAsync(INavigation nav) {
-            if (!registerMapClick) {
+        public async Task OnMapClicked(INavigation nav, MapClickedEventArgs args) {
+            if (goToMapPageOnClick) {
+                await GoToMapScreenAsync(nav);
+            } else {
+                MapTapped?.Invoke(null, args);
+            }
+        }
+
+        private async Task GoToMapScreenAsync(INavigation nav) {
+            if (!goToMapPageOnClick) {
                 return;
             }
 
@@ -121,10 +132,10 @@ namespace MtbMate.Controls {
                 // Icon = BitmapDescriptorFactory.from(Resource.Drawable.speed_icon)
             };
 
-            Pins.Add(pin);
+            map.Pins.Add(pin);
         }
 
-        private void AddLine(LatLng[] latLngs, Color colour) {
+        public void AddPolyLine(LatLng[] latLngs, Color colour) {
             Polyline polyline = new Polyline();
 
             foreach (var latLng in latLngs) {
@@ -134,7 +145,7 @@ namespace MtbMate.Controls {
             polyline.StrokeColor = colour;
             polyline.StrokeWidth = 2.5f;
 
-            Polylines.Add(polyline);
+            map.Polylines.Add(polyline);
         }
 
         private Color GetMaxSpeedColour(double mph, double maxSpeed) {
@@ -155,16 +166,6 @@ namespace MtbMate.Controls {
             }
 
             return Color.Green;
-        }
-
-        public void UpdateMap(Map map) {
-            foreach (var polyline in Polylines) {
-                map.Polylines.Add(polyline);
-            }
-
-            foreach (var pin in Pins) {
-                map.Pins.Add(pin);
-            }
         }
     }
 }

@@ -1,22 +1,42 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using MtbMate.Contexts;
+using MtbMate.Controls;
 using MtbMate.Models;
+using MtbMate.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
 namespace MtbMate.Screens.Segments {
     public class CreateSegmentScreenViewModel : ViewModelBase {
         private readonly Segment segment;
-        public readonly Ride Ride;
         private int count;
+        private LatLng lastLatLng;
+        private string displayText;
+
+        public Ride Ride { get; }
+        public MapControlViewModel MapViewModel { get; }
 
         public CreateSegmentScreenViewModel(MainContext context, Ride ride) : base(context) {
             segment = new Segment();
             Ride = ride;
-            Points = new ObservableCollection<Pin>();
             count = 1;
+            displayText = "Tap on the map to set a start point";
+
+            MapViewModel = new MapControlViewModel(
+                context,
+                Ride.DisplayName,
+                PolyUtils.GetMapLocations(Ride.Locations),
+                isReadonly: false,
+                showSpeed: false,
+                isShowingUser: false,
+                registerMapClick: false);
+
+            MapViewModel.MapTapped += MapViewModel_MapTapped;
+        }
+
+        private void MapViewModel_MapTapped(object sender, MapClickedEventArgs e) {
+            AddPin(e.Point.Latitude, e.Point.Longitude);
         }
 
         public string Name {
@@ -24,20 +44,22 @@ namespace MtbMate.Screens.Segments {
             set { segment.Name = value; }
         }
 
+        public string DisplayText {
+            get { return displayText; }
+            set {
+                if (displayText != value) {
+                    displayText = value;
+                    OnPropertyChanged(nameof(DisplayText));
+                }
+            }
+        }
+
         public override string Title => "Create Segment";
 
-        public ObservableCollection<Pin> Points { get; }
-
         public void Save(INavigation nav) {
-            if (!Points.Any()) {
+            if (!segment.Points.Any()) {
                 return;
             }
-
-            int order = 0;
-
-            segment.Points = Points
-                .Select(i => new SegmentLocation(order++, i.Position.Latitude, i.Position.Longitude))
-                .ToList();
 
             Context.UI.ShowInputDialog("Segment Name", string.Empty, async (newName) => {
                 if (string.IsNullOrWhiteSpace(newName)) {
@@ -54,16 +76,17 @@ namespace MtbMate.Screens.Segments {
         }
 
         public void AddPin(double latitude, double longitude) {
-            var pin = new Pin {
-                Position = new Position(latitude, longitude),
-                Label = $"Point {count++}\nTap to delete",
-            };
+            segment.Points.Add(new SegmentLocation(count++, latitude, longitude));
 
-            pin.Clicked += (s, e) => {
-                Points.Remove(pin);
-            };
+            LatLng thisLatLng = new LatLng(latitude, longitude);
 
-            Points.Add(pin);
+            if (lastLatLng != null) {
+                MapViewModel.AddPolyLine(new[] { lastLatLng, thisLatLng }, Color.Red);
+            } else {
+                DisplayText = "Now tap to set the next point";
+            }
+
+            lastLatLng = thisLatLng;
         }
     }
 }

@@ -2,7 +2,6 @@
 using MtbMate.Contexts;
 using MtbMate.Models;
 using Xamarin.Forms;
-using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.Xaml;
 
 namespace MtbMate.Screens.Segments {
@@ -17,10 +16,6 @@ namespace MtbMate.Screens.Segments {
 
         private void Save_Clicked(object sender, EventArgs e) {
             ViewModel.Save(Navigation);
-        }
-
-        private void Map_MapClicked(object sender, MapClickedEventArgs e) {
-            ViewModel.AddPin(e.Point.Latitude, e.Point.Longitude);
         }
     }
 }

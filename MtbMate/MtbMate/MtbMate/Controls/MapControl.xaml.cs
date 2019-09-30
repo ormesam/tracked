@@ -15,11 +15,11 @@ namespace MtbMate.Controls {
         public MapControlViewModel ViewModel => BindingContext as MapControlViewModel;
 
         private void MapControl_LayoutChanged(object sender, EventArgs e) {
-            ViewModel.UpdateMap(map);
+            ViewModel.Init(map);
         }
 
         private async void Map_MapClicked(object sender, MapClickedEventArgs e) {
-            await ViewModel.GoToMapScreenAsync(Navigation);
+            await ViewModel.OnMapClicked(Navigation, e);
         }
     }
 }
