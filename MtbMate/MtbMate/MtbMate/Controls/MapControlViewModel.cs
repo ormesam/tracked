@@ -133,7 +133,7 @@ namespace MtbMate.Controls {
             Pin pin = new Pin {
                 Position = new Position(location.Point.Latitude, location.Point.Longitude),
                 Label = Math.Round(location.Mph, 1) + " mi/h",
-                // Icon = BitmapDescriptorFactory.from(Resource.Drawable.speed_icon)
+                Icon = BitmapDescriptorFactory.FromBundle("speed_icon.png"),
             };
 
             map.Pins.Add(pin);

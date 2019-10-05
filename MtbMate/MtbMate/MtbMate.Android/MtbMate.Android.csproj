@@ -164,7 +164,7 @@
     <AndroidResource Include="Resources\mipmap\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\speed_icon.png" />
+    <AndroidAsset Include="Assets\speed_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\add_icon.png" />
