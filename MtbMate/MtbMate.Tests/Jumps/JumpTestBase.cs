@@ -8,11 +8,9 @@ using MtbMate.Utilities;
 
 namespace MtbMate.Tests.Jumps {
     public abstract class JumpTestBase {
-        public Ride Ride;
         public JumpDetectionUtility JumpDetectionUtility;
 
         public abstract string FileName { get; }
-
 
         [TestInitialize]
         public void Initialize() {
@@ -38,10 +36,7 @@ namespace MtbMate.Tests.Jumps {
                 .OrderBy(i => i.Timestamp)
                 .ToList();
 
-            Ride = new Ride();
-            Ride.AccelerometerReadings = readings;
-
-            JumpDetectionUtility = new JumpDetectionUtility(Ride);
+            JumpDetectionUtility = new JumpDetectionUtility(readings);
         }
     }
 }

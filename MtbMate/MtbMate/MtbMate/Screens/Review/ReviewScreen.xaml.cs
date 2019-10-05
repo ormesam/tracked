@@ -14,10 +14,6 @@ namespace MtbMate.Screens.Review {
 
         public ReviewScreenViewModel ViewModel => BindingContext as ReviewScreenViewModel;
 
-        private async void Export_Clicked(object sender, EventArgs e) {
-            await ViewModel.Export();
-        }
-
         private async void Delete_Clicked(object sender, EventArgs e) {
             await ViewModel.Delete();
 
@@ -28,18 +24,8 @@ namespace MtbMate.Screens.Review {
             ViewModel.ChangeName();
         }
 
-        private async void ExportLocation_Clicked(object sender, EventArgs e) {
-            await ViewModel.ExportLocation();
-        }
-
         private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
             await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttempt);
-        }
-
-        private async void Attempt_Tapped(object sender, EventArgs e) {
-            var item = (sender as View).BindingContext;
-
-            await ViewModel.GoToAttempt(Navigation, item as SegmentAttempt);
         }
     }
 }

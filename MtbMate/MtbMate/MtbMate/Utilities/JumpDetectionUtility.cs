@@ -4,24 +4,20 @@ using MtbMate.Models;
 
 namespace MtbMate.Utilities {
     public class JumpDetectionUtility {
-        private Ride ride;
-        private IList<AccelerometerReading> readings;
-        private double tolerance = 0.75;
-        private double startTolerance = 2;
-        private double minJumpSeconds = 0.5;
-        private double maxJumpSeconds = 8;
+        private readonly IList<AccelerometerReading> readings;
+        private const double tolerance = 0.75;
+        private const double startTolerance = 2;
+        private const double minJumpSeconds = 0.5;
+        private const double maxJumpSeconds = 8;
 
-        public JumpDetectionUtility(Ride ride) {
-            this.ride = ride;
-            this.readings = ride.AccelerometerReadings.ToList();
+        public JumpDetectionUtility(IList<AccelerometerReading> readings) {
+            this.readings = readings;
         }
 
-        public void Run() {
-            ride.Jumps.Clear();
-
+        public IList<Jump> Run() {
             SmoothReadings();
             ConvertReadings();
-            AnalyseReadings();
+            return AnalyseReadings();
         }
 
         private void SmoothReadings() {
@@ -38,7 +34,8 @@ namespace MtbMate.Utilities {
             }
         }
 
-        private void AnalyseReadings() {
+        private IList<Jump> AnalyseReadings() {
+            IList<Jump> jumps = new List<Jump>();
             IList<AccelerometerReading> potentialJumpReadings = new List<AccelerometerReading>();
             bool started = false;
 
@@ -64,7 +61,7 @@ namespace MtbMate.Utilities {
                                 .GetRange(i, 4)
                                 .Max(v => v.Value);
 
-                            ride.Jumps.Add(new Jump {
+                            jumps.Add(new Jump {
                                 Time = potentialJumpReadings.Select(j => j.Timestamp).Min(),
                                 Airtime = potentialJumpReadings.GetTime(),
                                 LandingGForce = maxReading,
@@ -75,6 +72,8 @@ namespace MtbMate.Utilities {
                     potentialJumpReadings.Clear();
                 }
             }
+
+            return jumps;
         }
     }
 }

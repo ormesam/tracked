@@ -27,7 +27,7 @@ namespace MtbMate.Accelerometer {
 
         #endregion
 
-        private IAdapter adapter => CrossBluetoothLE.Current.Adapter;
+        private readonly IAdapter adapter = CrossBluetoothLE.Current.Adapter;
 
         private ICharacteristic characteristic;
         private AccelerometerStatus status;

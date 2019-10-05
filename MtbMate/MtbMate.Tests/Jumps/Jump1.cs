@@ -7,15 +7,15 @@ namespace MtbMate.Tests.Jumps {
 
         [TestMethod]
         public void Analyse() {
-            JumpDetectionUtility.Run();
+            var jumps = JumpDetectionUtility.Run();
 
-            Assert.IsTrue(Ride.Jumps.Count == 2);
+            Assert.IsTrue(jumps.Count == 2);
 
-            Assert.AreEqual(0.539, Ride.Jumps[0].Airtime, 0.0001);
-            Assert.AreEqual(3.7, Ride.Jumps[0].LandingGForce, 0.1);
+            Assert.AreEqual(0.539, jumps[0].Airtime, 0.0001);
+            Assert.AreEqual(3.7, jumps[0].LandingGForce, 0.1);
 
-            Assert.AreEqual(0.534, Ride.Jumps[1].Airtime, 0.0001);
-            Assert.AreEqual(2.2, Ride.Jumps[1].LandingGForce, 0.1);
+            Assert.AreEqual(0.534, jumps[1].Airtime, 0.0001);
+            Assert.AreEqual(2.2, jumps[1].LandingGForce, 0.1);
         }
     }
 }

@@ -5,7 +5,6 @@ using MtbMate.Contexts;
 using MtbMate.Controls;
 using MtbMate.Models;
 using MtbMate.Utilities;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MtbMate.Screens.Review {
@@ -79,20 +78,6 @@ namespace MtbMate.Screens.Review {
                 OnPropertyChanged(nameof(DisplayName));
 
                 await Model.Instance.SaveRide(Ride);
-            });
-        }
-
-        public async Task Export() {
-            await Share.RequestAsync(new ShareFileRequest {
-                File = Ride.GetReadingsFile(),
-                Title = Ride.Name ?? "Data Readings",
-            });
-        }
-
-        public async Task ExportLocation() {
-            await Share.RequestAsync(new ShareFileRequest {
-                File = Ride.GetLocationFile(),
-                Title = Ride.Name ?? "Data Readings",
             });
         }
 

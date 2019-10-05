@@ -96,45 +96,21 @@ namespace MtbMate.Controls {
         }
 
         private void CreatePolylines() {
-            if (!Locations.Any()) {
+            if (Locations.Count <= 1) {
                 return;
             }
 
             var maxSpeed = Locations.Max(i => i.Mph);
 
-            IList<LatLng> latLng = new List<LatLng>();
-            var lastColour = Color.Blue;
-            bool firstRun = true;
+            for (int i = 1; i < Locations.Count; i++) {
+                var colour = ShowSpeed ? GetMaxSpeedColour(Locations[i].Mph, maxSpeed) : Color.Blue;
 
-            foreach (var location in Locations) {
-                var thisColour = ShowSpeed ? GetMaxSpeedColour(location.Mph, maxSpeed) : Color.Blue;
+                AddPolyLine(new[] { Locations[i - 1].Point, Locations[i].Point }, colour);
 
-                if (firstRun || thisColour != lastColour) {
-                    if (!firstRun) {
-                        AddPolyLine(latLng.ToArray(), lastColour);
-                    }
-
-                    firstRun = false;
-
-                    lastColour = thisColour;
-
-                    var lastLatLon = latLng.LastOrDefault();
-
-                    latLng.Clear();
-
-                    if (lastLatLon != null) {
-                        latLng.Add(lastLatLon);
-                    }
-                }
-
-                latLng.Add(location.Point);
-
-                if (ShowSpeed && location.Mph == maxSpeed) {
-                    AddMaxSpeedPin(location);
+                if (ShowSpeed && Locations[i].Mph == maxSpeed) {
+                    AddMaxSpeedPin(Locations[i]);
                 }
             }
-
-            AddPolyLine(latLng.ToArray(), lastColour);
         }
 
         public async Task OnMapClicked(INavigation nav, MapClickedEventArgs args) {
@@ -164,6 +140,10 @@ namespace MtbMate.Controls {
         }
 
         public void AddPolyLine(LatLng[] latLngs, Color colour) {
+            if (latLngs.Length <= 1) {
+                return;
+            }
+
             Polyline polyline = new Polyline();
 
             foreach (var latLng in latLngs) {

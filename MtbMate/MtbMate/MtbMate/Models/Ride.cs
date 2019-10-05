@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using MtbMate.Utilities;
 using Newtonsoft.Json;
-using Xamarin.Essentials;
 
 namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
@@ -22,8 +19,6 @@ namespace MtbMate.Models {
         public IList<Location> Locations { get; set; }
         [JsonProperty]
         public IList<Jump> Jumps { get; set; }
-        [JsonProperty]
-        public IList<AccelerometerReading> AccelerometerReadings { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
         public IList<Location> MovingLocations => Locations
             .Where(i => i.Mph >= 1)
@@ -37,7 +32,6 @@ namespace MtbMate.Models {
         public Ride() {
             Locations = new List<Location>();
             Jumps = new List<Jump>();
-            AccelerometerReadings = new List<AccelerometerReading>();
         }
 
         public SegmentAttempt MatchesSegment(Segment segment) {
@@ -92,44 +86,6 @@ namespace MtbMate.Models {
             }
 
             return Medal.None;
-        }
-
-        public ShareFile GetReadingsFile() {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("TimeStamp,Value");
-
-            foreach (var reading in AccelerometerReadings.OrderBy(i => i.Timestamp)) {
-                sb.AppendLine($"{reading.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{reading.Value}");
-            }
-
-            sb.AppendLine();
-
-            string fileName = "Ride Data.txt";
-            string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
-            File.WriteAllText(filePath, sb.ToString());
-
-            return new ShareFile(filePath);
-        }
-
-        public ShareFile GetLocationFile() {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("TimeStamp,Lat,Lon,Position Accuracy,Mps,Mps Accuracy (m),Mph,Altitude");
-
-            foreach (var location in Locations.OrderBy(i => i.Timestamp)) {
-                sb.AppendLine($"{location.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{location.Point.Latitude},{location.Point.Longitude},{location.AccuracyInMetres}," +
-                    $"{location.SpeedMetresPerSecond},{location.SpeedAccuracyMetresPerSecond},{location.Mph}," +
-                    $"{location.Altitude}");
-            }
-
-            sb.AppendLine();
-
-            string fileName = "Ride Data.txt";
-            string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
-            File.WriteAllText(filePath, sb.ToString());
-
-            return new ShareFile(filePath);
         }
     }
 }
