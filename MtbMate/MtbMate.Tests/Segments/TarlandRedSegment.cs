@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MtbMate.Utilities;
 
-namespace MtbMate.Tests {
+namespace MtbMate.Tests.Segments {
     [TestClass]
     public class TarlandRedSegment {
         [TestMethod]

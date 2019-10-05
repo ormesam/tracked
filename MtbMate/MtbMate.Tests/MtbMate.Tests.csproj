@@ -52,13 +52,26 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TarlandRedSegment.cs" />
-    <Compile Include="TarlandOrangeSegment.cs" />
-    <Compile Include="TarlandBlueSegment.cs" />
+    <Compile Include="Jumps\Jump3.cs" />
+    <Compile Include="Jumps\Jump2.cs" />
+    <Compile Include="Jumps\Jump1.cs" />
+    <Compile Include="Jumps\JumpTestBase.cs" />
+    <Compile Include="Segments\TarlandRedSegment.cs" />
+    <Compile Include="Segments\TarlandOrangeSegment.cs" />
+    <Compile Include="Segments\TarlandBlueSegment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestSegments.cs" />
+    <Compile Include="Segments\TestSegments.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Jumps\Jump1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Jumps\Jump2.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Jumps\Jump3.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

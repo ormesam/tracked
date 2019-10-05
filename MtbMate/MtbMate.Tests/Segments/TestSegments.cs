@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MtbMate.Models;
 
-namespace MtbMate.Tests {
+namespace MtbMate.Tests.Segments {
     public static class TestSegments {
         public static Segment TarlandBlueSegment = new Segment {
             Points = new List<SegmentLocation>() {
