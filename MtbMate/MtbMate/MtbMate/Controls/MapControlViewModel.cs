@@ -15,12 +15,14 @@ namespace MtbMate.Controls {
         private bool goToMapPageOnClick;
         private string title;
         private Map map;
+        private MapType mapType;
+        private bool isReadOnly;
+        private bool isShowingUser;
 
         public event EventHandler<MapClickedEventArgs> MapTapped;
 
-        public bool IsReadOnly { get; }
-        public bool IsShowingUser { get; }
         public bool ShowSpeed { get; }
+        public bool CanChangeMapType { get; }
         public CameraUpdate InitalCamera { get; }
         public IList<MapLocation> Locations { get; }
         public override string Title => title;
@@ -29,19 +31,23 @@ namespace MtbMate.Controls {
             MainContext context,
             string title,
             IList<MapLocation> locations,
-            bool isReadonly = true,
+            bool isReadOnly = true,
             bool showSpeed = true,
             bool isShowingUser = false,
-            bool registerMapClick = true)
+            bool goToMapPageOnClick = true,
+            MapType mapType = MapType.Street,
+            bool canChangeMapType = false)
             : base(context) {
 
             this.title = title;
-            this.goToMapPageOnClick = registerMapClick;
+            this.goToMapPageOnClick = goToMapPageOnClick;
+            this.isReadOnly = isReadOnly;
+            this.isShowingUser = isShowingUser;
 
             Locations = locations;
-            IsReadOnly = isReadonly;
-            IsShowingUser = isShowingUser;
             ShowSpeed = showSpeed;
+            MapType = mapType;
+            CanChangeMapType = canChangeMapType;
 
             LatLng centre = new LatLng(57.1499749, -2.1950675);
             double zoom = 10;
@@ -61,8 +67,30 @@ namespace MtbMate.Controls {
             InitalCamera = CameraUpdateFactory.NewPositionZoom(new Position(centre.Latitude, centre.Longitude), zoom);
         }
 
+        public MapType MapType {
+            get { return mapType; }
+            set {
+                if (mapType != value) {
+                    mapType = value;
+                    OnPropertyChanged(nameof(MapType));
+                }
+            }
+        }
+
+        public IEnumerable<MapType> MapTypes => (IEnumerable<MapType>)Enum.GetValues(typeof(MapType));
+
         public void Init(Map map) {
+            // set up readonly properties here so we can access the ui settings
             this.map = map;
+
+            this.map.UiSettings.CompassEnabled = !isReadOnly;
+            this.map.MyLocationEnabled = isShowingUser;
+            this.map.UiSettings.MyLocationButtonEnabled = isShowingUser;
+            this.map.UiSettings.RotateGesturesEnabled = !isReadOnly;
+            this.map.UiSettings.ScrollGesturesEnabled = !isReadOnly;
+            this.map.UiSettings.TiltGesturesEnabled = !isReadOnly;
+            this.map.UiSettings.ZoomControlsEnabled = !isReadOnly;
+            this.map.UiSettings.ZoomGesturesEnabled = !isReadOnly;
 
             CreatePolylines();
         }

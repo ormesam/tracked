@@ -27,10 +27,12 @@ namespace MtbMate.Screens.Segments {
                 context,
                 Ride.DisplayName,
                 PolyUtils.GetMapLocations(Ride.Locations),
-                isReadonly: false,
+                isReadOnly: false,
                 showSpeed: false,
                 isShowingUser: false,
-                registerMapClick: false);
+                goToMapPageOnClick: false,
+                mapType: MapType.Satellite,
+                canChangeMapType: true);
 
             MapViewModel.MapTapped += MapViewModel_MapTapped;
         }

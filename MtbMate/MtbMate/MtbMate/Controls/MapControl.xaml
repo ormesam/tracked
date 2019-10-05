@@ -6,13 +6,31 @@
     x:Class="MtbMate.Controls.MapControl">
     <ContentView.Content>
         <Grid>
+            <Picker
+                IsVisible="{Binding CanChangeMapType}"
+                x:Name="picker"
+                VerticalOptions="Start"
+                HorizontalOptions="Start"
+                Margin="10"
+                ItemsSource="{Binding MapTypes}"
+                SelectedItem="{Binding MapType, Mode=TwoWay}" />
+
             <maps:Map
                 x:Name="map"
                 InitialCameraUpdate="{Binding InitalCamera}"
-                HasScrollEnabled="{Binding IsReadOnly, Converter={StaticResource InvertBoolConverter}}"
-                HasRotationEnabled="{Binding IsReadOnly, Converter={StaticResource InvertBoolConverter}}"
-                MyLocationEnabled="{Binding IsShowingUser}"
-                MapClicked="Map_MapClicked"/>
+                MapClicked="Map_MapClicked"
+                MapType="{Binding MapType, Mode=TwoWay}" />
+
+            <ImageButton
+                IsVisible="{Binding CanChangeMapType}"
+                VerticalOptions="Start"
+                HorizontalOptions="End"
+                Margin="10"
+                BackgroundColor="White"
+                WidthRequest="40"
+                HeightRequest="40"
+                Source="menu_icon.png"
+                Pressed="ChangeLayer_Pressed" />
         </Grid>
     </ContentView.Content>
 </ContentView>

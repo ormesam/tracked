@@ -9,10 +9,11 @@ namespace MtbMate.Screens.Review {
             : base(context,
                 title,
                 locations,
-                isReadonly: false,
+                isReadOnly: false,
                 showSpeed: showSpeed,
                 isShowingUser: false,
-                registerMapClick: false) {
+                goToMapPageOnClick: false,
+                canChangeMapType: true) {
         }
     }
 }
