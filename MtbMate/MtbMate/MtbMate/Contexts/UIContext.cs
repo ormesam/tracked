@@ -67,8 +67,8 @@ namespace MtbMate.Contexts {
             await GoToScreenAsync(new AchievementScreen(context));
         }
 
-        public async Task GoToMapScreenAsync(INavigation nav, string title, IList<MapLocation> locations, bool showSpeed) {
-            await nav.PushAsync(new MapScreen(context, title, locations, showSpeed));
+        public async Task GoToMapScreenAsync(INavigation nav, string title, IList<MapLocation> locations, bool showRideFeatures) {
+            await nav.PushAsync(new MapScreen(context, title, locations, showRideFeatures));
         }
 
         public async Task GoToExploreSegmentsScreenAsync() {

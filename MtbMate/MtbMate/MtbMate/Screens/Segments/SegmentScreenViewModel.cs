@@ -18,7 +18,7 @@ namespace MtbMate.Screens.Segments {
                 context,
                 Segment.DisplayName,
                 PolyUtils.GetMapLocations(Segment.Points),
-                showSpeed: false);
+                showRideFeatures: false);
         }
 
         public override string Title => Segment.Name;

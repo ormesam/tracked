@@ -28,7 +28,7 @@ namespace MtbMate.Screens.Review {
                 Title,
                 new List<MapLocation>(),
                 isReadOnly: false,
-                showSpeed: false,
+                showRideFeatures: false,
                 isShowingUser: true,
                 goToMapPageOnClick: false);
 

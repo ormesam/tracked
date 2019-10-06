@@ -21,7 +21,7 @@ namespace MtbMate.Controls {
 
         public event EventHandler<MapClickedEventArgs> MapTapped;
 
-        public bool ShowSpeed { get; }
+        public bool ShowRideFeatures { get; }
         public bool CanChangeMapType { get; }
         public CameraUpdate InitalCamera { get; }
         public IList<MapLocation> Locations { get; }
@@ -32,7 +32,7 @@ namespace MtbMate.Controls {
             string title,
             IList<MapLocation> locations,
             bool isReadOnly = true,
-            bool showSpeed = true,
+            bool showRideFeatures = true,
             bool isShowingUser = false,
             bool goToMapPageOnClick = true,
             MapType mapType = MapType.Street,
@@ -45,7 +45,7 @@ namespace MtbMate.Controls {
             this.isShowingUser = isShowingUser;
 
             Locations = locations;
-            ShowSpeed = showSpeed;
+            ShowRideFeatures = showRideFeatures;
             MapType = mapType;
             CanChangeMapType = canChangeMapType;
 
@@ -92,18 +92,24 @@ namespace MtbMate.Controls {
             this.map.UiSettings.ZoomControlsEnabled = !isReadOnly;
             this.map.UiSettings.ZoomGesturesEnabled = !isReadOnly;
 
-            CreatePolylines();
+            CreatePolylinesFromLocations();
         }
 
-        private void CreatePolylines() {
+        private void CreatePolylinesFromLocations() {
             if (Locations.Count <= 1) {
+                return;
+            }
+
+            if (!ShowRideFeatures) {
+                AddPolyLine(Locations.Select(i => i.Point).ToArray(), Color.Blue);
+
                 return;
             }
 
             var maxSpeed = Locations.Max(i => i.Mph);
 
             for (int i = 1; i < Locations.Count; i++) {
-                var colour = ShowSpeed ? GetMaxSpeedColour(Locations[i].Mph, maxSpeed) : Color.Blue;
+                var colour = ShowRideFeatures ? GetMaxSpeedColour(Locations[i].Mph, maxSpeed) : Color.Blue;
 
                 AddPolyLine(new[] { Locations[i - 1].Point, Locations[i].Point }, colour);
 
@@ -111,11 +117,11 @@ namespace MtbMate.Controls {
                 bool hasJump = Locations[i].Jump != null;
                 bool hasMultiplePins = isMaxSpeed && hasJump;
 
-                if (ShowSpeed && isMaxSpeed) {
+                if (isMaxSpeed) {
                     AddMaxSpeedPin(Locations[i], hasMultiplePins);
                 }
 
-                if (ShowSpeed && hasJump) {
+                if (hasJump) {
                     AddJumpPin(Locations[i], hasMultiplePins);
                 }
             }
@@ -134,7 +140,7 @@ namespace MtbMate.Controls {
                 return;
             }
 
-            await Context.UI.GoToMapScreenAsync(nav, title, Locations, ShowSpeed);
+            await Context.UI.GoToMapScreenAsync(nav, title, Locations, ShowRideFeatures);
         }
 
         private void AddMaxSpeedPin(MapLocation location, bool hasMultiplePins) {

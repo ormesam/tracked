@@ -28,7 +28,7 @@ namespace MtbMate.Screens.Segments {
                 Ride.DisplayName,
                 PolyUtils.GetMapLocations(Ride),
                 isReadOnly: false,
-                showSpeed: false,
+                showRideFeatures: false,
                 isShowingUser: false,
                 goToMapPageOnClick: false,
                 mapType: MapType.Satellite,
