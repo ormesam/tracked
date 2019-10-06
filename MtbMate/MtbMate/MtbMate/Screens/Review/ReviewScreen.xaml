@@ -145,7 +145,7 @@
                         Grid.Row="4">
                         <Label
                             HorizontalTextAlignment="Center"
-                            Text="Max G Force" />
+                            Text="Max Landing Force" />
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"

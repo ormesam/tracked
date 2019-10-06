@@ -59,7 +59,7 @@ namespace MtbMate.Screens.Review {
 
         public int JumpCount => Ride.Jumps.Count;
 
-        public string MaxGForce => 0 + "g"; // temp
+        public string MaxGForce => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.LandingGForce)}g";
 
         public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
             .Where(i => i.RideId == Ride.Id)
