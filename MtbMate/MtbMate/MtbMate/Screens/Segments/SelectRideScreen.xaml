@@ -7,12 +7,18 @@
     mc:Ignorable="d"
     x:Class="MtbMate.Screens.Segments.SelectRideScreen">
     <ContentPage.Content>
-        <StackLayout
-            IsVisible="{Binding ShowRideList}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
             <Label
                 Margin="10"
-                Text="Select a ride to create a segment from it. You can trim the start and end points after selection." />
+                Text="Select a ride to help guide you while creating a segment" />
             <ListView
+                Grid.Row="1"
                 ItemsSource="{Binding Rides}"
                 ItemTapped="Ride_Tapped">
                 <ListView.ItemTemplate>
@@ -23,6 +29,12 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+            <Button
+                Grid.Row="2"
+                Text="Create From Scratch"
+                Clicked="CreateFromScratch_Clicked"
+                BackgroundColor="Green"
+                TextColor="White"/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

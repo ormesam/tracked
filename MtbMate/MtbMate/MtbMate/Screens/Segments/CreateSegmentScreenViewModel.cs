@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MtbMate.Contexts;
 using MtbMate.Controls;
@@ -25,8 +26,8 @@ namespace MtbMate.Screens.Segments {
 
             MapViewModel = new MapControlViewModel(
                 context,
-                Ride.DisplayName,
-                PolyUtils.GetMapLocations(Ride),
+                Ride?.DisplayName ?? "Map",
+                ride != null ? PolyUtils.GetMapLocations(Ride) : new List<MapLocation>(),
                 isReadOnly: false,
                 showRideFeatures: false,
                 isShowingUser: false,
