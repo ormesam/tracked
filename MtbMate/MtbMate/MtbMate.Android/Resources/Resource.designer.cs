@@ -9704,16 +9704,13 @@ namespace MtbMate.Droid
 			public const int silver = 2131165525;
 			
 			// aapt resource value: 0x7F070156
-			public const int speed_icon = 2131165526;
+			public const int tick_icon = 2131165526;
 			
 			// aapt resource value: 0x7F070157
-			public const int tick_icon = 2131165527;
+			public const int tooltip_frame_dark = 2131165527;
 			
 			// aapt resource value: 0x7F070158
-			public const int tooltip_frame_dark = 2131165528;
-			
-			// aapt resource value: 0x7F070159
-			public const int tooltip_frame_light = 2131165529;
+			public const int tooltip_frame_light = 2131165528;
 			
 			static Drawable()
 			{

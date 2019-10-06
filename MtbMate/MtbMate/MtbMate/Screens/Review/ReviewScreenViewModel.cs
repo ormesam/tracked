@@ -16,7 +16,7 @@ namespace MtbMate.Screens.Review {
             MapViewModel = new MapControlViewModel(
                 context,
                 Ride.DisplayName,
-                PolyUtils.GetMapLocations(Ride.Locations));
+                PolyUtils.GetMapLocations(Ride));
         }
 
         public override string Title => DisplayName;

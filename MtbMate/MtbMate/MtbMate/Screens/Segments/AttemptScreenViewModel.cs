@@ -16,7 +16,7 @@ namespace MtbMate.Screens.Segments {
             MapViewModel = new MapControlViewModel(
                 context,
                 attempt.DisplayName,
-                PolyUtils.GetMapLocations(attempt.Locations));
+                PolyUtils.GetMapLocations(attempt));
         }
 
         public override string Title => DisplayName;

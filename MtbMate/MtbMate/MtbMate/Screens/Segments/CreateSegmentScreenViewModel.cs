@@ -26,7 +26,7 @@ namespace MtbMate.Screens.Segments {
             MapViewModel = new MapControlViewModel(
                 context,
                 Ride.DisplayName,
-                PolyUtils.GetMapLocations(Ride.Locations),
+                PolyUtils.GetMapLocations(Ride),
                 isReadOnly: false,
                 showSpeed: false,
                 isShowingUser: false,

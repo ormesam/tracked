@@ -107,8 +107,16 @@ namespace MtbMate.Controls {
 
                 AddPolyLine(new[] { Locations[i - 1].Point, Locations[i].Point }, colour);
 
-                if (ShowSpeed && Locations[i].Mph == maxSpeed) {
-                    AddMaxSpeedPin(Locations[i]);
+                bool isMaxSpeed = Locations[i].Mph == maxSpeed;
+                bool hasJump = Locations[i].Jump != null;
+                bool hasMultiplePins = isMaxSpeed && hasJump;
+
+                if (ShowSpeed && isMaxSpeed) {
+                    AddMaxSpeedPin(Locations[i], hasMultiplePins);
+                }
+
+                if (ShowSpeed && hasJump) {
+                    AddJumpPin(Locations[i], hasMultiplePins);
                 }
             }
         }
@@ -129,11 +137,23 @@ namespace MtbMate.Controls {
             await Context.UI.GoToMapScreenAsync(nav, title, Locations, ShowSpeed);
         }
 
-        private void AddMaxSpeedPin(MapLocation location) {
+        private void AddMaxSpeedPin(MapLocation location, bool hasMultiplePins) {
             Pin pin = new Pin {
                 Position = new Position(location.Point.Latitude, location.Point.Longitude),
                 Label = Math.Round(location.Mph, 1) + " mi/h",
                 Icon = BitmapDescriptorFactory.FromBundle("speed_icon.png"),
+                Rotation = hasMultiplePins ? 330 : 0,
+            };
+
+            map.Pins.Add(pin);
+        }
+
+        private void AddJumpPin(MapLocation location, bool hasMultiplePins) {
+            Pin pin = new Pin {
+                Position = new Position(location.Point.Latitude, location.Point.Longitude),
+                Label = Math.Round(location.Jump.Airtime, 3) + "s",
+                Icon = BitmapDescriptorFactory.FromBundle("jump_icon.png"),
+                Rotation = hasMultiplePins ? 30 : 0,
             };
 
             map.Pins.Add(pin);
@@ -151,7 +171,7 @@ namespace MtbMate.Controls {
             }
 
             polyline.StrokeColor = colour;
-            polyline.StrokeWidth = 2.5f;
+            polyline.StrokeWidth = 3f;
 
             map.Polylines.Add(polyline);
         }

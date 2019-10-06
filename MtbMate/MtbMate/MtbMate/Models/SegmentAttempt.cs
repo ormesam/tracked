@@ -34,6 +34,11 @@ namespace MtbMate.Models {
         public IList<Location> Locations => Ride.MovingLocations
             .GetRange(StartIdx, (EndIdx - StartIdx) + 1);
 
+        public IList<Jump> Jumps => Ride.Jumps
+            .Where(i => i.Time >= Ride.MovingLocations[StartIdx].Timestamp)
+            .Where(i => i.Time <= Ride.MovingLocations[EndIdx].Timestamp)
+            .ToList();
+
         public TimeSpan Time => Locations.Last().Timestamp - Locations.First().Timestamp;
 
         public int Seconds => Time.Seconds;
