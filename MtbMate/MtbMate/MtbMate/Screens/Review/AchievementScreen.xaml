@@ -45,7 +45,7 @@
                                 HeightRequest="20"
                                 VerticalOptions="Center"
                                 IsVisible="{Binding IsAchieved}"
-                                Source="gold.png" />
+                                Source="trophy.png" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

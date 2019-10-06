@@ -10,7 +10,7 @@ namespace MtbMate.Achievements {
         public double MinimumMph { get; set; }
         public DateTime? Time { get; set; }
         public Guid? RideId { get; set; }
-        public string AchievedText => IsAchieved ? "Achieved " + Time.Value.ToString("dd/MM/yy HH:mm") : "Not Achieved Yet";
+        public string AchievedText => IsAchieved ? "Achieved " + Time.Value.ToString("dd/MM/yy HH:mm") : "--";
 
         public SpeedAchievement(int id, double minimumMph) {
             Id = id;
