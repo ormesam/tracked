@@ -100,14 +100,13 @@
                             HorizontalTextAlignment="Center"
                             Text="{Binding MaxSpeed, StringFormat='{}{0:F1} mi/h'}" />
                     </StackLayout>
-
-                    <BoxView
-                        Grid.Row="3"
-                        Grid.ColumnSpan="3"
-                        HeightRequest="1"
-                        Margin="10"
-                        BackgroundColor="LightGray" />
                 </Grid>
+
+                <BoxView
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray" />
+                
                 <controls:JumpsControl
                     Jumps="{Binding Jumps}" />
             </StackLayout>

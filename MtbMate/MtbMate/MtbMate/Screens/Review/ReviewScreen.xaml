@@ -151,14 +151,13 @@
                             HorizontalTextAlignment="Center"
                             Text="{Binding MaxGForce}" />
                     </StackLayout>
-
-                    <BoxView
-                        Grid.Row="5"
-                        Grid.ColumnSpan="3"
-                        HeightRequest="1"
-                        Margin="10"
-                        BackgroundColor="LightGray" />
                 </Grid>
+
+                <BoxView
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray" />
+                
                 <Label
                     Margin="10,4"
                     Text="Segments"
@@ -178,6 +177,12 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </controls:ExtendedListView>
+
+                <BoxView
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray" />
+                
                 <controls:JumpsControl
                     Jumps="{Binding Jumps}" />
             </StackLayout>

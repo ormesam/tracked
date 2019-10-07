@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
+using MtbMate.Models;
 using Xamarin.Forms;
 
 namespace MtbMate.Controls {
@@ -6,12 +7,12 @@ namespace MtbMate.Controls {
         public static readonly BindableProperty JumpsProperty =
             BindableProperty.Create(
                 nameof(Jumps),
-                typeof(IEnumerable),
+                typeof(IEnumerable<Jump>),
                 typeof(JumpsControl),
                 null);
 
-        public IEnumerable Jumps {
-            get => (IEnumerable)GetValue(JumpsProperty);
+        public IEnumerable<Jump> Jumps {
+            get => (IEnumerable<Jump>)GetValue(JumpsProperty);
             set => SetValue(JumpsProperty, value);
         }
     }

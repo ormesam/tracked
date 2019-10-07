@@ -42,7 +42,8 @@
                 IsScrollEnabled="False">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ViewCell
+                            IsEnabled="False">
                             <Grid
                                 Padding="10,0,10,0"
                                 HeightRequest="40">
