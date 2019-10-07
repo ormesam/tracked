@@ -66,6 +66,10 @@ namespace MtbMate.Screens.Review {
             .OrderByDescending(i => i.Created)
             .ToList();
 
+        public IList<Jump> Jumps => Ride.Jumps
+            .OrderBy(i => i.Time)
+            .ToList();
+
         public async Task Delete() {
             await Model.Instance.RemoveRide(Ride);
         }

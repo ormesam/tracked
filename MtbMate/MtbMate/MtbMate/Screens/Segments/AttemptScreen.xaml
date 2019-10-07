@@ -108,6 +108,8 @@
                         Margin="10"
                         BackgroundColor="LightGray" />
                 </Grid>
+                <controls:JumpsControl
+                    Jumps="{Binding Jumps}" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

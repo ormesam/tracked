@@ -160,8 +160,9 @@
                         BackgroundColor="LightGray" />
                 </Grid>
                 <Label
-                    Margin="4"
-                    Text="Segments" />
+                    Margin="10,4"
+                    Text="Segments"
+                    FontAttributes="Bold" />
                 <controls:ExtendedListView
                     ItemsSource="{Binding Attempts}"
                     ItemTapped="Attempt_Tapped"
@@ -177,6 +178,8 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </controls:ExtendedListView>
+                <controls:JumpsControl
+                    Jumps="{Binding Jumps}" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

@@ -38,6 +38,7 @@ namespace MtbMate.Utilities {
             IList<Jump> jumps = new List<Jump>();
             IList<AccelerometerReading> potentialJumpReadings = new List<AccelerometerReading>();
             bool started = false;
+            int count = 1;
 
             for (int i = 0; i < readings.Count; i++) {
                 var reading = readings[i];
@@ -62,6 +63,7 @@ namespace MtbMate.Utilities {
                                 .Max(v => v.Value);
 
                             jumps.Add(new Jump {
+                                Number = count++,
                                 Time = potentialJumpReadings.Select(j => j.Timestamp).Min(),
                                 Airtime = potentialJumpReadings.GetTime(),
                                 LandingGForce = maxReading,

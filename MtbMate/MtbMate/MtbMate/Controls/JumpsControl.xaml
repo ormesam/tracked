@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MtbMate.Controls"
+    x:Class="MtbMate.Controls.JumpsControl">
+    <ContentView.Content>
+        <StackLayout>
+            <Label
+                Margin="10,4"
+                Text="Jumps"
+                FontAttributes="Bold"  />
+            <Grid
+                Padding="10,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    VerticalTextAlignment="Center"
+                    Text="#"
+                    FontAttributes="Bold" />
+
+                <Label
+                    Grid.Column="1"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    Text="Airtime"
+                    FontAttributes="Bold"  />
+
+                <Label
+                    Grid.Column="2"
+                    HorizontalTextAlignment="End"
+                    VerticalTextAlignment="Center"
+                    Text="Landing Force"
+                    FontAttributes="Bold" />
+            </Grid>
+            <controls:ExtendedListView
+                ItemsSource="{Binding Jumps}"
+                IsScrollEnabled="False">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid
+                                Padding="10,0,10,0"
+                                HeightRequest="40">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    VerticalTextAlignment="Center"
+                                    Text="{Binding Number}" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    Text="{Binding Airtime, StringFormat='{}{0}s'}" />
+
+                                <Label
+                                    Grid.Column="2"
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="Center"
+                                    Text="{Binding LandingGForce, StringFormat='{}{0}g'}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </controls:ExtendedListView>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>
