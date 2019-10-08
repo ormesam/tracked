@@ -44,11 +44,12 @@ namespace MtbMate.Models {
             Rides = storage.GetRides().ToObservable();
             Segments = storage.GetSegments().ToObservable();
             SegmentAttempts = storage.GetSegmentAttempts().ToObservable();
-            var achievementResults = storage.GetAchievementResults();
-            Achievements = LoadAchievements(achievementResults).ToObservable();
+            Achievements = LoadAchievements().ToObservable();
         }
 
-        private IList<IAchievement> LoadAchievements(IList<AchievementResult> achievementResults) {
+        private IList<IAchievement> LoadAchievements() {
+            var achievementResults = storage.GetAchievementResults();
+
             var achievements = new List<IAchievement>() {
                 new SpeedAchievement(1, 15),
                 new SpeedAchievement(2, 18),
@@ -95,6 +96,8 @@ namespace MtbMate.Models {
             Rides.Remove(ride);
 
             await storage.RemoveObject<Segment>(ride.Id.Value);
+
+            await new AchievementUtility().ReanalyseAchievementResults();
         }
 
         public async Task SaveSegment(Segment segment) {

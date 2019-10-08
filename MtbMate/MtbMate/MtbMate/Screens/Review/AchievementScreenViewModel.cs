@@ -27,13 +27,9 @@ namespace MtbMate.Screens.Review {
         }
 
         public async Task ReCompareRides() {
-            Model.Instance.RemoveAchievementResults();
+            await new AchievementUtility().ReanalyseAchievementResults();
 
-            foreach (var ride in Model.Instance.Rides.OrderBy(i => i.Start)) {
-                await AchievementUtility.Instance.AnalyseRide(ride);
-            }
-
-            OnPropertyChanged(nameof(Achievements));
+            OnPropertyChanged();
         }
     }
 }

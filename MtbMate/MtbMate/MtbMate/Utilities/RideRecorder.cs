@@ -52,7 +52,7 @@ namespace MtbMate.Utilities {
 
             await CompareSegments();
 
-            await AchievementUtility.Instance.AnalyseRide(Ride);
+            await new AchievementUtility().AnalyseRide(Ride);
         }
 
         private async Task CompareSegments() {

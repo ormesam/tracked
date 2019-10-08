@@ -13,17 +13,12 @@
                 <RowDefinition
                     Height="Auto" />
             </Grid.RowDefinitions>
-            
-            <Label
-                Grid.RowSpan="2"
-                IsVisible="{Binding IsReady, Converter={StaticResource InvertBoolConverter}}"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                Text="{Binding ReadyText}" />
 
-            <controls:MapControl
-                HeightRequest="200"
-                BindingContext="{Binding MapViewModel}"/>
+            <Grid
+                IsVisible="{Binding IsReady}">
+                <controls:MapControl
+                    BindingContext="{Binding MapViewModel}" />
+            </Grid>
 
             <StackLayout
                 Grid.Row="1"
@@ -41,6 +36,14 @@
                     BackgroundColor="Orange"
                     TextColor="White" />
             </StackLayout>
+            
+            <Label
+                Grid.RowSpan="2"
+                IsVisible="{Binding IsReady, Converter={StaticResource InvertBoolConverter}}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                BackgroundColor="Default"
+                Text="{Binding ReadyText}" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

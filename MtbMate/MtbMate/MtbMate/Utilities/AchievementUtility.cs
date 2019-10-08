@@ -1,28 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using MtbMate.Models;
 
 namespace MtbMate.Utilities {
     public class AchievementUtility {
-        #region Singleton stuff
+        public async Task ReanalyseAchievementResults() {
+            Model.Instance.RemoveAchievementResults();
 
-        private static AchievementUtility instance;
-        private static readonly object _lock = new object();
-
-        public static AchievementUtility Instance {
-            get {
-                lock (_lock) {
-                    if (instance == null) {
-                        instance = new AchievementUtility();
-                    }
-
-                    return instance;
-                }
+            foreach (var ride in Model.Instance.Rides.OrderBy(i => i.Start)) {
+                await AnalyseRide(ride);
             }
-        }
-
-        #endregion
-
-        private AchievementUtility() {
         }
 
         public async Task AnalyseRide(Ride ride) {
