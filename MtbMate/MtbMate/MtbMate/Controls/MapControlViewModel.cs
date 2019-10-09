@@ -55,7 +55,7 @@ namespace MtbMate.Controls {
             if (locations.Any()) {
                 centre = locations.Midpoint().Point;
                 zoom = 15;
-            } else {
+            } else if (isShowingUser) {
                 var lastLocation = CrossGeolocator.Current.GetLastKnownLocationAsync().Result;
 
                 if (lastLocation != null) {
@@ -100,18 +100,32 @@ namespace MtbMate.Controls {
                 return;
             }
 
+            // Only need one line if no colours are involved
             if (!ShowRideFeatures) {
-                AddPolyLine(Locations.Select(i => i.Point).ToArray(), Color.Blue);
+                AddPolyLine(Locations.Select(i => i.Point).ToList(), Color.Blue);
 
                 return;
             }
 
             var maxSpeed = Locations.Max(i => i.Mph);
+            var lastColour = Color.Blue;
+            var polylineLocations = new List<LatLng>();
+            polylineLocations.Add(Locations.First().Point);
 
             for (int i = 1; i < Locations.Count; i++) {
                 var colour = ShowRideFeatures ? GetMaxSpeedColour(Locations[i].Mph, maxSpeed) : Color.Blue;
 
-                AddPolyLine(new[] { Locations[i - 1].Point, Locations[i].Point }, colour);
+                if (colour != lastColour) {
+                    AddPolyLine(polylineLocations, lastColour);
+
+                    polylineLocations.Clear();
+
+                    polylineLocations.Add(Locations[i - 1].Point);
+
+                    lastColour = colour;
+                }
+
+                polylineLocations.Add(Locations[i].Point);
 
                 bool isMaxSpeed = Locations[i].Mph == maxSpeed;
                 bool hasJump = Locations[i].Jump != null;
@@ -125,6 +139,8 @@ namespace MtbMate.Controls {
                     AddJumpPin(Locations[i], hasMultiplePins);
                 }
             }
+
+            AddPolyLine(polylineLocations, lastColour);
         }
 
         public async Task OnMapClicked(INavigation nav, MapClickedEventArgs args) {
@@ -165,8 +181,8 @@ namespace MtbMate.Controls {
             map.Pins.Add(pin);
         }
 
-        public void AddPolyLine(LatLng[] latLngs, Color colour) {
-            if (latLngs.Length <= 1) {
+        public void AddPolyLine(IList<LatLng> latLngs, Color colour) {
+            if (latLngs.Count <= 1) {
                 return;
             }
 
