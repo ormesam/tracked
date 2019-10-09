@@ -27,7 +27,7 @@ namespace MtbMate.Screens.Review {
         }
 
         public async Task ReCompareRides() {
-            await new AchievementUtility().ReanalyseAchievementResults();
+            await AchievementUtility.ReanalyseAchievementResults();
 
             OnPropertyChanged();
         }

@@ -97,7 +97,7 @@ namespace MtbMate.Models {
 
             await storage.RemoveObject<Segment>(ride.Id.Value);
 
-            await new AchievementUtility().ReanalyseAchievementResults();
+            await AchievementUtility.ReanalyseAchievementResults();
         }
 
         public async Task SaveSegment(Segment segment) {

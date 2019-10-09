@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using MtbMate.Models;
 
 namespace MtbMate.Utilities {
-    public class AchievementUtility {
-        public async Task ReanalyseAchievementResults() {
+    public static class AchievementUtility {
+        public static async Task ReanalyseAchievementResults() {
             Model.Instance.RemoveAchievementResults();
 
             foreach (var ride in Model.Instance.Rides.OrderBy(i => i.Start)) {
@@ -12,7 +12,7 @@ namespace MtbMate.Utilities {
             }
         }
 
-        public async Task AnalyseRide(Ride ride) {
+        public static async Task AnalyseRide(Ride ride) {
             foreach (var achievement in Model.Instance.Achievements) {
                 if (achievement.Check(ride)) {
                     achievement.IsAchieved = true;
