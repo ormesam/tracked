@@ -25,7 +25,7 @@ namespace MtbMate.Droid {
             Manifest.Permission.Internet,
         };
 
-        public LocationService Service { get; set; }
+        public RideService Service { get; set; }
         public bool Bound { get; set; }
         public CustomServiceConnection ServiceConnection { get; set; }
 
@@ -50,7 +50,7 @@ namespace MtbMate.Droid {
         protected override void OnStart() {
             base.OnStart();
 
-            BindService(new Intent(this, typeof(LocationService)), ServiceConnection, Bind.AutoCreate);
+            BindService(new Intent(this, typeof(RideService)), ServiceConnection, Bind.AutoCreate);
 
             Console.WriteLine();
             Console.WriteLine("STARTED");

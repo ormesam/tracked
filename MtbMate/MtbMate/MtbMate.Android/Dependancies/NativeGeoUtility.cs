@@ -16,12 +16,12 @@ namespace MtbMate.Droid.Dependancies
 
         public void Start()
         {
-            mainActivity.Service.RequestLocationUpdates();
+            mainActivity.Service.StartForegroundService();
         }
 
         public void Stop()
         {
-            mainActivity.Service.RemoveLocationUpdates();
+            mainActivity.Service.RemoveForegroundService();
         }
     }
 }

@@ -113,9 +113,8 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomServiceConnection.cs" />
-    <Compile Include="Services\GetLastLocationOnCompleteListener.cs" />
-    <Compile Include="Services\LocationService.cs" />
-    <Compile Include="Services\LocationUpdatesServiceBinder.cs" />
+    <Compile Include="Services\RideService.cs" />
+    <Compile Include="Services\RideServiceBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

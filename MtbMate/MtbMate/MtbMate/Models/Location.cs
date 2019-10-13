@@ -15,14 +15,12 @@ namespace MtbMate.Models {
         [JsonProperty]
         public double SpeedMetresPerSecond { get; set; }
         [JsonProperty]
-        public double? SpeedAccuracyMetresPerSecond { get; set; }
-        [JsonProperty]
         public double? Altitude { get; set; }
 
         public double Mph => SpeedMetresPerSecond * 2.23694;
 
         public override string ToString() {
-            return $"{Timestamp}: Lat: {Point.Latitude}, Lon: {Point.Longitude}, Mph: {Mph}";
+            return $"{Timestamp}: Lat: {Point.Latitude}, Lon: {Point.Longitude}, Accuracy: {AccuracyInMetres}, Mph: {Mph}";
         }
     }
 }

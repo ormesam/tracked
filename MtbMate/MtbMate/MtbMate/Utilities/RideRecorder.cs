@@ -26,7 +26,7 @@ namespace MtbMate.Utilities {
             AccelerometerUtility.Instance.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
 
-            GeoUtility.Instance.Start();
+            await GeoUtility.Instance.Start();
 
             if (detectJumps) {
                 await AccelerometerUtility.Instance.Start();
@@ -36,7 +36,7 @@ namespace MtbMate.Utilities {
         public async Task StopRide() {
             Ride.End = DateTime.UtcNow;
 
-            GeoUtility.Instance.Stop();
+            await GeoUtility.Instance.Stop();
             await AccelerometerUtility.Instance.Stop();
 
             AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;

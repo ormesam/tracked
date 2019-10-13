@@ -1,4 +1,9 @@
-﻿using MtbMate.Models;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using MtbMate.Models;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 using Xamarin.Forms;
 
 namespace MtbMate.Utilities {
@@ -25,20 +30,46 @@ namespace MtbMate.Utilities {
         public event LocationChangedEventHandler LocationChanged;
 
         private GeoUtility() {
+            CrossGeolocator.Current.DesiredAccuracy = 0;
+            CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
         }
 
-        public void Start() {
-            DependencyService.Get<INativeGeoUtility>().Start();
-        }
+        private void Current_PositionChanged(object sender, PositionEventArgs e) {
+            var position = e.Position;
 
-        public void Stop() {
-            DependencyService.Get<INativeGeoUtility>().Stop();
-        }
+            var location = new Models.Location {
+                Timestamp = position.Timestamp.DateTime,
+                Point = new LatLng(position.Latitude, position.Longitude),
+                AccuracyInMetres = position.Accuracy,
+                SpeedMetresPerSecond = position.Speed,
+                Altitude = position.Altitude,
+            };
 
-        public void UpdateLocation(Location newLocation) {
+            Debug.WriteLine(location);
+
             LocationChanged?.Invoke(new LocationChangedEventArgs {
-                Location = newLocation,
+                Location = location
             });
+        }
+
+        public async Task Start() {
+            DependencyService.Get<INativeGeoUtility>().Start();
+
+            var listenerSettings = new ListenerSettings {
+                ActivityType = ActivityType.Fitness,
+                AllowBackgroundUpdates = true,
+                DeferLocationUpdates = false,
+                ListenForSignificantChanges = false,
+                PauseLocationUpdatesAutomatically = false,
+            };
+
+            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 2, false, listenerSettings);
+        }
+
+        public async Task Stop() {
+            DependencyService.Get<INativeGeoUtility>().Stop();
+
+            await CrossGeolocator.Current.StopListeningAsync();
         }
     }
 }
