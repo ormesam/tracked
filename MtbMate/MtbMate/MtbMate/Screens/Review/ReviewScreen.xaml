@@ -41,6 +41,8 @@
                             Height="Auto" />
                         <RowDefinition
                             Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -127,11 +129,11 @@
                         Grid.Row="4">
                         <Label
                             HorizontalTextAlignment="Center"
-                            Text="No. of Jumps" />
+                            Text="No. of Segments" />
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding JumpCount}" />
+                            Text="{Binding SegmentCount}" />
                     </StackLayout>
 
                     <BoxView
@@ -143,6 +145,42 @@
                     <StackLayout
                         Grid.Column="2"
                         Grid.Row="4">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="No. of Jumps" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding JumpCount}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Row="5"
+                        Grid.ColumnSpan="3"
+                        HeightRequest="1"
+                        Margin="10"
+                        BackgroundColor="LightGray" />
+
+                    <StackLayout
+                        Grid.Row="6">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Max Airtime" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding MaxAirtime}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        WidthRequest="1"
+                        BackgroundColor="LightGray" />
+
+                    <StackLayout
+                        Grid.Column="2"
+                        Grid.Row="6">
                         <Label
                             HorizontalTextAlignment="Center"
                             Text="Max Landing Force" />
