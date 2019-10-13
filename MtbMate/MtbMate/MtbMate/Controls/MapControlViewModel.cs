@@ -12,12 +12,13 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace MtbMate.Controls {
     public class MapControlViewModel : ViewModelBase {
-        private bool goToMapPageOnClick;
-        private string title;
+        private readonly bool goToMapPageOnClick;
+        private readonly string title;
+        private readonly bool isReadOnly;
+        private readonly bool isShowingUser;
+
         private Map map;
         private MapType mapType;
-        private bool isReadOnly;
-        private bool isShowingUser;
 
         public event EventHandler<MapClickedEventArgs> MapTapped;
 
@@ -109,8 +110,9 @@ namespace MtbMate.Controls {
 
             var maxSpeed = Locations.Max(i => i.Mph);
             var lastColour = Color.Blue;
-            var polylineLocations = new List<LatLng>();
-            polylineLocations.Add(Locations.First().Point);
+            var polylineLocations = new List<LatLng> {
+                Locations.First().Point,
+            };
 
             for (int i = 1; i < Locations.Count; i++) {
                 var colour = ShowRideFeatures ? GetMaxSpeedColour(Locations[i].Mph, maxSpeed) : Color.Blue;
@@ -199,23 +201,48 @@ namespace MtbMate.Controls {
         }
 
         private Color GetMaxSpeedColour(double mph, double maxSpeed) {
-            double redLimit = maxSpeed * 0.95;
-            double orangeLimit = maxSpeed * 0.85;
-            double yellowLimit = maxSpeed * 0.75;
+            double limit1 = maxSpeed * 0.95;
+            double limit2 = maxSpeed * 0.85;
+            double limit3 = maxSpeed * 0.75;
+            double limit4 = maxSpeed * 0.65;
+            double limit5 = maxSpeed * 0.55;
+            double limit6 = maxSpeed * 0.45;
+            double limit7 = maxSpeed * 0.35;
+            double limit8 = maxSpeed * 0.25;
 
-            if (mph > redLimit) {
-                return Color.Red;
+            if (mph > limit1) {
+                return Color.FromHex("#F8696B");
             }
 
-            if (mph > orangeLimit) {
-                return Color.Orange;
+            if (mph > limit2) {
+                return Color.FromHex("#F98971");
             }
 
-            if (mph > yellowLimit) {
-                return Color.Yellow;
+            if (mph > limit3) {
+                return Color.FromHex("#FBAA77");
             }
 
-            return Color.Green;
+            if (mph > limit4) {
+                return Color.FromHex("#FDCA7D");
+            }
+
+            if (mph > limit5) {
+                return Color.FromHex("#FFEB84");
+            }
+
+            if (mph > limit6) {
+                return Color.FromHex("#D8E082");
+            }
+
+            if (mph > limit7) {
+                return Color.FromHex("#B1D580");
+            }
+
+            if (mph > limit8) {
+                return Color.FromHex("#8ACA7E");
+            }
+
+            return Color.FromHex("#63BE7B");
         }
     }
 }
