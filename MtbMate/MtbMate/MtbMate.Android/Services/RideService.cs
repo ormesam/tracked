@@ -7,14 +7,14 @@ namespace MtbMate.Droid.Services {
     [Service]
     public class RideService : Service {
         private const string channelId = "default";
-        private const string MAIN_ACTIVITY_ACTION = "Main_activity";
-        public const string PUT_EXTRA = "has_service_been_started";
+        public static string MainActivityAction = "OpenedFromRideServiceNotification";
+        public const string Tag = "RideService";
+
         private readonly IBinder binder;
         private const int notificationId = 12345678;
         private NotificationManager notificationManager;
         private Handler serviceHandler;
 
-        public string Tag => "RideService";
 
         public RideService() {
             binder = new RideServiceBinder(this);
@@ -69,9 +69,8 @@ namespace MtbMate.Droid.Services {
 
         private PendingIntent BuildIntentToShowMainActivity() {
             var notificationIntent = new Intent(this, typeof(MainActivity));
-            notificationIntent.SetAction(MAIN_ACTIVITY_ACTION);
+            notificationIntent.SetAction(MainActivityAction);
             notificationIntent.SetFlags(ActivityFlags.SingleTop);
-            notificationIntent.PutExtra(PUT_EXTRA, true);
 
             var pendingIntent = PendingIntent.GetActivity(this, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
 

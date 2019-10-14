@@ -126,7 +126,9 @@ namespace MtbMate.Utilities {
                     .OrderBy(i => Math.Abs((i.Timestamp - jump.Time).TotalSeconds))
                     .FirstOrDefault();
 
-                jumpsByLocationTime.Add(nearestLocation.Timestamp, jump);
+                if (!jumpsByLocationTime.ContainsKey(nearestLocation.Timestamp)) {
+                    jumpsByLocationTime.Add(nearestLocation.Timestamp, jump);
+                }
             }
 
             IList<MapLocation> mapLocations = new List<MapLocation>();

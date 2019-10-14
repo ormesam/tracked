@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using MtbMate.Models;
 using Plugin.Geolocator;
@@ -37,15 +36,17 @@ namespace MtbMate.Utilities {
         private void Current_PositionChanged(object sender, PositionEventArgs e) {
             var position = e.Position;
 
+            if (position.Accuracy > 20) {
+                return;
+            }
+
             var location = new Models.Location {
-                Timestamp = position.Timestamp.DateTime,
+                Timestamp = position.Timestamp.UtcDateTime,
                 Point = new LatLng(position.Latitude, position.Longitude),
                 AccuracyInMetres = position.Accuracy,
                 SpeedMetresPerSecond = position.Speed,
                 Altitude = position.Altitude,
             };
-
-            Debug.WriteLine(location);
 
             LocationChanged?.Invoke(new LocationChangedEventArgs {
                 Location = location

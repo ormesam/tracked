@@ -12,5 +12,9 @@ namespace MtbMate.Models {
         public double Airtime { get; set; }
         [JsonProperty]
         public double LandingGForce { get; set; }
+
+        public override string ToString() {
+            return $"Jump {Number} - Time: {Time}, Airtime: {Airtime}s, Landing Force: {LandingGForce}";
+        }
     }
 }

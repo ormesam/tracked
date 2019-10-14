@@ -42,6 +42,10 @@ namespace MtbMate.Droid {
 
             ServiceConnection = new CustomServiceConnection { Activity = this };
 
+            if (Intent.Action == RideService.MainActivityAction) {
+                System.Diagnostics.Debug.WriteLine("Opened from ride notification");
+            }
+
             CheckPermissions();
 
             LoadApplication(new App());
