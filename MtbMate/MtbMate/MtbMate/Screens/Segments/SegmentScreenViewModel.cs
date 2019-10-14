@@ -25,8 +25,6 @@ namespace MtbMate.Screens.Segments {
 
         public string DisplayName => Segment.DisplayName;
 
-        public IList<SegmentLocation> Locations => Segment.Points;
-
         public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
             .Where(i => i.SegmentId == Segment.Id)
             .OrderByDescending(i => i.Created)

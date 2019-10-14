@@ -16,37 +16,35 @@
             Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
-                <controls:MapControl
-                    HeightRequest="200"
-                    BindingContext="{Binding MapViewModel}" />
-                <Label
-                      Margin="15"
-                      HorizontalOptions="Center"
-                      Text="{Binding DisplayName}"
-                      FontSize="Large">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
-                              Tapped="Name_Tapped" />
-                    </Label.GestureRecognizers>
-                </Label>
-                <controls:ExtendedListView
-                    ItemsSource="{Binding Attempts}"
-                    IsScrollEnabled="False"
-                    ItemTapped="Attempt_Tapped">
-                    <controls:ExtendedListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <controls:MedalsCell
-                                    Text="{Binding DisplayName}"
-                                    Detail="{Binding FormattedTime}"
-                                    Medal="{Binding Medal}" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </controls:ExtendedListView.ItemTemplate>
-                </controls:ExtendedListView>
-            </StackLayout>
-        </ScrollView>
+        <StackLayout>
+            <controls:MapControl
+                HeightRequest="200"
+                BindingContext="{Binding MapViewModel}" />
+            <Label
+                Margin="15"
+                HorizontalOptions="Center"
+                Text="{Binding DisplayName}"
+                FontSize="Large">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                            Tapped="Name_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
+            <controls:ExtendedListView
+                ItemsSource="{Binding Attempts}"
+                IsScrollEnabled="True"
+                ItemTapped="Attempt_Tapped">
+                <controls:ExtendedListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <controls:MedalsCell
+                                Text="{Binding DisplayName}"
+                                Detail="{Binding FormattedTime}"
+                                Medal="{Binding Medal}" />
+                        </ViewCell>
+                    </DataTemplate>
+                </controls:ExtendedListView.ItemTemplate>
+            </controls:ExtendedListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
