@@ -19,6 +19,9 @@ namespace MtbMate.Models {
         public IList<Location> Locations { get; set; }
         [JsonProperty]
         public IList<Jump> Jumps { get; set; }
+        [JsonProperty]
+        public IList<AccelerometerReading> AccelerometerReadings { get; set; }
+
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
         public IList<Location> MovingLocations => Locations
             .Where(i => i.Mph >= 1)
@@ -32,6 +35,7 @@ namespace MtbMate.Models {
         public Ride() {
             Locations = new List<Location>();
             Jumps = new List<Jump>();
+            AccelerometerReadings = new List<AccelerometerReading>();
         }
 
         public SegmentAttempt MatchesSegment(Segment segment) {

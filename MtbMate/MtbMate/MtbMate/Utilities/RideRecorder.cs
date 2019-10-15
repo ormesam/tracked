@@ -45,6 +45,7 @@ namespace MtbMate.Utilities {
             await Model.Instance.SaveRide(Ride);
 
             if (detectJumps) {
+                Ride.AccelerometerReadings = readings;
                 Ride.Jumps = new JumpDetectionUtility(readings.ToList()).Run();
             }
 
