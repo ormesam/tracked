@@ -223,6 +223,15 @@
                 
                 <controls:JumpsControl
                     Jumps="{Binding Jumps}" />
+
+                <BoxView
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray" />
+
+                <Button
+                    Text="Export Jump Data"
+                    Clicked="ExportJumps_Clicked" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using MtbMate.Utilities;
 using Newtonsoft.Json;
+using Xamarin.Essentials;
 
 namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
@@ -90,6 +93,24 @@ namespace MtbMate.Models {
             }
 
             return Medal.None;
+        }
+
+        public ShareFile GetReadingsFile() {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("TimeStamp,Value");
+
+            foreach (var reading in AccelerometerReadings.OrderBy(i => i.Timestamp)) {
+                sb.AppendLine($"{reading.Timestamp.ToString("dd/MM/yyyy HH:mm:ss.fff")},{reading.Value}");
+            }
+
+            sb.AppendLine();
+
+            string fileName = "Ride Data.txt";
+            string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+            File.WriteAllText(filePath, sb.ToString());
+
+            return new ShareFile(filePath);
         }
     }
 }

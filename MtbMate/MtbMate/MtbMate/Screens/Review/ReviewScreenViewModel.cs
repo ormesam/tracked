@@ -5,6 +5,7 @@ using MtbMate.Contexts;
 using MtbMate.Controls;
 using MtbMate.Models;
 using MtbMate.Utilities;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MtbMate.Screens.Review {
@@ -88,6 +89,13 @@ namespace MtbMate.Screens.Review {
 
         public async Task GoToAttempt(INavigation nav, SegmentAttempt attempt) {
             await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
+        }
+
+        public async Task ExportJumpData() {
+            await Share.RequestAsync(new ShareFileRequest {
+                File = Ride.GetReadingsFile(),
+                Title = Ride.Name ?? "Data Readings",
+            });
         }
     }
 }

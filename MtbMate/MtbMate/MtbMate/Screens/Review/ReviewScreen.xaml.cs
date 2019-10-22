@@ -27,5 +27,9 @@ namespace MtbMate.Screens.Review {
         private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
             await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttempt);
         }
+
+        private async void ExportJumps_Clicked(object sender, EventArgs e) {
+            await ViewModel.ExportJumpData();
+        }
     }
 }
