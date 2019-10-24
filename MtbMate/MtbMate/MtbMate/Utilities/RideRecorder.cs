@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Accelerometer;
 using MtbMate.Models;
@@ -9,6 +8,7 @@ namespace MtbMate.Utilities {
     public class RideRecorder {
         private readonly bool detectJumps;
         private readonly IList<AccelerometerReading> readings;
+        private readonly JumpDetectionUtility jumpDetectionUtility;
 
         public readonly Ride Ride;
 
@@ -16,6 +16,7 @@ namespace MtbMate.Utilities {
             this.detectJumps = detectJumps;
             Ride = new Ride();
             readings = new List<AccelerometerReading>();
+            jumpDetectionUtility = new JumpDetectionUtility();
         }
 
         public async Task StartRide() {
@@ -46,7 +47,7 @@ namespace MtbMate.Utilities {
 
             if (detectJumps) {
                 Ride.AccelerometerReadings = readings;
-                Ride.Jumps = new JumpDetectionUtility(readings.ToList()).Run();
+                Ride.Jumps = jumpDetectionUtility.Jumps;
             }
 
             await Model.Instance.SaveRide(Ride);
@@ -68,6 +69,7 @@ namespace MtbMate.Utilities {
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {
             readings.Add(e.Data);
+            jumpDetectionUtility.AddReading(e.Data);
         }
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {

@@ -6,8 +6,12 @@ namespace MtbMate.Models {
     public class AccelerometerReading {
         [JsonProperty]
         public DateTime Timestamp { get; set; }
+
         [JsonProperty]
         public double Value { get; set; }
+
+        [JsonProperty]
+        public double SmoothedValue { get; set; }
 
         public override string ToString() {
             return $"{Timestamp} Reading: {Value}";

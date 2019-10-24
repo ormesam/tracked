@@ -36,7 +36,11 @@ namespace MtbMate.Tests.Jumps {
                 .OrderBy(i => i.Timestamp)
                 .ToList();
 
-            JumpDetectionUtility = new JumpDetectionUtility(readings);
+            JumpDetectionUtility = new JumpDetectionUtility();
+
+            foreach (var reading in readings) {
+                JumpDetectionUtility.AddReading(reading);
+            }
         }
     }
 }
