@@ -9,11 +9,11 @@ namespace MtbMate.Tests.Jumps {
         public void Analyse() {
             Assert.IsTrue(JumpDetectionUtility.Jumps.Count == 2);
 
-            Assert.AreEqual(0.539, JumpDetectionUtility.Jumps[0].Airtime, 0.0001);
-            Assert.AreEqual(3.7, JumpDetectionUtility.Jumps[0].LandingGForce, 0.1);
+            Assert.AreEqual(0.536, JumpDetectionUtility.Jumps[0].Airtime, 0.0001);
+            Assert.AreEqual(6.63, JumpDetectionUtility.Jumps[0].LandingGForce, 0.1);
 
-            Assert.AreEqual(0.534, JumpDetectionUtility.Jumps[1].Airtime, 0.0001);
-            Assert.AreEqual(2.2, JumpDetectionUtility.Jumps[1].LandingGForce, 0.1);
+            Assert.AreEqual(0.587, JumpDetectionUtility.Jumps[1].Airtime, 0.0001);
+            Assert.AreEqual(1.36, JumpDetectionUtility.Jumps[1].LandingGForce, 0.1);
         }
     }
 }

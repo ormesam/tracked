@@ -41,8 +41,7 @@ namespace MtbMate.Utilities {
 
             // set smoothed value
             if (lastReading != null) {
-                // set this to Value instead of SmoothedValue, keeping this as is for now as it passes the tests
-                reading.SmoothedValue = (reading.Value + lastReading.SmoothedValue) / 2;
+                reading.SmoothedValue = (reading.Value + lastReading.Value) / 2;
             } else {
                 reading.SmoothedValue = reading.Value;
             }
