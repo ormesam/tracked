@@ -30,11 +30,10 @@
                             Tapped="Name_Tapped" />
                 </Label.GestureRecognizers>
             </Label>
-            <controls:ExtendedListView
+            <ListView
                 ItemsSource="{Binding Attempts}"
-                IsScrollEnabled="True"
                 ItemTapped="Attempt_Tapped">
-                <controls:ExtendedListView.ItemTemplate>
+                <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <controls:MedalsCell
@@ -43,8 +42,8 @@
                                 Medal="{Binding Medal}" />
                         </ViewCell>
                     </DataTemplate>
-                </controls:ExtendedListView.ItemTemplate>
-            </controls:ExtendedListView>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

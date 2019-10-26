@@ -181,12 +181,5 @@ namespace MtbMate.Screens.Review {
         public async Task GoToAttempt(INavigation nav, SegmentAttempt attempt) {
             await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
         }
-
-        public async Task ExportJumpData() {
-            //await Share.RequestAsync(new ShareFileRequest {
-            //    File = Ride.GetReadingsFile(),
-            //    Title = Ride.Name ?? "Data Readings",
-            //});
-        }
     }
 }

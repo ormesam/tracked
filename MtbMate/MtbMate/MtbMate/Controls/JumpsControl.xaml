@@ -18,6 +18,11 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
                 <Label
                     VerticalTextAlignment="Center"
                     Text="#"
@@ -36,43 +41,56 @@
                     VerticalTextAlignment="Center"
                     Text="Landing Force"
                     FontAttributes="Bold" />
+
+                <BoxView
+                    Grid.ColumnSpan="3"
+                    Grid.Row="1"
+                    HeightRequest="1"
+                    BackgroundColor="LightGray" />
             </Grid>
-            <controls:ExtendedListView
-                ItemsSource="{Binding Jumps}"
-                IsScrollEnabled="False">
-                <ListView.ItemTemplate>
+            <controls:RepeaterView
+                ItemsSource="{Binding Jumps}">
+                <controls:RepeaterView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell
-                            IsEnabled="False">
-                            <Grid
-                                Padding="10,0,10,0"
-                                HeightRequest="40">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                                <Label
-                                    VerticalTextAlignment="Center"
-                                    Text="{Binding Number}" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34.5" />
+                                <RowDefinition Height="0.5" />
+                            </Grid.RowDefinitions>
 
-                                <Label
-                                    Grid.Column="1"
-                                    HorizontalTextAlignment="Center"
-                                    VerticalTextAlignment="Center"
-                                    Text="{Binding Airtime, StringFormat='{}{0}s'}" />
+                            <Label
+                                Margin="10,0,0,0"
+                                VerticalTextAlignment="Center"
+                                Text="{Binding Number}" />
 
-                                <Label
-                                    Grid.Column="2"
-                                    HorizontalTextAlignment="End"
-                                    VerticalTextAlignment="Center"
-                                    Text="{Binding LandingGForce, StringFormat='{}{0}g'}" />
-                            </Grid>
-                        </ViewCell>
+                            <Label
+                                Grid.Column="1"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                Text="{Binding Airtime, StringFormat='{}{0}s'}" />
+
+                            <Label
+                                Margin="0,0,10,0"
+                                Grid.Column="2"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
+                                Text="{Binding LandingGForce, StringFormat='{}{0}g'}" />
+
+                            <BoxView
+                                Grid.ColumnSpan="3"
+                                Grid.Row="1"
+                                HeightRequest="0.5"
+                                BackgroundColor="LightGray" />
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </controls:ExtendedListView>
+                </controls:RepeaterView.ItemTemplate>
+            </controls:RepeaterView>
         </StackLayout>
     </ContentView.Content>
 </ContentView>

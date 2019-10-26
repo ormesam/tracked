@@ -20,9 +20,5 @@ namespace MtbMate.Screens.Review.Controls {
         private void Name_Tapped(object sender, EventArgs e) {
             ViewModel.ChangeName();
         }
-
-        private async void ExportJumps_Clicked(object sender, EventArgs e) {
-            await ViewModel.ExportJumpData();
-        }
     }
 }

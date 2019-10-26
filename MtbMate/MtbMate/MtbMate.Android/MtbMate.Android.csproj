@@ -112,7 +112,6 @@
     <Compile Include="Dependancies\NativeGeoUtility.cs" />
     <Compile Include="Dependancies\PromptUtility.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Renderers\ExtendedListViewRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomServiceConnection.cs" />
