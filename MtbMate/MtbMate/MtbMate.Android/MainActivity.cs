@@ -6,6 +6,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using MtbMate.Droid.Services;
+using OxyPlot.Xamarin.Forms.Platform.Android;
 using Plugin.CurrentActivity;
 
 namespace MtbMate.Droid {
@@ -39,6 +40,7 @@ namespace MtbMate.Droid {
             CrossCurrentActivity.Current.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
             Xamarin.FormsGoogleMaps.Init(this, bundle);
+            PlotViewRenderer.Init();
 
             ServiceConnection = new CustomServiceConnection { Activity = this };
 

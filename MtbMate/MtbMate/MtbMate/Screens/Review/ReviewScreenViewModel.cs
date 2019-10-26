@@ -5,19 +5,60 @@ using MtbMate.Contexts;
 using MtbMate.Controls;
 using MtbMate.Models;
 using MtbMate.Utilities;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MtbMate.Screens.Review {
     public class ReviewScreenViewModel : ViewModelBase {
         public readonly Ride Ride;
+        public OxyPlot.PlotModel SpeedChartModel { get; set; }
 
         public ReviewScreenViewModel(MainContext context, Ride ride) : base(context) {
             Ride = ride;
+
             MapViewModel = new MapControlViewModel(
                 context,
                 Ride.DisplayName,
                 PolyUtils.GetMapLocations(Ride));
+
+            int count1 = 0;
+            int count2 = 0;
+
+            SpeedChartModel = new OxyPlot.PlotModel {
+                Title = "Speed (mph)",
+                Axes = {
+                    new CategoryAxis {Position = AxisPosition.Bottom},
+                    new LinearAxis {Position = AxisPosition.Left, MinimumPadding = 0}
+                },
+                Series = {
+                    new LineSeries()
+                    {
+                          ItemsSource = ride.Locations
+                            .Select(i => new {
+                                x = count1++,
+                                y = i.Mph,
+                            })
+                            .ToList(),
+                          DataFieldX = "x",
+                          DataFieldY = "y",
+                    },
+                    new LineSeries()
+                    {
+                          ItemsSource = ride.Locations
+                            .Select(i => new {
+                                x = count2++,
+                                y = i.Altitude,
+                            })
+                            .ToList(),
+                          DataFieldX = "x",
+                          DataFieldY = "y",
+                    },
+                }
+            };
+
+            OnPropertyChanged();
         }
 
         public override string Title => DisplayName;

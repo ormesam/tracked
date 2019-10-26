@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:MtbMate.Controls"
+    xmlns:oxyplot="clr-namespace:OxyPlot.Xamarin.Forms;assembly=OxyPlot.Xamarin.Forms"
     x:Class="MtbMate.Screens.Review.ReviewScreen"
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
@@ -195,7 +196,7 @@
                     HeightRequest="10"
                     Margin="0,5"
                     BackgroundColor="LightGray" />
-                
+
                 <Label
                     Margin="10,4"
                     Text="Segments"
@@ -220,7 +221,7 @@
                     HeightRequest="10"
                     Margin="0,5"
                     BackgroundColor="LightGray" />
-                
+
                 <controls:JumpsControl
                     Jumps="{Binding Jumps}" />
 
@@ -232,7 +233,17 @@
                 <Button
                     Text="Export Jump Data"
                     Clicked="ExportJumps_Clicked" />
+
+                <BoxView
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray" />
+
+                <oxyplot:PlotView
+                    HeightRequest="500"
+                    Model="{Binding SpeedChartModel}" />
             </StackLayout>
+
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
