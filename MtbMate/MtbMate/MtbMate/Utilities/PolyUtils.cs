@@ -95,16 +95,8 @@ namespace MtbMate.Utilities {
             };
         }
 
-        public static IList<MapLocation> GetMapLocations(Ride ride) {
-            return GetMapLocations(ride.Locations, ride.Jumps);
-        }
-
-        public static IList<MapLocation> GetMapLocations(SegmentAttempt attempt) {
-            return GetMapLocations(attempt.Locations, attempt.Jumps);
-        }
-
-        private static IList<MapLocation> GetMapLocations(IList<Location> rideLocations, IList<Jump> jumps) {
-            var locations = rideLocations
+        public static IList<MapLocation> GetMapLocations(IRide ride) {
+            var locations = ride.Locations
                 .OrderBy(i => i.Timestamp)
                 .Select(i => new {
                     i.Timestamp,
@@ -115,7 +107,7 @@ namespace MtbMate.Utilities {
 
             var jumpsByLocationTime = new Dictionary<DateTime, Jump>();
 
-            foreach (var jump in jumps) {
+            foreach (var jump in ride.Jumps) {
                 var temp = locations
                     .OrderBy(i => Math.Abs((i.Timestamp - jump.Time).TotalSeconds))
                     .Select(i => new {

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MtbMate.Contexts;
 using MtbMate.Utilities;
 using Newtonsoft.Json;
 
 namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class SegmentAttempt {
+    public class SegmentAttempt : IRide {
         [JsonProperty]
         public Guid? Id { get; set; }
         [JsonProperty]
@@ -21,7 +22,12 @@ namespace MtbMate.Models {
         public int EndIdx { get; set; }
         [JsonProperty]
         public Medal Medal { get; set; }
+
         public string DisplayName => Created.ToString("dd/MM/yy HH:mm");
+
+        public DateTime? Start => Ride.MovingLocations[StartIdx].Timestamp;
+
+        public DateTime? End => Ride.MovingLocations[EndIdx].Timestamp;
 
         public Segment Segment => Model.Instance.Segments
             .Where(i => i.Id == SegmentId)
@@ -33,6 +39,11 @@ namespace MtbMate.Models {
 
         public IList<Location> Locations => Ride.MovingLocations
             .GetRange(StartIdx, (EndIdx - StartIdx) + 1);
+
+        public IList<AccelerometerReading> AccelerometerReadings => Ride.AccelerometerReadings
+            .Where(i => i.Timestamp >= Start)
+            .Where(i => i.Timestamp <= End)
+            .ToList();
 
         public IList<Jump> Jumps => Ride.Jumps
             .Where(i => i.Time >= Ride.MovingLocations[StartIdx].Timestamp)
@@ -50,5 +61,13 @@ namespace MtbMate.Models {
         public double AverageSpeed => Locations.Average(i => i.Mph);
 
         public double MaxSpeed => Locations.Max(i => i.Mph);
+
+        public bool CanChangeName => false;
+
+        public bool ShowAttempts => false;
+
+        public void ChangeName(UIContext ui, Action whenCompete) {
+            throw new NotSupportedException();
+        }
     }
 }

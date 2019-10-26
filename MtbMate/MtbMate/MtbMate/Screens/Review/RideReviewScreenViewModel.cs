@@ -7,17 +7,16 @@ using MtbMate.Models;
 using MtbMate.Utilities;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using ChartPlotModel = OxyPlot.PlotModel;
 
 namespace MtbMate.Screens.Review {
     public class RideReviewScreenViewModel : ViewModelBase {
-        public readonly Ride Ride;
+        public readonly IRide Ride;
         public ChartPlotModel AnalysisChartModel { get; }
         public ChartPlotModel AccelerometerChartModel { get; }
 
-        public RideReviewScreenViewModel(MainContext context, Ride ride) : base(context) {
+        public RideReviewScreenViewModel(MainContext context, IRide ride) : base(context) {
             Ride = ride;
 
             MapViewModel = new MapControlViewModel(
@@ -66,16 +65,17 @@ namespace MtbMate.Screens.Review {
         }
 
         public string Time => (Ride.End.Value - Ride.Start.Value).ToString(@"mm\:ss");
-
         public int JumpCount => Ride.Jumps.Count;
-        public int SegmentCount => Attempts.Count;
+        public int SegmentCount => ShowAttempts ? Attempts.Count : 0;
         public string MaxGForce => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.LandingGForce)}g";
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
+        public bool ShowAttempts => Ride.ShowAttempts;
 
-        public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
-            .Where(i => i.RideId == Ride.Id)
-            .OrderByDescending(i => i.Created)
-            .ToList();
+        public IList<SegmentAttempt> Attempts => !ShowAttempts ? null :
+            Model.Instance.SegmentAttempts
+                .Where(i => i.RideId == Ride.Id)
+                .OrderByDescending(i => i.Created)
+                .ToList();
 
         public IList<Jump> Jumps => Ride.Jumps
             .OrderBy(i => i.Time)
@@ -164,17 +164,17 @@ namespace MtbMate.Screens.Review {
         }
 
         public async Task Delete() {
-            await Model.Instance.RemoveRide(Ride);
+            await Model.Instance.RemoveRide(Ride as Ride);
         }
 
         public void ChangeName() {
-            Context.UI.ShowInputDialog("Change Name", Ride.Name, async (newName) => {
-                Ride.Name = newName;
+            if (!Ride.CanChangeName) {
+                return;
+            }
 
+            Ride.ChangeName(Context.UI, () => {
                 OnPropertyChanged(nameof(Title));
                 OnPropertyChanged(nameof(DisplayName));
-
-                await Model.Instance.SaveRide(Ride);
             });
         }
 
@@ -183,10 +183,10 @@ namespace MtbMate.Screens.Review {
         }
 
         public async Task ExportJumpData() {
-            await Share.RequestAsync(new ShareFileRequest {
-                File = Ride.GetReadingsFile(),
-                Title = Ride.Name ?? "Data Readings",
-            });
+            //await Share.RequestAsync(new ShareFileRequest {
+            //    File = Ride.GetReadingsFile(),
+            //    Title = Ride.Name ?? "Data Readings",
+            //});
         }
     }
 }

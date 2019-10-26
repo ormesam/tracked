@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MtbMate.Contexts;
 using MtbMate.Utilities;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 
 namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class Ride {
+    public class Ride : IRide {
         [JsonProperty]
         public Guid? Id { get; set; }
         [JsonProperty]
@@ -26,6 +27,11 @@ namespace MtbMate.Models {
         public IList<AccelerometerReading> AccelerometerReadings { get; set; }
 
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
+
+        public bool CanChangeName => true;
+
+        public bool ShowAttempts => true;
+
         public IList<Location> MovingLocations => Locations
             .Where(i => i.Mph >= 1)
             .ToList();
@@ -111,6 +117,16 @@ namespace MtbMate.Models {
             File.WriteAllText(filePath, sb.ToString());
 
             return new ShareFile(filePath);
+        }
+
+        public void ChangeName(UIContext ui, Action whenComplete) {
+            ui.ShowInputDialog("Change Name", Name, async (newName) => {
+                Name = newName;
+
+                await Model.Instance.SaveRide(this);
+
+                whenComplete?.Invoke();
+            });
         }
     }
 }

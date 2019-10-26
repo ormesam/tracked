@@ -47,7 +47,7 @@ namespace MtbMate.Contexts {
             await nav.PushAsync(new RecordScreen(context));
         }
 
-        public async Task GoToRideReviewScreenAsync(INavigation nav, Ride ride) {
+        public async Task GoToRideReviewScreenAsync(INavigation nav, IRide ride) {
             await nav.PushAsync(new RideReviewScreen(context, ride));
         }
 
@@ -88,7 +88,7 @@ namespace MtbMate.Contexts {
         }
 
         public async Task GoToSegmentAttemptScreenAsync(INavigation nav, SegmentAttempt attempt) {
-            await nav.PushAsync(new AttemptScreen(context, attempt));
+            await GoToRideReviewScreenAsync(nav, attempt);
         }
     }
 }

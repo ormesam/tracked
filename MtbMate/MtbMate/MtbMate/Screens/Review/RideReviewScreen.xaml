@@ -1,12 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage 
+<TabbedPage
+    x:Name="tabPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:reviewControls="clr-namespace:MtbMate.Screens.Review.Controls"
     x:Class="MtbMate.Screens.Review.RideReviewScreen"
     Title="{Binding Title}">
-    <reviewControls:ReviewControl />
-    <reviewControls:SegmentsControl />
-    <reviewControls:AnalysisControl />
-    <reviewControls:AccelerometerReadings />
 </TabbedPage>
