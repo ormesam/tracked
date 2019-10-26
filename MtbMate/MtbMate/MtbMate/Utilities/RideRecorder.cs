@@ -68,8 +68,8 @@ namespace MtbMate.Utilities {
         }
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {
-            readings.Add(e.Data);
             jumpDetectionUtility.AddReading(e.Data);
+            readings.Add(e.Data);
         }
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {

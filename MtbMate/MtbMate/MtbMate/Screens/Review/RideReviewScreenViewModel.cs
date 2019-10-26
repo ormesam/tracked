@@ -9,11 +9,13 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using ChartPlotModel = OxyPlot.PlotModel;
 
 namespace MtbMate.Screens.Review {
     public class RideReviewScreenViewModel : ViewModelBase {
         public readonly Ride Ride;
-        public OxyPlot.PlotModel AnalysisChartModel { get; set; }
+        public ChartPlotModel AnalysisChartModel { get; }
+        public ChartPlotModel AccelerometerChartModel { get; }
 
         public RideReviewScreenViewModel(MainContext context, Ride ride) : base(context) {
             Ride = ride;
@@ -23,7 +25,8 @@ namespace MtbMate.Screens.Review {
                 Ride.DisplayName,
                 PolyUtils.GetMapLocations(Ride));
 
-            CreateAnaysisChartModel();
+            AnalysisChartModel = CreateAnaysisChartModel();
+            AccelerometerChartModel = CreateAccelerometerChartModel();
         }
 
         public override string Title => DisplayName;
@@ -78,13 +81,13 @@ namespace MtbMate.Screens.Review {
             .OrderBy(i => i.Time)
             .ToList();
 
-        private void CreateAnaysisChartModel() {
+        private ChartPlotModel CreateAnaysisChartModel() {
             int count1 = 0;
             int count2 = 0;
             string speedKey = "Speed";
             string altitudeKey = "Altitude";
 
-            AnalysisChartModel = new OxyPlot.PlotModel {
+            return new ChartPlotModel {
                 Title = "Speed & Altitude",
                 Axes = {
                     new CategoryAxis {
@@ -125,6 +128,36 @@ namespace MtbMate.Screens.Review {
                           DataFieldX = "x",
                           DataFieldY = "y",
                           YAxisKey = altitudeKey,
+                    },
+                }
+            };
+        }
+
+        private ChartPlotModel CreateAccelerometerChartModel() {
+            int count = 0;
+
+            return new ChartPlotModel {
+                Title = "Accelerometer",
+                Axes = {
+                    new CategoryAxis {
+                        Position = AxisPosition.Bottom,
+                    },
+                    new LinearAxis {
+                        Position = AxisPosition.Left,
+                        MinimumPadding = 0,
+                    },
+                },
+                Series = {
+                    new LineSeries()
+                    {
+                          ItemsSource = Ride.AccelerometerReadings
+                            .Select(i => new {
+                                x = count++,
+                                y = i.SmoothedValue,
+                            })
+                            .ToList(),
+                          DataFieldX = "x",
+                          DataFieldY = "y",
                     },
                 }
             };

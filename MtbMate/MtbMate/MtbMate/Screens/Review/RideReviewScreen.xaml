@@ -8,4 +8,5 @@
     <reviewControls:ReviewControl />
     <reviewControls:SegmentsControl />
     <reviewControls:AnalysisControl />
+    <reviewControls:AccelerometerReadings />
 </TabbedPage>
