@@ -43,12 +43,12 @@ namespace MtbMate.Contexts {
             isNavigating = false;
         }
 
-        public async Task GoToRideScreenAsync(INavigation nav) {
-            await nav.PushAsync(new RideScreen(context));
+        public async Task GoToRecordScreenAsync(INavigation nav) {
+            await nav.PushAsync(new RecordScreen(context));
         }
 
-        public async Task GoToReviewScreenAsync(INavigation nav, Ride ride) {
-            await nav.PushAsync(new ReviewScreen(context, ride));
+        public async Task GoToRideReviewScreenAsync(INavigation nav, Ride ride) {
+            await nav.PushAsync(new RideReviewScreen(context, ride));
         }
 
         public async Task GoToBluetoothScreenAsync() {

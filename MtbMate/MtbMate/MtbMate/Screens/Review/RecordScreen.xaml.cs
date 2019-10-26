@@ -5,13 +5,13 @@ using Xamarin.Forms.Xaml;
 
 namespace MtbMate.Screens.Review {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RideScreen : ContentPage {
-        public RideScreen(MainContext context) {
+    public partial class RecordScreen : ContentPage {
+        public RecordScreen(MainContext context) {
             InitializeComponent();
-            BindingContext = new RideScreenViewModel(context);
+            BindingContext = new RecordScreenViewModel(context);
         }
 
-        public RideScreenViewModel ViewModel => BindingContext as RideScreenViewModel;
+        public RecordScreenViewModel ViewModel => BindingContext as RecordScreenViewModel;
 
         private async void Start_Clicked(object sender, EventArgs e) {
             await ViewModel.Start();

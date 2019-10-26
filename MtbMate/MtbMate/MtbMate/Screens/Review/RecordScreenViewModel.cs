@@ -8,7 +8,7 @@ using MtbMate.Utilities;
 using Xamarin.Forms;
 
 namespace MtbMate.Screens.Review {
-    public class RideScreenViewModel : ViewModelBase {
+    public class RecordScreenViewModel : ViewModelBase {
         private readonly RideRecorder rideController;
         private bool isRunning;
         private bool hasRan;
@@ -17,7 +17,7 @@ namespace MtbMate.Screens.Review {
 
         private AccelerometerStatus accelerometerStatus;
 
-        public RideScreenViewModel(MainContext context) : base(context) {
+        public RecordScreenViewModel(MainContext context) : base(context) {
             rideController = new RideRecorder(Context.Settings.DetectJumps);
             accelerometerStatus = AccelerometerUtility.Instance.Status;
             isRunning = false;

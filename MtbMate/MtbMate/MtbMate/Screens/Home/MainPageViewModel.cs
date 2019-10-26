@@ -19,11 +19,11 @@ namespace MtbMate.Home {
         public bool HasRides => Rides.Any();
 
         public async Task GoToCreateRide(INavigation nav) {
-            await Context.UI.GoToRideScreenAsync(nav);
+            await Context.UI.GoToRecordScreenAsync(nav);
         }
 
         public async Task GoToReview(INavigation nav, Ride ride) {
-            await Context.UI.GoToReviewScreenAsync(nav, ride);
+            await Context.UI.GoToRideReviewScreenAsync(nav, ride);
         }
     }
 }

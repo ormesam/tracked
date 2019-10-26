@@ -23,7 +23,7 @@ namespace MtbMate.Screens.Review {
 
             var ride = Model.Instance.Rides.SingleOrDefault(i => i.Id == achievement.RideId);
 
-            await Context.UI.GoToReviewScreenAsync(nav, ride);
+            await Context.UI.GoToRideReviewScreenAsync(nav, ride);
         }
 
         public async Task ReCompareRides() {
