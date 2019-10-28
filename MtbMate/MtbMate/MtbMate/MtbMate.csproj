@@ -74,7 +74,7 @@
     <EmbeddedResource Update="Screens\Master\MasterScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Review\Controls\AccelerometerReadings.xaml">
+    <EmbeddedResource Update="Screens\Review\AccelerometerReadings.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Review\Controls\SegmentsControl.xaml">

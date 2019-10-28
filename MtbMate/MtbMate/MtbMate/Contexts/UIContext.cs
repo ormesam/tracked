@@ -51,6 +51,10 @@ namespace MtbMate.Contexts {
             await nav.PushAsync(new RideReviewScreen(context, ride));
         }
 
+        public async Task GoToAccelerometerReadingsScreenAsync(INavigation nav, IRide ride) {
+            await nav.PushAsync(new AccelerometerReadingsScreen(context, ride));
+        }
+
         public async Task GoToBluetoothScreenAsync() {
             await GoToScreenAsync(new BluetoothSetupScreen(context));
         }

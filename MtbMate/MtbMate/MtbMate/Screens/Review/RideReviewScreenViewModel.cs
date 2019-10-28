@@ -14,7 +14,6 @@ namespace MtbMate.Screens.Review {
     public class RideReviewScreenViewModel : ViewModelBase {
         public readonly IRide Ride;
         public ChartPlotModel AnalysisChartModel { get; }
-        public ChartPlotModel AccelerometerChartModel { get; }
 
         public RideReviewScreenViewModel(MainContext context, IRide ride) : base(context) {
             Ride = ride;
@@ -25,7 +24,6 @@ namespace MtbMate.Screens.Review {
                 PolyUtils.GetMapLocations(Ride));
 
             AnalysisChartModel = CreateAnaysisChartModel();
-            AccelerometerChartModel = CreateAccelerometerChartModel();
         }
 
         public override string Title => DisplayName;
@@ -133,36 +131,6 @@ namespace MtbMate.Screens.Review {
             };
         }
 
-        private ChartPlotModel CreateAccelerometerChartModel() {
-            int count = 0;
-
-            return new ChartPlotModel {
-                Title = "Accelerometer",
-                Axes = {
-                    new CategoryAxis {
-                        Position = AxisPosition.Bottom,
-                    },
-                    new LinearAxis {
-                        Position = AxisPosition.Left,
-                        MinimumPadding = 0,
-                    },
-                },
-                Series = {
-                    new LineSeries()
-                    {
-                          ItemsSource = Ride.AccelerometerReadings
-                            .Select(i => new {
-                                x = count++,
-                                y = i.SmoothedValue,
-                            })
-                            .ToList(),
-                          DataFieldX = "x",
-                          DataFieldY = "y",
-                    },
-                }
-            };
-        }
-
         public async Task Delete() {
             await Model.Instance.RemoveRide(Ride as Ride);
         }
@@ -180,6 +148,10 @@ namespace MtbMate.Screens.Review {
 
         public async Task GoToAttempt(INavigation nav, SegmentAttempt attempt) {
             await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
+        }
+
+        public async Task ViewJumpBreakdown(INavigation nav) {
+            await Context.UI.GoToAccelerometerReadingsScreenAsync(nav, Ride);
         }
     }
 }

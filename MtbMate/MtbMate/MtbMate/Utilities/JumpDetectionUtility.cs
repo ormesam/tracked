@@ -59,6 +59,7 @@ namespace MtbMate.Utilities {
                         Time = potentialJumpReadings.Select(j => j.Timestamp).Min(),
                         Airtime = potentialJumpReadings.GetTime(),
                         LandingGForce = 0,
+                        Readings = potentialJumpReadings.ToList(),
                     };
 
                     Jumps.Add(jump);

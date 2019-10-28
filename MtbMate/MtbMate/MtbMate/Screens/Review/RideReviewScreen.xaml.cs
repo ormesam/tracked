@@ -13,11 +13,12 @@ namespace MtbMate.Screens.Review {
             BindingContext = new RideReviewScreenViewModel(context, ride);
 
             tabPage.Children.Add(new ReviewControl());
+
             if (ride.ShowAttempts) {
                 tabPage.Children.Add(new SegmentsControl());
             }
+
             tabPage.Children.Add(new AnalysisControl());
-            tabPage.Children.Add(new AccelerometerReadings());
         }
     }
 }
