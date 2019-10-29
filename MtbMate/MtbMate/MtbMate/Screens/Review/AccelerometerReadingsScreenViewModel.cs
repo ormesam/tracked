@@ -29,7 +29,7 @@ namespace MtbMate.Screens.Review {
             var plot = new ChartPlotModel {
                 Title = "Accelerometer",
                 Axes = {
-                    new CategoryAxis {
+                    new LinearAxis {
                         Position = AxisPosition.Bottom,
                     },
                     new LinearAxis {
@@ -42,7 +42,7 @@ namespace MtbMate.Screens.Review {
                     {
                           ItemsSource = ride.AccelerometerReadings
                             .Select(i => new {
-                                x = readingTimestamps.IndexOf(i.Timestamp),
+                                x = i.GetTimeFromStart(ride.Start.Value).TotalSeconds,
                                 y = Math.Abs(i.SmoothedValue),
                             })
                             .ToList(),
@@ -56,7 +56,7 @@ namespace MtbMate.Screens.Review {
                 plot.Series.Add(new LineSeries {
                     ItemsSource = jump.Readings
                         .Select(i => new {
-                            x = readingTimestamps.IndexOf(i.Timestamp),
+                            x = i.GetTimeFromStart(ride.Start.Value).TotalSeconds,
                             y = Math.Abs(i.SmoothedValue),
                         })
                         .ToList(),

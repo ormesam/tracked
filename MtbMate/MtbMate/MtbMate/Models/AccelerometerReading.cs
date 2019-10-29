@@ -13,6 +13,10 @@ namespace MtbMate.Models {
         [JsonProperty]
         public double SmoothedValue { get; set; }
 
+        public TimeSpan GetTimeFromStart(DateTime start) {
+            return Timestamp - start;
+        }
+
         public override string ToString() {
             return $"{Timestamp} Reading: {Value}";
         }
