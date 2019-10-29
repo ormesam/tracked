@@ -52,8 +52,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Jumps\Jump3.cs" />
-    <Compile Include="Jumps\Jump2.cs" />
     <Compile Include="Jumps\Jump1.cs" />
     <Compile Include="Jumps\JumpTestBase.cs" />
     <Compile Include="Segments\TarlandRedSegment.cs" />
@@ -64,12 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Jumps\Jump1.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Jumps\Jump2.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Jumps\Jump3.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
