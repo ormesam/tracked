@@ -13,10 +13,11 @@ namespace MtbMate.Utilities {
         private bool started;
         private int readingsSinceLastJump;
         private int jumpCount;
-        private const double tolerance = 0.75;
         private const double startTolerance = 2;
         private const double minJumpSeconds = 0.5;
         private const double maxJumpSeconds = 8;
+
+        public static double Tolerance = 0.75;
 
         public IList<Jump> Jumps { get; }
 
@@ -48,7 +49,7 @@ namespace MtbMate.Utilities {
 
             readings.Enqueue(reading);
 
-            if (reading.SmoothedValue <= tolerance && reading.SmoothedValue >= -tolerance) {
+            if (reading.SmoothedValue <= Tolerance && reading.SmoothedValue >= -Tolerance) {
                 potentialJumpReadings.Add(reading);
             } else {
                 double jumpTime = potentialJumpReadings.GetTime();

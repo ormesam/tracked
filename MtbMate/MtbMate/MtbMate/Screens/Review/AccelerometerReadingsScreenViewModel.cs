@@ -2,15 +2,17 @@
 using System.Linq;
 using MtbMate.Contexts;
 using MtbMate.Models;
+using MtbMate.Utilities;
+using OxyPlot;
+using OxyPlot.Annotations;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-using ChartPlotModel = OxyPlot.PlotModel;
 
 namespace MtbMate.Screens.Review {
     internal class AccelerometerReadingsScreenViewModel : ViewModelBase {
         private readonly IRide ride;
 
-        public ChartPlotModel AccelerometerChartModel { get; }
+        public PlotModel AccelerometerChartModel { get; }
 
         public AccelerometerReadingsScreenViewModel(MainContext context, IRide ride)
             : base(context) {
@@ -21,15 +23,11 @@ namespace MtbMate.Screens.Review {
 
         public override string Title => ride.DisplayName;
 
-        private ChartPlotModel CreateAccelerometerChartModel() {
-            var readingTimestamps = ride.AccelerometerReadings
-                .Select(i => i.Timestamp)
-                .ToList();
-
-            var plot = new ChartPlotModel {
+        private PlotModel CreateAccelerometerChartModel() {
+            var plot = new PlotModel {
                 Title = "Accelerometer",
                 Axes = {
-                    new LinearAxis {
+                    new DateTimeAxis {
                         Position = AxisPosition.Bottom,
                     },
                     new LinearAxis {
@@ -41,8 +39,9 @@ namespace MtbMate.Screens.Review {
                     new LineSeries()
                     {
                           ItemsSource = ride.AccelerometerReadings
+                            .OrderBy(i => i.Timestamp)
                             .Select(i => new {
-                                x = i.GetTimeFromStart(ride.Start.Value).TotalSeconds,
+                                x = i.Timestamp,
                                 y = Math.Abs(i.SmoothedValue),
                             })
                             .ToList(),
@@ -55,8 +54,9 @@ namespace MtbMate.Screens.Review {
             foreach (var jump in ride.Jumps) {
                 plot.Series.Add(new LineSeries {
                     ItemsSource = jump.Readings
+                        .OrderBy(i => i.Timestamp)
                         .Select(i => new {
-                            x = i.GetTimeFromStart(ride.Start.Value).TotalSeconds,
+                            x = i.Timestamp,
                             y = Math.Abs(i.SmoothedValue),
                         })
                         .ToList(),
@@ -65,6 +65,23 @@ namespace MtbMate.Screens.Review {
                     Color = OxyPlot.OxyColor.FromRgb(255, 0, 0),
                 });
             }
+
+            LineAnnotation baseLine = new LineAnnotation() {
+                StrokeThickness = 1,
+                Color = OxyColors.Black,
+                Type = LineAnnotationType.Horizontal,
+                Y = 0,
+            };
+
+            LineAnnotation toleranceLine = new LineAnnotation() {
+                StrokeThickness = 1,
+                Color = OxyColors.Red,
+                Type = LineAnnotationType.Horizontal,
+                Y = JumpDetectionUtility.Tolerance,
+            };
+
+            plot.Annotations.Add(baseLine);
+            plot.Annotations.Add(toleranceLine);
 
             return plot;
         }
