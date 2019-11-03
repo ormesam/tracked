@@ -1,5 +1,4 @@
 ﻿using System;
-using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -12,20 +11,6 @@ using Plugin.CurrentActivity;
 namespace MtbMate.Droid {
     [Activity(Label = "Mtb Mate", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
-        private readonly string[] Permissions =
-         {
-            Manifest.Permission.Bluetooth,
-            Manifest.Permission.BluetoothAdmin,
-            Manifest.Permission.AccessCoarseLocation,
-            Manifest.Permission.AccessFineLocation,
-            "android.permission.FOREGROUND_SERVICE",
-            Manifest.Permission.AccessLocationExtraCommands,
-            Manifest.Permission.AccessMockLocation,
-            Manifest.Permission.AccessNetworkState,
-            Manifest.Permission.AccessWifiState,
-            Manifest.Permission.Internet,
-        };
-
         public RideService Service { get; set; }
         public bool Bound { get; set; }
         public CustomServiceConnection ServiceConnection { get; set; }
@@ -47,8 +32,6 @@ namespace MtbMate.Droid {
             if (Intent.Action == RideService.MainActivityAction) {
                 System.Diagnostics.Debug.WriteLine("Opened from ride notification");
             }
-
-            CheckPermissions();
 
             LoadApplication(new App());
         }
@@ -100,21 +83,6 @@ namespace MtbMate.Droid {
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-        private void CheckPermissions() {
-            bool minimumPermissionsGranted = true;
-
-            foreach (string permission in Permissions) {
-                if (CheckSelfPermission(permission) != Permission.Granted) {
-                    minimumPermissionsGranted = false;
-                }
-            }
-
-            // If one of the minimum permissions aren't granted, we request them from the user
-            if (!minimumPermissionsGranted) {
-                RequestPermissions(Permissions, 0);
-            }
         }
     }
 }
