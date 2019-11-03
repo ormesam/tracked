@@ -20,7 +20,8 @@
         <ListView
             ItemsSource="{Binding Rides}"
             IsVisible="{Binding HasRides}"
-            ItemTapped="Ride_ItemTapped">
+            ItemTapped="Ride_ItemTapped"
+            CachingStrategy="RecycleElementAndDataTemplate">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
