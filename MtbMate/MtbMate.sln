@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MtbMate", "MtbMate\MtbMate\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtbMate.Tests", "MtbMate.Tests\MtbMate.Tests.csproj", "{43E12396-CC15-4C5A-A728-451E2BF1B23B}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{897B6B0A-3A14-40F3-90F5-C70E1AD5D489}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,16 @@ Global
 		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{897B6B0A-3A14-40F3-90F5-C70E1AD5D489}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897B6B0A-3A14-40F3-90F5-C70E1AD5D489}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{897B6B0A-3A14-40F3-90F5-C70E1AD5D489}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897B6B0A-3A14-40F3-90F5-C70E1AD5D489}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
