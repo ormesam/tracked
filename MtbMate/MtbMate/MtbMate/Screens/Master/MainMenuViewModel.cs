@@ -44,5 +44,9 @@ namespace MtbMate.Screens.Master {
         }
 
         public ObservableCollection<ExtendedMenuItem> MenuItems { get; }
+
+        public void ConnectToGoogle() {
+            Context.Security.ConnectToGoogle();
+        }
     }
 }

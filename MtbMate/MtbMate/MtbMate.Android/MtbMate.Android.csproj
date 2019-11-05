@@ -109,6 +109,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomUrlSchemeInterceptorActivity.cs" />
     <Compile Include="Dependancies\NativeGeoUtility.cs" />
     <Compile Include="Dependancies\PromptUtility.cs" />
     <Compile Include="MainActivity.cs" />

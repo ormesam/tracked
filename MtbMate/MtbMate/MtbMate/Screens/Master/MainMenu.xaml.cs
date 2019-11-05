@@ -11,12 +11,18 @@ namespace MtbMate.Screens.Master {
             BindingContext = new MainMenuViewModel(context);
         }
 
+        public MainMenuViewModel ViewModel => BindingContext as MainMenuViewModel;
+
         private async void Menu_ItemTapped(object sender, ItemTappedEventArgs e) {
             ExtendedMenuItem menuItem = e.Item as ExtendedMenuItem;
 
             await menuItem?.OnClick();
 
             navMenu.SelectedItem = null;
+        }
+
+        private void ConnectToGoogle_Clicked(object sender, System.EventArgs e) {
+            ViewModel.ConnectToGoogle();
         }
     }
 }

@@ -5,17 +5,22 @@
     x:Class="MtbMate.Screens.Master.MainMenu"
     Title="Menu...">
     <ContentPage.Content>
-        <ListView
-            x:Name="navMenu"
-            HasUnevenRows="True"
-            ItemsSource="{Binding MenuItems}"
-            ItemTapped="Menu_ItemTapped">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell
-                        Text="{Binding Title}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackLayout>
+            <ListView
+                x:Name="navMenu"
+                HasUnevenRows="True"
+                ItemsSource="{Binding MenuItems}"
+                ItemTapped="Menu_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell
+                            Text="{Binding Title}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button
+                Text="Connect to Google"
+                Clicked="ConnectToGoogle_Clicked"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
