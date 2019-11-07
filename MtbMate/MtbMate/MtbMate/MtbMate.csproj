@@ -24,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Plugin.BLE">
       <HintPath>..\Lib\Plugin.BLE.dll</HintPath>
     </Reference>
@@ -109,8 +113,4 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="cd $(ProjectDir)\&#xD;&#xA;&#xD;&#xA;if not exist ApiKeysLocal.cs (&#xD;&#xA;    type nul &gt; ApiKeysLocal.cs&#xD;&#xA;)" />
-  </Target>
 </Project>

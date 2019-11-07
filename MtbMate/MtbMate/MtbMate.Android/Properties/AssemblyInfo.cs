@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using Android.App;
-using MtbMate;
+using Shared;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -44,5 +44,7 @@ using MtbMate;
 [assembly: UsesPermission(Android.Manifest.Permission.AccessWifiState)]
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
 
-[assembly: MetaData("com.google.android.maps.v2.API_KEY", Value = ApiKeysLocal.GoogleMapsApiKey)]
+[assembly: MetaData("com.google.android.maps.v2.API_KEY", Value = Constants.GoogleMapsApiKey)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
+
+[assembly: Application(UsesCleartextTraffic = true)]

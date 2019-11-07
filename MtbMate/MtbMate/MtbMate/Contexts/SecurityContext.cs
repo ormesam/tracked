@@ -1,17 +1,52 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using MtbMate.Auth;
+using Shared;
 using Xamarin.Auth;
 
 namespace MtbMate.Contexts {
     public class SecurityContext {
+        private MainContext mainContext;
+        public string AccessToken { get; private set; }
+        public string Name { get; private set; }
+
+        public bool IsLoggedIn => !string.IsNullOrEmpty(AccessToken);
+
+        public event EventHandler LoggedInStatusChanged;
+
+        public SecurityContext(MainContext mainContext) {
+            this.mainContext = mainContext;
+
+            AccessToken = this.mainContext.Storage.GetAccessToken();
+            Name = this.mainContext.Storage.GetName();
+        }
+
+        public async Task SetAccessToken(string token, string name) {
+            AccessToken = token;
+            Name = name;
+            await mainContext.Storage.SetAccessToken(token);
+            await mainContext.Storage.SetName(name);
+
+            LoggedInStatusChanged?.Invoke(null, null);
+        }
+
+        public async Task ClearAccessToken() {
+            AccessToken = null;
+            Name = null;
+            await mainContext.Storage.SetAccessToken(null);
+            await mainContext.Storage.SetName(null);
+
+            LoggedInStatusChanged?.Invoke(null, null);
+        }
+
         public void ConnectToGoogle() {
             var authenticator = new OAuth2Authenticator(
-                ApiKeysLocal.GoogleOAuthApiKey,
+                Constants.GoogleOAuthApiKey,
                 null,
                 "https://www.googleapis.com/auth/userinfo.email",
                 new Uri("https://accounts.google.com/o/oauth2/auth"),
-                new Uri(ApiKeysLocal.GoogleAuthRedirectUrl + ":/oauth2redirect"),
+                new Uri(Constants.GoogleAuthRedirectUrl + ":/oauth2redirect"),
                 new Uri("https://www.googleapis.com/oauth2/v4/token"),
                 null,
                 true);
@@ -45,18 +80,11 @@ namespace MtbMate.Contexts {
             }
 
             if (e.IsAuthenticated) {
-                string accessToken = e.Account.Properties["access_token"];
+                string accessToken = e.Account.Properties["id_token"];
 
-                Debug.WriteLine(accessToken);
+                var loginResponse = await mainContext.Services.Login(accessToken);
 
-                ////var request = new OAuth2Request("GET", new Uri("https://www.googleapis.com/oauth2/v2/userinfo"), null, e.Account);
-                ////var response = await request.GetResponseAsync();
-                ////if (response != null) {
-                ////    string userJson = await response.GetResponseTextAsync();
-                ////    var user = JsonConvert.DeserializeObject<GoogleUser>(userJson);
-
-                ////    Debug.WriteLine(user.Email);
-                ////}
+                await SetAccessToken(loginResponse.AccessToken, loginResponse.Name);
             }
         }
     }

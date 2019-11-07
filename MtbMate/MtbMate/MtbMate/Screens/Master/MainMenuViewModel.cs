@@ -1,11 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using MtbMate.Contexts;
 using MtbMate.Controls;
 using MtbMate.Models;
 
 namespace MtbMate.Screens.Master {
     public class MainMenuViewModel : ViewModelBase {
+        private bool isLoggingIn;
+
         public MainMenuViewModel(MainContext context) : base(context) {
+            Context.Security.LoggedInStatusChanged += Security_UserChanged;
+
             MenuItems = new ObservableCollection<ExtendedMenuItem>
             {
                  new ExtendedMenuItem
@@ -45,7 +50,22 @@ namespace MtbMate.Screens.Master {
 
         public ObservableCollection<ExtendedMenuItem> MenuItems { get; }
 
+        public string LoggedInText => Context.Security.Name ?? "Connected to Google";
+
+        private void Security_UserChanged(object sender, EventArgs e) {
+            OnPropertyChanged(nameof(IsLoggedIn));
+            OnPropertyChanged(nameof(LoggedInText));
+
+            isLoggingIn = false;
+        }
+
         public void ConnectToGoogle() {
+            if (isLoggingIn) {
+                return;
+            }
+
+            isLoggingIn = true;
+
             Context.Security.ConnectToGoogle();
         }
     }

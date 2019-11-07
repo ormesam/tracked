@@ -6,9 +6,7 @@ namespace DataAccess.Models
     public partial class User
     {
         public int UserId { get; set; }
-        public string Email { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
-        public string ApiKey { get; set; }
+        public string GoogleUserId { get; set; }
+        public string Name { get; set; }
     }
 }

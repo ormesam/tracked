@@ -30,31 +30,15 @@ namespace DataAccess.Models
         {
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.ApiKey)
-                    .HasName("UQ__User__A4E6E18632CC788C")
+                entity.HasIndex(e => e.GoogleUserId)
+                    .HasName("UQ__User__437CD197228886D8")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Email)
-                    .HasName("UQ__User__A9D10534CB5D8C83")
-                    .IsUnique();
-
-                entity.Property(e => e.ApiKey)
+                entity.Property(e => e.GoogleUserId)
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.PasswordHash)
-                    .IsRequired()
-                    .HasMaxLength(20)
-                    .IsFixedLength();
-
-                entity.Property(e => e.PasswordSalt)
-                    .IsRequired()
-                    .HasMaxLength(16)
-                    .IsFixedLength();
+                entity.Property(e => e.Name).HasMaxLength(255);
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -1,5 +1,5 @@
-﻿using MtbMate.Contexts;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using MtbMate.Contexts;
 
 namespace MtbMate.Screens.Settings {
     public class SettingsScreenViewModel : ViewModelBase {
@@ -27,6 +27,12 @@ namespace MtbMate.Screens.Settings {
             await Context.Storage.SaveSettings(Context.Settings);
 
             await nav.PopAsync();
+        }
+
+        public async Task DisconnectFromGoogle() {
+            await Context.Security.ClearAccessToken();
+
+            OnPropertyChanged();
         }
     }
 }
