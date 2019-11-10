@@ -66,4 +66,13 @@
   <ItemGroup>
     <None Include="Create\DropAndRecreateAll.bat" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Create\Tables\Ride.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Create\Tables\Location.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Create\Tables\Jump.sql" />
+  </ItemGroup>
 </Project>

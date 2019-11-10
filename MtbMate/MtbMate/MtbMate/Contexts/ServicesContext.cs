@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using MtbMate.Models;
 using Newtonsoft.Json;
 using Shared;
 using Shared.Dtos;
 
 namespace MtbMate.Contexts {
     public class ServicesContext {
-        private MainContext mainContext;
+        private readonly MainContext mainContext;
         private readonly Uri baseUri = new Uri(Constants.Url);
 
         public ServicesContext(MainContext mainContext) {
@@ -21,6 +23,36 @@ namespace MtbMate.Contexts {
             return await PostAsync<LoginResponseDto>("login/authenticate", new LoginDto {
                 GoogleAccessToken = googleAccessToken,
             });
+        }
+
+        public async Task<int> Sync(Ride ride) {
+            int rideId = await PostAsync<int>("rides/add", new RideDto {
+                ClientId = ride.Id.Value,
+                End = ride.End.Value,
+                Start = ride.Start.Value,
+                Name = ride.Name,
+                RideId = ride.RideId,
+                Jumps = ride.Jumps
+                    .Select(i => new JumpDto {
+                        Airtime = Convert.ToDecimal(i.Airtime),
+                        LandingGForce = Convert.ToDecimal(i.LandingGForce),
+                        Number = i.Number,
+                        Time = i.Time,
+                    })
+                    .ToList(),
+                Locations = ride.Locations
+                    .Select(i => new LocationDto {
+                        AccuracyInMetres = Convert.ToDecimal(i.AccuracyInMetres),
+                        Altitude = Convert.ToDecimal(i.Altitude),
+                        Latitude = Convert.ToDecimal(i.Point.Latitude),
+                        Longitude = Convert.ToDecimal(i.Point.Longitude),
+                        SpeedMetresPerSecond = Convert.ToDecimal(i.SpeedMetresPerSecond),
+                        Timestamp = i.Timestamp,
+                    })
+                    .ToList(),
+            });
+
+            return rideId;
         }
 
         protected async Task<TResult> PostAsync<TResult>(string apiEndpoint, object data = null) {

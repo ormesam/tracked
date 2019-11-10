@@ -5,8 +5,6 @@ namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Location {
         [JsonProperty]
-        public long Time { get; set; }
-        [JsonProperty]
         public DateTime Timestamp { get; set; }
         [JsonProperty]
         public LatLng Point { get; set; }

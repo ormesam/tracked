@@ -27,18 +27,21 @@ namespace Api {
 
             services.AddControllers();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-               .AddJwtBearer(options => {
-                   options.TokenValidationParameters = new TokenValidationParameters {
-                       ValidateIssuer = true,
-                       ValidateAudience = true,
-                       ValidateLifetime = false,
-                       ValidateIssuerSigningKey = true,
-                       ValidIssuer = "samorme.com",
-                       ValidAudience = "samorme.com",
-                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecurityKey)),
-                   };
-               });
+            services.AddAuthentication(auth => {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options => {
+                options.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "samorme.com",
+                    ValidAudience = "samorme.com",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.SecurityKey)),
+                };
+            });
 
             services.AddDbContext<ModelDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
         }
@@ -52,6 +55,7 @@ namespace Api {
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {

@@ -12,6 +12,8 @@ namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Ride : IRide {
         [JsonProperty]
+        public int? RideId { get; set; }
+        [JsonProperty]
         public Guid? Id { get; set; }
         [JsonProperty]
         public string Name { get; set; }

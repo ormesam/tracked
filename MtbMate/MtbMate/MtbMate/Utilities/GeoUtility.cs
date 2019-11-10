@@ -40,7 +40,7 @@ namespace MtbMate.Utilities {
                 return;
             }
 
-            var location = new Models.Location {
+            var location = new Location {
                 Timestamp = position.Timestamp.UtcDateTime,
                 Point = new LatLng(position.Latitude, position.Longitude),
                 AccuracyInMetres = position.Accuracy,

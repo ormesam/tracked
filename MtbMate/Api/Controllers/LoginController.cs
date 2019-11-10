@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Models;
@@ -51,9 +53,14 @@ namespace Api.Controllers {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSettings.Value.SecurityKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            var claims = new List<Claim> {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserId.ToString()),
+            };
+
             var token = new JwtSecurityToken(
                 issuer: "samorme.com",
                 audience: "samorme.com",
+                claims: claims,
                 signingCredentials: credentials);
 
             return new LoginResponseDto {
