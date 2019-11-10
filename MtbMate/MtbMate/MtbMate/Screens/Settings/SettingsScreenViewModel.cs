@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using MtbMate.Contexts;
+using MtbMate.Models;
 
 namespace MtbMate.Screens.Settings {
     public class SettingsScreenViewModel : ViewModelBase {
@@ -33,6 +35,17 @@ namespace MtbMate.Screens.Settings {
             await Context.Security.ClearAccessToken();
 
             OnPropertyChanged();
+        }
+
+        public async Task Sync() {
+            var ridesToSync = Model.Instance.Rides
+                .Where(i => i.RideId == null);
+
+            foreach (var ride in ridesToSync) {
+                ride.RideId = await Context.Services.Sync(ride);
+
+                await Model.Instance.SaveRide(ride);
+            }
         }
     }
 }
