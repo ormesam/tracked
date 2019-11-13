@@ -197,10 +197,6 @@ namespace MtbMate.Models {
         public async Task RunUtilityAsync() {
             // Perform single use operations here such as fixing data.
 
-            foreach (var ride in Rides) {
-                await RemoveRide(ride);
-            }
-
             await Task.CompletedTask;
         }
 #endif

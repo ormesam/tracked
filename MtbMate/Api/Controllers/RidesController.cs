@@ -24,6 +24,7 @@ namespace Api.Controllers {
 
             var rides = context.Ride
                 .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
+                .OrderBy(row => row.StartUtc)
                 .Select(row => new RideDto {
                     RideId = row.RideId,
                     Start = row.StartUtc,
