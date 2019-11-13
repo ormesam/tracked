@@ -46,6 +46,17 @@ namespace MtbMate.Screens.Settings {
 
                 await Model.Instance.SaveRide(ride);
             }
+
+            var existingRideIds = Model.Instance.Rides
+                .Where(row => row.RideId != null)
+                .Select(row => row.RideId.Value)
+                .ToList();
+
+            var ridesToDownload = await Context.Services.GetRides(existingRideIds);
+
+            foreach (var ride in ridesToDownload) {
+                await Model.Instance.SaveRide(ride);
+            }
         }
     }
 }

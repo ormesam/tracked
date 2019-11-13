@@ -43,28 +43,12 @@ namespace MtbMate.Utilities {
             AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
 
-            await Model.Instance.SaveRide(Ride);
-
             if (detectJumps) {
                 Ride.AccelerometerReadings = readings;
                 Ride.Jumps = jumpDetectionUtility.Jumps;
             }
 
             await Model.Instance.SaveRide(Ride);
-
-            await CompareSegments();
-
-            await AchievementUtility.AnalyseRide(Ride);
-        }
-
-        private async Task CompareSegments() {
-            foreach (var segment in Model.Instance.Segments) {
-                SegmentAttempt result = Ride.MatchesSegment(segment);
-
-                if (result != null) {
-                    await Model.Instance.SaveSegmentAttempt(result);
-                }
-            }
         }
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {

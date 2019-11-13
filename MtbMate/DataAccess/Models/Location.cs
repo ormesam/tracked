@@ -7,6 +7,7 @@ namespace DataAccess.Models
     {
         public int LocationId { get; set; }
         public int RideId { get; set; }
+        public DateTime Timestamp { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public decimal AccuracyInMetres { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -55,6 +56,37 @@ namespace MtbMate.Contexts {
             return rideId;
         }
 
+        public async Task<IList<Ride>> GetRides(List<int> existingRideIds) {
+            var results = await PostAsync<IList<RideDto>>("rides/get", existingRideIds);
+
+            return results
+                .Select(ride => new Ride {
+                    Id = ride.ClientId,
+                    End = ride.End,
+                    Start = ride.Start,
+                    Name = ride.Name,
+                    RideId = ride.RideId,
+                    Jumps = ride.Jumps
+                        .Select(i => new Jump {
+                            Airtime = Convert.ToDouble(i.Airtime),
+                            LandingGForce = Convert.ToDouble(i.LandingGForce),
+                            Number = i.Number,
+                            Time = i.Time,
+                        })
+                        .ToList(),
+                    Locations = ride.Locations
+                        .Select(i => new Location {
+                            AccuracyInMetres = Convert.ToDouble(i.AccuracyInMetres),
+                            Altitude = Convert.ToDouble(i.Altitude),
+                            Point = new LatLng(Convert.ToDouble(i.Latitude), Convert.ToDouble(i.Longitude)),
+                            SpeedMetresPerSecond = Convert.ToDouble(i.SpeedMetresPerSecond),
+                            Timestamp = i.Timestamp,
+                        })
+                        .ToList(),
+                })
+                .ToList();
+        }
+
         protected async Task<TResult> PostAsync<TResult>(string apiEndpoint, object data = null) {
             return await SendAsync<TResult>(CreatePostRequestMessage(apiEndpoint, data));
         }
@@ -87,7 +119,11 @@ namespace MtbMate.Contexts {
                     await HandleRequestError(response);
                 }
 
-                return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
+                var jsonSerializerSettings = new JsonSerializerSettings {
+                    DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                };
+
+                return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync(), jsonSerializerSettings);
             }
         }
 

@@ -81,9 +81,23 @@ namespace MtbMate.Models {
                 ride.Id = Guid.NewGuid();
 
                 Rides.Add(ride);
+
+                await CompareSegments(ride);
+
+                await AchievementUtility.AnalyseRide(ride);
             }
 
             await storage.SaveObject(ride.Id.Value, ride);
+        }
+
+        private async Task CompareSegments(Ride ride) {
+            foreach (var segment in Segments) {
+                SegmentAttempt result = ride.MatchesSegment(segment);
+
+                if (result != null) {
+                    await SaveSegmentAttempt(result);
+                }
+            }
         }
 
         public async Task RemoveRide(Ride ride) {
@@ -182,6 +196,10 @@ namespace MtbMate.Models {
 #if DEBUG
         public async Task RunUtilityAsync() {
             // Perform single use operations here such as fixing data.
+
+            foreach (var ride in Rides) {
+                await RemoveRide(ride);
+            }
 
             await Task.CompletedTask;
         }

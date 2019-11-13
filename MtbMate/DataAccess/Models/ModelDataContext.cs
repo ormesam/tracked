@@ -33,11 +33,11 @@ namespace DataAccess.Models
         {
             modelBuilder.Entity<Jump>(entity =>
             {
-                entity.Property(e => e.Airtime).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");
 
                 entity.Property(e => e.LandingGforce)
                     .HasColumnName("LandingGForce")
-                    .HasColumnType("decimal(18, 0)");
+                    .HasColumnType("decimal(5, 3)");
 
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
@@ -50,15 +50,17 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<Location>(entity =>
             {
-                entity.Property(e => e.AccuracyInMetres).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.AccuracyInMetres).HasColumnType("decimal(6, 3)");
 
-                entity.Property(e => e.Altitude).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Altitude).HasColumnType("decimal(6, 3)");
 
-                entity.Property(e => e.Latitude).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Latitude).HasColumnType("decimal(25, 20)");
 
-                entity.Property(e => e.Longitude).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Longitude).HasColumnType("decimal(25, 20)");
 
-                entity.Property(e => e.SpeedMetresPerSecond).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.SpeedMetresPerSecond).HasColumnType("decimal(6, 3)");
+
+                entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
                     .WithMany(p => p.Location)
@@ -85,7 +87,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD1978199D146")
+                    .HasName("UQ__User__437CD1976C5F1AC2")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)
