@@ -7,9 +7,12 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using MtbMate.Models;
+using MtbMate.Utilities;
 using Newtonsoft.Json;
 using Shared;
 using Shared.Dtos;
+using Xamarin.Essentials;
+using Location = MtbMate.Models.Location;
 
 namespace MtbMate.Contexts {
     public class ServicesContext {
@@ -26,8 +29,8 @@ namespace MtbMate.Contexts {
             });
         }
 
-        public async Task<int> Sync(Ride ride) {
-            int rideId = await PostAsync<int>("rides/add", new RideDto {
+        public async Task<int?> Sync(Ride ride) {
+            int? rideId = await PostAsync<int>("rides/add", new RideDto {
                 ClientId = ride.Id.Value,
                 End = ride.End.Value,
                 Start = ride.Start.Value,
@@ -58,6 +61,10 @@ namespace MtbMate.Contexts {
 
         public async Task<IList<Ride>> GetRides(List<int> existingRideIds) {
             var results = await PostAsync<IList<RideDto>>("rides/get", existingRideIds);
+
+            if (results == null) {
+                return new List<Ride>();
+            }
 
             return results
                 .Select(ride => new Ride {
@@ -104,6 +111,12 @@ namespace MtbMate.Contexts {
         }
 
         private async Task<TResult> SendAsync<TResult>(HttpRequestMessage request) {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet) {
+                Toast.LongAlert("Cannot connect to the internet...");
+
+                return default;
+            }
+
             using (HttpClient client = new HttpClient()) {
                 client.BaseAddress = baseUri;
                 client.DefaultRequestHeaders.Accept.Clear();
@@ -117,6 +130,8 @@ namespace MtbMate.Contexts {
 
                 if (!response.IsSuccessStatusCode) {
                     await HandleRequestError(response);
+
+                    return default;
                 }
 
                 var jsonSerializerSettings = new JsonSerializerSettings {
