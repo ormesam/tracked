@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MtbMate.Dependancies;
 using MtbMate.Models;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;

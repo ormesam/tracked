@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MtbMate.Dependancies;
 using MtbMate.Home;
 using MtbMate.Models;
 using MtbMate.Screens.Bluetooth;
 using MtbMate.Screens.Review;
 using MtbMate.Screens.Segments;
 using MtbMate.Screens.Settings;
-using MtbMate.Utilities;
 using Xamarin.Forms;
 
 namespace MtbMate.Contexts {

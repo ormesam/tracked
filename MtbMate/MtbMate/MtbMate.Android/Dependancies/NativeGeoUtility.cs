@@ -1,26 +1,21 @@
-﻿using MtbMate.Droid.Dependancies;
-using MtbMate.Utilities;
+﻿using MtbMate.Dependancies;
+using MtbMate.Droid.Dependancies;
 using Plugin.CurrentActivity;
 
 [assembly: Xamarin.Forms.Dependency(typeof(NativeGeoUtility))]
-namespace MtbMate.Droid.Dependancies
-{
-    public class NativeGeoUtility : INativeGeoUtility
-    {
+namespace MtbMate.Droid.Dependancies {
+    public class NativeGeoUtility : INativeGeoUtility {
         private MainActivity mainActivity;
 
-        public NativeGeoUtility()
-        {
+        public NativeGeoUtility() {
             mainActivity = CrossCurrentActivity.Current.Activity as MainActivity;
         }
 
-        public void Start()
-        {
+        public void Start() {
             mainActivity.Service.StartForegroundService();
         }
 
-        public void Stop()
-        {
+        public void Stop() {
             mainActivity.Service.RemoveForegroundService();
         }
     }

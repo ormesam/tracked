@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using MtbMate.Auth;
-using MtbMate.Dependancies;
+using MtbMate.Utilities;
 using Shared;
 using Xamarin.Auth;
 
