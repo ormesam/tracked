@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using MtbMate.Auth;
+using MtbMate.Dependancies;
 using Shared;
 using Xamarin.Auth;
 
@@ -85,6 +86,8 @@ namespace MtbMate.Contexts {
                 var loginResponse = await mainContext.Services.Login(accessToken);
 
                 await SetAccessToken(loginResponse.AccessToken, loginResponse.Name);
+
+                Toast.LongAlert("Connected to Google");
             }
         }
     }

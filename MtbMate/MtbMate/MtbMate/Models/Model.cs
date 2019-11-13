@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Achievements;
 using MtbMate.Contexts;
+using MtbMate.Dependancies;
 using MtbMate.Utilities;
 
 namespace MtbMate.Models {
@@ -196,6 +197,8 @@ namespace MtbMate.Models {
 #if DEBUG
         public async Task RunUtilityAsync() {
             // Perform single use operations here such as fixing data.
+
+            Toast.LongAlert("Done!");
 
             await Task.CompletedTask;
         }

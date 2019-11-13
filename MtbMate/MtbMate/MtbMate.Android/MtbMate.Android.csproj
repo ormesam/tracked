@@ -112,6 +112,7 @@
     <Compile Include="CustomUrlSchemeInterceptorActivity.cs" />
     <Compile Include="Dependancies\NativeGeoUtility.cs" />
     <Compile Include="Dependancies\PromptUtility.cs" />
+    <Compile Include="Dependancies\Toast.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
