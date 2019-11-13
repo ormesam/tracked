@@ -23,7 +23,9 @@
             <Button
                 IsVisible="{Binding IsLoggedIn}"
                 Text="Disconnect From Google"
-                Clicked="DisconnectFromGoogle_Click"/>
+                Clicked="DisconnectFromGoogle_Click"
+                BackgroundColor="{StaticResource GoogleButtonColour}"
+                TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

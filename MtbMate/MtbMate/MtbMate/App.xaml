@@ -35,5 +35,10 @@
                 Property="Margin"
                 Value="15" />
         </Style>
+
+        <Color
+            x:Key="GoogleButtonColour">
+            #DD4B39
+        </Color>
     </Application.Resources>
 </Application>
