@@ -22,10 +22,6 @@
             </TableView>
             <Button
                 IsVisible="{Binding IsLoggedIn}"
-                Text="Sync"
-                Clicked="Sync_Click"/>
-            <Button
-                IsVisible="{Binding IsLoggedIn}"
                 Text="Disconnect From Google"
                 Clicked="DisconnectFromGoogle_Click"/>
         </StackLayout>

@@ -20,9 +20,5 @@ namespace MtbMate.Screens.Settings {
         private async void DisconnectFromGoogle_Click(object sender, EventArgs e) {
             await ViewModel.DisconnectFromGoogle();
         }
-
-        private async void Sync_Click(object sender, EventArgs e) {
-            await ViewModel.Sync();
-        }
     }
 }
