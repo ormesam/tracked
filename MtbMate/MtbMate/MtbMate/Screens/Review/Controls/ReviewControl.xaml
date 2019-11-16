@@ -7,6 +7,10 @@
     Title="Review">
     <ContentPage.ToolbarItems>
         <ToolbarItem
+            Text="Sync"
+            Clicked="Sync_Clicked"
+            Order="Secondary" />
+        <ToolbarItem
             Text="Delete"
             Clicked="Delete_Clicked"
             Order="Secondary" />

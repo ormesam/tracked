@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="rename Constants.cs OriginalConstants.cs&#xD;&#xA;rename LocalConstants.cs Constants.cs" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="rename Constants.cs LocalConstants.cs&#xD;&#xA;rename OriginalConstants.cs Constants.cs" />
+  </Target>
+
+  <ItemGroup>
+    <Compile Remove="LocalConstants.cs" />
+  </ItemGroup>
+
+</Project>

@@ -19,9 +19,11 @@
             IsVisible="{Binding HasRides, Converter={StaticResource InvertBoolConverter}}" />
         <ListView
             ItemsSource="{Binding Rides}"
-            IsVisible="{Binding HasRides}"
             ItemTapped="Ride_ItemTapped"
-            CachingStrategy="RecycleElementAndDataTemplate">
+            CachingStrategy="RecycleElementAndDataTemplate"
+            IsPullToRefreshEnabled="{Binding IsLoggedIn}"
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshCommand="{Binding RefreshCommand}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

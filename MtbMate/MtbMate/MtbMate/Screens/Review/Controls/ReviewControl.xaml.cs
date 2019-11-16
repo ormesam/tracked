@@ -24,5 +24,9 @@ namespace MtbMate.Screens.Review.Controls {
         private async void JumpBreakdown_Clicked(object sender, EventArgs e) {
             await ViewModel.ViewJumpBreakdown(Navigation);
         }
+
+        private async void Sync_Clicked(object sender, EventArgs e) {
+            await ViewModel.Sync();
+        }
     }
 }

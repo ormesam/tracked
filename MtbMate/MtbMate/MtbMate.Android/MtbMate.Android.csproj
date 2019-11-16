@@ -109,8 +109,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomUrlSchemeInterceptorActivity.cs" />
     <Compile Include="Dependancies\NativeGeoUtility.cs" />
     <Compile Include="Dependancies\PromptUtility.cs" />
+    <Compile Include="Dependancies\Toast.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,6 +150,10 @@
     <Folder Include="Resources\drawable-xxxhdpi\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Shared.csproj">
+      <Project>{bd215e62-424e-438d-80a0-8cbfcff02b61}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MtbMate\MtbMate.csproj">
       <Project>{3EB4631B-7AB9-461D-BA90-6B2FC0D361BE}</Project>
       <Name>MtbMate</Name>
@@ -203,6 +209,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap\splashscreen.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap\interceptor.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

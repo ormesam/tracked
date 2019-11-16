@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Android.App;
 using Android.Widget;
+using MtbMate.Dependancies;
 using MtbMate.Droid.Dependancies;
-using MtbMate.Utilities;
 using Plugin.CurrentActivity;
 
 [assembly: Xamarin.Forms.Dependency(typeof(PromptUtility))]

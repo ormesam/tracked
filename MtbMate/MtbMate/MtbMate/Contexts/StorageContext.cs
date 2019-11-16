@@ -64,5 +64,21 @@ namespace MtbMate.Contexts {
 
             await SaveObject(settings.Id.Value, settings);
         }
+
+        public async Task SetAccessToken(string token) {
+            await BlobCache.Secure.InsertObject("AccessToken", token);
+        }
+
+        public string GetAccessToken() {
+            return BlobCache.Secure.GetOrCreateObject("AccessToken", () => string.Empty).Wait();
+        }
+
+        public async Task SetName(string name) {
+            await BlobCache.Secure.InsertObject("Name", name);
+        }
+
+        public string GetName() {
+            return BlobCache.Secure.GetOrCreateObject("Name", () => string.Empty).Wait();
+        }
     }
 }

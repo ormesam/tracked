@@ -12,6 +12,8 @@ namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Ride : IRide {
         [JsonProperty]
+        public int? RideId { get; set; }
+        [JsonProperty]
         public Guid? Id { get; set; }
         [JsonProperty]
         public string Name { get; set; }
@@ -73,6 +75,7 @@ namespace MtbMate.Models {
 
         private Medal GetMedal(TimeSpan time, Guid segmentId) {
             var existingAttempts = Model.Instance.SegmentAttempts
+                .Where(i => i.Ride.Start < Start)
                 .Where(i => i.SegmentId == segmentId)
                 .OrderBy(i => i.Time)
                 .Select(i => i.Time)

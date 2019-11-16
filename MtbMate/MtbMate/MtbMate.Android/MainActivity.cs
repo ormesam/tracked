@@ -7,6 +7,8 @@ using Android.Runtime;
 using MtbMate.Droid.Services;
 using OxyPlot.Xamarin.Forms.Platform.Android;
 using Plugin.CurrentActivity;
+using Xamarin.Auth;
+using Xamarin.Auth.Presenters.XamarinAndroid;
 
 namespace MtbMate.Droid {
     [Activity(Label = "Mtb Mate", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -26,6 +28,8 @@ namespace MtbMate.Droid {
             global::Xamarin.Forms.Forms.Init(this, bundle);
             Xamarin.FormsGoogleMaps.Init(this, bundle);
             PlotViewRenderer.Init();
+            AuthenticationConfiguration.Init(this, bundle);
+            CustomTabsConfiguration.CustomTabsClosingMessage = null;
 
             ServiceConnection = new CustomServiceConnection { Activity = this };
 

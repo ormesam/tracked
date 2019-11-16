@@ -20,5 +20,7 @@ namespace MtbMate.Screens {
         }
 
         public virtual string Title => "Mtb Mate";
+
+        public bool IsLoggedIn => Context.Security.IsLoggedIn;
     }
 }

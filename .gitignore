@@ -328,6 +328,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-
-# API Keys
-/MtbMate/MtbMate/MtbMate/ApiKeysLocal.cs
+/MtbMate/Shared/LocalConstants.cs

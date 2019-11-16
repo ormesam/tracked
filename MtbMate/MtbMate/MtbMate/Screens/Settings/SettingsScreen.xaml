@@ -10,14 +10,22 @@
             Clicked="Save_Clicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <TableView
-            Intent="Settings">
-            <TableSection
-                Title="Jumps">
-                <SwitchCell
-                    Text="Detect Jumps"
-                    On="{Binding DetectJumps}" />
-            </TableSection>
-        </TableView>
+        <StackLayout>
+            <TableView
+                Intent="Settings">
+                <TableSection
+                    Title="Jumps">
+                    <SwitchCell
+                        Text="Detect Jumps"
+                        On="{Binding DetectJumps}" />
+                </TableSection>
+            </TableView>
+            <Button
+                IsVisible="{Binding IsLoggedIn}"
+                Text="Disconnect From Google"
+                Clicked="DisconnectFromGoogle_Click"
+                BackgroundColor="{StaticResource GoogleButtonColour}"
+                TextColor="White" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

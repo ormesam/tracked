@@ -153,5 +153,17 @@ namespace MtbMate.Screens.Review {
         public async Task ViewJumpBreakdown(INavigation nav) {
             await Context.UI.GoToAccelerometerReadingsScreenAsync(nav, Ride);
         }
+
+        public async Task Sync() {
+            Ride ride = Ride as Ride;
+
+            if (ride == null) {
+                return;
+            }
+
+            ride.RideId = await Context.Services.Sync(ride);
+
+            await Model.Instance.SaveRide(ride);
+        }
     }
 }
