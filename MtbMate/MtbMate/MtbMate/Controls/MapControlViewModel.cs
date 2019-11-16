@@ -204,11 +204,11 @@ namespace MtbMate.Controls {
             double limit1 = maxSpeed * 0.95;
             double limit2 = maxSpeed * 0.85;
             double limit3 = maxSpeed * 0.75;
-            double limit4 = maxSpeed * 0.65;
-            double limit5 = maxSpeed * 0.55;
-            double limit6 = maxSpeed * 0.45;
-            double limit7 = maxSpeed * 0.35;
-            double limit8 = maxSpeed * 0.25;
+            double limit4 = maxSpeed * 0.70;
+            double limit5 = maxSpeed * 0.65;
+            double limit6 = maxSpeed * 0.60;
+            double limit7 = maxSpeed * 0.55;
+            double limit8 = maxSpeed * 0.50;
 
             if (mph > limit1) {
                 return Color.FromHex("#F8696B");
