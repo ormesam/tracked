@@ -56,6 +56,17 @@ namespace Api.Controllers {
                 })
                 .ToLookup(i => i.RideId.Value);
 
+            var accelerometerReadingsByJump = context.AccelerometerReading
+                .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
+                .Select(row => new AccelerometerReadingDto {
+                    RideId = row.RideId,
+                    Time = row.Time,
+                    X = row.X,
+                    Y = row.Y,
+                    Z = row.Z,
+                })
+                .ToLookup(i => i.RideId.Value);
+
             foreach (var ride in rides) {
                 ride.Locations = locationsByRide[ride.RideId.Value]
                     .OrderBy(i => i.Timestamp)
@@ -63,6 +74,10 @@ namespace Api.Controllers {
 
                 ride.Jumps = jumpsByRide[ride.RideId.Value]
                     .OrderBy(i => i.Number)
+                    .ToList();
+
+                ride.AccelerometerReadings = accelerometerReadingsByJump[ride.RideId.Value]
+                    .OrderBy(i => i.Time)
                     .ToList();
             }
 
@@ -84,6 +99,7 @@ namespace Api.Controllers {
 
                 context.Location.RemoveRange(context.Location.Where(i => i.RideId == dto.RideId));
                 context.Jump.RemoveRange(context.Jump.Where(i => i.RideId == dto.RideId));
+                context.AccelerometerReading.RemoveRange(context.AccelerometerReading.Where(i => i.RideId == dto.RideId));
 
                 context.SaveChanges();
 
@@ -116,6 +132,15 @@ namespace Api.Controllers {
                     Airtime = row.Airtime,
                     Number = row.Number,
                     Time = row.Time,
+                })
+                .ToList();
+
+            ride.AccelerometerReading = dto.AccelerometerReadings
+                .Select(row => new AccelerometerReading {
+                    Time = row.Time,
+                    X = row.X,
+                    Y = row.Y,
+                    Z = row.Z,
                 })
                 .ToList();
 

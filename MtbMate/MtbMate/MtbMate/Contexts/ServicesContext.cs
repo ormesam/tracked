@@ -53,6 +53,14 @@ namespace MtbMate.Contexts {
                         Timestamp = i.Timestamp,
                     })
                     .ToList(),
+                AccelerometerReadings = ride.AccelerometerReadings
+                    .Select(i => new AccelerometerReadingDto {
+                        Time = i.Timestamp,
+                        X = Convert.ToDecimal(i.X),
+                        Y = Convert.ToDecimal(i.Y),
+                        Z = Convert.ToDecimal(i.Z),
+                    })
+                    .ToList(),
             });
 
             return rideId;
@@ -86,6 +94,14 @@ namespace MtbMate.Contexts {
                             Point = new LatLng(Convert.ToDouble(i.Latitude), Convert.ToDouble(i.Longitude)),
                             SpeedMetresPerSecond = Convert.ToDouble(i.SpeedMetresPerSecond),
                             Timestamp = i.Timestamp,
+                        })
+                        .ToList(),
+                    AccelerometerReadings = ride.AccelerometerReadings
+                        .Select(i => new AccelerometerReading {
+                            Timestamp = i.Time,
+                            X = Convert.ToDouble(i.X),
+                            Y = Convert.ToDouble(i.Y),
+                            Z = Convert.ToDouble(i.Z),
                         })
                         .ToList(),
                 })

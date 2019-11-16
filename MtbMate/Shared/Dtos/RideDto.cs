@@ -10,5 +10,6 @@ namespace Shared.Dtos {
         public DateTime End { get; set; }
         public IList<LocationDto> Locations { get; set; }
         public IList<JumpDto> Jumps { get; set; }
+        public IList<AccelerometerReadingDto> AccelerometerReadings { get; set; }
     }
 }

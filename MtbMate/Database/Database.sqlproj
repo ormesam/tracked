@@ -62,6 +62,7 @@
   <ItemGroup>
     <None Include="Create\Tables\User.sql" />
     <None Include="Create\DropAndCreate.sql" />
+    <None Include="Create\Tables\AccelerometerReading.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\DropAndRecreateAll.bat" />

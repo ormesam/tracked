@@ -42,7 +42,31 @@ namespace MtbMate.Screens.Review {
                             .OrderBy(i => i.Timestamp)
                             .Select(i => new {
                                 x = i.Timestamp,
-                                y = i.SmoothedValue,
+                                y = i.X,
+                            })
+                            .ToList(),
+                          DataFieldX = "x",
+                          DataFieldY = "y",
+                    },
+                    new LineSeries()
+                    {
+                          ItemsSource = ride.AccelerometerReadings
+                            .OrderBy(i => i.Timestamp)
+                            .Select(i => new {
+                                x = i.Timestamp,
+                                y = i.Y,
+                            })
+                            .ToList(),
+                          DataFieldX = "x",
+                          DataFieldY = "y",
+                    },
+                    new LineSeries()
+                    {
+                          ItemsSource = ride.AccelerometerReadings
+                            .OrderBy(i => i.Timestamp)
+                            .Select(i => new {
+                                x = i.Timestamp,
+                                y = i.Z,
                             })
                             .ToList(),
                           DataFieldX = "x",

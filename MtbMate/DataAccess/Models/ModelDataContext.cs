@@ -15,6 +15,7 @@ namespace DataAccess.Models
         {
         }
 
+        public virtual DbSet<AccelerometerReading> AccelerometerReading { get; set; }
         public virtual DbSet<Jump> Jump { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Ride> Ride { get; set; }
@@ -31,6 +32,23 @@ namespace DataAccess.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AccelerometerReading>(entity =>
+            {
+                entity.Property(e => e.Time).HasColumnType("datetime");
+
+                entity.Property(e => e.X).HasColumnType("decimal(5, 3)");
+
+                entity.Property(e => e.Y).HasColumnType("decimal(5, 3)");
+
+                entity.Property(e => e.Z).HasColumnType("decimal(5, 3)");
+
+                entity.HasOne(d => d.Ride)
+                    .WithMany(p => p.AccelerometerReading)
+                    .HasForeignKey(d => d.RideId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AccelerometerReading_Ride");
+            });
+
             modelBuilder.Entity<Jump>(entity =>
             {
                 entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");

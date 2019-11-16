@@ -7,6 +7,7 @@ namespace DataAccess.Models
     {
         public Ride()
         {
+            AccelerometerReading = new HashSet<AccelerometerReading>();
             Jump = new HashSet<Jump>();
             Location = new HashSet<Location>();
         }
@@ -18,6 +19,7 @@ namespace DataAccess.Models
         public DateTime EndUtc { get; set; }
 
         public virtual User User { get; set; }
+        public virtual ICollection<AccelerometerReading> AccelerometerReading { get; set; }
         public virtual ICollection<Jump> Jump { get; set; }
         public virtual ICollection<Location> Location { get; set; }
     }
