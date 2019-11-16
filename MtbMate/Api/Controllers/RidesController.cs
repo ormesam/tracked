@@ -51,7 +51,6 @@ namespace Api.Controllers {
                 .Select(row => new JumpDto {
                     RideId = row.RideId,
                     Airtime = row.Airtime,
-                    LandingGForce = row.LandingGforce,
                     Number = row.Number,
                     Time = row.Time,
                 })
@@ -115,7 +114,6 @@ namespace Api.Controllers {
             ride.Jump = dto.Jumps
                 .Select(row => new Jump {
                     Airtime = row.Airtime,
-                    LandingGforce = row.LandingGForce,
                     Number = row.Number,
                     Time = row.Time,
                 })

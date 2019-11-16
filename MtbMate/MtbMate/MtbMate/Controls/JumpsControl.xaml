@@ -15,7 +15,6 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -30,17 +29,10 @@
 
                 <Label
                     Grid.Column="1"
-                    HorizontalTextAlignment="Center"
+                    HorizontalTextAlignment="End"
                     VerticalTextAlignment="Center"
                     Text="Airtime"
                     FontAttributes="Bold"  />
-
-                <Label
-                    Grid.Column="2"
-                    HorizontalTextAlignment="End"
-                    VerticalTextAlignment="Center"
-                    Text="Landing Force"
-                    FontAttributes="Bold" />
 
                 <BoxView
                     Grid.ColumnSpan="3"
@@ -71,16 +63,9 @@
 
                             <Label
                                 Grid.Column="1"
-                                HorizontalTextAlignment="Center"
-                                VerticalTextAlignment="Center"
-                                Text="{Binding Airtime, StringFormat='{}{0}s'}" />
-
-                            <Label
-                                Margin="0,0,10,0"
-                                Grid.Column="2"
                                 HorizontalTextAlignment="End"
                                 VerticalTextAlignment="Center"
-                                Text="{Binding LandingGForce, StringFormat='{}{0}g'}" />
+                                Text="{Binding Airtime, StringFormat='{}{0}s'}" />
 
                             <BoxView
                                 Grid.ColumnSpan="3"

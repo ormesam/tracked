@@ -35,10 +35,6 @@ namespace DataAccess.Models
             {
                 entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");
 
-                entity.Property(e => e.LandingGforce)
-                    .HasColumnName("LandingGForce")
-                    .HasColumnType("decimal(5, 3)");
-
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
@@ -87,7 +83,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD1976C5F1AC2")
+                    .HasName("UQ__User__437CD197E466D6B1")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)

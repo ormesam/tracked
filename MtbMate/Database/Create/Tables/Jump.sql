@@ -6,5 +6,4 @@
     [Number] int NOT NULL,
     [Time] datetime NOT NULL,
     [Airtime] decimal(5,3) NOT NULL,
-    [LandingGForce] decimal(5,3) NOT NULL,
 )
