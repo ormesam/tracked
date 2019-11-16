@@ -10,7 +10,6 @@ namespace DataAccess.Models
         public int Number { get; set; }
         public DateTime Time { get; set; }
         public decimal Airtime { get; set; }
-        public decimal LandingGforce { get; set; }
 
         public virtual Ride Ride { get; set; }
     }

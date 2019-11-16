@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MtbMate.Models;
@@ -9,15 +8,13 @@ namespace MtbMate.Utilities {
         private readonly Queue<AccelerometerReading> readings;
         private readonly IList<AccelerometerReading> potentialJumpReadings;
         private AccelerometerReading lastReading;
-        private Jump lastJump;
         private bool started;
-        private int readingsSinceLastJump;
         private int jumpCount;
         private const double startTolerance = 2;
         private const double minJumpSeconds = 0.5;
-        private const double maxJumpSeconds = 8;
+        private const double maxJumpSeconds = 3;
 
-        public static double Tolerance = 0.75;
+        public static double Tolerance = 0.65;
 
         public IList<Jump> Jumps { get; }
 
@@ -26,7 +23,6 @@ namespace MtbMate.Utilities {
             potentialJumpReadings = new List<AccelerometerReading>();
             started = false;
             jumpCount = 1;
-            readingsSinceLastJump = 0;
 
             Jumps = new List<Jump>();
         }
@@ -39,6 +35,8 @@ namespace MtbMate.Utilities {
             if (!started) {
                 return;
             }
+
+            Debug.WriteLine(reading);
 
             // set smoothed value
             if (lastReading != null) {
@@ -59,30 +57,16 @@ namespace MtbMate.Utilities {
                         Number = jumpCount++,
                         Time = potentialJumpReadings.Select(j => j.Timestamp).Min(),
                         Airtime = potentialJumpReadings.GetTime(),
-                        LandingGForce = 0,
                         Readings = potentialJumpReadings.ToList(),
                     };
 
                     Jumps.Add(jump);
-
-                    lastJump = jump;
-
-                    readingsSinceLastJump = 0;
                 }
 
                 potentialJumpReadings.Clear();
             }
 
-            if (lastJump != null && readingsSinceLastJump == 4) {
-                lastJump.LandingGForce = readings
-                    .GetRange(readings.Count - 5, 4)
-                    .Max(i => Math.Abs(i.SmoothedValue));
-            }
-
             lastReading = reading;
-            readingsSinceLastJump++;
-
-            Debug.WriteLine(reading);
 
             // We don't want to store thousands of readings
             if (readings.Count > 10) {

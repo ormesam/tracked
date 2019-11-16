@@ -181,18 +181,6 @@
                         Grid.Column="1"
                         WidthRequest="1"
                         BackgroundColor="LightGray" />
-
-                    <StackLayout
-                        Grid.Column="2"
-                        Grid.Row="6">
-                        <Label
-                            HorizontalTextAlignment="Center"
-                            Text="Max Landing Force" />
-                        <Label
-                            FontSize="Large"
-                            HorizontalTextAlignment="Center"
-                            Text="{Binding MaxGForce}" />
-                    </StackLayout>
                 </Grid>
 
                 <BoxView

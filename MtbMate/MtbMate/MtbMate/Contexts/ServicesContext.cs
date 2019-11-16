@@ -39,7 +39,6 @@ namespace MtbMate.Contexts {
                 Jumps = ride.Jumps
                     .Select(i => new JumpDto {
                         Airtime = Convert.ToDecimal(i.Airtime),
-                        LandingGForce = Convert.ToDecimal(i.LandingGForce),
                         Number = i.Number,
                         Time = i.Time,
                     })
@@ -76,7 +75,6 @@ namespace MtbMate.Contexts {
                     Jumps = ride.Jumps
                         .Select(i => new Jump {
                             Airtime = Convert.ToDouble(i.Airtime),
-                            LandingGForce = Convert.ToDouble(i.LandingGForce),
                             Number = i.Number,
                             Time = i.Time,
                         })

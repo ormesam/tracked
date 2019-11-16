@@ -65,7 +65,6 @@ namespace MtbMate.Screens.Review {
         public string Time => (Ride.End.Value - Ride.Start.Value).ToString(@"mm\:ss");
         public int JumpCount => Ride.Jumps.Count;
         public int SegmentCount => ShowAttempts ? Attempts.Count : 0;
-        public string MaxGForce => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.LandingGForce)}g";
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
         public bool ShowAttempts => Ride.ShowAttempts;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using MtbMate.Contexts;
 using MtbMate.Models;
 using MtbMate.Utilities;
@@ -33,6 +32,7 @@ namespace MtbMate.Screens.Review {
                     new LinearAxis {
                         Position = AxisPosition.Left,
                         MinimumPadding = 0,
+                        IsZoomEnabled = false,
                     },
                 },
                 Series = {
@@ -42,7 +42,7 @@ namespace MtbMate.Screens.Review {
                             .OrderBy(i => i.Timestamp)
                             .Select(i => new {
                                 x = i.Timestamp,
-                                y = Math.Abs(i.SmoothedValue),
+                                y = i.SmoothedValue,
                             })
                             .ToList(),
                           DataFieldX = "x",
@@ -57,7 +57,7 @@ namespace MtbMate.Screens.Review {
                         .OrderBy(i => i.Timestamp)
                         .Select(i => new {
                             x = i.Timestamp,
-                            y = Math.Abs(i.SmoothedValue),
+                            y = i.SmoothedValue,
                         })
                         .ToList(),
                     DataFieldX = "x",
@@ -73,15 +73,23 @@ namespace MtbMate.Screens.Review {
                 Y = 0,
             };
 
-            LineAnnotation toleranceLine = new LineAnnotation() {
+            LineAnnotation maxToleranceLine = new LineAnnotation() {
                 StrokeThickness = 1,
                 Color = OxyColors.Red,
                 Type = LineAnnotationType.Horizontal,
                 Y = JumpDetectionUtility.Tolerance,
             };
 
+            LineAnnotation minToleranceLine = new LineAnnotation() {
+                StrokeThickness = 1,
+                Color = OxyColors.Red,
+                Type = LineAnnotationType.Horizontal,
+                Y = -JumpDetectionUtility.Tolerance,
+            };
+
             plot.Annotations.Add(baseLine);
-            plot.Annotations.Add(toleranceLine);
+            plot.Annotations.Add(maxToleranceLine);
+            plot.Annotations.Add(minToleranceLine);
 
             return plot;
         }
