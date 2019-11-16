@@ -61,28 +61,33 @@ namespace MtbMate.Accelerometer {
 
 
         private void ParseAndAddData(string value) {
-            if (string.IsNullOrWhiteSpace(value)) {
-                return;
+            if (!string.IsNullOrWhiteSpace(value)) {
+                DateTime timeStamp = DateTime.UtcNow;
+
+                double[] xyz = new double[3];
+                string[] parsedData = value.Split(',');
+
+                if (parsedData.Length != 3) {
+                    return;
+                }
+
+                for (int i = 0; i < xyz.Length; i++) {
+                    if (double.TryParse(parsedData[i], out double result)) {
+                        xyz[i] = result;
+                    }
+                }
+
+                var data = new AccelerometerReading {
+                    Timestamp = timeStamp,
+                    X = xyz[0],
+                    Y = xyz[1],
+                    Z = xyz[2],
+                };
+
+                AccelerometerChanged?.Invoke(new AccelerometerChangedEventArgs {
+                    Data = data,
+                });
             }
-
-            DateTime timeStamp = DateTime.UtcNow;
-
-            double doubleValue;
-
-            if (double.TryParse(value, out double result)) {
-                doubleValue = result;
-            } else {
-                return;
-            }
-
-            var data = new AccelerometerReading {
-                Timestamp = timeStamp,
-                Value = doubleValue,
-            };
-
-            AccelerometerChanged?.Invoke(new AccelerometerChangedEventArgs {
-                Data = data,
-            });
         }
 
         private void Adapter_DeviceConnected(object sender, DeviceEventArgs e) {

@@ -8,7 +8,15 @@ namespace MtbMate.Models {
         public DateTime Timestamp { get; set; }
 
         [JsonProperty]
-        public double Value { get; set; }
+        public double X { get; set; }
+
+        [JsonProperty]
+        public double Y { get; set; }
+
+        [JsonProperty]
+        public double Z { get; set; }
+
+        public double Value => X;
 
         [JsonProperty]
         public double SmoothedValue { get; set; }
