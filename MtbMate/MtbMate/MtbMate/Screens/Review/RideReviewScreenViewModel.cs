@@ -164,5 +164,27 @@ namespace MtbMate.Screens.Review {
 
             await Model.Instance.SaveRide(ride);
         }
+
+        public async Task RecalculateJumps() {
+            Ride ride = Ride as Ride;
+
+            if (ride == null) {
+                return;
+            }
+
+            ride.Jumps.Clear();
+
+            var jumpDetector = new JumpDetectionUtility();
+
+            foreach (var reading in ride.AccelerometerReadings) {
+                jumpDetector.AddReading(reading);
+            }
+
+            ride.Jumps = jumpDetector.Jumps;
+
+            await Model.Instance.SaveRide(ride);
+
+            OnPropertyChanged();
+        }
     }
 }

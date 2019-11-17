@@ -52,8 +52,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Jumps\Jump1.cs" />
-    <Compile Include="Jumps\JumpTestBase.cs" />
     <Compile Include="Segments\TarlandRedSegment.cs" />
     <Compile Include="Segments\TarlandOrangeSegment.cs" />
     <Compile Include="Segments\TarlandBlueSegment.cs" />
@@ -61,9 +59,6 @@
     <Compile Include="Segments\TestSegments.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Jumps\Jump1.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
