@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MtbMate.Models;
+using MtbMate.Utilities;
 
-namespace MtbMate.Utilities {
+namespace MtbMate.JumpDetection {
     public class JumpDetectionUtility {
+        private readonly IJumpLocationDetector jumpLocationDetector;
         private readonly Queue<AccelerometerReading> readings;
         private readonly IList<AccelerometerReading> takeoffReadings;
         private readonly IList<AccelerometerReading> freefallReadings;
@@ -19,7 +21,8 @@ namespace MtbMate.Utilities {
 
         public IList<Jump> Jumps { get; }
 
-        public JumpDetectionUtility() {
+        public JumpDetectionUtility(IJumpLocationDetector jumpLocationDetector) {
+            this.jumpLocationDetector = jumpLocationDetector;
             readings = new Queue<AccelerometerReading>();
             takeoffReadings = new List<AccelerometerReading>();
             freefallReadings = new List<AccelerometerReading>();
@@ -48,40 +51,10 @@ namespace MtbMate.Utilities {
                 double jumpTime = freefallReadings.GetTime();
 
                 if (jumpTime >= minJumpSeconds && jumpTime <= maxJumpSeconds) {
-                    var lastReadings = readings
-                        .Where(i => i.Timestamp < freefallReadings.First().Timestamp)
-                        .OrderByDescending(i => i.Timestamp)
-                        .ToList();
+                    // The jump meets the minimum time requirment so create the jump
+                    freefallReadings.Add(reading);
 
-                    double? lastReading = null;
-
-                    foreach (var r in lastReadings) {
-                        if (lastReading != null && r.X > lastReading) {
-                            break;
-                        }
-
-                        lastReading = r.X;
-
-                        takeoffReadings.Add(r);
-                    }
-
-                    var allReadingsForJump = new List<AccelerometerReading>();
-                    allReadingsForJump.AddRange(takeoffReadings);
-                    allReadingsForJump.AddRange(freefallReadings);
-                    allReadingsForJump.Add(reading);
-
-                    allReadingsForJump = allReadingsForJump
-                        .OrderBy(i => i.Timestamp)
-                        .ToList();
-
-                    var jump = new Jump {
-                        Number = jumpCount++,
-                        Time = allReadingsForJump.Select(j => j.Timestamp).Min(),
-                        Airtime = Math.Round(allReadingsForJump.GetTime(), 3),
-                        Readings = allReadingsForJump,
-                    };
-
-                    Jumps.Add(jump);
+                    CreateJump();
                 }
 
                 takeoffReadings.Clear();
@@ -91,6 +64,44 @@ namespace MtbMate.Utilities {
             // We don't want to store thousands of readings
             if (readings.Count > 30) {
                 readings.Dequeue();
+            }
+        }
+
+        private void CreateJump() {
+            var lastReadings = readings
+                .Where(i => i.Timestamp < freefallReadings.First().Timestamp)
+                .OrderByDescending(i => i.Timestamp)
+                .ToList();
+
+            double? lastReading = null;
+
+            foreach (var r in lastReadings) {
+                if (lastReading != null && r.X > lastReading) {
+                    break;
+                }
+
+                lastReading = r.X;
+
+                takeoffReadings.Add(r);
+            }
+
+            var allReadingsForJump = new List<AccelerometerReading>();
+            allReadingsForJump.AddRange(takeoffReadings);
+            allReadingsForJump.AddRange(freefallReadings);
+
+            allReadingsForJump = allReadingsForJump
+                .OrderBy(i => i.Timestamp)
+                .ToList();
+
+            var jump = new Jump {
+                Number = jumpCount++,
+                Time = allReadingsForJump.Select(j => j.Timestamp).Min(),
+                Airtime = Math.Round(allReadingsForJump.GetTime(), 3),
+                Readings = allReadingsForJump,
+            };
+
+            if (jumpLocationDetector.GetLastLocation(jump.Time)?.Mph >= 5) {
+                Jumps.Add(jump);
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿using System;
-using MtbMate.Utilities;
+using MtbMate.JumpDetection;
 using Newtonsoft.Json;
 
 namespace MtbMate.Models {

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Controls;
+using MtbMate.JumpDetection;
 using MtbMate.Models;
 using MtbMate.Utilities;
 using OxyPlot.Axes;
@@ -174,7 +175,7 @@ namespace MtbMate.Screens.Review {
 
             ride.Jumps.Clear();
 
-            var jumpDetector = new JumpDetectionUtility();
+            var jumpDetector = new JumpDetectionUtility(new RideJumpLocations(ride.Locations));
 
             foreach (var reading in ride.AccelerometerReadings) {
                 jumpDetector.AddReading(reading);

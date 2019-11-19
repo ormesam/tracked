@@ -108,12 +108,6 @@ namespace MtbMate.Utilities {
             var jumpsByLocationTime = new Dictionary<DateTime, Jump>();
 
             foreach (var jump in ride.Jumps) {
-                var temp = locations
-                    .OrderBy(i => Math.Abs((i.Timestamp - jump.Time).TotalSeconds))
-                    .Select(i => new {
-                        test = Math.Abs((i.Timestamp - jump.Time).TotalSeconds)
-                    });
-
                 var nearestLocation = locations
                     .OrderBy(i => Math.Abs((i.Timestamp - jump.Time).TotalSeconds))
                     .FirstOrDefault();

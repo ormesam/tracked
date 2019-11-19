@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MtbMate.Accelerometer;
+using MtbMate.JumpDetection;
 using MtbMate.Models;
 
 namespace MtbMate.Utilities {
@@ -16,7 +17,7 @@ namespace MtbMate.Utilities {
             this.detectJumps = detectJumps;
             Ride = new Ride();
             readings = new List<AccelerometerReading>();
-            jumpDetectionUtility = new JumpDetectionUtility();
+            jumpDetectionUtility = new JumpDetectionUtility(GeoUtility.Instance);
         }
 
         public async Task StartRide() {

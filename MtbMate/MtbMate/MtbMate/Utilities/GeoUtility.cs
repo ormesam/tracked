@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MtbMate.Dependancies;
+using MtbMate.JumpDetection;
 using MtbMate.Models;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Xamarin.Forms;
 
 namespace MtbMate.Utilities {
-    public class GeoUtility {
+    public class GeoUtility : IJumpLocationDetector {
         #region Singleton stuff
 
         private static GeoUtility instance;
@@ -29,6 +30,8 @@ namespace MtbMate.Utilities {
 
         public event LocationChangedEventHandler LocationChanged;
 
+        private Location lastLocation;
+
         private GeoUtility() {
             CrossGeolocator.Current.DesiredAccuracy = 0;
             CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
@@ -48,6 +51,8 @@ namespace MtbMate.Utilities {
                 SpeedMetresPerSecond = position.Speed,
                 Altitude = position.Altitude,
             };
+
+            lastLocation = location;
 
             LocationChanged?.Invoke(new LocationChangedEventArgs {
                 Location = location
@@ -72,6 +77,12 @@ namespace MtbMate.Utilities {
             DependencyService.Get<INativeGeoUtility>().Stop();
 
             await CrossGeolocator.Current.StopListeningAsync();
+
+            lastLocation = null;
+        }
+
+        public Location GetLastLocation(DateTime time) {
+            return lastLocation;
         }
     }
 }

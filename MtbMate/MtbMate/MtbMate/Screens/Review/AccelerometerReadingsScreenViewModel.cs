@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using MtbMate.Contexts;
+using MtbMate.JumpDetection;
 using MtbMate.Models;
-using MtbMate.Utilities;
 using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Axes;
