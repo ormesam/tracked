@@ -140,7 +140,16 @@ namespace MtbMate.Contexts {
                     request.Headers.Add("Authorization", "Bearer " + mainContext.Security.AccessToken);
                 }
 
-                var response = await client.SendAsync(request);
+                HttpResponseMessage response;
+
+                try {
+                    response = await client.SendAsync(request);
+                } catch (WebException) {
+                    Toast.LongAlert("Unable to connect to the API");
+
+                    return default;
+                }
+
 
                 if (!response.IsSuccessStatusCode) {
                     await HandleRequestError(response);
@@ -160,10 +169,10 @@ namespace MtbMate.Contexts {
             if (response.StatusCode == HttpStatusCode.Unauthorized) {
                 await mainContext.Security.ClearAccessToken();
 
-                throw new Exception("You have been logged out.");
+                Toast.LongAlert("You have been logged out.");
             }
 
-            throw new Exception("API Error");
+            Toast.LongAlert("API Error");
         }
     }
 }
