@@ -46,14 +46,8 @@
     <Compile Update="Screens\Bluetooth\BluetoothSetupScreen.xaml.cs">
       <DependentUpon>BluetoothSetupScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Screens\Review\Controls\ReviewControl.xaml.cs">
-      <DependentUpon>ReviewControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Screens\Review\Controls\AnalysisControl.xaml.cs">
-      <DependentUpon>AnalysisControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Screens\Review\Controls\SegmentsControl.xaml.cs">
-      <DependentUpon>SegmentsControl.xaml</DependentUpon>
+    <Compile Update="Screens\Review\SpeedAnalysisScreen.xaml.cs">
+      <DependentUpon>SpeedAnalysisScreen.xaml</DependentUpon>
     </Compile>
     <Compile Update="Screens\Review\RecordScreen.xaml.cs">
       <DependentUpon>RecordScreen.xaml</DependentUpon>
@@ -82,13 +76,7 @@
     <EmbeddedResource Update="Screens\Review\AccelerometerReadings.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Review\Controls\SegmentsControl.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Screens\Review\MapScreen.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Review\Controls\ReviewControl.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Review\RecordScreen.xaml">

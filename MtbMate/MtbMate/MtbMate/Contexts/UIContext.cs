@@ -94,5 +94,9 @@ namespace MtbMate.Contexts {
         public async Task GoToSegmentAttemptScreenAsync(INavigation nav, SegmentAttempt attempt) {
             await GoToRideReviewScreenAsync(nav, attempt);
         }
+
+        public async Task GoToSpeedAnalysisScreenAsync(INavigation nav, IRide ride) {
+            await nav.PushAsync(new SpeedAnalysisScreen(context, ride));
+        }
     }
 }

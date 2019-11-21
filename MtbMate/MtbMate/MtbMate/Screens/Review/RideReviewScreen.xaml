@@ -1,8 +1,230 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage
-    x:Name="tabPage"
+<ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MtbMate.Screens.Review.RideReviewScreen"
+    xmlns:controls="clr-namespace:MtbMate.Controls"
     Title="{Binding Title}">
-</TabbedPage>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Sync"
+            Clicked="Sync_Clicked"
+            Order="Secondary" />
+        <ToolbarItem
+            Text="Recalculate Jumps"
+            Clicked="RecalculateJumps_Clicked"
+            Order="Secondary" />
+        <ToolbarItem
+            Text="Delete"
+            Clicked="Delete_Clicked"
+            Order="Secondary" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <controls:MapControl
+                    HeightRequest="200"
+                    BindingContext="{Binding MapViewModel}" />
+                <Label
+                    Margin="15"
+                    HorizontalOptions="Center"
+                    Text="{Binding DisplayName}"
+                    FontSize="Large">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="Name_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="*" />
+                        <ColumnDefinition
+                            Width="Auto" />
+                        <ColumnDefinition
+                            Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout>
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Time" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Time}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Column="1"
+                        WidthRequest="1"
+                        BackgroundColor="LightGray" />
+
+                    <StackLayout
+                        Grid.Column="2">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Distance" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Distance, StringFormat='{}{0:F1} mi'}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Row="1"
+                        Grid.ColumnSpan="3"
+                        HeightRequest="1"
+                        Margin="10"
+                        BackgroundColor="LightGray" />
+
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="2">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Avg. Speed" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding AverageSpeed, StringFormat='{}{0:F1} mi/h'}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        WidthRequest="1"
+                        BackgroundColor="LightGray" />
+
+                    <StackLayout
+                        Grid.Column="2"
+                        Grid.Row="2">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Max Speed" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding MaxSpeed, StringFormat='{}{0:F1} mi/h'}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Row="3"
+                        Grid.ColumnSpan="3"
+                        HeightRequest="1"
+                        Margin="10"
+                        BackgroundColor="LightGray" />
+
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="4">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="No. of Jumps" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding JumpCount}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        WidthRequest="1"
+                        BackgroundColor="LightGray" />
+
+                    <StackLayout
+                        Grid.Column="2"
+                        Grid.Row="4">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Max Airtime" />
+                        <Label
+                            FontSize="Large"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding MaxAirtime}" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Row="5"
+                        Grid.ColumnSpan="3"
+                        HeightRequest="1"
+                        Margin="10"
+                        BackgroundColor="LightGray" />
+
+                    <Button
+                        Grid.Row="6"
+                        Grid.ColumnSpan="3"
+                        Text="Speed Analysis"
+                        BackgroundColor="{StaticResource DefaultBackgroundColour}"
+                        TextColor="White"
+                        Clicked="SpeedAnalysis_Clicked"/>
+                </Grid>
+
+                <BoxView
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray"
+                    IsVisible="{Binding ShowAttempts}" />
+
+                <Label
+                    Margin="10,4"
+                    Text="Segments"
+                    FontAttributes="Bold"
+                    IsVisible="{Binding ShowAttempts}"/>
+                <controls:ExtendedListView
+                    ItemsSource="{Binding Attempts}"
+                    IsScrollEnabled="True"
+                    ItemTapped="Attempt_ItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <controls:MedalsCell
+                                    Text="{Binding Segment.DisplayName}"
+                                    Detail="{Binding FormattedTime}"
+                                    Medal="{Binding Medal}" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </controls:ExtendedListView>
+
+                <BoxView
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray" />
+
+                <controls:JumpsControl
+                    Jumps="{Binding Jumps}" />
+
+                <BoxView
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray" />
+
+                <Button
+                    Text="View Jump Breakdown"
+                    IsVisible="{Binding IsDebugMode}"
+                    BackgroundColor="{StaticResource DefaultBackgroundColour}"
+                    TextColor="White"
+                    Clicked="JumpBreakdown_Clicked"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
