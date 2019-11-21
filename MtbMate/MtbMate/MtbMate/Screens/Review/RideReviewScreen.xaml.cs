@@ -41,7 +41,7 @@ namespace MtbMate.Screens.Review {
             await ViewModel.GoToSpeedAnalysis(Navigation);
         }
 
-        private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
+        private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
             await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttempt);
         }
     }
