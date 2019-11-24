@@ -175,7 +175,10 @@
                         Text="Speed Analysis"
                         BackgroundColor="{StaticResource DefaultBackgroundColour}"
                         TextColor="White"
-                        Clicked="SpeedAnalysis_Clicked"/>
+                        Margin="10, 0, 10 ,0"
+                        HeightRequest="35"
+                        FontSize="10" 
+                        Clicked="SpeedAnalysis_Clicked" />
                 </Grid>
 
                 <BoxView
@@ -213,17 +216,20 @@
                 <controls:JumpsControl
                     Jumps="{Binding Jumps}" />
 
-                <BoxView
-                    HeightRequest="10"
-                    Margin="0,5"
-                    BackgroundColor="LightGray" />
-
                 <Button
                     Text="View Jump Breakdown"
                     IsVisible="{Binding IsDebugMode}"
                     BackgroundColor="{StaticResource DefaultBackgroundColour}"
                     TextColor="White"
-                    Clicked="JumpBreakdown_Clicked"/>
+                    Margin="10, 0, 10 ,0"
+                    HeightRequest="35"
+                    Clicked="JumpBreakdown_Clicked"
+                    FontSize="10" />
+
+                <BoxView
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

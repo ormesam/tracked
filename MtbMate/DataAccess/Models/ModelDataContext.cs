@@ -101,7 +101,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD197E466D6B1")
+                    .HasName("UQ__User__437CD197C48C1DEE")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)

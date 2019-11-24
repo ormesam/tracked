@@ -144,7 +144,7 @@ namespace MtbMate.Contexts {
 
                 try {
                     response = await client.SendAsync(request);
-                } catch (WebException) {
+                } catch (Exception) {
                     Toast.LongAlert("Unable to connect to the API");
 
                     return default;
