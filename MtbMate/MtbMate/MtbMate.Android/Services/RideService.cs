@@ -63,7 +63,7 @@ namespace MtbMate.Droid.Services {
                 .SetContentIntent(BuildIntentToShowMainActivity())
                 .SetOngoing(true)
                 .SetPriority((int)NotificationPriority.High)
-                .SetSmallIcon(Resource.Mipmap.ic_launcher)
+                .SetSmallIcon(Resource.Drawable.ic_launcher)
                 .Build();
         }
 

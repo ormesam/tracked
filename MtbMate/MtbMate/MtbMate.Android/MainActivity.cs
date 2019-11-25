@@ -11,7 +11,7 @@ using Xamarin.Auth;
 using Xamarin.Auth.Presenters.XamarinAndroid;
 
 namespace MtbMate.Droid {
-    [Activity(Label = "Mtb Mate", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Mtb Mate", Icon = "@drawable/ic_launcher", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
         public RideService Service { get; set; }
         public bool Bound { get; set; }
