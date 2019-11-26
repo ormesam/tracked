@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
+    <PropertyGroup>
+        <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    </PropertyGroup>
+
 </Project>
