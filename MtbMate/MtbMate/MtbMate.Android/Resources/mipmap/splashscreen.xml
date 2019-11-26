@@ -5,8 +5,7 @@
     </item>
     <item>
         <bitmap
-          android:src="@drawable/loading"
-          android:gravity="center"
-          android:tileMode="disabled" />
+          android:src="@mipmap/screen"
+          android:gravity="center" />
     </item>
 </layer-list>
