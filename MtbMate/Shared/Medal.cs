@@ -1,4 +1,4 @@
-﻿namespace MtbMate.Models {
+﻿namespace Shared {
     public enum Medal {
         None,
         Bronze,

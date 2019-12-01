@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Shared.Dtos {
-    public class LocationDto {
+    public class RideLocationDto {
         public int? RideId { get; set; }
         public DateTime Timestamp { get; set; }
         public decimal Latitude { get; set; }

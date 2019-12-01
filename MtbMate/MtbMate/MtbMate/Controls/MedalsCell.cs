@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using MtbMate.Models;
+using Shared;
 using Xamarin.Forms;
 
 namespace MtbMate.Controls {
@@ -114,7 +114,7 @@ namespace MtbMate.Controls {
                 medals.Children.Clear();
 
                 foreach (Medal medal in source) {
-                    if (medal == Models.Medal.None) {
+                    if (medal == Shared.Medal.None) {
                         continue;
                     }
 
@@ -127,11 +127,11 @@ namespace MtbMate.Controls {
 
         private string GetMedalImage(Medal medal) {
             switch (medal) {
-                case Models.Medal.Bronze:
+                case Shared.Medal.Bronze:
                     return "bronze.png";
-                case Models.Medal.Silver:
+                case Shared.Medal.Silver:
                     return "silver.png";
-                case Models.Medal.Gold:
+                case Shared.Medal.Gold:
                     return "gold.png";
                 default:
                     return null;

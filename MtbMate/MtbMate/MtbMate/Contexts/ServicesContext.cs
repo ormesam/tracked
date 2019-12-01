@@ -43,7 +43,7 @@ namespace MtbMate.Contexts {
                     })
                     .ToList(),
                 Locations = ride.Locations
-                    .Select(i => new LocationDto {
+                    .Select(i => new RideLocationDto {
                         AccuracyInMetres = Convert.ToDecimal(i.AccuracyInMetres),
                         Altitude = Convert.ToDecimal(i.Altitude),
                         Latitude = Convert.ToDecimal(i.Point.Latitude),

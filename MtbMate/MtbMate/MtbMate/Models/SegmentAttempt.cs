@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MtbMate.Utilities;
 using Newtonsoft.Json;
+using Shared;
 
 namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]

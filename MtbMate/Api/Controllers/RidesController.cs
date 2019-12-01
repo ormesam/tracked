@@ -19,10 +19,11 @@ namespace Api.Controllers {
 
         [HttpPost]
         [Route("get")]
-        public ActionResult<IList<RideDto>> AddRide(IList<int> existingRideIds) {
+        public ActionResult<IList<RideDto>> GetExistingRides(IList<int> existingRideIds) {
             int userId = this.GetCurrentUserId();
 
             var rides = context.Ride
+                .Where(row => row.UserId == userId)
                 .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
                 .OrderBy(row => row.StartUtc)
                 .Select(row => new RideDto {
@@ -33,8 +34,9 @@ namespace Api.Controllers {
                 .ToList();
 
             var locationsByRide = context.RideLocation
+                .Where(row => row.Ride.UserId == userId)
                 .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
-                .Select(row => new LocationDto {
+                .Select(row => new RideLocationDto {
                     RideId = row.RideId,
                     AccuracyInMetres = row.AccuracyInMetres,
                     Altitude = row.Altitude,
@@ -46,6 +48,7 @@ namespace Api.Controllers {
                 .ToLookup(i => i.RideId.Value);
 
             var jumpsByRide = context.Jump
+                .Where(row => row.Ride.UserId == userId)
                 .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
                 .Select(row => new JumpDto {
                     RideId = row.RideId,
@@ -56,6 +59,7 @@ namespace Api.Controllers {
                 .ToLookup(i => i.RideId.Value);
 
             var accelerometerReadingsByJump = context.AccelerometerReading
+                .Where(row => row.Ride.UserId == userId)
                 .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
                 .Select(row => new AccelerometerReadingDto {
                     RideId = row.RideId,
@@ -95,7 +99,6 @@ namespace Api.Controllers {
             Ride ride = null;
 
             if (dto.RideId != null) {
-
                 context.RideLocation.RemoveRange(context.RideLocation.Where(i => i.RideId == dto.RideId));
                 context.Jump.RemoveRange(context.Jump.Where(i => i.RideId == dto.RideId));
                 context.AccelerometerReading.RemoveRange(context.AccelerometerReading.Where(i => i.RideId == dto.RideId));

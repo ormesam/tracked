@@ -196,15 +196,6 @@ namespace MtbMate.Models {
 #if DEBUG
         public async Task RunUtilityAsync() {
             // Perform single use operations here such as fixing data.
-
-            foreach (var ride in Rides) {
-                foreach (var jump in ride.Jumps) {
-                    jump.Timestamp = jump.Timestamp;
-                }
-
-                await SaveRide(ride);
-            }
-
             Toast.LongAlert("Done!");
 
             await Task.CompletedTask;
