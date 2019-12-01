@@ -21,10 +21,6 @@ namespace MtbMate.Screens.Review {
             await Navigation.PopToRootAsync();
         }
 
-        private void Name_Tapped(object sender, EventArgs e) {
-            ViewModel.ChangeName();
-        }
-
         private async void JumpBreakdown_Clicked(object sender, EventArgs e) {
             await ViewModel.ViewJumpBreakdown(Navigation);
         }

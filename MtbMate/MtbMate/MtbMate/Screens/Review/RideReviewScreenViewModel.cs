@@ -57,35 +57,23 @@ namespace MtbMate.Screens.Review {
             }
         }
 
-        public string Time => (Ride.End.Value - Ride.Start.Value).ToString(@"mm\:ss");
-        //public int JumpCount => Ride.Jumps.Count;
-        public int JumpCount => Attempts.Count;
+        public string Time => (Ride.End - Ride.Start).ToString(@"mm\:ss");
+        public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
         public bool ShowAttempts => Ride.ShowAttempts;
 
         public IList<SegmentAttempt> Attempts => !ShowAttempts ? new List<SegmentAttempt>() :
             Model.Instance.SegmentAttempts
                 .Where(i => i.RideId == Ride.Id)
-                .OrderByDescending(i => i.Created)
+                .OrderByDescending(i => i.Start)
                 .ToList();
 
         public IList<Jump> Jumps => Ride.Jumps
-            .OrderBy(i => i.Time)
+            .OrderBy(i => i.Timestamp)
             .ToList();
 
         public async Task Delete() {
             await Model.Instance.RemoveRide(Ride as Ride);
-        }
-
-        public void ChangeName() {
-            if (!Ride.CanChangeName) {
-                return;
-            }
-
-            Ride.ChangeName(Context.UI, () => {
-                OnPropertyChanged(nameof(Title));
-                OnPropertyChanged(nameof(DisplayName));
-            });
         }
 
         public async Task GoToAttempt(INavigation nav, SegmentAttempt attempt) {

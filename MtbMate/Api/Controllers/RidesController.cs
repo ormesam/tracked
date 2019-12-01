@@ -29,11 +29,10 @@ namespace Api.Controllers {
                     RideId = row.RideId,
                     Start = row.StartUtc,
                     End = row.EndUtc,
-                    Name = row.Name,
                 })
                 .ToList();
 
-            var locationsByRide = context.Location
+            var locationsByRide = context.RideLocation
                 .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
                 .Select(row => new LocationDto {
                     RideId = row.RideId,
@@ -52,7 +51,7 @@ namespace Api.Controllers {
                     RideId = row.RideId,
                     Airtime = row.Airtime,
                     Number = row.Number,
-                    Time = row.Time,
+                    Timestamp = row.Timestamp,
                 })
                 .ToLookup(i => i.RideId.Value);
 
@@ -97,7 +96,7 @@ namespace Api.Controllers {
 
             if (dto.RideId != null) {
 
-                context.Location.RemoveRange(context.Location.Where(i => i.RideId == dto.RideId));
+                context.RideLocation.RemoveRange(context.RideLocation.Where(i => i.RideId == dto.RideId));
                 context.Jump.RemoveRange(context.Jump.Where(i => i.RideId == dto.RideId));
                 context.AccelerometerReading.RemoveRange(context.AccelerometerReading.Where(i => i.RideId == dto.RideId));
 
@@ -112,12 +111,11 @@ namespace Api.Controllers {
             }
 
             ride.UserId = userId;
-            ride.Name = dto.Name;
             ride.StartUtc = dto.Start;
             ride.EndUtc = dto.End;
 
-            ride.Location = dto.Locations
-                .Select(row => new Location {
+            ride.RideLocation = dto.Locations
+                .Select(row => new RideLocation {
                     Timestamp = row.Timestamp,
                     AccuracyInMetres = row.AccuracyInMetres,
                     Altitude = row.Altitude,
@@ -131,7 +129,7 @@ namespace Api.Controllers {
                 .Select(row => new Jump {
                     Airtime = row.Airtime,
                     Number = row.Number,
-                    Time = row.Time,
+                    Timestamp = row.Timestamp,
                 })
                 .ToList();
 

@@ -29,12 +29,7 @@
                     Margin="15"
                     HorizontalOptions="Center"
                     Text="{Binding DisplayName}"
-                    FontSize="Large">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Tapped="Name_Tapped" />
-                    </Label.GestureRecognizers>
-                </Label>
+                    FontSize="Large" />
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition

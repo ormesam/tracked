@@ -8,7 +8,7 @@ namespace DataAccess.Models
         public int JumpId { get; set; }
         public int RideId { get; set; }
         public int Number { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime Timestamp { get; set; }
         public decimal Airtime { get; set; }
 
         public virtual Ride Ride { get; set; }

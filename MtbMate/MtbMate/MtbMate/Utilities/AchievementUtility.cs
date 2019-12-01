@@ -17,12 +17,12 @@ namespace MtbMate.Utilities {
                 if (achievement.Check(ride)) {
                     achievement.IsAchieved = true;
                     achievement.RideId = ride.Id.Value;
-                    achievement.Time = ride.Start.Value;
+                    achievement.Time = ride.Start;
 
                     await Model.Instance.SaveAchievementResult(new AchievementResult {
                         AcheivementId = achievement.Id,
                         RideId = ride.Id.Value,
-                        Time = ride.Start.Value,
+                        Time = ride.Start,
                     });
                 }
             }

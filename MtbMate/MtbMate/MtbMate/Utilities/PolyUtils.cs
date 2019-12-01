@@ -109,7 +109,7 @@ namespace MtbMate.Utilities {
 
             foreach (var jump in ride.Jumps) {
                 var nearestLocation = locations
-                    .OrderBy(i => Math.Abs((i.Timestamp - jump.Time).TotalSeconds))
+                    .OrderBy(i => Math.Abs((i.Timestamp - jump.Timestamp).TotalSeconds))
                     .FirstOrDefault();
 
                 if (!jumpsByLocationTime.ContainsKey(nearestLocation.Timestamp)) {

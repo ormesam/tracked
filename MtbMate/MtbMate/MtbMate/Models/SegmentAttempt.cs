@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MtbMate.Contexts;
 using MtbMate.Utilities;
 using Newtonsoft.Json;
 
 namespace MtbMate.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class SegmentAttempt : IRide {
+        [JsonProperty]
+        public int? SegmentAttemptId { get; set; }
         [JsonProperty]
         public Guid? Id { get; set; }
         [JsonProperty]
@@ -17,17 +18,13 @@ namespace MtbMate.Models {
         [JsonProperty]
         public DateTime Created { get; set; }
         [JsonProperty]
-        public int StartIdx { get; set; }
+        public DateTime Start { get; set; }
         [JsonProperty]
-        public int EndIdx { get; set; }
+        public DateTime End { get; set; }
         [JsonProperty]
         public Medal Medal { get; set; }
 
-        public string DisplayName => Created.ToString("dd/MM/yy HH:mm");
-
-        public DateTime? Start => Ride.MovingLocations[StartIdx].Timestamp;
-
-        public DateTime? End => Ride.MovingLocations[EndIdx].Timestamp;
+        public string DisplayName => Start.ToString("dd/MM/yy HH:mm");
 
         public Segment Segment => Model.Instance.Segments
             .Where(i => i.Id == SegmentId)
@@ -38,7 +35,9 @@ namespace MtbMate.Models {
             .SingleOrDefault();
 
         public IList<Location> Locations => Ride.MovingLocations
-            .GetRange(StartIdx, (EndIdx - StartIdx) + 1);
+            .Where(i => i.Timestamp >= Start)
+            .Where(i => i.Timestamp <= End)
+            .ToList();
 
         public IList<AccelerometerReading> AccelerometerReadings => Ride.AccelerometerReadings
             .Where(i => i.Timestamp >= Start)
@@ -46,8 +45,8 @@ namespace MtbMate.Models {
             .ToList();
 
         public IList<Jump> Jumps => Ride.Jumps
-            .Where(i => i.Time >= Ride.MovingLocations[StartIdx].Timestamp)
-            .Where(i => i.Time <= Ride.MovingLocations[EndIdx].Timestamp)
+            .Where(i => i.Timestamp >= Start)
+            .Where(i => i.Timestamp <= End)
             .ToList();
 
         public TimeSpan Time => Locations.Last().Timestamp - Locations.First().Timestamp;
@@ -62,12 +61,6 @@ namespace MtbMate.Models {
 
         public double MaxSpeed => Locations.Max(i => i.Mph);
 
-        public bool CanChangeName => false;
-
         public bool ShowAttempts => false;
-
-        public void ChangeName(UIContext ui, Action whenCompete) {
-            throw new NotSupportedException();
-        }
     }
 }

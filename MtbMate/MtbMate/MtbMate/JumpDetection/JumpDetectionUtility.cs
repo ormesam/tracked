@@ -95,12 +95,12 @@ namespace MtbMate.JumpDetection {
 
             var jump = new Jump {
                 Number = jumpCount++,
-                Time = allReadingsForJump.Select(j => j.Timestamp).Min(),
+                Timestamp = allReadingsForJump.Select(j => j.Timestamp).Min(),
                 Airtime = Math.Round(allReadingsForJump.GetTime(), 3),
                 Readings = allReadingsForJump,
             };
 
-            if (jumpLocationDetector.GetLastLocation(jump.Time)?.Mph >= 5) {
+            if (jumpLocationDetector.GetLastLocation(jump.Timestamp)?.Mph >= 5) {
                 Jumps.Add(jump);
             }
         }

@@ -8,14 +8,14 @@ namespace MtbMate.Models {
         [JsonProperty]
         public int Number { get; set; }
         [JsonProperty]
-        public DateTime Time { get; set; }
+        public DateTime Timestamp { get; set; }
         [JsonProperty]
         public double Airtime { get; set; }
         [JsonProperty]
         public IList<AccelerometerReading> Readings { get; set; }
 
         public override string ToString() {
-            return $"Jump {Number} - Time: {Time}, Airtime: {Airtime}s";
+            return $"Jump {Number} - Time: {Timestamp}, Airtime: {Airtime}s";
         }
     }
 }

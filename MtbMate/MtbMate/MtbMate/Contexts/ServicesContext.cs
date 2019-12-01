@@ -32,15 +32,14 @@ namespace MtbMate.Contexts {
         public async Task<int?> Sync(Ride ride) {
             int? rideId = await PostAsync<int>("rides/add", new RideDto {
                 ClientId = ride.Id.Value,
-                End = ride.End.Value,
-                Start = ride.Start.Value,
-                Name = ride.Name,
+                End = ride.End,
+                Start = ride.Start,
                 RideId = ride.RideId,
                 Jumps = ride.Jumps
                     .Select(i => new JumpDto {
                         Airtime = Convert.ToDecimal(i.Airtime),
                         Number = i.Number,
-                        Time = i.Time,
+                        Timestamp = i.Timestamp,
                     })
                     .ToList(),
                 Locations = ride.Locations
@@ -78,13 +77,12 @@ namespace MtbMate.Contexts {
                     Id = ride.ClientId,
                     End = ride.End,
                     Start = ride.Start,
-                    Name = ride.Name,
                     RideId = ride.RideId,
                     Jumps = ride.Jumps
                         .Select(i => new Jump {
                             Airtime = Convert.ToDouble(i.Airtime),
                             Number = i.Number,
-                            Time = i.Time,
+                            Timestamp = i.Timestamp,
                         })
                         .ToList(),
                     Locations = ride.Locations

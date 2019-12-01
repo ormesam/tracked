@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MtbMate.Contexts;
 using MtbMate.Utilities;
 using Newtonsoft.Json;
 
@@ -13,11 +12,9 @@ namespace MtbMate.Models {
         [JsonProperty]
         public Guid? Id { get; set; }
         [JsonProperty]
-        public string Name { get; set; }
+        public DateTime Start { get; set; }
         [JsonProperty]
-        public DateTime? Start { get; set; }
-        [JsonProperty]
-        public DateTime? End { get; set; }
+        public DateTime End { get; set; }
         [JsonProperty]
         public IList<Location> Locations { get; set; }
         [JsonProperty]
@@ -25,9 +22,7 @@ namespace MtbMate.Models {
         [JsonProperty]
         public IList<AccelerometerReading> AccelerometerReadings { get; set; }
 
-        public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Start?.ToString("dd/MM/yy HH:mm") : Name;
-
-        public bool CanChangeName => true;
+        public string DisplayName => Start.ToString("dd/MM/yy HH:mm");
 
         public bool ShowAttempts => true;
 
@@ -61,8 +56,8 @@ namespace MtbMate.Models {
                 Created = MovingLocations.First().Timestamp,
                 RideId = Id,
                 SegmentId = segment.Id,
-                StartIdx = result.StartIdx,
-                EndIdx = result.EndIdx,
+                Start = MovingLocations[result.StartIdx].Timestamp,
+                End = MovingLocations[result.EndIdx].Timestamp,
             };
 
             attempt.Medal = GetMedal(attempt.Time, segment.Id.Value);
@@ -99,16 +94,6 @@ namespace MtbMate.Models {
             }
 
             return Medal.None;
-        }
-
-        public void ChangeName(UIContext ui, Action whenComplete) {
-            ui.ShowInputDialog("Change Name", Name, async (newName) => {
-                Name = newName;
-
-                await Model.Instance.SaveRide(this);
-
-                whenComplete?.Invoke();
-            });
         }
     }
 }
