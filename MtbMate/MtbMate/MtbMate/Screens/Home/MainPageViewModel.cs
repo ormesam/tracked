@@ -56,6 +56,12 @@ namespace MtbMate.Home {
         }
 
         public async Task Sync() {
+            await SyncRides();
+            await SyncSegments();
+            await SyncSegmentAttempts();
+        }
+
+        private async Task SyncRides() {
             var ridesToSync = Model.Instance.Rides
                 .Where(i => i.RideId == null);
 
@@ -74,6 +80,52 @@ namespace MtbMate.Home {
 
             foreach (var ride in ridesToDownload) {
                 await Model.Instance.SaveRide(ride);
+
+                await AchievementUtility.AnalyseRide(ride);
+            }
+        }
+
+        private async Task SyncSegments() {
+            var segmentsToSync = Model.Instance.Segments
+                .Where(i => i.SegmentId == null);
+
+            foreach (var segment in segmentsToSync) {
+                segment.SegmentId = await Context.Services.Sync(segment);
+
+                await Model.Instance.SaveSegment(segment);
+            }
+
+            var existingSegmentIds = Model.Instance.Segments
+                .Where(row => row.SegmentId != null)
+                .Select(row => row.SegmentId.Value)
+                .ToList();
+
+            var segmentsToDownload = await Context.Services.GetSegments(existingSegmentIds);
+
+            foreach (var segment in segmentsToDownload) {
+                await Model.Instance.SaveSegment(segment);
+            }
+        }
+
+        private async Task SyncSegmentAttempts() {
+            var attemptsToSync = Model.Instance.SegmentAttempts
+                .Where(i => i.SegmentAttemptId == null);
+
+            foreach (var attempt in attemptsToSync) {
+                attempt.SegmentAttemptId = await Context.Services.Sync(attempt);
+
+                await Model.Instance.SaveSegmentAttempt(attempt);
+            }
+
+            var existingAttemptIds = Model.Instance.SegmentAttempts
+                .Where(row => row.SegmentAttemptId != null)
+                .Select(row => row.SegmentAttemptId.Value)
+                .ToList();
+
+            var attemptsToDownload = await Context.Services.GetSegmentAttempts(existingAttemptIds);
+
+            foreach (var attempt in attemptsToDownload) {
+                await Model.Instance.SaveSegmentAttempt(attempt);
             }
         }
 

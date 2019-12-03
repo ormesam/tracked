@@ -30,11 +30,11 @@ namespace MtbMate.Contexts {
         }
 
         public async Task<int?> Sync(Ride ride) {
-            int? rideId = await PostAsync<int>("rides/add", new RideDto {
+            int? rideId = await PostAsync<int?>("rides/add", new RideDto {
+                RideId = ride.RideId,
                 ClientId = ride.Id.Value,
                 End = ride.End,
                 Start = ride.Start,
-                RideId = ride.RideId,
                 Jumps = ride.Jumps
                     .Select(i => new JumpDto {
                         Airtime = Convert.ToDecimal(i.Airtime),
@@ -65,7 +65,38 @@ namespace MtbMate.Contexts {
             return rideId;
         }
 
-        public async Task<IList<Ride>> GetRides(List<int> existingRideIds) {
+        public async Task<int?> Sync(Segment segment) {
+            int? segmentId = await PostAsync<int?>("segments/add", new SegmentDto {
+                SegmentId = segment.SegmentId,
+                Name = segment.Name,
+                Created = segment.Created,
+                Locations = segment.Points
+                    .Select(i => new SegmentLocationDto {
+                        SegmentId = segment.SegmentId,
+                        Order = i.Order,
+                        Latitude = Convert.ToDecimal(i.Point.Latitude),
+                        Longitude = Convert.ToDecimal(i.Point.Longitude),
+                    })
+                    .ToList(),
+            });
+
+            return segmentId;
+        }
+
+        public async Task<int?> Sync(SegmentAttempt segmentAttempt) {
+            int? segmentAttemptId = await PostAsync<int?>("segments/add-attempt", new SegmentAttemptDto {
+                SegmentAttemptId = segmentAttempt.SegmentAttemptId,
+                SegmentId = segmentAttempt.Segment.SegmentId.Value,
+                StartUtc = segmentAttempt.Start,
+                EndUtc = segmentAttempt.End,
+                Medal = segmentAttempt.Medal,
+                RideId = segmentAttempt.Ride.RideId.Value,
+            });
+
+            return segmentAttemptId;
+        }
+
+        public async Task<IList<Ride>> GetRides(IList<int> existingRideIds) {
             var results = await PostAsync<IList<RideDto>>("rides/get", existingRideIds);
 
             if (results == null) {
@@ -74,10 +105,10 @@ namespace MtbMate.Contexts {
 
             return results
                 .Select(ride => new Ride {
+                    RideId = ride.RideId,
                     Id = ride.ClientId,
                     End = ride.End,
                     Start = ride.Start,
-                    RideId = ride.RideId,
                     Jumps = ride.Jumps
                         .Select(i => new Jump {
                             Airtime = Convert.ToDouble(i.Airtime),
@@ -102,6 +133,52 @@ namespace MtbMate.Contexts {
                             Z = Convert.ToDouble(i.Z),
                         })
                         .ToList(),
+                })
+                .ToList();
+        }
+
+        public async Task<IList<Segment>> GetSegments(IList<int> existingSegmentIds) {
+            var results = await PostAsync<IList<SegmentDto>>("segments/get", existingSegmentIds);
+
+            if (results == null) {
+                return new List<Segment>();
+            }
+
+            return results
+                .Select(s => new Segment {
+                    Created = s.Created,
+                    SegmentId = s.SegmentId,
+                    Name = s.Name,
+                    Points = s.Locations
+                        .Select(l => new SegmentLocation(l.Order, Convert.ToDouble(l.Latitude), Convert.ToDouble(l.Longitude)))
+                        .ToList(),
+                })
+                .ToList();
+        }
+
+        public async Task<IList<SegmentAttempt>> GetSegmentAttempts(IList<int> existingAttemptIds) {
+            var results = await PostAsync<IList<SegmentAttemptDto>>("segments/get-attempts", existingAttemptIds);
+
+            if (results == null) {
+                return new List<SegmentAttempt>();
+            }
+
+            var ridesById = Model.Instance.Rides
+                .Where(row => row.RideId != null)
+                .ToDictionary(row => row.RideId.Value, row => row.Id.Value);
+
+            var segmentsById = Model.Instance.Segments
+                .Where(row => row.SegmentId != null)
+                .ToDictionary(row => row.SegmentId, row => row.Id.Value);
+
+            return results
+                .Select(s => new SegmentAttempt {
+                    SegmentAttemptId = s.SegmentAttemptId,
+                    Start = s.StartUtc,
+                    End = s.EndUtc,
+                    Medal = s.Medal,
+                    SegmentId = segmentsById[s.SegmentId.Value],
+                    RideId = ridesById[s.RideId.Value],
                 })
                 .ToList();
         }

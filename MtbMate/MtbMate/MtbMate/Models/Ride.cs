@@ -54,7 +54,6 @@ namespace MtbMate.Models {
             }
 
             SegmentAttempt attempt = new SegmentAttempt {
-                Created = MovingLocations.First().Timestamp,
                 RideId = Id,
                 SegmentId = segment.Id,
                 Start = MovingLocations[result.StartIdx].Timestamp,

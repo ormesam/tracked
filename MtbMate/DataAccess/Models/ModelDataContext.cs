@@ -117,19 +117,19 @@ namespace DataAccess.Models
                 entity.Property(e => e.StartUtc).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.SegmentAttemptRide)
+                    .WithMany(p => p.SegmentAttempt)
                     .HasForeignKey(d => d.RideId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SegmentAttempt_Ride");
 
                 entity.HasOne(d => d.Segment)
-                    .WithMany(p => p.SegmentAttemptSegment)
+                    .WithMany(p => p.SegmentAttempt)
                     .HasForeignKey(d => d.SegmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SegmentAttempt_Segment");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.SegmentAttemptUser)
+                    .WithMany(p => p.SegmentAttempt)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SegmentAttempt_User");
@@ -151,7 +151,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD19704B54437")
+                    .HasName("UQ__User__437CD197900C0119")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)

@@ -7,6 +7,7 @@ namespace DataAccess.Models
     {
         public Segment()
         {
+            SegmentAttempt = new HashSet<SegmentAttempt>();
             SegmentLocation = new HashSet<SegmentLocation>();
         }
 
@@ -15,6 +16,7 @@ namespace DataAccess.Models
         public string Name { get; set; }
 
         public virtual User User { get; set; }
+        public virtual ICollection<SegmentAttempt> SegmentAttempt { get; set; }
         public virtual ICollection<SegmentLocation> SegmentLocation { get; set; }
     }
 }

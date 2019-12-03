@@ -18,7 +18,7 @@
     <ContentPage.Content>
         <StackLayout>
             <controls:MapControl
-                HeightRequest="200"
+                HeightRequest="300"
                 BindingContext="{Binding MapViewModel}" />
             <Label
                 Margin="15"

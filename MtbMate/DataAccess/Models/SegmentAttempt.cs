@@ -11,10 +11,10 @@ namespace DataAccess.Models
         public int RideId { get; set; }
         public DateTime StartUtc { get; set; }
         public DateTime EndUtc { get; set; }
-        public int? Medal { get; set; }
+        public int Medal { get; set; }
 
-        public virtual User Ride { get; set; }
-        public virtual User Segment { get; set; }
+        public virtual Ride Ride { get; set; }
+        public virtual Segment Segment { get; set; }
         public virtual User User { get; set; }
     }
 }

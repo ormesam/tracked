@@ -50,6 +50,10 @@ namespace MtbMate.Utilities {
             }
 
             await Model.Instance.SaveRide(Ride);
+
+            await Model.Instance.CompareSegments(Ride);
+
+            await AchievementUtility.AnalyseRide(Ride);
         }
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {

@@ -25,14 +25,6 @@ namespace MtbMate.Screens.Review {
             await ViewModel.ViewJumpBreakdown(Navigation);
         }
 
-        private async void Sync_Clicked(object sender, EventArgs e) {
-            await ViewModel.Sync();
-        }
-
-        private async void RecalculateJumps_Clicked(object sender, EventArgs e) {
-            await ViewModel.RecalculateJumps();
-        }
-
         private async void SpeedAnalysis_Clicked(object sender, EventArgs e) {
             await ViewModel.GoToSpeedAnalysis(Navigation);
         }

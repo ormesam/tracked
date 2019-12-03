@@ -7,14 +7,6 @@
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
-            Text="Sync"
-            Clicked="Sync_Clicked"
-            Order="Secondary" />
-        <ToolbarItem
-            Text="Recalculate Jumps"
-            Clicked="RecalculateJumps_Clicked"
-            Order="Secondary" />
-        <ToolbarItem
             Text="Delete"
             Clicked="Delete_Clicked"
             Order="Secondary" />
@@ -23,7 +15,7 @@
         <ScrollView>
             <StackLayout>
                 <controls:MapControl
-                    HeightRequest="200"
+                    HeightRequest="300"
                     BindingContext="{Binding MapViewModel}" />
                 <Label
                     Margin="15"

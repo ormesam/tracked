@@ -41,32 +41,36 @@ namespace Api.Controllers {
                     Latitude = row.Latitude,
                     Longitude = row.Longitude,
                 })
-                .ToLookup(i => i.SegmentId);
-
-            var attemptsBySegment = context.SegmentAttempt
-                .Where(row => row.Segment.UserId == userId)
-                .Where(row => !Enumerable.Contains(existingSegmentIds, row.SegmentAttemptId))
-                .Select(row => new SegmentAttemptDto {
-                    SegmentAttemptId = row.SegmentAttemptId,
-                    SegmentId = row.SegmentId,
-                    RideId = row.RideId,
-                    EndUtc = row.EndUtc,
-                    Medal = (Medal?)row.Medal,
-                    StartUtc = row.StartUtc
-                })
                 .ToLookup(i => i.SegmentId.Value);
 
             foreach (var segment in segments) {
                 segment.Locations = locationsBySegment[segment.SegmentId.Value]
                     .OrderBy(i => i.Order)
                     .ToList();
-
-                segment.Attempts = attemptsBySegment[segment.SegmentId.Value]
-                    .OrderBy(i => i.StartUtc)
-                    .ToList();
             }
 
             return segments;
+        }
+
+        [HttpPost]
+        [Route("get-attempts")]
+        public ActionResult<IList<SegmentAttemptDto>> GetExistingSegmentAttempts(IList<int> existingAttemptIds) {
+            int userId = this.GetCurrentUserId();
+
+            var attempts = context.SegmentAttempt
+                .Where(row => row.Segment.UserId == userId)
+                .Where(row => !Enumerable.Contains(existingAttemptIds, row.SegmentAttemptId))
+                .Select(row => new SegmentAttemptDto {
+                    SegmentAttemptId = row.SegmentAttemptId,
+                    SegmentId = row.SegmentId,
+                    RideId = row.RideId,
+                    StartUtc = row.StartUtc,
+                    EndUtc = row.EndUtc,
+                    Medal = (Medal)row.Medal,
+                })
+                .ToList();
+
+            return attempts;
         }
 
 
@@ -113,14 +117,14 @@ namespace Api.Controllers {
 
         [HttpPost]
         [Route("add-attempt")]
-        public ActionResult AddAttempt(SegmentAttemptDto dto) {
+        public ActionResult<int> AddAttempt(SegmentAttemptDto dto) {
             if (dto == null) {
                 return BadRequest();
             }
 
             int userId = this.GetCurrentUserId();
 
-            if (CheckUserOwnsSegment(dto.SegmentId.Value, userId)) {
+            if (!CheckUserOwnsSegment(dto.SegmentId.Value, userId)) {
                 return BadRequest();
             }
 
@@ -128,6 +132,7 @@ namespace Api.Controllers {
 
             if (dto.SegmentAttemptId == null) {
                 attempt = new SegmentAttempt();
+                context.SegmentAttempt.Add(attempt);
             } else {
                 attempt = context.SegmentAttempt.SingleOrDefault(row => row.SegmentAttemptId == dto.SegmentAttemptId);
             }
@@ -136,12 +141,12 @@ namespace Api.Controllers {
             attempt.RideId = dto.RideId.Value;
             attempt.UserId = userId;
             attempt.EndUtc = dto.EndUtc;
-            attempt.Medal = (int?)dto.Medal;
+            attempt.Medal = (int)dto.Medal;
             attempt.StartUtc = dto.StartUtc;
 
             context.SaveChanges();
 
-            return Ok();
+            return attempt.SegmentAttemptId;
         }
 
         private bool CheckUserOwnsSegment(int segmentId, int userId) {

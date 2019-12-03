@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using MtbMate.Contexts;
 using MtbMate.Controls;
-using MtbMate.JumpDetection;
 using MtbMate.Models;
 using MtbMate.Utilities;
 using Xamarin.Forms;
@@ -86,40 +85,6 @@ namespace MtbMate.Screens.Review {
 
         public async Task ViewJumpBreakdown(INavigation nav) {
             await Context.UI.GoToAccelerometerReadingsScreenAsync(nav, Ride);
-        }
-
-        public async Task Sync() {
-            Ride ride = Ride as Ride;
-
-            if (ride == null) {
-                return;
-            }
-
-            ride.RideId = await Context.Services.Sync(ride);
-
-            await Model.Instance.SaveRide(ride);
-        }
-
-        public async Task RecalculateJumps() {
-            Ride ride = Ride as Ride;
-
-            if (ride == null) {
-                return;
-            }
-
-            ride.Jumps.Clear();
-
-            var jumpDetector = new JumpDetectionUtility(new RideJumpLocations(ride.Locations));
-
-            foreach (var reading in ride.AccelerometerReadings) {
-                jumpDetector.AddReading(reading);
-            }
-
-            ride.Jumps = jumpDetector.Jumps;
-
-            await Model.Instance.SaveRide(ride);
-
-            OnPropertyChanged();
         }
     }
 }

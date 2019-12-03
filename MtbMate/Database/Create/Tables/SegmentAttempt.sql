@@ -7,5 +7,5 @@
 
     [StartUtc] datetime NOT NULL,
     [EndUtc] datetime NOT NULL,
-    [Medal] int NULL,
+    [Medal] int NOT NULL,
 )

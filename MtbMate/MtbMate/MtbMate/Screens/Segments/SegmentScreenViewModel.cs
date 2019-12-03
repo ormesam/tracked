@@ -27,7 +27,7 @@ namespace MtbMate.Screens.Segments {
 
         public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
             .Where(i => i.SegmentId == Segment.Id)
-            .OrderByDescending(i => i.Created)
+            .OrderBy(i => i.Time)
             .ToList();
 
         public void ChangeName() {

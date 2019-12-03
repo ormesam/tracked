@@ -17,8 +17,6 @@ namespace MtbMate.Models {
         [JsonProperty]
         public Guid? RideId { get; set; }
         [JsonProperty]
-        public DateTime Created { get; set; }
-        [JsonProperty]
         public DateTime Start { get; set; }
         [JsonProperty]
         public DateTime End { get; set; }
