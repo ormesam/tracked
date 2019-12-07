@@ -1,15 +1,14 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using MtbMate.Models;
 
 namespace MtbMate.Achievements {
     public interface IAchievement {
-        int Id { get; }
         string Name { get; }
-        bool IsAchieved { get; set; }
-        DateTime? Time { get; set; }
-        Guid? RideId { get; set; }
+        int AchievedCount { get; }
+        bool HasBeenAchieved { get; }
         string AchievedText { get; }
 
         bool Check(Ride ride);
+        IEnumerable<Ride> GetRides();
     }
 }

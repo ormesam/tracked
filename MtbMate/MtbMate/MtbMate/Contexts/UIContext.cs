@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MtbMate.Achievements;
 using MtbMate.Dependancies;
 using MtbMate.Home;
 using MtbMate.Models;
+using MtbMate.Screens.Achievements;
 using MtbMate.Screens.Bluetooth;
 using MtbMate.Screens.Review;
 using MtbMate.Screens.Segments;
@@ -67,8 +69,12 @@ namespace MtbMate.Contexts {
             await GoToScreenAsync(new MainPage(context));
         }
 
-        public async Task GoToAchievementScreenAsync() {
-            await GoToScreenAsync(new AchievementScreen(context));
+        public async Task GoToAchievementOverviewScreenAsync() {
+            await GoToScreenAsync(new AchievementOverviewScreen(context));
+        }
+
+        public async Task GoToAchievementScreenAsync(INavigation nav, IAchievement achievement) {
+            await nav.PushAsync(new AchievementScreen(context, achievement));
         }
 
         public async Task GoToMapScreenAsync(INavigation nav, string title, IList<MapLocation> locations, bool showRideFeatures) {

@@ -26,7 +26,7 @@ namespace MtbMate.Screens.Master {
                  new ExtendedMenuItem
                  {
                       Title = "Achievements",
-                      OnClick = Context.UI.GoToAchievementScreenAsync,
+                      OnClick = Context.UI.GoToAchievementOverviewScreenAsync,
                  },
                  new ExtendedMenuItem
                  {

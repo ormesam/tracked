@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceAssemblyReference>true</ProduceAssemblyReference>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,6 +44,9 @@
     <Compile Update="Controls\MapControl.xaml.cs">
       <DependentUpon>MapControl.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Screens\Achievements\AchievementOverviewScreen.xaml.cs">
+      <DependentUpon>AchievementOverviewScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Screens\Bluetooth\BluetoothSetupScreen.xaml.cs">
       <DependentUpon>BluetoothSetupScreen.xaml</DependentUpon>
     </Compile>
@@ -62,6 +66,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\MapControl.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Screens\Achievements\AchievementScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Bluetooth\BluetoothSetupScreen.xaml">

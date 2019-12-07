@@ -80,8 +80,6 @@ namespace MtbMate.Home {
 
             foreach (var ride in ridesToDownload) {
                 await Model.Instance.SaveRide(ride);
-
-                await AchievementUtility.AnalyseRide(ride);
             }
         }
 

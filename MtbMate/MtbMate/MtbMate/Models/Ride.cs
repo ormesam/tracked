@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MtbMate.Achievements;
 using MtbMate.Utilities;
 using Newtonsoft.Json;
 using Shared;
@@ -34,6 +35,10 @@ namespace MtbMate.Models {
         public IList<Medal> Medals => Model.Instance.SegmentAttempts
             .Where(i => i.RideId == Id)
             .Select(i => i.Medal)
+            .ToList();
+
+        public IList<IAchievement> Achievements => Model.Instance.Achievements
+            .Where(i => i.Check(this))
             .ToList();
 
         public Ride() {

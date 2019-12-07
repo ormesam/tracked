@@ -1,27 +1,16 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using MtbMate.Models;
 
 namespace MtbMate.Achievements {
-    public class JumpAchievement : IAchievement {
-        public int Id { get; }
+    public class JumpAchievement : AchievementBase, IAchievement {
         public string Name => $"Airtime {MinimumAirtime}s";
-        public bool IsAchieved { get; set; }
         public double MinimumAirtime { get; set; }
-        public DateTime? Time { get; set; }
-        public Guid? RideId { get; set; }
-        public string AchievedText => IsAchieved ? "Achieved " + Time.Value.ToString("dd/MM/yy HH:mm") : "--";
 
-        public JumpAchievement(int id, double minimumAirtime) {
-            Id = id;
+        public JumpAchievement(double minimumAirtime) {
             MinimumAirtime = minimumAirtime;
         }
 
-        public bool Check(Ride ride) {
-            if (IsAchieved) {
-                return false;
-            }
-
+        public override bool Check(Ride ride) {
             if (!ride.Jumps.Any()) {
                 return false;
             }

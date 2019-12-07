@@ -29,12 +29,6 @@ namespace MtbMate.Contexts {
             return attempts.ToList();
         }
 
-        public IList<AchievementResult> GetAchievementResults() {
-            var achievementResults = Storage.GetAllObjects<AchievementResult>().Wait();
-
-            return achievementResults.ToList();
-        }
-
         public async Task SaveObject<T>(Guid id, T obj) {
             await Storage.InsertObject(id.ToString(), obj);
         }

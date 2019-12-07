@@ -48,32 +48,23 @@ namespace MtbMate.Models {
         }
 
         private IList<IAchievement> LoadAchievements() {
-            var achievementResults = storage.GetAchievementResults();
-
-            var achievements = new List<IAchievement>() {
-                new SpeedAchievement(1, 15),
-                new SpeedAchievement(2, 18),
-                new SpeedAchievement(3, 20),
-                new SpeedAchievement(4, 22.5),
-                new SpeedAchievement(5, 25),
-                new JumpAchievement(6, 0.6),
-                new JumpAchievement(7, 0.8),
-                new JumpAchievement(8, 1),
-                new JumpAchievement(9, 1.2),
-                new JumpAchievement(10, 1.4),
-                new JumpAchievement(11, 1.5),
+            return new List<IAchievement>() {
+                new SpeedAchievement(18),
+                new SpeedAchievement(20),
+                new SpeedAchievement(22),
+                new SpeedAchievement(24),
+                new SpeedAchievement(26),
+                new SpeedAchievement(28),
+                new SpeedAchievement(30),
+                new JumpAchievement(0.6),
+                new JumpAchievement(0.8),
+                new JumpAchievement(1),
+                new JumpAchievement(1.2),
+                new JumpAchievement(1.4),
+                new JumpAchievement(1.6),
+                new JumpAchievement(1.8),
+                new JumpAchievement(2),
             };
-
-            foreach (var achievementResult in achievementResults) {
-                var achievement = achievements
-                    .SingleOrDefault(i => i.Id == achievementResult.AcheivementId);
-
-                achievement.IsAchieved = true;
-                achievement.Time = achievementResult.Time;
-                achievement.RideId = achievementResult.RideId;
-            }
-
-            return achievements;
         }
 
         public async Task SaveRide(Ride ride) {
@@ -106,8 +97,6 @@ namespace MtbMate.Models {
             Rides.Remove(ride);
 
             await storage.RemoveObject<Segment>(ride.Id.Value);
-
-            await AchievementUtility.ReanalyseAchievementResults();
         }
 
         public async Task SaveSegment(Segment segment) {
@@ -165,28 +154,6 @@ namespace MtbMate.Models {
             }
 
             await storage.SaveObject(segmentAttempt.Id.Value, segmentAttempt);
-        }
-
-        public async Task SaveAchievementResult(AchievementResult achievementResult) {
-            if (achievementResult.Id == null) {
-                achievementResult.Id = Guid.NewGuid();
-            }
-
-            await storage.SaveObject(achievementResult.Id.Value, achievementResult);
-        }
-
-        public void RemoveAchievementResults() {
-            var results = storage.GetAchievementResults();
-
-            foreach (var result in results) {
-                storage.Storage.Invalidate(result.Id.Value.ToString());
-            }
-
-            foreach (var achievement in Achievements) {
-                achievement.IsAchieved = false;
-                achievement.RideId = null;
-                achievement.Time = null;
-            }
         }
 
 #if DEBUG
