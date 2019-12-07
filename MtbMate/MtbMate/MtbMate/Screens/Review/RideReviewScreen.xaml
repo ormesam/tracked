@@ -180,8 +180,9 @@
                     FontAttributes="Bold"
                     IsVisible="{Binding ShowAttempts}"/>
                 <controls:ExtendedListView
+                    IsVisible="{Binding ShowAttempts}"
                     ItemsSource="{Binding Attempts}"
-                    IsScrollEnabled="True"
+                    IsScrollEnabled="False"
                     ItemTapped="Attempt_ItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>

@@ -26,7 +26,9 @@ namespace MtbMate.Models {
 
         public string DisplayName => Start.ToString("dd/MM/yy HH:mm");
 
-        public bool ShowAttempts => true;
+        public bool ShowAttempts => Model.Instance.SegmentAttempts
+            .Where(i => i.RideId == Id)
+            .Any();
 
         public IList<Location> MovingLocations => Locations
             .Where(i => i.Mph >= 1)
