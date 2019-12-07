@@ -37,6 +37,8 @@ namespace MtbMate.Models {
             .Select(i => i.Medal)
             .ToList();
 
+        // At the moment we calculate these on demand as they are changing all the time,
+        // however it probably makes sense to store them eventually
         public IList<IAchievement> Achievements => Model.Instance.Achievements
             .Where(i => i.Check(this))
             .ToList();

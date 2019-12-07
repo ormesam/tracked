@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MtbMate.Models;
 
@@ -6,17 +7,23 @@ namespace MtbMate.Achievements {
     public abstract class AchievementBase {
         public abstract bool Check(Ride ride);
 
-        public bool HasBeenAchieved => GetRides().Any();
+        public bool HasBeenAchieved => Model.Instance.Rides.Any(i => Check(i));
 
         public int AchievedCount => GetRides().Count();
 
         public string AchievedText {
             get {
-                if (HasBeenAchieved) {
-                    return $"Achieved {AchievedCount} times";
+                int achievedCount = AchievedCount;
+
+                if (achievedCount == 0) {
+                    return "--";
                 }
 
-                return "--";
+                if (achievedCount == 1) {
+                    return $"Achieved once on {GetLastRideDate()?.ToShortDateString()}";
+                }
+
+                return $"Achieved {AchievedCount} times, last on {GetLastRideDate()?.ToShortDateString()}";
             }
         }
 
@@ -26,6 +33,16 @@ namespace MtbMate.Achievements {
                     yield return ride;
                 }
             }
+        }
+
+        private DateTime? GetLastRideDate() {
+            foreach (var ride in Model.Instance.Rides.OrderByDescending(i => i.Start)) {
+                if (Check(ride)) {
+                    return ride.Start;
+                }
+            }
+
+            return null;
         }
     }
 }
