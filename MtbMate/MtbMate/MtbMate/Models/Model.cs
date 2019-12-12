@@ -160,11 +160,6 @@ namespace MtbMate.Models {
         public async Task RunUtilityAsync() {
             // Perform single use operations here such as fixing data.
 
-            foreach (var attempt in SegmentAttempts) {
-                attempt.SegmentAttemptId = null;
-                await SaveSegmentAttempt(attempt);
-            }
-
             Toast.LongAlert("Done!");
 
             await Task.CompletedTask;
