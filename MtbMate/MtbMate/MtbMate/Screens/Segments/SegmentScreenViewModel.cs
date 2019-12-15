@@ -50,13 +50,5 @@ namespace MtbMate.Screens.Segments {
         public async Task GoToAttempt(INavigation nav, SegmentAttempt attempt) {
             await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
         }
-
-        public async Task RecompareRides() {
-            await Model.Instance.RemoveSegmentAttempts(Attempts);
-
-            await Model.Instance.AnalyseExistingRides(Segment);
-
-            OnPropertyChanged(nameof(Attempts));
-        }
     }
 }

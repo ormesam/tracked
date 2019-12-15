@@ -22,10 +22,6 @@ namespace MtbMate.Screens.Segments {
             await ViewModel.DeleteSegment(Navigation);
         }
 
-        private async void RecompareRides_Clicked(object sender, EventArgs e) {
-            await ViewModel.RecompareRides();
-        }
-
         private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
             await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttempt);
         }

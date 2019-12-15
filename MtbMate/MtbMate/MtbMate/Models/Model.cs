@@ -140,12 +140,6 @@ namespace MtbMate.Models {
             }
         }
 
-        public async Task SaveSegmentAttempts(IList<SegmentAttempt> segmentAttempts) {
-            foreach (var attempt in segmentAttempts) {
-                await SaveSegmentAttempt(attempt);
-            }
-        }
-
         public async Task SaveSegmentAttempt(SegmentAttempt segmentAttempt) {
             if (segmentAttempt.Id == null) {
                 segmentAttempt.Id = Guid.NewGuid();

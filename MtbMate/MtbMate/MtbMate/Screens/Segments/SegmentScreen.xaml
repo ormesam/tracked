@@ -7,10 +7,6 @@
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
-            Text="Re-compare Rides"
-            Clicked="RecompareRides_Clicked"
-            Order="Secondary" />
-        <ToolbarItem
             Text="Delete"
             Clicked="Delete_Clicked"
             Order="Secondary" />
