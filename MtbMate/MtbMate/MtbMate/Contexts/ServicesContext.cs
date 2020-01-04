@@ -99,10 +99,6 @@ namespace MtbMate.Contexts {
         public async Task<IList<Ride>> GetRides(IList<int> existingRideIds) {
             var results = await PostAsync<IList<RideDto>>("rides/get", existingRideIds);
 
-            if (results == null) {
-                return new List<Ride>();
-            }
-
             return results
                 .Select(ride => new Ride {
                     RideId = ride.RideId,
@@ -140,10 +136,6 @@ namespace MtbMate.Contexts {
         public async Task<IList<Segment>> GetSegments(IList<int> existingSegmentIds) {
             var results = await PostAsync<IList<SegmentDto>>("segments/get", existingSegmentIds);
 
-            if (results == null) {
-                return new List<Segment>();
-            }
-
             return results
                 .Select(s => new Segment {
                     Created = s.Created,
@@ -158,10 +150,6 @@ namespace MtbMate.Contexts {
 
         public async Task<IList<SegmentAttempt>> GetSegmentAttempts(IList<int> existingAttemptIds) {
             var results = await PostAsync<IList<SegmentAttemptDto>>("segments/get-attempts", existingAttemptIds);
-
-            if (results == null) {
-                return new List<SegmentAttempt>();
-            }
 
             var ridesById = Model.Instance.Rides
                 .Where(row => row.RideId != null)
@@ -215,28 +203,21 @@ namespace MtbMate.Contexts {
                     request.Headers.Add("Authorization", "Bearer " + mainContext.Security.AccessToken);
                 }
 
-                HttpResponseMessage response;
-
                 try {
-                    response = await client.SendAsync(request);
-                } catch (Exception) {
-                    Toast.LongAlert("Unable to connect to the API");
+                    HttpResponseMessage response = await client.SendAsync(request);
 
-                    return default;
+                    if (!response.IsSuccessStatusCode) {
+                        await HandleRequestError(response);
+                    }
+
+                    var jsonSerializerSettings = new JsonSerializerSettings {
+                        DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                    };
+
+                    return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync(), jsonSerializerSettings);
+                } catch (Exception ex) {
+                    throw new ServiceException(ex.Message);
                 }
-
-
-                if (!response.IsSuccessStatusCode) {
-                    await HandleRequestError(response);
-
-                    return default;
-                }
-
-                var jsonSerializerSettings = new JsonSerializerSettings {
-                    DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                };
-
-                return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync(), jsonSerializerSettings);
             }
         }
 
@@ -244,10 +225,10 @@ namespace MtbMate.Contexts {
             if (response.StatusCode == HttpStatusCode.Unauthorized) {
                 await mainContext.Security.ClearAccessToken();
 
-                Toast.LongAlert("You have been logged out.");
+                throw new ServiceException("You have been logged out.");
             }
 
-            Toast.LongAlert("API Error");
+            throw new ServiceException("API Error");
         }
     }
 }

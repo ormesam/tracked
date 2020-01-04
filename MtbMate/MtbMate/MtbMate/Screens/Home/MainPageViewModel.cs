@@ -32,11 +32,14 @@ namespace MtbMate.Home {
                 return new Command(async () => {
                     IsRefreshing = true;
 
-                    await Sync();
-
-                    Refresh();
-
-                    IsRefreshing = false;
+                    try {
+                        await Sync();
+                    } catch (ServiceException ex) {
+                        Toast.LongAlert(ex.Message);
+                    } finally {
+                        Refresh();
+                        IsRefreshing = false;
+                    }
                 });
             }
         }

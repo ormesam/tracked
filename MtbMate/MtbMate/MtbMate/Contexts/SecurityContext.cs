@@ -83,11 +83,15 @@ namespace MtbMate.Contexts {
             if (e.IsAuthenticated) {
                 string accessToken = e.Account.Properties["id_token"];
 
-                var loginResponse = await mainContext.Services.Login(accessToken);
+                try {
+                    var loginResponse = await mainContext.Services.Login(accessToken);
 
-                await SetAccessToken(loginResponse.AccessToken, loginResponse.Name);
+                    await SetAccessToken(loginResponse.AccessToken, loginResponse.Name);
 
-                Toast.LongAlert("Connected to Google");
+                    Toast.LongAlert("Connected to Google");
+                } catch (ServiceException) {
+                    Toast.LongAlert("Unable to connect to Google\nTry again later");
+                }
             }
         }
     }
