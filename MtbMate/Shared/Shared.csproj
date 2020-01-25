@@ -1,7 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ConstantFile Include="Constants.cs" />
+    <OriginalConstantFile Include="OriginalConstants.cs" />
+    <LocalConstantFile Include="LocalConstants.cs" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="Exists('$(ProjectDir)\LocalConstants.cs')">
+    <Move SourceFiles="@(ConstantFile)" DestinationFiles="@(OriginalConstantFile)" />
+    <Move SourceFiles="@(LocalConstantFile)" DestinationFiles="@(ConstantFile)" />
+  </Target>
+
+  <Target Name="PostBuild" BeforeTargets="PostBuildEvent" Condition="Exists('$(ProjectDir)\OriginalConstants.cs')">
+    <Move SourceFiles="@(ConstantFile)" DestinationFiles="@(LocalConstantFile)" />
+    <Move SourceFiles="@(OriginalConstantFile)" DestinationFiles="@(ConstantFile)" />
+  </Target>
+
+  <ItemGroup>
+    <Compile Remove="LocalConstants.cs" />
+    <Compile Remove="OriginalConstants.cs" />
+  </ItemGroup>
 
 </Project>
