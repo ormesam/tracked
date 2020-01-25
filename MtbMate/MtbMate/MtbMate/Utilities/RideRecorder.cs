@@ -21,9 +21,7 @@ namespace MtbMate.Utilities {
         }
 
         public async Task StartRide() {
-            if (Ride.Start == null) {
-                Ride.Start = DateTime.UtcNow;
-            }
+            Ride.Start = DateTime.UtcNow;
 
             AccelerometerUtility.Instance.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
