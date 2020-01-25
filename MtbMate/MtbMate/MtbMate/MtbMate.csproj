@@ -12,8 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="akavache" Version="6.8.1" />
+    <PackageReference Include="akavache" Version="6.9.10" />
     <PackageReference Include="GeoCoordinate" Version="1.1.0" />
+    <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.43.0.1602" />
     <PackageReference Include="OxyPlot.Xamarin.Forms" Version="1.0.0" />
     <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.6" />
