@@ -18,11 +18,9 @@ namespace MtbMate.Models {
         public string Name { get; set; }
         [JsonProperty]
         public IList<SegmentLocation> Points { get; set; }
-        [JsonProperty]
-        public DateTime Created { get; set; }
         public SegmentLocation Start => Points.FirstOrDefault();
         public SegmentLocation End => Points.LastOrDefault();
-        public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Created.ToString("dd/MM/yy HH:mm") : Name;
+        public string DisplayName => Name;
 
         public Segment() {
             Points = new List<SegmentLocation>();

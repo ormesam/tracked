@@ -69,7 +69,6 @@ namespace MtbMate.Contexts {
             int? segmentId = await PostAsync<int?>("segments/add", new SegmentDto {
                 SegmentId = segment.SegmentId,
                 Name = segment.Name,
-                Created = segment.Created,
                 Locations = segment.Points
                     .Select(i => new SegmentLocationDto {
                         SegmentId = segment.SegmentId,
@@ -138,7 +137,6 @@ namespace MtbMate.Contexts {
 
             return results
                 .Select(s => new Segment {
-                    Created = s.Created,
                     SegmentId = s.SegmentId,
                     Name = s.Name,
                     Points = s.Locations

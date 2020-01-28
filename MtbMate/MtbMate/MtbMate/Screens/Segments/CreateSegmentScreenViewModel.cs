@@ -70,7 +70,6 @@ namespace MtbMate.Screens.Segments {
                 }
 
                 segment.Name = newName;
-                segment.Created = DateTime.UtcNow;
 
                 await Model.Instance.SaveSegment(segment);
 
