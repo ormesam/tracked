@@ -73,6 +73,8 @@ namespace MtbMate.Screens.Segments {
 
                 await Model.Instance.SaveSegment(segment);
 
+                await Model.Instance.AnalyseExistingRides(segment);
+
                 await nav.PopAsync();
             });
         }

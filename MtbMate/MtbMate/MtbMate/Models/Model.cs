@@ -104,8 +104,6 @@ namespace MtbMate.Models {
                 segment.Id = Guid.NewGuid();
 
                 Segments.Add(segment);
-
-                await AnalyseExistingRides(segment);
             }
 
             await storage.SaveObject(segment.Id.Value, segment);
