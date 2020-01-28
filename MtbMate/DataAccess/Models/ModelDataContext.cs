@@ -29,7 +29,7 @@ namespace DataAccess.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost\\SQLSERVER17;Database=MtbMateDev;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=localhost;Database=MtbMateDev;Trusted_Connection=True;");
             }
         }
 
@@ -151,7 +151,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD197900C0119")
+                    .HasName("UQ__User__437CD197F357DBA7")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)
