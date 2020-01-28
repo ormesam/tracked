@@ -30,7 +30,11 @@ namespace MtbMate {
         protected override void OnStart() {
             // Handle when your app starts
             BlobCache.EnsureInitialized();
+#if DEBUG
+            BlobCache.ApplicationName = "Mtb Mate Dev";
+#else
             BlobCache.ApplicationName = "Mtb Mate";
+#endif
             BlobCache.ForcedDateTimeKind = DateTimeKind.Utc;
         }
 

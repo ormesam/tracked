@@ -22,6 +22,7 @@ namespace DataAccess.Models
         public virtual DbSet<Segment> Segment { get; set; }
         public virtual DbSet<SegmentAttempt> SegmentAttempt { get; set; }
         public virtual DbSet<SegmentLocation> SegmentLocation { get; set; }
+        public virtual DbSet<TraceMessage> TraceMessage { get; set; }
         public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -148,10 +149,17 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_SegmentLocation_Segment");
             });
 
+            modelBuilder.Entity<TraceMessage>(entity =>
+            {
+                entity.Property(e => e.DateUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.Message).IsRequired();
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD197F357DBA7")
+                    .HasName("UQ__User__437CD197CC991ED7")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)

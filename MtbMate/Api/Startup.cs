@@ -1,4 +1,5 @@
 using System.Text;
+using Api.Middleware;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -43,6 +44,8 @@ namespace Api {
                 };
             });
 
+            services.AddTransient<ExceptionLoggingMiddleware>();
+
             services.AddDbContext<ModelDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
         }
 
@@ -51,7 +54,7 @@ namespace Api {
                 app.UseDeveloperExceptionPage();
             }
 
-            // app.UseHttpsRedirection();
+            app.ConfigureCustomExceptionMiddleware();
 
             app.UseRouting();
 
