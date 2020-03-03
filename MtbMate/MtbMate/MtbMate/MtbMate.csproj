@@ -39,27 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\MedalsCell.xaml.cs">
-      <DependentUpon>MedalsCell.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Controls\MapControl.xaml.cs">
-      <DependentUpon>MapControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Screens\Achievements\AchievementOverviewScreen.xaml.cs">
-      <DependentUpon>AchievementOverviewScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Screens\Bluetooth\BluetoothSetupScreen.xaml.cs">
-      <DependentUpon>BluetoothSetupScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Screens\Review\SpeedAnalysisScreen.xaml.cs">
-      <DependentUpon>SpeedAnalysisScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Screens\Review\RecordScreen.xaml.cs">
-      <DependentUpon>RecordScreen.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Update="Controls\JumpsControl.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
