@@ -17,8 +17,8 @@ namespace Tracked.Screens.Achievements {
 
         public IEnumerable<Ride> Rides => achievement.GetRides();
 
-        public async Task GoToRide(INavigation nav, Ride ride) {
-            await Context.UI.GoToRideReviewScreenAsync(nav, ride);
+        public async Task GoToRide(Ride ride) {
+            await Context.UI.GoToRideReviewScreenAsync(ride);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tracked.Contexts;
+using Xamarin.Forms;
 
 namespace Tracked.Screens.Settings {
     public class SettingsScreenViewModel : ViewModelBase {
@@ -21,7 +22,7 @@ namespace Tracked.Screens.Settings {
             }
         }
 
-        public async Task Save(Xamarin.Forms.INavigation nav) {
+        public async Task Save(INavigation nav) {
             Context.Settings.DetectJumps = DetectJumps;
 
             await Context.Storage.SaveSettings(Context.Settings);

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Tracked.Achievements;
 using Tracked.Contexts;
 using Tracked.Models;
-using Xamarin.Forms;
 
 namespace Tracked.Screens.Review {
     public class AchievementOverviewScreenViewModel : ViewModelBase {
@@ -14,12 +13,12 @@ namespace Tracked.Screens.Review {
 
         public ObservableCollection<IAchievement> Achievements => Model.Instance.Achievements;
 
-        public async Task GoToAchievement(INavigation nav, IAchievement achievement) {
+        public async Task GoToAchievement(IAchievement achievement) {
             if (!achievement.HasBeenAchieved) {
                 return;
             }
 
-            await Context.UI.GoToAchievementScreenAsync(nav, achievement);
+            await Context.UI.GoToAchievementScreenAsync(achievement);
         }
     }
 }

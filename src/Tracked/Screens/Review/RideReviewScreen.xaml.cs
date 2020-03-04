@@ -22,15 +22,15 @@ namespace Tracked.Screens.Review {
         }
 
         private async void JumpBreakdown_Clicked(object sender, EventArgs e) {
-            await ViewModel.ViewJumpBreakdown(Navigation);
+            await ViewModel.ViewJumpBreakdown();
         }
 
         private async void SpeedAnalysis_Clicked(object sender, EventArgs e) {
-            await ViewModel.GoToSpeedAnalysis(Navigation);
+            await ViewModel.GoToSpeedAnalysis();
         }
 
         private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttempt);
+            await ViewModel.GoToAttempt(e.Item as SegmentAttempt);
         }
     }
 }

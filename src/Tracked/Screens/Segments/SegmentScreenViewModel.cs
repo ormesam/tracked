@@ -47,8 +47,8 @@ namespace Tracked.Screens.Segments {
             await nav.PopAsync();
         }
 
-        public async Task GoToAttempt(INavigation nav, SegmentAttempt attempt) {
-            await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
+        public async Task GoToAttempt(SegmentAttempt attempt) {
+            await Context.UI.GoToSegmentAttemptScreenAsync(attempt);
         }
     }
 }

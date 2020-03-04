@@ -18,7 +18,8 @@ namespace Tracked.Screens.Review {
         }
 
         private async void Stop_Clicked(object sender, EventArgs e) {
-            await ViewModel.Stop(Navigation);
+            await ViewModel.Stop();
+            await Navigation.PopToRootAsync();
         }
     }
 }

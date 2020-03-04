@@ -13,12 +13,12 @@ namespace Tracked.Screens.Settings {
 
         public override string Title => "Segments";
 
-        public async Task AddSegment(INavigation nav) {
-            await Context.UI.GoToCreateSegmentScreenAsync(nav);
+        public async Task AddSegment() {
+            await Context.UI.GoToCreateSegmentScreenAsync();
         }
 
-        public async Task GoToSegment(INavigation nav, Segment segment) {
-            await Context.UI.GoToSegmentScreenAsync(nav, segment);
+        public async Task GoToSegment(Segment segment) {
+            await Context.UI.GoToSegmentScreenAsync(segment);
         }
     }
 }

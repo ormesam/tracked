@@ -14,11 +14,11 @@ namespace Tracked.Screens.Segments {
         public SelectRideScreenViewModel ViewModel => BindingContext as SelectRideScreenViewModel;
 
         private async void Ride_Tapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.CreateSegment(Navigation, e.Item as Ride);
+            await ViewModel.CreateSegment(e.Item as Ride);
         }
 
         private async void CreateFromScratch_Clicked(object sender, System.EventArgs e) {
-            await ViewModel.CreateSegment(Navigation, null);
+            await ViewModel.CreateSegment(null);
         }
     }
 }

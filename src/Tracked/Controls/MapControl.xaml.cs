@@ -19,7 +19,7 @@ namespace Tracked.Controls {
         }
 
         private async void Map_MapClicked(object sender, MapClickedEventArgs e) {
-            await ViewModel.OnMapClicked(Navigation, e);
+            await ViewModel.OnMapClicked(e);
         }
 
         private void ChangeLayer_Pressed(object sender, EventArgs e) {

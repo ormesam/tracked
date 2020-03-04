@@ -75,16 +75,16 @@ namespace Tracked.Screens.Review {
             await Model.Instance.RemoveRide(Ride as Ride);
         }
 
-        public async Task GoToAttempt(INavigation nav, SegmentAttempt attempt) {
-            await Context.UI.GoToSegmentAttemptScreenAsync(nav, attempt);
+        public async Task GoToAttempt(SegmentAttempt attempt) {
+            await Context.UI.GoToSegmentAttemptScreenAsync(attempt);
         }
 
-        public async Task GoToSpeedAnalysis(INavigation nav) {
-            await Context.UI.GoToSpeedAnalysisScreenAsync(nav, Ride);
+        public async Task GoToSpeedAnalysis() {
+            await Context.UI.GoToSpeedAnalysisScreenAsync(Ride);
         }
 
-        public async Task ViewJumpBreakdown(INavigation nav) {
-            await Context.UI.GoToAccelerometerReadingsScreenAsync(nav, Ride);
+        public async Task ViewJumpBreakdown() {
+            await Context.UI.GoToAccelerometerReadingsScreenAsync(Ride);
         }
     }
 }

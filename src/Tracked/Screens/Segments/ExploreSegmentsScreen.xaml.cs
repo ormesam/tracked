@@ -20,11 +20,11 @@ namespace Tracked.Screens.Settings {
         }
 
         private async void Add_Clicked(object sender, System.EventArgs e) {
-            await ViewModel.AddSegment(Navigation);
+            await ViewModel.AddSegment();
         }
 
         private async void Segments_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToSegment(Navigation, e.Item as Segment);
+            await ViewModel.GoToSegment(e.Item as Segment);
         }
     }
 }

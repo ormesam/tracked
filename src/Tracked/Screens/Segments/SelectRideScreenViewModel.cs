@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Tracked.Contexts;
 using Tracked.Models;
 using Tracked.Utilities;
-using Xamarin.Forms;
 
 namespace Tracked.Screens.Segments {
     public class SelectRideScreenViewModel : ViewModelBase {
@@ -17,8 +16,8 @@ namespace Tracked.Screens.Segments {
             .OrderByDescending(i => i.Start)
             .ToObservable();
 
-        public async Task CreateSegment(INavigation nav, Ride ride) {
-            await Context.UI.GoToCreateSegmentScreenAsync(nav, ride);
+        public async Task CreateSegment(Ride ride) {
+            await Context.UI.GoToCreateSegmentScreenAsync(ride);
         }
     }
 }

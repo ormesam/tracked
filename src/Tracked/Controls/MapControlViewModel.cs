@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Plugin.Geolocator;
 using Tracked.Contexts;
 using Tracked.Models;
 using Tracked.Screens;
 using Tracked.Utilities;
-using Plugin.Geolocator;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
@@ -145,20 +145,20 @@ namespace Tracked.Controls {
             AddPolyLine(polylineLocations, lastColour);
         }
 
-        public async Task OnMapClicked(INavigation nav, MapClickedEventArgs args) {
+        public async Task OnMapClicked(MapClickedEventArgs args) {
             if (goToMapPageOnClick) {
-                await GoToMapScreenAsync(nav);
+                await GoToMapScreenAsync();
             } else {
                 MapTapped?.Invoke(null, args);
             }
         }
 
-        private async Task GoToMapScreenAsync(INavigation nav) {
+        private async Task GoToMapScreenAsync() {
             if (!goToMapPageOnClick) {
                 return;
             }
 
-            await Context.UI.GoToMapScreenAsync(nav, title, Locations, ShowRideFeatures);
+            await Context.UI.GoToMapScreenAsync(title, Locations, ShowRideFeatures);
         }
 
         private void AddMaxSpeedPin(MapLocation location, bool hasMultiplePins) {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using Tracked.Contexts;
-using Tracked.Models;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Tracked.Contexts;
+using Tracked.Models;
 using Xamarin.Forms;
 
 namespace Tracked.Home {
@@ -35,12 +35,12 @@ namespace Tracked.Home {
             }
 
             if (status == PermissionStatus.Granted) {
-                await ViewModel.GoToCreateRide(Navigation);
+                await ViewModel.GoToCreateRide();
             }
         }
 
         private async void Ride_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToReview(Navigation, e.Item as Ride);
+            await ViewModel.GoToReview(e.Item as Ride);
         }
     }
 }

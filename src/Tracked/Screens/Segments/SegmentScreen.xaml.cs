@@ -23,7 +23,7 @@ namespace Tracked.Screens.Segments {
         }
 
         private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAttempt(Navigation, e.Item as SegmentAttempt);
+            await ViewModel.GoToAttempt(e.Item as SegmentAttempt);
         }
     }
 }

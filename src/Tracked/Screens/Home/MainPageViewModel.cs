@@ -50,12 +50,12 @@ namespace Tracked.Home {
 
         public bool HasRides => Rides.Any();
 
-        public async Task GoToCreateRide(INavigation nav) {
-            await Context.UI.GoToRecordScreenAsync(nav);
+        public async Task GoToCreateRide() {
+            await Context.UI.GoToRecordScreenAsync();
         }
 
-        public async Task GoToReview(INavigation nav, Ride ride) {
-            await Context.UI.GoToRideReviewScreenAsync(nav, ride);
+        public async Task GoToReview(Ride ride) {
+            await Context.UI.GoToRideReviewScreenAsync(ride);
         }
 
         public async Task Sync() {

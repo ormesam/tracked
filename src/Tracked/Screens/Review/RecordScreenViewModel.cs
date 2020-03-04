@@ -5,7 +5,6 @@ using Tracked.Contexts;
 using Tracked.Controls;
 using Tracked.Models;
 using Tracked.Utilities;
-using Xamarin.Forms;
 
 namespace Tracked.Screens.Review {
     public class RecordScreenViewModel : ViewModelBase {
@@ -97,10 +96,8 @@ namespace Tracked.Screens.Review {
             await rideController.StartRide();
         }
 
-        public async Task Stop(INavigation nav) {
+        public async Task Stop() {
             await rideController.StopRide();
-
-            await nav.PopToRootAsync();
         }
     }
 }
