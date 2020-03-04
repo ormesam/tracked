@@ -328,4 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-/MtbMate/Shared/LocalConstants.cs
+
+/src/Shared/LocalConstants.cs

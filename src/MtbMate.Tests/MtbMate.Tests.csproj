@@ -62,7 +62,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MtbMate\MtbMate\MtbMate.csproj">
+    <ProjectReference Include="..\MtbMate\MtbMate.csproj">
       <Project>{93E0597C-E825-4076-A5B1-90ED1414A347}</Project>
       <Name>MtbMate</Name>
     </ProjectReference>
