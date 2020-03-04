@@ -62,9 +62,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MtbMate\MtbMate.csproj">
+    <ProjectReference Include="..\MtbMate\Tracked.csproj">
       <Project>{93E0597C-E825-4076-A5B1-90ED1414A347}</Project>
-      <Name>MtbMate</Name>
+      <Name>Tracked</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

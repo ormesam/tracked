@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MtbMate.Utilities;
+using Tracked.Utilities;
 
-namespace MtbMate.Tests.Segments {
+namespace Tracked.Tests.Segments {
     [TestClass]
     public class TarlandOrangeSegment {
         [TestMethod]

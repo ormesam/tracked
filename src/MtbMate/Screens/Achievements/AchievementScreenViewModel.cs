@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MtbMate.Achievements;
-using MtbMate.Contexts;
-using MtbMate.Models;
+using Tracked.Achievements;
+using Tracked.Contexts;
+using Tracked.Models;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Achievements {
+namespace Tracked.Screens.Achievements {
     public class AchievementScreenViewModel : ViewModelBase {
         private readonly IAchievement achievement;
 

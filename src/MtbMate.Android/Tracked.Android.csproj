@@ -144,9 +144,9 @@
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MtbMate\MtbMate.csproj">
-      <Project>{3EB4631B-7AB9-461D-BA90-6B2FC0D361BE}</Project>
-      <Name>MtbMate</Name>
+    <ProjectReference Include="..\MtbMate\Tracked.csproj">
+      <Project>{93E0597C-E825-4076-A5B1-90ED1414A347}</Project>
+      <Name>Tracked</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{bd215e62-424e-438d-80a0-8cbfcff02b61}</Project>

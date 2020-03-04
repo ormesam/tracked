@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
-namespace MtbMate.Controls {
+namespace Tracked.Controls {
     public class ExtendedListView : ListView {
         public static readonly BindableProperty IsScrollEnabledProperty = BindableProperty.Create(
             nameof(IsScrollEnabledProperty),

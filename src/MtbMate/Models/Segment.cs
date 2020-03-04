@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using MtbMate.Utilities;
+using Tracked.Utilities;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 
-namespace MtbMate.Models {
+namespace Tracked.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Segment {
         [JsonProperty]

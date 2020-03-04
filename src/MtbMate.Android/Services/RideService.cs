@@ -3,7 +3,7 @@ using Android.Content;
 using Android.OS;
 using Android.Support.V4.App;
 
-namespace MtbMate.Droid.Services {
+namespace Tracked.Droid.Services {
     [Service]
     public class RideService : Service {
         private const string channelId = "default";

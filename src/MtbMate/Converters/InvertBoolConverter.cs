@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace MtbMate.Converters
+namespace Tracked.Converters
 {
     public class InvertBoolConverter : IValueConverter
     {

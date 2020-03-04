@@ -1,7 +1,7 @@
 ﻿using System;
-using MtbMate.Models;
+using Tracked.Models;
 
-namespace MtbMate.JumpDetection {
+namespace Tracked.JumpDetection {
     public interface IJumpLocationDetector {
         Location GetLastLocation(DateTime time);
     }

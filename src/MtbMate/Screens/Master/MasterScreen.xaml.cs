@@ -1,10 +1,10 @@
 ﻿
-using MtbMate.Contexts;
-using MtbMate.Home;
+using Tracked.Contexts;
+using Tracked.Home;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Master {
+namespace Tracked.Screens.Master {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MasterScreen : MasterDetailPage {
         public MasterScreen(MainContext context) {

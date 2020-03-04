@@ -1,13 +1,13 @@
 ﻿using System.Linq;
-using MtbMate.Contexts;
-using MtbMate.JumpDetection;
-using MtbMate.Models;
+using Tracked.Contexts;
+using Tracked.JumpDetection;
+using Tracked.Models;
 using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 
-namespace MtbMate.Screens.Review {
+namespace Tracked.Screens.Review {
     internal class AccelerometerReadingsScreenViewModel : ViewModelBase {
         private readonly IRide ride;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MtbMate.Utilities {
+namespace Tracked.Utilities {
     public class ServiceException : Exception {
         public ServiceException() : base() { }
         public ServiceException(string msg) : base(msg) { }

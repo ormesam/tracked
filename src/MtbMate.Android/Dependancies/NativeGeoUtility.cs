@@ -1,9 +1,9 @@
-﻿using MtbMate.Dependancies;
-using MtbMate.Droid.Dependancies;
+﻿using Tracked.Dependancies;
+using Tracked.Droid.Dependancies;
 using Plugin.CurrentActivity;
 
 [assembly: Xamarin.Forms.Dependency(typeof(NativeGeoUtility))]
-namespace MtbMate.Droid.Dependancies {
+namespace Tracked.Droid.Dependancies {
     public class NativeGeoUtility : INativeGeoUtility {
         private MainActivity mainActivity;
 

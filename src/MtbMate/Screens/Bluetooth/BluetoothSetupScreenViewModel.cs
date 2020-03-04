@@ -3,14 +3,14 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using MtbMate.Accelerometer;
-using MtbMate.Contexts;
+using Tracked.Accelerometer;
+using Tracked.Contexts;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Exceptions;
 
-namespace MtbMate.Screens.Bluetooth {
+namespace Tracked.Screens.Bluetooth {
     public class BluetoothSetupScreenViewModel : ViewModelBase {
         private bool isScanning;
         private IBluetoothLE ble => CrossBluetoothLE.Current;

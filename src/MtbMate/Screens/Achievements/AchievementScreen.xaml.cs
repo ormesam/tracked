@@ -1,10 +1,10 @@
-﻿using MtbMate.Achievements;
-using MtbMate.Contexts;
-using MtbMate.Models;
+﻿using Tracked.Achievements;
+using Tracked.Contexts;
+using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Achievements {
+namespace Tracked.Screens.Achievements {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AchievementScreen : ContentPage {
         public AchievementScreen(MainContext context, IAchievement achievement) {

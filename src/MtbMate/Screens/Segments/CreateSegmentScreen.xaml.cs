@@ -1,10 +1,10 @@
 ﻿using System;
-using MtbMate.Contexts;
-using MtbMate.Models;
+using Tracked.Contexts;
+using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Segments {
+namespace Tracked.Screens.Segments {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CreateSegmentScreen : ContentPage {
         public CreateSegmentScreen(MainContext context, Ride ride) {

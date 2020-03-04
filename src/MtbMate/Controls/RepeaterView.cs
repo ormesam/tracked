@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using Xamarin.Forms;
 
-namespace MtbMate.Controls {
+namespace Tracked.Controls {
     public class RepeaterView : StackLayout {
         public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
             nameof(ItemTemplate),

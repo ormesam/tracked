@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace MtbMate.Models {
+namespace Tracked.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Jump {
         [JsonProperty]

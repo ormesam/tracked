@@ -1,7 +1,7 @@
 ﻿using Android.Content;
 using Android.OS;
 
-namespace MtbMate.Droid.Services
+namespace Tracked.Droid.Services
 {
     public class CustomServiceConnection : Java.Lang.Object, IServiceConnection
     {

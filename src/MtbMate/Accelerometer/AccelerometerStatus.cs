@@ -1,4 +1,4 @@
-﻿namespace MtbMate.Accelerometer {
+﻿namespace Tracked.Accelerometer {
     public enum AccelerometerStatus {
         NotConnected,
         NotReady,

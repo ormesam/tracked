@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtbMate.Android", "MtbMate.Android\MtbMate.Android.csproj", "{92B547C9-549B-4DCD-962D-1E44BD6D8C79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracked.Android", "MtbMate.Android\Tracked.Android.csproj", "{92B547C9-549B-4DCD-962D-1E44BD6D8C79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MtbMate", "MtbMate\MtbMate.csproj", "{93E0597C-E825-4076-A5B1-90ED1414A347}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracked", "MtbMate\Tracked.csproj", "{93E0597C-E825-4076-A5B1-90ED1414A347}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MtbMate.Tests", "MtbMate.Tests\MtbMate.Tests.csproj", "{43E12396-CC15-4C5A-A728-451E2BF1B23B}"
 EndProject

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MtbMate.Accelerometer;
-using MtbMate.Contexts;
-using MtbMate.Controls;
-using MtbMate.Models;
-using MtbMate.Utilities;
+using Tracked.Accelerometer;
+using Tracked.Contexts;
+using Tracked.Controls;
+using Tracked.Models;
+using Tracked.Utilities;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Review {
+namespace Tracked.Screens.Review {
     public class RecordScreenViewModel : ViewModelBase {
         private readonly RideRecorder rideController;
         private bool isRunning;

@@ -1,7 +1,7 @@
-﻿using MtbMate.Dependancies;
+﻿using Tracked.Dependancies;
 using Xamarin.Forms;
 
-namespace MtbMate.Utilities {
+namespace Tracked.Utilities {
     public static class Toast {
         public static void LongAlert(string message) {
             DependencyService.Get<IToast>().LongAlert(message);

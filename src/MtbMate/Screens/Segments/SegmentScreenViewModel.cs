@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MtbMate.Contexts;
-using MtbMate.Controls;
-using MtbMate.Models;
-using MtbMate.Utilities;
+using Tracked.Contexts;
+using Tracked.Controls;
+using Tracked.Models;
+using Tracked.Utilities;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Segments {
+namespace Tracked.Screens.Segments {
     public class SegmentScreenViewModel : ViewModelBase {
         public Segment Segment { get; }
         public MapControlViewModel MapViewModel { get; }

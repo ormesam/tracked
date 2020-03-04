@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using MtbMate.Achievements;
-using MtbMate.Contexts;
-using MtbMate.Utilities;
+using Tracked.Achievements;
+using Tracked.Contexts;
+using Tracked.Utilities;
 
-namespace MtbMate.Models {
+namespace Tracked.Models {
     public class Model {
         #region Singleton stuff
 

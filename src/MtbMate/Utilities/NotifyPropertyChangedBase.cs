@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MtbMate.Utilities
+namespace Tracked.Utilities
 {
     public class NotifyPropertyChangedBase : INotifyPropertyChanged
     {

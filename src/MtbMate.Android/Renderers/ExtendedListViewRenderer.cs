@@ -1,11 +1,11 @@
 ﻿using Android.Content;
-using MtbMate.Controls;
-using MtbMate.Droid.Renderers;
+using Tracked.Controls;
+using Tracked.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(ExtendedListView), typeof(ExtendedListViewRenderer))]
-namespace MtbMate.Droid.Renderers {
+namespace Tracked.Droid.Renderers {
     public class ExtendedListViewRenderer : ListViewRenderer {
         public ExtendedListViewRenderer(Context context) : base(context) {
         }

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MtbMate.Contexts;
-using MtbMate.Controls;
-using MtbMate.Models;
-using MtbMate.Utilities;
+using Tracked.Contexts;
+using Tracked.Controls;
+using Tracked.Models;
+using Tracked.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
-namespace MtbMate.Screens.Segments {
+namespace Tracked.Screens.Segments {
     public class CreateSegmentScreenViewModel : ViewModelBase {
         private readonly Segment segment;
         private int count;

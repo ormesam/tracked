@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using MtbMate.Models;
+using Tracked.Models;
 
-namespace MtbMate.Achievements {
+namespace Tracked.Achievements {
     public class JumpAchievement : AchievementBase, IAchievement {
         public string Name => $"Airtime {MinimumAirtime}s";
         public double MinimumAirtime { get; set; }

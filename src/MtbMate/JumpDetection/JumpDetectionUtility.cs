@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using MtbMate.Models;
-using MtbMate.Utilities;
+using Tracked.Models;
+using Tracked.Utilities;
 
-namespace MtbMate.JumpDetection {
+namespace Tracked.JumpDetection {
     public class JumpDetectionUtility {
         private readonly IJumpLocationDetector jumpLocationDetector;
         private readonly Queue<AccelerometerReading> readings;

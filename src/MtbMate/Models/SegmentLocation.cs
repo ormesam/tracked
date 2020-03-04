@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MtbMate.Models {
+namespace Tracked.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class SegmentLocation {
         [JsonProperty]

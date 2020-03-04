@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MtbMate.Accelerometer;
-using MtbMate.JumpDetection;
-using MtbMate.Models;
+using Tracked.Accelerometer;
+using Tracked.JumpDetection;
+using Tracked.Models;
 
-namespace MtbMate.Utilities {
+namespace Tracked.Utilities {
     public class RideRecorder {
         private readonly bool detectJumps;
         private readonly IList<AccelerometerReading> readings;

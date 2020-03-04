@@ -1,6 +1,6 @@
-﻿using MtbMate.Models;
+﻿using Tracked.Models;
 
-namespace MtbMate.Utilities {
+namespace Tracked.Utilities {
     public delegate void LocationChangedEventHandler(LocationChangedEventArgs e);
 
     public class LocationChangedEventArgs {

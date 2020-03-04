@@ -1,6 +1,6 @@
-﻿using MtbMate.Contexts;
+﻿using Tracked.Contexts;
 
-namespace MtbMate.Screens.Master {
+namespace Tracked.Screens.Master {
 
     public class MasterScreenViewModel : ViewModelBase {
         public MasterScreenViewModel(MainContext context) : base(context) {

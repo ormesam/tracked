@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MtbMate.Models;
+using Tracked.Models;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 
-namespace MtbMate.Accelerometer {
+namespace Tracked.Accelerometer {
     public class AccelerometerUtility {
         #region Singleton stuff
 

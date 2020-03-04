@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using MtbMate.Contexts;
-using MtbMate.Models;
+using Tracked.Contexts;
+using Tracked.Models;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using ChartPlotModel = OxyPlot.PlotModel;
 
-namespace MtbMate.Screens.Review {
+namespace Tracked.Screens.Review {
     public class SpeedAnalysisScreenViewModel : ViewModelBase {
         private readonly IRide ride;
         public ChartPlotModel AnalysisChartModel { get; }

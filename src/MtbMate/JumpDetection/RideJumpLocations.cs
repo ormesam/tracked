@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MtbMate.Models;
+using Tracked.Models;
 
-namespace MtbMate.JumpDetection {
+namespace Tracked.JumpDetection {
     public class RideJumpLocations : IJumpLocationDetector {
         private IList<Location> locations;
 

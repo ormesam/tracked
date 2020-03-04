@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Android.App;
 using Android.Widget;
-using MtbMate.Dependancies;
-using MtbMate.Droid.Dependancies;
+using Tracked.Dependancies;
+using Tracked.Droid.Dependancies;
 using Plugin.CurrentActivity;
 
 [assembly: Xamarin.Forms.Dependency(typeof(PromptUtility))]
-namespace MtbMate.Droid.Dependancies {
+namespace Tracked.Droid.Dependancies {
     public class PromptUtility : IPromptUtility {
         public void ShowInputDialog(string title, string defaultValue, Action<string> onOk) {
             EditText et = new EditText(CrossCurrentActivity.Current.Activity);

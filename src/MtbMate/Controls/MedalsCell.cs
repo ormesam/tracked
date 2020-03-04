@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Shared;
 using Xamarin.Forms;
 
-namespace MtbMate.Controls {
+namespace Tracked.Controls {
     public partial class MedalsCell : ContentView {
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             nameof(Text),

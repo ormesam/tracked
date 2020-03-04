@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using MtbMate.Contexts;
-using MtbMate.Models;
+using Tracked.Contexts;
+using Tracked.Models;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Settings {
+namespace Tracked.Screens.Settings {
     public class ExploreSegmentsScreenViewModel : ViewModelBase {
         public ExploreSegmentsScreenViewModel(MainContext context) : base(context) {
         }

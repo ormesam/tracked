@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using MtbMate.Models;
+using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
-namespace MtbMate.Utilities {
+namespace Tracked.Utilities {
     public static class Extensions {
         public static ObservableCollection<T> ToObservable<T>(this IEnumerable<T> list) {
             return new ObservableCollection<T>(list);

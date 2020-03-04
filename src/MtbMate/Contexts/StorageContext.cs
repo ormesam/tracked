@@ -5,9 +5,9 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
-using MtbMate.Models;
+using Tracked.Models;
 
-namespace MtbMate.Contexts {
+namespace Tracked.Contexts {
     public class StorageContext {
         public readonly IBlobCache Storage = BlobCache.LocalMachine;
 

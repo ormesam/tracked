@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MtbMate.Models;
+using Tracked.Models;
 
-namespace MtbMate.Achievements {
+namespace Tracked.Achievements {
     public abstract class AchievementBase {
         public abstract bool Check(Ride ride);
 

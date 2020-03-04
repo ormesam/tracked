@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MtbMate.Dependancies;
-using MtbMate.JumpDetection;
-using MtbMate.Models;
+using Tracked.Dependancies;
+using Tracked.JumpDetection;
+using Tracked.Models;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using Xamarin.Forms;
 
-namespace MtbMate.Utilities {
+namespace Tracked.Utilities {
     public class GeoUtility : IJumpLocationDetector {
         #region Singleton stuff
 

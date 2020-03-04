@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MtbMate.Auth {
+namespace Tracked.Auth {
     [JsonObject]
     public class GoogleUser {
         [JsonProperty("id")]

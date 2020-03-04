@@ -1,6 +1,6 @@
-﻿using MtbMate.Models;
+﻿using Tracked.Models;
 
-namespace MtbMate.Accelerometer {
+namespace Tracked.Accelerometer {
     public delegate void AccelerometerChangedEventHandler(AccelerometerChangedEventArgs e);
 
     public class AccelerometerChangedEventArgs {

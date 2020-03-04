@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MtbMate.Models;
+using Tracked.Models;
 
-namespace MtbMate.Achievements {
+namespace Tracked.Achievements {
     public interface IAchievement {
         string Name { get; }
         int AchievedCount { get; }

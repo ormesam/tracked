@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MtbMate.Achievements;
-using MtbMate.Dependancies;
-using MtbMate.Home;
-using MtbMate.Models;
-using MtbMate.Screens.Achievements;
-using MtbMate.Screens.Bluetooth;
-using MtbMate.Screens.Review;
-using MtbMate.Screens.Segments;
-using MtbMate.Screens.Settings;
+using Tracked.Achievements;
+using Tracked.Dependancies;
+using Tracked.Home;
+using Tracked.Models;
+using Tracked.Screens.Achievements;
+using Tracked.Screens.Bluetooth;
+using Tracked.Screens.Review;
+using Tracked.Screens.Segments;
+using Tracked.Screens.Settings;
 using Xamarin.Forms;
 
-namespace MtbMate.Contexts {
+namespace Tracked.Contexts {
     public class UIContext {
         private readonly MainContext context;
         private bool isNavigating;

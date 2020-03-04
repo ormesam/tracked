@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MtbMate.Auth;
-using MtbMate.Utilities;
+using Tracked.Auth;
+using Tracked.Utilities;
 using Shared;
 using Xamarin.Auth;
 
-namespace MtbMate.Contexts {
+namespace Tracked.Contexts {
     public class SecurityContext {
         private MainContext mainContext;
         public string AccessToken { get; private set; }

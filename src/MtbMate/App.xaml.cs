@@ -1,13 +1,13 @@
 ﻿using System;
 using Akavache;
-using MtbMate.Accelerometer;
-using MtbMate.Contexts;
-using MtbMate.Models;
-using MtbMate.Screens.Master;
+using Tracked.Accelerometer;
+using Tracked.Contexts;
+using Tracked.Models;
+using Tracked.Screens.Master;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace MtbMate {
+namespace Tracked {
     public partial class App : Application {
         private readonly MainContext mainContext;
         public static new App Current => (App)Application.Current;

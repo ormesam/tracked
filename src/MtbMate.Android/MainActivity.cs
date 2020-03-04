@@ -4,13 +4,13 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using MtbMate.Droid.Services;
+using Tracked.Droid.Services;
 using OxyPlot.Xamarin.Forms.Platform.Android;
 using Plugin.CurrentActivity;
 using Xamarin.Auth;
 using Xamarin.Auth.Presenters.XamarinAndroid;
 
-namespace MtbMate.Droid {
+namespace Tracked.Droid {
     [Activity(Label = "Mtb Mate Dev", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
         public RideService Service { get; set; }

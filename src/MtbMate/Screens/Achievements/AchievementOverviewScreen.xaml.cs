@@ -1,10 +1,10 @@
 ﻿using System;
-using MtbMate.Achievements;
-using MtbMate.Contexts;
+using Tracked.Achievements;
+using Tracked.Contexts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Review {
+namespace Tracked.Screens.Review {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AchievementOverviewScreen : ContentPage {
         public AchievementOverviewScreen(MainContext context) {

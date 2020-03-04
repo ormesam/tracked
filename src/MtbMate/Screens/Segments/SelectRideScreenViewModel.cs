@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using MtbMate.Contexts;
-using MtbMate.Models;
-using MtbMate.Utilities;
+using Tracked.Contexts;
+using Tracked.Models;
+using Tracked.Utilities;
 using Xamarin.Forms;
 
-namespace MtbMate.Screens.Segments {
+namespace Tracked.Screens.Segments {
     public class SelectRideScreenViewModel : ViewModelBase {
         public SelectRideScreenViewModel(MainContext context) : base(context) {
         }

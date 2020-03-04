@@ -3,10 +3,10 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using MtbMate.Auth;
+using Tracked.Auth;
 using Shared;
 
-namespace MtbMate.Droid {
+namespace Tracked.Droid {
     [Activity(Theme = "@style/MainTheme.Interceptor", Label = "CustomUrlSchemeInterceptorActivity", NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
     [IntentFilter(
         new[] { Intent.ActionView },

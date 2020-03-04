@@ -1,6 +1,6 @@
-﻿using MtbMate.Models;
+﻿using Tracked.Models;
 
-namespace MtbMate.Contexts {
+namespace Tracked.Contexts {
     public class MainContext {
         public StorageContext Storage { get; }
         public UIContext UI { get; }

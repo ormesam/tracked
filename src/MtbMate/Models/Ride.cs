@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MtbMate.Achievements;
-using MtbMate.Utilities;
+using Tracked.Achievements;
+using Tracked.Utilities;
 using Newtonsoft.Json;
 using Shared;
 
-namespace MtbMate.Models {
+namespace Tracked.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Ride : IRide {
         [JsonProperty]

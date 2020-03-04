@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using GeoCoordinatePortable;
-using MtbMate.Models;
+using Tracked.Models;
 
-namespace MtbMate.Utilities {
+namespace Tracked.Utilities {
     public static class PolyUtils {
         public static bool HasPointOnLine(this IList<LatLng> path, LatLng point, int toleranceInMetres = 25) {
             return path.Any(i => i.CalculateDistance(point) * 1000 <= toleranceInMetres);

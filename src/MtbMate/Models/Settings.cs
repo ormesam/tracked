@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace MtbMate.Models {
+namespace Tracked.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Settings {
         [JsonProperty]

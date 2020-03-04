@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MtbMate.Contexts;
-using MtbMate.Models;
-using MtbMate.Screens;
-using MtbMate.Utilities;
+using Tracked.Contexts;
+using Tracked.Models;
+using Tracked.Screens;
+using Tracked.Utilities;
 using Plugin.Geolocator;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
-namespace MtbMate.Controls {
+namespace Tracked.Controls {
     public class MapControlViewModel : ViewModelBase {
         private readonly bool goToMapPageOnClick;
         private readonly string title;

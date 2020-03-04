@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MtbMate.Contexts;
+using Tracked.Contexts;
 using Plugin.BLE.Abstractions.Contracts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Bluetooth {
+namespace Tracked.Screens.Bluetooth {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BluetoothSetupScreen : ContentPage {
         public BluetoothSetupScreen(MainContext context) {

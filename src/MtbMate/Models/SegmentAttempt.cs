@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MtbMate.Utilities;
+using Tracked.Utilities;
 using Newtonsoft.Json;
 using Shared;
 
-namespace MtbMate.Models {
+namespace Tracked.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class SegmentAttempt : IRide {
         [JsonProperty]

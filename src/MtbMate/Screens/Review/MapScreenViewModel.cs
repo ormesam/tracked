@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using MtbMate.Contexts;
-using MtbMate.Controls;
-using MtbMate.Models;
+using Tracked.Contexts;
+using Tracked.Controls;
+using Tracked.Models;
 
-namespace MtbMate.Screens.Review {
+namespace Tracked.Screens.Review {
     public class MapScreenViewModel : MapControlViewModel {
         public MapScreenViewModel(MainContext context, string title, IList<MapLocation> locations, bool showRideFeatures)
             : base(context,

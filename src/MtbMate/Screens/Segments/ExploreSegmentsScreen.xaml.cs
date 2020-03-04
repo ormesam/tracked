@@ -1,9 +1,9 @@
-﻿using MtbMate.Contexts;
-using MtbMate.Models;
+﻿using Tracked.Contexts;
+using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Settings {
+namespace Tracked.Screens.Settings {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ExploreSegmentsScreen : ContentPage {
         public ExploreSegmentsScreen(MainContext context) {

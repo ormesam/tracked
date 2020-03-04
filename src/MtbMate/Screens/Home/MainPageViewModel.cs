@@ -3,13 +3,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MtbMate.Contexts;
-using MtbMate.Models;
-using MtbMate.Screens;
-using MtbMate.Utilities;
+using Tracked.Contexts;
+using Tracked.Models;
+using Tracked.Screens;
+using Tracked.Utilities;
 using Xamarin.Forms;
 
-namespace MtbMate.Home {
+namespace Tracked.Home {
     public class MainPageViewModel : ViewModelBase {
         private bool isRefreshing;
 

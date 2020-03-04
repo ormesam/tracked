@@ -1,9 +1,9 @@
 ﻿using System;
-using MtbMate.Contexts;
+using Tracked.Contexts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Settings {
+namespace Tracked.Screens.Settings {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsScreen : ContentPage {
         public SettingsScreen(MainContext context) {

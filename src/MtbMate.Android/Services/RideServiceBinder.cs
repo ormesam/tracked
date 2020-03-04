@@ -1,6 +1,6 @@
 ﻿using Android.OS;
 
-namespace MtbMate.Droid.Services {
+namespace Tracked.Droid.Services {
     public class RideServiceBinder : Binder {
         readonly RideService service;
 

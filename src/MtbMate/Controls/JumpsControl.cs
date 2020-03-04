@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using MtbMate.Models;
+using Tracked.Models;
 using Xamarin.Forms;
 
-namespace MtbMate.Controls {
+namespace Tracked.Controls {
     public partial class JumpsControl : ContentView {
         public static readonly BindableProperty JumpsProperty =
             BindableProperty.Create(

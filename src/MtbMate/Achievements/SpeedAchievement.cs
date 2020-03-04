@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using MtbMate.Models;
+using Tracked.Models;
 
-namespace MtbMate.Achievements {
+namespace Tracked.Achievements {
     public class SpeedAchievement : AchievementBase, IAchievement {
         public string Name => $"Exceeded {MinimumMph} mi/h";
         public double MinimumMph { get; set; }

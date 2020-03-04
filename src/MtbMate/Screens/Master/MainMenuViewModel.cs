@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using MtbMate.Contexts;
-using MtbMate.Controls;
-using MtbMate.Models;
+using Tracked.Contexts;
+using Tracked.Controls;
+using Tracked.Models;
 
-namespace MtbMate.Screens.Master {
+namespace Tracked.Screens.Master {
     public class MainMenuViewModel : ViewModelBase {
         private bool isLoggingIn;
 

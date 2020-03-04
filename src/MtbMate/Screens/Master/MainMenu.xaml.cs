@@ -1,9 +1,9 @@
-﻿using MtbMate.Contexts;
-using MtbMate.Controls;
+﻿using Tracked.Contexts;
+using Tracked.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Screens.Master {
+namespace Tracked.Screens.Master {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenu : ContentPage {
         public MainMenu(MainContext context) {

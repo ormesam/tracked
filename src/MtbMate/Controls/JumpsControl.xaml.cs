@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MtbMate.Controls {
+namespace Tracked.Controls {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class JumpsControl : ContentView {
         public JumpsControl() {

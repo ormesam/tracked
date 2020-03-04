@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
-using MtbMate.Contexts;
-using MtbMate.Models;
+using Tracked.Contexts;
+using Tracked.Models;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 
-namespace MtbMate.Home {
+namespace Tracked.Home {
     [DesignTimeVisible(true)]
     public partial class MainPage : ContentPage {
         public MainPage(MainContext context) {

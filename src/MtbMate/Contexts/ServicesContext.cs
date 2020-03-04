@@ -6,15 +6,15 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using MtbMate.Models;
-using MtbMate.Utilities;
+using Tracked.Models;
+using Tracked.Utilities;
 using Newtonsoft.Json;
 using Shared;
 using Shared.Dtos;
 using Xamarin.Essentials;
-using Location = MtbMate.Models.Location;
+using Location = Tracked.Models.Location;
 
-namespace MtbMate.Contexts {
+namespace Tracked.Contexts {
     public class ServicesContext {
         private readonly MainContext mainContext;
         private readonly Uri baseUri = new Uri(Constants.Url);

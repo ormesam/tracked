@@ -1,8 +1,8 @@
 ﻿using System;
-using MtbMate.JumpDetection;
+using Tracked.JumpDetection;
 using Newtonsoft.Json;
 
-namespace MtbMate.Models {
+namespace Tracked.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class AccelerometerReading {
         [JsonProperty]

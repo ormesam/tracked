@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MtbMate.Models {
+namespace Tracked.Models {
     public interface IRide {
         Guid? Id { get; }
         string DisplayName { get; }
