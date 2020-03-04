@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Segments.SegmentScreen"
+    xmlns:controls="clr-namespace:Tracked.Controls"
+    Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Delete"
+            Clicked="Delete_Clicked"
+            Order="Secondary" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <controls:MapControl
+                HeightRequest="300"
+                BindingContext="{Binding MapViewModel}" />
+            <Label
+                Margin="15"
+                HorizontalOptions="Center"
+                Text="{Binding DisplayName}"
+                FontSize="Large">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                            Tapped="Name_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
+            <ListView
+                ItemsSource="{Binding Attempts}"
+                ItemTapped="Attempt_Tapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <controls:MedalsCell
+                                Text="{Binding DisplayName}"
+                                Detail="{Binding FormattedTime}"
+                                Medal="{Binding Medal}" />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

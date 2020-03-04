@@ -39,7 +39,7 @@ void setup() {
   }
 
   // set advertised local name and service UUID:
-  BLE.setLocalName("Mtb Mate");
+  BLE.setLocalName("Tracked");
   BLE.setAdvertisedService(accService);
 
   // add the characteristic to the service
@@ -54,7 +54,7 @@ void setup() {
   // start advertising
   BLE.advertise();
 
-  Serial.println("Starting Mtb Mate");
+  Serial.println("Starting Tracked");
 }
 
 void loop() {

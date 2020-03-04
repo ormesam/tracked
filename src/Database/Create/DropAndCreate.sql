@@ -1,15 +1,15 @@
 ﻿USE [master]
 GO
 
-IF EXISTS(select * from sys.databases where name = 'MtbMateDev')
+IF EXISTS(select * from sys.databases where name = 'TrackedDev')
 BEGIN
-    ALTER DATABASE MtbMateDev SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+    ALTER DATABASE TrackedDev SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 
-    DROP DATABASE MtbMateDev
+    DROP DATABASE TrackedDev
 END
 
-CREATE DATABASE MtbMateDev
+CREATE DATABASE TrackedDev
 GO
 
-USE MtbMateDev
+USE TrackedDev
 GO
