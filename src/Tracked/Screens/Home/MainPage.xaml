@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Home.MainPage"
+    xmlns:controls="clr-namespace:Tracked.Controls"
+    Title="{Binding Title}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="*"/>
+            <RowDefinition
+                Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="No Rides Yet"
+            IsVisible="{Binding HasRides, Converter={StaticResource InvertBoolConverter}}" />
+        <ListView
+            ItemsSource="{Binding Rides}"
+            ItemTapped="Ride_ItemTapped"
+            CachingStrategy="RecycleElementAndDataTemplate"
+            IsPullToRefreshEnabled="{Binding IsLoggedIn}"
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshCommand="{Binding RefreshCommand}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <controls:MedalsCell
+                            Text="{Binding DisplayName}"
+                            Detail="{Binding Start, StringFormat='{0:d MMM yy HH:mm}'}"
+                            Medals="{Binding Medals}" />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button
+            Grid.Row="1"
+            Text="Add Ride"
+            Clicked="Add_Clicked"
+            IsVisible="True"
+            BackgroundColor="Green"
+            TextColor="White"/>
+    </Grid>
+</ContentPage>

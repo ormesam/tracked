@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+    x:Class="Tracked.Controls.MapControl">
+    <ContentView.Content>
+        <Grid>
+            <Picker
+                IsVisible="{Binding CanChangeMapType}"
+                x:Name="picker"
+                VerticalOptions="Start"
+                HorizontalOptions="Start"
+                Margin="10"
+                ItemsSource="{Binding MapTypes}"
+                SelectedItem="{Binding MapType, Mode=TwoWay}" />
+
+            <maps:Map
+                x:Name="map"
+                InitialCameraUpdate="{Binding InitalCamera}"
+                MapClicked="Map_MapClicked"
+                MapType="{Binding MapType, Mode=TwoWay}" />
+
+            <ImageButton
+                IsVisible="{Binding CanChangeMapType}"
+                VerticalOptions="Start"
+                HorizontalOptions="End"
+                Margin="10"
+                BackgroundColor="White"
+                WidthRequest="40"
+                HeightRequest="40"
+                Source="menu_icon.png"
+                Pressed="ChangeLayer_Pressed" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>
