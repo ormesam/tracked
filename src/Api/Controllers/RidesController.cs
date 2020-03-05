@@ -2,14 +2,13 @@
 using System.Linq;
 using Api.Utility;
 using DataAccess.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 using Shared.Dtos;
 
 namespace Api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class RidesController : ControllerBase {
         private readonly ModelDataContext context;
 
@@ -17,137 +16,89 @@ namespace Api.Controllers {
             this.context = context;
         }
 
-        [HttpPost]
-        [Route("get")]
-        public ActionResult<IList<RideDto>> GetExistingRides(IList<int> existingRideIds) {
+        [HttpGet]
+        public ActionResult<IList<RideOverviewDto>> Get() {
             int userId = this.GetCurrentUserId();
+
+            var medalsByRide = context.SegmentAttempt
+                .Where(row => row.UserId == userId)
+                .Where(row => row.Medal != (int)Medal.None)
+                .ToLookup(row => row.RideId, row => (Medal)row.Medal);
 
             var rides = context.Ride
                 .Where(row => row.UserId == userId)
-                .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
-                .OrderBy(row => row.StartUtc)
-                .Select(row => new RideDto {
+                .Select(row => new RideOverviewDto {
                     RideId = row.RideId,
-                    Start = row.StartUtc,
-                    End = row.EndUtc,
+                    Name = row.Name,
+                    StartUtc = row.StartUtc,
+                    Medals = medalsByRide[row.RideId],
                 })
                 .ToList();
-
-            var locationsByRide = context.RideLocation
-                .Where(row => row.Ride.UserId == userId)
-                .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
-                .Select(row => new RideLocationDto {
-                    RideId = row.RideId,
-                    AccuracyInMetres = row.AccuracyInMetres,
-                    Altitude = row.Altitude,
-                    Latitude = row.Latitude,
-                    Longitude = row.Longitude,
-                    SpeedMetresPerSecond = row.SpeedMetresPerSecond,
-                    Timestamp = row.Timestamp,
-                })
-                .ToLookup(i => i.RideId.Value);
-
-            var jumpsByRide = context.Jump
-                .Where(row => row.Ride.UserId == userId)
-                .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
-                .Select(row => new JumpDto {
-                    RideId = row.RideId,
-                    Airtime = row.Airtime,
-                    Number = row.Number,
-                    Timestamp = row.Timestamp,
-                })
-                .ToLookup(i => i.RideId.Value);
-
-            var accelerometerReadingsByJump = context.AccelerometerReading
-                .Where(row => row.Ride.UserId == userId)
-                .Where(row => !Enumerable.Contains(existingRideIds, row.RideId))
-                .Select(row => new AccelerometerReadingDto {
-                    RideId = row.RideId,
-                    Time = row.Time,
-                    X = row.X,
-                    Y = row.Y,
-                    Z = row.Z,
-                })
-                .ToLookup(i => i.RideId.Value);
-
-            foreach (var ride in rides) {
-                ride.Locations = locationsByRide[ride.RideId.Value]
-                    .OrderBy(i => i.Timestamp)
-                    .ToList();
-
-                ride.Jumps = jumpsByRide[ride.RideId.Value]
-                    .OrderBy(i => i.Number)
-                    .ToList();
-
-                ride.AccelerometerReadings = accelerometerReadingsByJump[ride.RideId.Value]
-                    .OrderBy(i => i.Time)
-                    .ToList();
-            }
 
             return rides;
         }
 
-        [HttpPost]
-        [Route("add")]
-        public ActionResult<int> AddRide(RideDto dto) {
-            if (dto == null) {
-                return BadRequest();
-            }
-
+        [HttpGet]
+        [Route("{id}")]
+        public ActionResult<RideDto> Get(int id) {
             int userId = this.GetCurrentUserId();
 
-            Ride ride = null;
-
-            if (dto.RideId != null) {
-                context.RideLocation.RemoveRange(context.RideLocation.Where(i => i.RideId == dto.RideId));
-                context.Jump.RemoveRange(context.Jump.Where(i => i.RideId == dto.RideId));
-                context.AccelerometerReading.RemoveRange(context.AccelerometerReading.Where(i => i.RideId == dto.RideId));
-
-                context.SaveChanges();
-
-                ride = context.Ride.SingleOrDefault(row => row.RideId == dto.RideId);
-            }
+            var ride = context.Ride
+                .Where(row => row.UserId == userId)
+                .Where(row => row.RideId == id)
+                .Select(row => new RideDto {
+                    RideId = row.RideId,
+                    StartUtc = row.StartUtc,
+                    EndUtc = row.EndUtc,
+                    Name = row.Name,
+                    MaxSpeedMph = row.MaxSpeedMph,
+                    AverageSpeedMph = row.AverageSpeedMph,
+                    DistanceMiles = row.DistanceMiles,
+                })
+                .SingleOrDefault();
 
             if (ride == null) {
-                ride = new Ride();
-                context.Ride.Add(ride);
+                return NotFound();
             }
 
-            ride.UserId = userId;
-            ride.StartUtc = dto.Start;
-            ride.EndUtc = dto.End;
-
-            ride.RideLocation = dto.Locations
-                .Select(row => new RideLocation {
-                    Timestamp = row.Timestamp,
-                    AccuracyInMetres = row.AccuracyInMetres,
-                    Altitude = row.Altitude,
-                    Latitude = row.Latitude,
-                    Longitude = row.Longitude,
-                    SpeedMetresPerSecond = row.SpeedMetresPerSecond,
-                })
-                .ToList();
-
-            ride.Jump = dto.Jumps
-                .Select(row => new Jump {
+            ride.Jumps = context.RideJump
+                .Where(row => row.RideId == id)
+                .Select(row => new RideJumpDto {
+                    RideJumpId = row.RideJumpId,
+                    RideId = row.RideId,
                     Airtime = row.Airtime,
                     Number = row.Number,
                     Timestamp = row.Timestamp,
                 })
                 .ToList();
 
-            ride.AccelerometerReading = dto.AccelerometerReadings
-                .Select(row => new AccelerometerReading {
-                    Time = row.Time,
-                    X = row.X,
-                    Y = row.Y,
-                    Z = row.Z,
+            ride.Locations = context.RideLocation
+                .Where(row => row.RideId == id)
+                .Select(row => new RideLocationDto {
+                    RideLocationId = row.RideLocationId,
+                    RideId = row.RideId,
+                    AccuracyInMetres = row.AccuracyInMetres,
+                    Altitude = row.Altitude,
+                    Latitude = row.Latitude,
+                    Longitude = row.Longitude,
+                    SpeedMetresPerSecond = row.SpeedMetresPerSecond,
+                    Timestamp = row.Timestamp,
                 })
                 .ToList();
 
-            context.SaveChanges();
+            ride.SegmentAttempts = context.SegmentAttempt
+                .Where(row => row.RideId == row.RideId)
+                .Select(row => new SegmentAttemptOverviewDto {
+                    SegmentAttemptId = row.SegmentAttemptId,
+                    RideId = row.RideId,
+                    DisplayName = row.Segment.Name,
+                    StartUtc = row.StartUtc,
+                    EndUtc = row.EndUtc,
+                    Medal = (Medal)row.Medal,
+                })
+                .ToList();
 
-            return ride.RideId;
+            return ride;
         }
     }
 }

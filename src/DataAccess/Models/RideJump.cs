@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace DataAccess.Models
 {
-    public partial class Jump
+    public partial class RideJump
     {
-        public int JumpId { get; set; }
+        public int RideJumpId { get; set; }
         public int RideId { get; set; }
         public int Number { get; set; }
         public DateTime Timestamp { get; set; }

@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Shared.Dtos {
-    public class SegmentAttemptDto {
+    public class SegmentAttemptOverviewDto {
         public int SegmentAttemptId { get; set; }
-        public int SegmentId { get; set; }
         public int RideId { get; set; }
+        public int SegmentId { get; set; }
+        public string DisplayName { get; set; }
         public Medal Medal { get; set; }
         public DateTime StartUtc { get; set; }
         public DateTime EndUtc { get; set; }
-        public IList<SegmentAttemptLocationDto> Locations { get; set; }
-        public IList<SegmentAttemptJumpDto> Jumps { get; set; }
+
+        public TimeSpan Time => EndUtc - StartUtc;
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 
 namespace Shared.Dtos {
-    public class RideLocationDto {
-        public int RideLocationId { get; set; }
-        public int RideId { get; set; }
+    public class SegmentAttemptLocationDto {
+        public int SegmentAttemptLocationId { get; set; }
+        public int SegmentAttemptId { get; set; }
         public DateTime Timestamp { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }

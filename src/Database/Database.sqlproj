@@ -66,6 +66,7 @@
     <None Include="Create\Tables\Segment.sql" />
     <None Include="Create\Tables\SegmentAttempt.sql" />
     <None Include="Create\Tables\TraceMessage.sql" />
+    <None Include="Create\Tables\SegmentAttemptLocation.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\DropAndRecreateAll.bat" />
@@ -77,9 +78,12 @@
     <None Include="Create\Tables\RideLocation.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Create\Tables\Jump.sql" />
+    <None Include="Create\Tables\RideJump.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\SegmentLocation.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Create\Tables\SegmentAttemptJump.sql" />
   </ItemGroup>
 </Project>

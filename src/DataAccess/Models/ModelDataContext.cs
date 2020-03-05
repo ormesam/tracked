@@ -16,11 +16,13 @@ namespace DataAccess.Models
         }
 
         public virtual DbSet<AccelerometerReading> AccelerometerReading { get; set; }
-        public virtual DbSet<Jump> Jump { get; set; }
         public virtual DbSet<Ride> Ride { get; set; }
+        public virtual DbSet<RideJump> RideJump { get; set; }
         public virtual DbSet<RideLocation> RideLocation { get; set; }
         public virtual DbSet<Segment> Segment { get; set; }
         public virtual DbSet<SegmentAttempt> SegmentAttempt { get; set; }
+        public virtual DbSet<SegmentAttemptJump> SegmentAttemptJump { get; set; }
+        public virtual DbSet<SegmentAttemptLocation> SegmentAttemptLocation { get; set; }
         public virtual DbSet<SegmentLocation> SegmentLocation { get; set; }
         public virtual DbSet<TraceMessage> TraceMessage { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -53,22 +55,17 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_AccelerometerReading_Ride");
             });
 
-            modelBuilder.Entity<Jump>(entity =>
-            {
-                entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");
-
-                entity.Property(e => e.Timestamp).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.Jump)
-                    .HasForeignKey(d => d.RideId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Jump_Ride");
-            });
-
             modelBuilder.Entity<Ride>(entity =>
             {
+                entity.Property(e => e.AverageSpeedMph).HasColumnType("decimal(4, 1)");
+
+                entity.Property(e => e.DistanceMiles).HasColumnType("decimal(4, 1)");
+
                 entity.Property(e => e.EndUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.MaxSpeedMph).HasColumnType("decimal(4, 1)");
+
+                entity.Property(e => e.Name).HasMaxLength(200);
 
                 entity.Property(e => e.StartUtc).HasColumnType("datetime");
 
@@ -77,6 +74,19 @@ namespace DataAccess.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Ride_User");
+            });
+
+            modelBuilder.Entity<RideJump>(entity =>
+            {
+                entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");
+
+                entity.Property(e => e.Timestamp).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Ride)
+                    .WithMany(p => p.RideJump)
+                    .HasForeignKey(d => d.RideId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RideJump_Ride");
             });
 
             modelBuilder.Entity<RideLocation>(entity =>
@@ -113,7 +123,13 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<SegmentAttempt>(entity =>
             {
+                entity.Property(e => e.AverageSpeedMph).HasColumnType("decimal(4, 1)");
+
+                entity.Property(e => e.DistanceMiles).HasColumnType("decimal(4, 1)");
+
                 entity.Property(e => e.EndUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.MaxSpeedMph).HasColumnType("decimal(4, 1)");
 
                 entity.Property(e => e.StartUtc).HasColumnType("datetime");
 
@@ -134,6 +150,40 @@ namespace DataAccess.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SegmentAttempt_User");
+            });
+
+            modelBuilder.Entity<SegmentAttemptJump>(entity =>
+            {
+                entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");
+
+                entity.Property(e => e.Timestamp).HasColumnType("datetime");
+
+                entity.HasOne(d => d.SegmentAttempt)
+                    .WithMany(p => p.SegmentAttemptJump)
+                    .HasForeignKey(d => d.SegmentAttemptId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SegmentAttemptJump_SegmentAttempt");
+            });
+
+            modelBuilder.Entity<SegmentAttemptLocation>(entity =>
+            {
+                entity.Property(e => e.AccuracyInMetres).HasColumnType("decimal(6, 3)");
+
+                entity.Property(e => e.Altitude).HasColumnType("decimal(6, 3)");
+
+                entity.Property(e => e.Latitude).HasColumnType("decimal(25, 20)");
+
+                entity.Property(e => e.Longitude).HasColumnType("decimal(25, 20)");
+
+                entity.Property(e => e.SpeedMetresPerSecond).HasColumnType("decimal(6, 3)");
+
+                entity.Property(e => e.Timestamp).HasColumnType("datetime");
+
+                entity.HasOne(d => d.SegmentAttempt)
+                    .WithMany(p => p.SegmentAttemptLocation)
+                    .HasForeignKey(d => d.SegmentAttemptId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SegmentAttemptLocation_SegmentAttempt");
             });
 
             modelBuilder.Entity<SegmentLocation>(entity =>
@@ -159,7 +209,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD197CC991ED7")
+                    .HasName("UQ__User__437CD1971456557A")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)
