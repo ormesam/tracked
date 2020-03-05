@@ -1,7 +1,8 @@
 ﻿using System;
+using Shared.Interfaces;
 
 namespace Shared.Dtos {
-    public class SegmentAttemptLocationDto {
+    public class SegmentAttemptLocationDto : ILatLng {
         public int SegmentAttemptLocationId { get; set; }
         public int SegmentAttemptId { get; set; }
         public DateTime Timestamp { get; set; }

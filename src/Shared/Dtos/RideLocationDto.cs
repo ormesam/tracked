@@ -1,7 +1,8 @@
 ﻿using System;
+using Shared.Interfaces;
 
 namespace Shared.Dtos {
-    public class RideLocationDto {
+    public class RideLocationDto : ILatLng {
         public int RideLocationId { get; set; }
         public int RideId { get; set; }
         public DateTime Timestamp { get; set; }
