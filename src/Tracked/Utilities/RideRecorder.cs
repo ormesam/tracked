@@ -48,8 +48,6 @@ namespace Tracked.Utilities {
             }
 
             await Model.Instance.SaveRide(Ride);
-
-            await Model.Instance.CompareSegments(Ride);
         }
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {

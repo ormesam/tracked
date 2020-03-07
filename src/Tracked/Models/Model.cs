@@ -54,16 +54,6 @@ namespace Tracked.Models {
             await storage.SaveObject(ride.Id.Value, ride);
         }
 
-        public async Task CompareSegments(Ride ride) {
-            foreach (var segment in Segments) {
-                SegmentAttempt result = ride.MatchesSegment(segment);
-
-                if (result != null) {
-                    await SaveSegmentAttempt(result);
-                }
-            }
-        }
-
         public async Task RemoveRide(Ride ride) {
             var attempts = SegmentAttempts
                 .Where(i => i.RideId == ride.Id)
@@ -84,16 +74,6 @@ namespace Tracked.Models {
             }
 
             await storage.SaveObject(segment.Id.Value, segment);
-        }
-
-        public async Task AnalyseExistingRides(Segment segment) {
-            foreach (var ride in Rides.OrderBy(i => i.Start)) {
-                SegmentAttempt result = ride.MatchesSegment(segment);
-
-                if (result != null) {
-                    await SaveSegmentAttempt(result);
-                }
-            }
         }
 
         public async Task RemoveSegment(Segment segment) {

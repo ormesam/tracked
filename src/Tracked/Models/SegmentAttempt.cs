@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tracked.Utilities;
 using Newtonsoft.Json;
 using Shared;
 
@@ -54,7 +53,7 @@ namespace Tracked.Models {
 
         public string FormattedTime => Time.ToString(@"mm\:ss");
 
-        public double Distance => Locations.CalculateDistanceKm();
+        public double Distance => 0; // Locations.CalculateDistanceKm();
 
         public double AverageSpeed => Locations.Average(i => i.Mph);
 

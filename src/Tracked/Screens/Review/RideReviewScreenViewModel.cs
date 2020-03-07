@@ -5,7 +5,6 @@ using Tracked.Contexts;
 using Tracked.Controls;
 using Tracked.Models;
 using Tracked.Utilities;
-using Xamarin.Forms;
 
 namespace Tracked.Screens.Review {
     public class RideReviewScreenViewModel : ViewModelBase {
@@ -46,16 +45,7 @@ namespace Tracked.Screens.Review {
             }
         }
 
-        public double Distance {
-            get {
-                if (!Ride.Locations.Any()) {
-                    return 0;
-                }
-
-                return Ride.Locations.CalculateDistanceMi();
-            }
-        }
-
+        public double Distance => 0;
         public string Time => (Ride.End - Ride.Start).ToString(@"mm\:ss");
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
