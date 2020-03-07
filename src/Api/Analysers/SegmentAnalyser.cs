@@ -9,7 +9,7 @@ using Shared.Interfaces;
 namespace Api.Analysers {
     public static class SegmentAnalyser {
         public static IEnumerable<SegmentAttemptDto> GetMatchingSegments(ModelDataContext context, RideDto ride) {
-            var segmentLocations = context.SegmentLocation
+            var segments = context.SegmentLocation
                 .OrderBy(i => i.SegmentId)
                 .ThenBy(i => i.Order)
                 .ToLookup(i => i.SegmentId, i => new LatLng {
@@ -17,8 +17,8 @@ namespace Api.Analysers {
                     Longitude = i.Longitude,
                 });
 
-            foreach (var segemntLocation in segmentLocations) {
-                var result = LocationsMatch(segemntLocation.Cast<ILatLng>().ToList(), ride.Locations.Cast<ILatLng>().ToList());
+            foreach (var segment in segments) {
+                var result = LocationsMatch(segment.Cast<ILatLng>().ToList(), ride.Locations.Cast<ILatLng>().ToList());
 
                 if (result != null) {
                     var locations = ride.Locations.ToArray()[result.StartIdx..result.EndIdx]
@@ -33,13 +33,13 @@ namespace Api.Analysers {
                         .ToList();
 
                     var segmentAttempt = new SegmentAttemptDto {
-                        SegmentId = segemntLocation.Key,
+                        SegmentId = segment.Key,
                         StartUtc = locations.First().Timestamp,
                         EndUtc = locations.Last().Timestamp,
                         Locations = locations,
                     };
 
-                    segmentAttempt.Medal = GetMedal(context, segmentAttempt.Time, segemntLocation.Key);
+                    segmentAttempt.Medal = GetMedal(context, segmentAttempt.Time, segment.Key);
 
                     yield return segmentAttempt;
                 }

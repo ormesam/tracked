@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracked.Android", "Tracked.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracked", "Tracked\Tracked.csproj", "{93E0597C-E825-4076-A5B1-90ED1414A347}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracked.Tests", "Tracked.Tests\Tracked.Tests.csproj", "{43E12396-CC15-4C5A-A728-451E2BF1B23B}"
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{897B6B0A-3A14-40F3-90F5-C70E1AD5D489}"
@@ -17,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{BD215E62-424E-438D-80A0-8CBFCFF02B61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{42448576-797F-419A-98E6-6C41134A3590}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{42448576-797F-419A-98E6-6C41134A3590}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{93E0597C-E825-4076-A5B1-90ED1414A347}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93E0597C-E825-4076-A5B1-90ED1414A347}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93E0597C-E825-4076-A5B1-90ED1414A347}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43E12396-CC15-4C5A-A728-451E2BF1B23B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9800CFA-814E-4858-AA7A-CCCB0DFD9B5A}.Release|Any CPU.Build.0 = Release|Any CPU

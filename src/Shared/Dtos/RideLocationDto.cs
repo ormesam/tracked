@@ -11,5 +11,11 @@ namespace Shared.Dtos {
         public decimal AccuracyInMetres { get; set; }
         public decimal SpeedMetresPerSecond { get; set; }
         public decimal Altitude { get; set; }
+
+        public decimal Mph => SpeedMetresPerSecond * 2.23694m;
+
+        public override string ToString() {
+            return $"{Timestamp}: Lat: {Latitude}, Lon: {Longitude}, Mph: {Mph}";
+        }
     }
 }

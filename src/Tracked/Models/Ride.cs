@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tracked.Achievements;
-using Tracked.Utilities;
 using Newtonsoft.Json;
 using Shared;
+using Tracked.Utilities;
 
 namespace Tracked.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
@@ -41,9 +40,9 @@ namespace Tracked.Models {
 
         // At the moment we calculate these on demand as they are changing all the time,
         // however it probably makes sense to store them eventually
-        public IList<IAchievement> Achievements => Model.Instance.Achievements
-            .Where(i => i.Check(this))
-            .ToList();
+        ////public IList<IAchievement> Achievements => Model.Instance.Achievements
+        ////    .Where(i => i.Check(this))
+        ////    .ToList();
 
         public Ride() {
             Locations = new List<Location>();

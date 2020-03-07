@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Tracked.Achievements;
 using Tracked.Contexts;
 using Tracked.Utilities;
 
@@ -33,7 +32,6 @@ namespace Tracked.Models {
         public ObservableCollection<Ride> Rides { get; set; }
         public ObservableCollection<Segment> Segments { get; set; }
         public ObservableCollection<SegmentAttempt> SegmentAttempts { get; set; }
-        public ObservableCollection<IAchievement> Achievements { get; set; }
 
         private Model() {
         }
@@ -44,27 +42,6 @@ namespace Tracked.Models {
             Rides = storage.GetRides().ToObservable();
             Segments = storage.GetSegments().ToObservable();
             SegmentAttempts = storage.GetSegmentAttempts().ToObservable();
-            Achievements = LoadAchievements().ToObservable();
-        }
-
-        private IList<IAchievement> LoadAchievements() {
-            return new List<IAchievement>() {
-                new SpeedAchievement(18),
-                new SpeedAchievement(20),
-                new SpeedAchievement(22),
-                new SpeedAchievement(24),
-                new SpeedAchievement(26),
-                new SpeedAchievement(28),
-                new SpeedAchievement(30),
-                new JumpAchievement(0.6),
-                new JumpAchievement(0.8),
-                new JumpAchievement(1),
-                new JumpAchievement(1.2),
-                new JumpAchievement(1.4),
-                new JumpAchievement(1.6),
-                new JumpAchievement(1.8),
-                new JumpAchievement(2),
-            };
         }
 
         public async Task SaveRide(Ride ride) {
