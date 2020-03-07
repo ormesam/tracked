@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Tracked.Models;
+using System.Linq;
+using Shared.Interfaces;
 
-namespace Tracked.Tests.Segments {
+namespace Tests.Segments {
     public static class TestSegments {
-        public static Segment TarlandBlueSegment = new Segment {
-            Points = new List<SegmentLocation>() {
+        public static IList<ILatLng> TarlandBlueSegment = new List<SegmentLocation>() {
                 new SegmentLocation(1 ,57.1219799383307,-2.87067275494337),
                 new SegmentLocation(2 ,57.1220811332065,-2.87011351436377),
                 new SegmentLocation(3 ,57.1222367470893,-2.86956299096346),
@@ -31,11 +31,11 @@ namespace Tracked.Tests.Segments {
                 new SegmentLocation(24 ,57.1254677259747,-2.86591116338968),
                 new SegmentLocation(25 ,57.1257201428591,-2.86601677536964),
                 new SegmentLocation(26 ,57.1259387086489,-2.86609087139368),
-             },
-        };
+            }
+            .Cast<ILatLng>()
+            .ToList();
 
-        public static Segment TarlandOrangeSegment = new Segment {
-            Points = new List<SegmentLocation>() {
+        public static IList<ILatLng> TarlandOrangeSegment = new List<SegmentLocation>() {
                 new SegmentLocation(1 ,57.1220574725589,-2.87070762366056),
                 new SegmentLocation(2 ,57.1223843521681,-2.87068482488394),
                 new SegmentLocation(3 ,57.1225643531264,-2.87016246467829),
@@ -52,11 +52,11 @@ namespace Tracked.Tests.Segments {
                 new SegmentLocation(14 ,57.1250329534208,-2.86619581282139),
                 new SegmentLocation(15 ,57.1254158592785,-2.86591753363609),
                 new SegmentLocation(16 ,57.1257963953503,-2.86602281033993),
-            },
-        };
+            }
+            .Cast<ILatLng>()
+            .ToList();
 
-        public static Segment TarlandRedSegment = new Segment {
-            Points = new List<SegmentLocation>() {
+        public static IList<ILatLng> TarlandRedSegment = new List<SegmentLocation>() {
                 new SegmentLocation(1 ,57.1219881285737,-2.87077032029629),
                 new SegmentLocation(2 ,57.1223892662605,-2.87070661783218),
                 new SegmentLocation(3 ,57.1228462740017,-2.87031434476376),
@@ -68,10 +68,11 @@ namespace Tracked.Tests.Segments {
                 new SegmentLocation(9 ,57.1251459692973,-2.86716509610415),
                 new SegmentLocation(10 ,57.1255563541611,-2.86668598651886),
                 new SegmentLocation(11 ,57.1258950319914,-2.86612339317799),
-            },
-        };
+            }
+            .Cast<ILatLng>()
+            .ToList();
 
-        public static IList<LatLng> TarlandBlue1 = new List<LatLng>() {
+        public static IList<ILatLng> TarlandBlue1 = new List<LatLng>() {
             new LatLng(57.1219536, -2.8707971),
             new LatLng(57.1219565, -2.8707873),
             new LatLng(57.1219671, -2.8707424),
@@ -153,9 +154,11 @@ namespace Tracked.Tests.Segments {
             new LatLng(57.1260445, -2.8660376),
             new LatLng(57.1260956, -2.8659814),
             new LatLng(57.1261195, -2.8659327),
-        };
+        }
+        .Cast<ILatLng>()
+        .ToList();
 
-        public static IList<LatLng> TarlandBlue2 = new List<LatLng>() {
+        public static IList<ILatLng> TarlandBlue2 = new List<LatLng>() {
             new LatLng(57.1220099, -2.8707847),
             new LatLng(57.1219137, -2.8705833),
             new LatLng(57.1219325, -2.8703979),
@@ -240,9 +243,11 @@ namespace Tracked.Tests.Segments {
             new LatLng(57.1261026, -2.8658589),
             new LatLng(57.1261432, -2.8658129),
             new LatLng(57.1261505, -2.8657692),
-        };
+        }
+        .Cast<ILatLng>()
+        .ToList();
 
-        public static IList<LatLng> TarlandBlue3 = new List<LatLng>() {
+        public static IList<ILatLng> TarlandBlue3 = new List<LatLng>() {
             new LatLng(57.1219863, -2.8706016),
             new LatLng(57.1219811, -2.8704238),
             new LatLng(57.1219903, -2.8703015),
@@ -324,9 +329,11 @@ namespace Tracked.Tests.Segments {
             new LatLng(57.1262536, -2.8659942),
             new LatLng(57.1262645, -2.8659523),
             new LatLng(57.1262615, -2.8659282),
-        };
+        }
+            .Cast<ILatLng>()
+            .ToList();
 
-        public static IList<LatLng> TarlandBlue4 = new List<LatLng>() {
+        public static IList<ILatLng> TarlandBlue4 = new List<LatLng>() {
             new LatLng(57.1219893, -2.8707861),
             new LatLng(57.1219957, -2.8707509),
             new LatLng(57.1220022, -2.8707094),
@@ -407,9 +414,11 @@ namespace Tracked.Tests.Segments {
             new LatLng(57.1261004, -2.865916),
             new LatLng(57.1260903, -2.865907),
             new LatLng(57.1260818, -2.8658962),
-        };
+        }
+        .Cast<ILatLng>()
+        .ToList();
 
-        public static IList<LatLng> TarlandRed1 = new List<LatLng>() {
+        public static IList<ILatLng> TarlandRed1 = new List<LatLng>() {
             new LatLng(57.1218471, -2.8706806),
             new LatLng(57.1219325, -2.8707303),
             new LatLng(57.121989,  -2.8707631),
@@ -483,9 +492,11 @@ namespace Tracked.Tests.Segments {
             new LatLng(57.1261873, -2.8657361),
             new LatLng(57.126192, -2.8657252),
             new LatLng(57.1262055, -2.8657113),
-        };
+        }
+        .Cast<ILatLng>()
+        .ToList();
 
-        public static IList<LatLng> TarlandRed2 = new List<LatLng>() {
+        public static IList<ILatLng> TarlandRed2 = new List<LatLng>() {
             new LatLng(57.121934,-2.8709442),
             new LatLng(57.121938,-2.8709633),
             new LatLng(57.1220195,-2.8711059),
@@ -559,9 +570,11 @@ namespace Tracked.Tests.Segments {
             new LatLng(57.1261531,-2.8659407),
             new LatLng(57.1261463,-2.8659089),
             new LatLng(57.1261326,-2.8658632),
-        };
+        }
+        .Cast<ILatLng>()
+        .ToList();
 
-        public static IList<LatLng> TarlandOrange1 = new List<LatLng>() {
+        public static IList<ILatLng> TarlandOrange1 = new List<LatLng>() {
             new LatLng(57.1219266,-2.8706747),
             new LatLng(57.1219456,-2.8706457),
             new LatLng(57.1219576,-2.8706581),
@@ -643,9 +656,11 @@ namespace Tracked.Tests.Segments {
             new LatLng(57.1261481,-2.8661186),
             new LatLng(57.1261581,-2.8660974),
             new LatLng(57.126169,-2.866075),
-        };
+        }
+        .Cast<ILatLng>()
+        .ToList();
 
-        public static IList<LatLng> TarlandOrange2 = new List<LatLng>() {
+        public static IList<ILatLng> TarlandOrange2 = new List<LatLng>() {
             new LatLng(57.1220423,-2.8707238),
             new LatLng(57.1220471,-2.8708289),
             new LatLng(57.1221106,-2.8709213),
@@ -722,6 +737,8 @@ namespace Tracked.Tests.Segments {
             new LatLng(57.1260816,-2.8658574),
             new LatLng(57.1260925,-2.8658378),
             new LatLng(57.126099,-2.8658182),
-        };
+        }
+        .Cast<ILatLng>()
+        .ToList();
     }
 }

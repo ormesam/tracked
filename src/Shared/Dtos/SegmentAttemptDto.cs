@@ -11,5 +11,6 @@ namespace Shared.Dtos {
         public DateTime EndUtc { get; set; }
         public IList<SegmentAttemptLocationDto> Locations { get; set; }
         public IList<SegmentAttemptJumpDto> Jumps { get; set; }
+        public TimeSpan Time => EndUtc - StartUtc;
     }
 }
