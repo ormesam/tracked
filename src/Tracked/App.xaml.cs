@@ -3,8 +3,8 @@ using Akavache;
 using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.Models;
+using Tracked.Screens.Login;
 using Tracked.Screens.Master;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Tracked {
@@ -22,9 +22,11 @@ namespace Tracked {
             _ = AccelerometerUtility.Instance;
             Model.Instance.Init(mainContext);
 
-            MainPage = new MasterScreen(mainContext);
-
-            ExperimentalFeatures.Enable("ShareFileRequest_Experimental");
+            if (mainContext.Security.IsLoggedIn) {
+                MainPage = new MasterScreen(mainContext);
+            } else {
+                MainPage = new LoginScreen(mainContext);
+            }
         }
 
         protected override void OnStart() {

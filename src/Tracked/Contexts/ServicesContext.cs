@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,12 +26,26 @@ namespace Tracked.Contexts {
             });
         }
 
+        public async Task<IList<RideOverviewDto>> GetRideOverviews() {
+            return await GetAsync<IList<RideOverviewDto>>("rides");
+        }
+
+        protected async Task<TResult> GetAsync<TResult>(string apiEndpoint) {
+            return await SendAsync<TResult>(CreateGetRequestMessage(apiEndpoint));
+        }
+
+        private HttpRequestMessage CreateGetRequestMessage(string apiEndpoint) {
+            var message = new HttpRequestMessage(HttpMethod.Get, Constants.Url + "/api/" + apiEndpoint);
+
+            return message;
+        }
+
         protected async Task<TResult> PostAsync<TResult>(string apiEndpoint, object data = null) {
             return await SendAsync<TResult>(CreatePostRequestMessage(apiEndpoint, data));
         }
 
         private HttpRequestMessage CreatePostRequestMessage(string apiEndpoint, object data) {
-            var message = new HttpRequestMessage(HttpMethod.Post, "/api/" + apiEndpoint);
+            var message = new HttpRequestMessage(HttpMethod.Post, Constants.Url + "/api/" + apiEndpoint);
 
             if (data != null) {
                 string json = JsonConvert.SerializeObject(data);
@@ -49,7 +64,7 @@ namespace Tracked.Contexts {
             }
 
             using (HttpClient client = new HttpClient()) {
-                client.BaseAddress = baseUri;
+                // client.BaseAddress = baseUri;
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
