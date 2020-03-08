@@ -5,12 +5,6 @@
     x:Class="Tracked.Screens.Segments.SegmentScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
     Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            Text="Delete"
-            Clicked="Delete_Clicked"
-            Order="Secondary" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <controls:MapControl

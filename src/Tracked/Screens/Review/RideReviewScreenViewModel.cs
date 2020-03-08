@@ -25,6 +25,7 @@ namespace Tracked.Screens.Review {
                 }
             }
         }
+
         public MapControlViewModel MapViewModel { get; set; }
 
         public string Time => (Ride.EndUtc - Ride.StartUtc).ToString(@"mm\:ss");

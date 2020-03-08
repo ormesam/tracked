@@ -117,10 +117,12 @@ namespace Tracked.Contexts {
         }
 
         public async Task GoToSegmentScreenAsync(int segmentId) {
-            // await GoToScreenAsync(new SegmentScreen(context, segment));
+            SegmentScreenViewModel viewModel = new SegmentScreenViewModel(context);
+            await viewModel.Load(segmentId);
+            await GoToScreenAsync(new SegmentScreen(viewModel));
         }
 
-        public async Task GoToSegmentAttemptScreenAsync(SegmentAttempt attempt) {
+        public async Task GoToSegmentAttemptScreenAsync(int segmentAttemptId) {
             // await GoToRideReviewScreenAsync(attempt);
         }
 

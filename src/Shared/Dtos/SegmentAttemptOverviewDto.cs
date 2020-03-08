@@ -11,5 +11,6 @@ namespace Shared.Dtos {
         public DateTime EndUtc { get; set; }
 
         public TimeSpan Time => EndUtc - StartUtc;
+        public string FormattedTime => Time.ToString(@"mm\:ss");
     }
 }

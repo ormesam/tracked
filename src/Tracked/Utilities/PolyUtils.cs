@@ -43,12 +43,12 @@ namespace Tracked.Utilities {
             return mapLocations;
         }
 
-        public static IList<MapLocation> GetMapLocations(IList<SegmentLocation> locations) {
+        public static IList<MapLocation> GetMapLocations(IList<SegmentLocationDto> locations) {
             return locations
                 .OrderBy(i => i.Order)
                 .Select(i => new MapLocation {
-                    Latitude = (decimal)i.Point.Latitude,
-                    Longitude = (decimal)i.Point.Longitude,
+                    Latitude = i.Latitude,
+                    Longitude = i.Longitude,
                     Mph = 0,
                 })
                 .ToList();

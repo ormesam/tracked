@@ -1,15 +1,14 @@
 ﻿using System;
-using Tracked.Contexts;
-using Tracked.Models;
+using Shared.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Tracked.Screens.Segments {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SegmentScreen : ContentPage {
-        public SegmentScreen(MainContext context, Segment segment) {
+        public SegmentScreen(SegmentScreenViewModel viewModel) {
             InitializeComponent();
-            BindingContext = new SegmentScreenViewModel(context, segment);
+            BindingContext = viewModel;
         }
 
         public SegmentScreenViewModel ViewModel => BindingContext as SegmentScreenViewModel;
@@ -18,12 +17,8 @@ namespace Tracked.Screens.Segments {
             ViewModel.ChangeName();
         }
 
-        private async void Delete_Clicked(object sender, EventArgs e) {
-            await ViewModel.DeleteSegment(Navigation);
-        }
-
         private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAttempt(e.Item as SegmentAttempt);
+            await ViewModel.GoToAttempt(e.Item as SegmentAttemptOverviewDto);
         }
     }
 }
