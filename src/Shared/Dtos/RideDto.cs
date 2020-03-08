@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Shared.Interfaces;
 
 namespace Shared.Dtos {
     public class RideDto {
@@ -7,13 +9,14 @@ namespace Shared.Dtos {
         public DateTime StartUtc { get; set; }
         public DateTime EndUtc { get; set; }
         public string Name { get; set; }
-        public decimal MaxSpeedMph { get; set; }
-        public decimal AverageSpeedMph { get; set; }
-        public decimal DistanceMiles { get; set; }
         public IList<RideLocationDto> Locations { get; set; }
         public IList<RideJumpDto> Jumps { get; set; }
         public IList<SegmentAttemptOverviewDto> SegmentAttempts { get; set; }
         public string DisplayName => Name ?? StartUtc.ToString("dd MMM yy HH:mm");
+        public decimal MaxSpeedMph => Locations.Max(i => i.Mph);
+        public decimal AverageSpeedMph => Locations.Average(i => i.Mph);
+        public decimal DistanceMiles => DistanceHelpers.GetDistanceMile(Locations.Cast<ILatLng>().ToList());
+        public TimeSpan Time => EndUtc - StartUtc;
 
         public RideDto() {
             Locations = new List<RideLocationDto>();

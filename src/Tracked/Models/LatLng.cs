@@ -1,18 +1,19 @@
 ﻿using System.Diagnostics;
 using Newtonsoft.Json;
+using Shared.Interfaces;
 
 namespace Tracked.Models {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     [DebuggerDisplay("Lat: {Latitude} Lng: {Longitude}")]
-    public class LatLng {
+    public class LatLng : ILatLng {
         [JsonProperty]
-        public double Latitude { get; set; }
+        public decimal Latitude { get; set; }
         [JsonProperty]
-        public double Longitude { get; set; }
+        public decimal Longitude { get; set; }
 
         public LatLng(double lat, double lng) {
-            Latitude = lat;
-            Longitude = lng;
+            Latitude = (decimal)lat;
+            Longitude = (decimal)lng;
         }
     }
 }

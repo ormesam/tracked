@@ -57,13 +57,7 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<Ride>(entity =>
             {
-                entity.Property(e => e.AverageSpeedMph).HasColumnType("decimal(4, 1)");
-
-                entity.Property(e => e.DistanceMiles).HasColumnType("decimal(4, 1)");
-
                 entity.Property(e => e.EndUtc).HasColumnType("datetime");
-
-                entity.Property(e => e.MaxSpeedMph).HasColumnType("decimal(4, 1)");
 
                 entity.Property(e => e.Name).HasMaxLength(200);
 
@@ -123,13 +117,7 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<SegmentAttempt>(entity =>
             {
-                entity.Property(e => e.AverageSpeedMph).HasColumnType("decimal(4, 1)");
-
-                entity.Property(e => e.DistanceMiles).HasColumnType("decimal(4, 1)");
-
                 entity.Property(e => e.EndUtc).HasColumnType("datetime");
-
-                entity.Property(e => e.MaxSpeedMph).HasColumnType("decimal(4, 1)");
 
                 entity.Property(e => e.StartUtc).HasColumnType("datetime");
 
@@ -209,7 +197,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD1977CFF85A8")
+                    .HasName("UQ__User__437CD19775EF9A2B")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)

@@ -8,7 +8,7 @@ using Shared.Interfaces;
 
 namespace Api.Analysers {
     public static class SegmentAnalyser {
-        public static IEnumerable<SegmentAttemptDto> GetMatchingSegments(ModelDataContext context, RideDto ride) {
+        public static IEnumerable<SegmentAttemptDto> GetMatchingSegments(ModelDataContext context, RideLocationDto[] rideLocations, RideJumpDto[] rideJumps) {
             var segments = context.SegmentLocation
                 .OrderBy(i => i.SegmentId)
                 .ThenBy(i => i.Order)
@@ -18,10 +18,10 @@ namespace Api.Analysers {
                 });
 
             foreach (var segment in segments) {
-                var result = LocationsMatch(segment.Cast<ILatLng>().ToList(), ride.Locations.Cast<ILatLng>().ToList());
+                var result = LocationsMatch(segment.Cast<ILatLng>().ToList(), rideLocations.Cast<ILatLng>().ToList());
 
                 if (result != null) {
-                    var locations = ride.Locations.ToArray()[result.StartIdx..result.EndIdx]
+                    var locations = rideLocations[result.StartIdx..result.EndIdx]
                         .Select(i => new SegmentAttemptLocationDto {
                             AccuracyInMetres = i.AccuracyInMetres,
                             Altitude = i.Altitude,
@@ -32,11 +32,25 @@ namespace Api.Analysers {
                         })
                         .ToList();
 
+                    int jumpCount = 1;
+
+                    var jumps = rideJumps
+                        .Where(i => i.Timestamp >= rideLocations[result.StartIdx].Timestamp)
+                        .Where(i => i.Timestamp <= rideLocations[result.EndIdx].Timestamp)
+                        .OrderBy(i => i.Number)
+                        .Select(i => new SegmentAttemptJumpDto {
+                            Airtime = i.Airtime,
+                            Number = jumpCount++,
+                            Timestamp = i.Timestamp,
+                        })
+                        .ToList();
+
                     var segmentAttempt = new SegmentAttemptDto {
                         SegmentId = segment.Key,
                         StartUtc = locations.First().Timestamp,
                         EndUtc = locations.Last().Timestamp,
                         Locations = locations,
+                        Jumps = jumps,
                     };
 
                     segmentAttempt.Medal = GetMedal(context, segmentAttempt.Time, segment.Key);

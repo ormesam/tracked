@@ -90,8 +90,10 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new RecordScreen(context));
         }
 
-        public async Task GoToRideReviewScreenAsync(IRide ride) {
-            await GoToScreenAsync(new RideReviewScreen(context, ride));
+        public async Task GoToRideReviewScreenAsync(int id) {
+            RideReviewScreenViewModel viewModel = new RideReviewScreenViewModel(context);
+            await viewModel.Load(id);
+            await GoToScreenAsync(new RideReviewScreen(context, viewModel));
         }
 
         public async Task GoToAccelerometerReadingsScreenAsync(IRide ride) {
@@ -119,7 +121,7 @@ namespace Tracked.Contexts {
         }
 
         public async Task GoToSegmentAttemptScreenAsync(SegmentAttempt attempt) {
-            await GoToRideReviewScreenAsync(attempt);
+            // await GoToRideReviewScreenAsync(attempt);
         }
 
         public async Task GoToSpeedAnalysisScreenAsync(IRide ride) {

@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Shared.Dtos;
 using Tracked.Accelerometer;
+using Tracked.Contexts;
 using Tracked.JumpDetection;
 using Tracked.Models;
 
 namespace Tracked.Utilities {
     public class RideRecorder {
+        private readonly MainContext context;
         private readonly bool detectJumps;
-        private readonly IList<AccelerometerReading> readings;
+        private readonly IList<AccelerometerReadingDto> readings;
         private readonly JumpDetectionUtility jumpDetectionUtility;
 
-        public readonly Ride Ride;
+        public readonly RideUploadDto Ride;
 
-        public RideRecorder(bool detectJumps) {
-            this.detectJumps = detectJumps;
-            Ride = new Ride();
-            readings = new List<AccelerometerReading>();
+        public RideRecorder(MainContext context) {
+            this.context = context;
+            this.detectJumps = context.Settings.DetectJumps;
+            Ride = new RideUploadDto();
+            readings = new List<AccelerometerReadingDto>();
             jumpDetectionUtility = new JumpDetectionUtility(GeoUtility.Instance);
         }
 
         public async Task StartRide() {
-            Ride.Start = DateTime.UtcNow;
+            Ride.StartUtc = DateTime.UtcNow;
 
             AccelerometerUtility.Instance.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
@@ -34,7 +38,7 @@ namespace Tracked.Utilities {
         }
 
         public async Task StopRide() {
-            Ride.End = DateTime.UtcNow;
+            Ride.EndUtc = DateTime.UtcNow;
 
             await GeoUtility.Instance.Stop();
             await AccelerometerUtility.Instance.Stop();
@@ -47,7 +51,14 @@ namespace Tracked.Utilities {
                 Ride.Jumps = jumpDetectionUtility.Jumps;
             }
 
-            await Model.Instance.SaveRide(Ride);
+            await Model.Instance.SaveRideUpload(Ride);
+
+            try {
+                await context.Services.UploadRide(Ride);
+                await Model.Instance.RemoveUploadRide(Ride);
+            } catch (ServiceException ex) {
+                Toast.LongAlert(ex.Message);
+            }
         }
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {

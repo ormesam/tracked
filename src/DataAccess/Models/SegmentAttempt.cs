@@ -18,9 +18,6 @@ namespace DataAccess.Models
         public DateTime StartUtc { get; set; }
         public DateTime EndUtc { get; set; }
         public int Medal { get; set; }
-        public decimal MaxSpeedMph { get; set; }
-        public decimal AverageSpeedMph { get; set; }
-        public decimal DistanceMiles { get; set; }
 
         public virtual Ride Ride { get; set; }
         public virtual Segment Segment { get; set; }

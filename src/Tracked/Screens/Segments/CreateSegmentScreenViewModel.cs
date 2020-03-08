@@ -3,7 +3,6 @@ using System.Linq;
 using Tracked.Contexts;
 using Tracked.Controls;
 using Tracked.Models;
-using Tracked.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
@@ -26,7 +25,7 @@ namespace Tracked.Screens.Segments {
             MapViewModel = new MapControlViewModel(
                 context,
                 Ride?.DisplayName ?? "Map",
-                ride != null ? PolyUtils.GetMapLocations(Ride) : new List<MapLocation>(),
+                /*ride != null ? PolyUtils.GetMapLocations(Ride) :*/ new List<MapLocation>(),
                 isReadOnly: false,
                 showRideFeatures: false,
                 isShowingUser: false,

@@ -1,5 +1,4 @@
 ﻿using System;
-using Tracked.JumpDetection;
 using Newtonsoft.Json;
 
 namespace Tracked.Models {
@@ -16,12 +15,6 @@ namespace Tracked.Models {
 
         [JsonProperty]
         public double Z { get; set; }
-
-        public bool IsFreefallReading() {
-            return Math.Abs(X) <= JumpDetectionUtility.Tolerance &&
-                Math.Abs(Y) <= JumpDetectionUtility.Tolerance &&
-                Math.Abs(Z) <= JumpDetectionUtility.Tolerance;
-        }
 
         public TimeSpan GetTimeFromStart(DateTime start) {
             return Timestamp - start;

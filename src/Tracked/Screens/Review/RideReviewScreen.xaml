@@ -5,12 +5,6 @@
     x:Class="Tracked.Screens.Review.RideReviewScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
     Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            Text="Delete"
-            Clicked="Delete_Clicked"
-            Order="Secondary" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
@@ -20,7 +14,7 @@
                 <Label
                     Margin="15"
                     HorizontalOptions="Center"
-                    Text="{Binding DisplayName}"
+                    Text="{Binding Ride.DisplayName}"
                     FontSize="Large" />
                 <Grid>
                     <Grid.RowDefinitions>
@@ -72,7 +66,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding Distance, StringFormat='{}{0:F1} mi'}" />
+                            Text="{Binding Ride.DistanceMiles, StringFormat='{}{0:F1} mi'}" />
                     </StackLayout>
 
                     <BoxView
@@ -91,7 +85,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding AverageSpeed, StringFormat='{}{0:F1} mi/h'}" />
+                            Text="{Binding Ride.AverageSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
                     </StackLayout>
 
                     <BoxView
@@ -109,7 +103,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding MaxSpeed, StringFormat='{}{0:F1} mi/h'}" />
+                            Text="{Binding Ride.MaxSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
                     </StackLayout>
 
                     <BoxView
@@ -171,16 +165,13 @@
                 <BoxView
                     HeightRequest="10"
                     Margin="0,5"
-                    BackgroundColor="LightGray"
-                    IsVisible="{Binding ShowAttempts}" />
+                    BackgroundColor="LightGray" />
 
                 <Label
                     Margin="10,4"
                     Text="Segments"
-                    FontAttributes="Bold"
-                    IsVisible="{Binding ShowAttempts}"/>
+                    FontAttributes="Bold"/>
                 <controls:ExtendedListView
-                    IsVisible="{Binding ShowAttempts}"
                     ItemsSource="{Binding Attempts}"
                     IsScrollEnabled="False"
                     ItemTapped="Attempt_ItemTapped">
@@ -203,16 +194,6 @@
 
                 <controls:JumpsControl
                     Jumps="{Binding Jumps}" />
-
-                <Button
-                    Text="View Jump Breakdown"
-                    IsVisible="{Binding IsDebugMode}"
-                    BackgroundColor="{StaticResource DefaultBackgroundColour}"
-                    TextColor="White"
-                    Margin="10, 0, 10 ,0"
-                    HeightRequest="35"
-                    Clicked="JumpBreakdown_Clicked"
-                    FontSize="10" />
 
                 <BoxView
                     HeightRequest="10"

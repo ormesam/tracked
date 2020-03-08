@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
+using Shared.Dtos;
 using Tracked.Models;
 
 namespace Tracked.Contexts {
@@ -25,6 +26,12 @@ namespace Tracked.Contexts {
 
         public IList<SegmentAttempt> GetSegmentAttempts() {
             var attempts = Storage.GetAllObjects<SegmentAttempt>().Wait();
+
+            return attempts.ToList();
+        }
+
+        public IList<RideUploadDto> GetPendingRideUploads() {
+            var attempts = Storage.GetAllObjects<RideUploadDto>().Wait();
 
             return attempts.ToList();
         }

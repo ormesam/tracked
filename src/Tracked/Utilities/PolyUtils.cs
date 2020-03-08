@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared.Dtos;
 using Tracked.Models;
 
 namespace Tracked.Utilities {
     public static class PolyUtils {
-        public static IList<MapLocation> GetMapLocations(IRide ride) {
+        public static IList<MapLocation> GetMapLocations(RideDto ride) {
             var locations = ride.Locations
                 .OrderBy(i => i.Timestamp)
                 .Select(i => new {
                     i.Timestamp,
-                    i.Point,
+                    i.Latitude,
+                    i.Longitude,
                     i.Mph,
                 })
                 .ToList();
 
-            var jumpsByLocationTime = new Dictionary<DateTime, Jump>();
+            var jumpsByLocationTime = new Dictionary<DateTime, RideJumpDto>();
 
             foreach (var jump in ride.Jumps) {
                 var nearestLocation = locations
@@ -33,7 +35,8 @@ namespace Tracked.Utilities {
                 mapLocations.Add(new MapLocation {
                     Jump = jumpsByLocationTime.ContainsKey(location.Timestamp) ? jumpsByLocationTime[location.Timestamp] : null,
                     Mph = location.Mph,
-                    Point = location.Point,
+                    Latitude = location.Latitude,
+                    Longitude = location.Longitude,
                 });
             }
 
@@ -44,7 +47,8 @@ namespace Tracked.Utilities {
             return locations
                 .OrderBy(i => i.Order)
                 .Select(i => new MapLocation {
-                    Point = i.Point,
+                    Latitude = (decimal)i.Point.Latitude,
+                    Longitude = (decimal)i.Point.Longitude,
                     Mph = 0,
                 })
                 .ToList();

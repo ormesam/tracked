@@ -8,7 +8,4 @@
     [StartUtc] datetime NOT NULL,
     [EndUtc] datetime NOT NULL,
     [Medal] int NOT NULL,
-    [MaxSpeedMph] decimal(4,1) NOT NULL,
-    [AverageSpeedMph] decimal(4,1) NOT NULL,
-    [DistanceMiles] decimal(4,1) NOT NULL,
 )

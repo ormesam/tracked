@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Plugin.Geolocator;
+using Shared.Interfaces;
 using Tracked.Contexts;
 using Tracked.Models;
 using Tracked.Screens;
@@ -50,11 +51,11 @@ namespace Tracked.Controls {
             MapType = mapType;
             CanChangeMapType = canChangeMapType;
 
-            LatLng centre = new LatLng(57.1499749, -2.1950675);
+            ILatLng centre = new LatLng(57.1499749, -2.1950675);
             double zoom = 10;
 
             if (locations.Any()) {
-                centre = locations.Midpoint().Point;
+                centre = locations.Midpoint();
                 zoom = 15;
             } else if (isShowingUser) {
                 var lastLocation = CrossGeolocator.Current.GetLastKnownLocationAsync().Result;
@@ -65,7 +66,7 @@ namespace Tracked.Controls {
                 }
             }
 
-            InitalCamera = CameraUpdateFactory.NewPositionZoom(new Position(centre.Latitude, centre.Longitude), zoom);
+            InitalCamera = CameraUpdateFactory.NewPositionZoom(new Position((double)centre.Latitude, (double)centre.Longitude), zoom);
         }
 
         public MapType MapType {
@@ -103,15 +104,15 @@ namespace Tracked.Controls {
 
             // Only need one line if no colours are involved
             if (!ShowRideFeatures) {
-                AddPolyLine(Locations.Select(i => i.Point).ToList(), Color.Blue);
+                AddPolyLine(Locations.Cast<ILatLng>().ToList(), Color.Blue);
 
                 return;
             }
 
             var maxSpeed = Locations.Max(i => i.Mph);
             var lastColour = Color.Blue;
-            var polylineLocations = new List<LatLng> {
-                Locations.First().Point,
+            var polylineLocations = new List<ILatLng> {
+                Locations.First(),
             };
 
             for (int i = 1; i < Locations.Count; i++) {
@@ -122,12 +123,12 @@ namespace Tracked.Controls {
 
                     polylineLocations.Clear();
 
-                    polylineLocations.Add(Locations[i - 1].Point);
+                    polylineLocations.Add(Locations[i - 1]);
 
                     lastColour = colour;
                 }
 
-                polylineLocations.Add(Locations[i].Point);
+                polylineLocations.Add(Locations[i]);
 
                 bool isMaxSpeed = Locations[i].Mph == maxSpeed;
                 bool hasJump = Locations[i].Jump != null;
@@ -163,7 +164,7 @@ namespace Tracked.Controls {
 
         private void AddMaxSpeedPin(MapLocation location, bool hasMultiplePins) {
             Pin pin = new Pin {
-                Position = new Position(location.Point.Latitude, location.Point.Longitude),
+                Position = new Position((double)location.Latitude, (double)location.Longitude),
                 Label = Math.Round(location.Mph, 1) + " mi/h",
                 Icon = BitmapDescriptorFactory.FromBundle("speed_icon.png"),
                 Rotation = hasMultiplePins ? 330 : 0,
@@ -174,7 +175,7 @@ namespace Tracked.Controls {
 
         private void AddJumpPin(MapLocation location, bool hasMultiplePins) {
             Pin pin = new Pin {
-                Position = new Position(location.Point.Latitude, location.Point.Longitude),
+                Position = new Position((double)location.Latitude, (double)location.Longitude),
                 Label = Math.Round(location.Jump.Airtime, 3) + "s",
                 Icon = BitmapDescriptorFactory.FromBundle("jump_icon.png"),
                 Rotation = hasMultiplePins ? 30 : 0,
@@ -183,7 +184,7 @@ namespace Tracked.Controls {
             map.Pins.Add(pin);
         }
 
-        public void AddPolyLine(IList<LatLng> latLngs, Color colour) {
+        public void AddPolyLine(IList<ILatLng> latLngs, Color colour) {
             if (latLngs.Count <= 1) {
                 return;
             }
@@ -191,7 +192,7 @@ namespace Tracked.Controls {
             Polyline polyline = new Polyline();
 
             foreach (var latLng in latLngs) {
-                polyline.Positions.Add(new Position(latLng.Latitude, latLng.Longitude));
+                polyline.Positions.Add(new Position((double)latLng.Latitude, (double)latLng.Longitude));
             }
 
             polyline.StrokeColor = colour;
@@ -200,15 +201,15 @@ namespace Tracked.Controls {
             map.Polylines.Add(polyline);
         }
 
-        private Color GetMaxSpeedColour(double mph, double maxSpeed) {
-            double limit1 = maxSpeed * 0.95;
-            double limit2 = maxSpeed * 0.85;
-            double limit3 = maxSpeed * 0.75;
-            double limit4 = maxSpeed * 0.70;
-            double limit5 = maxSpeed * 0.65;
-            double limit6 = maxSpeed * 0.60;
-            double limit7 = maxSpeed * 0.55;
-            double limit8 = maxSpeed * 0.50;
+        private Color GetMaxSpeedColour(decimal mph, decimal maxSpeed) {
+            decimal limit1 = maxSpeed * 0.95m;
+            decimal limit2 = maxSpeed * 0.85m;
+            decimal limit3 = maxSpeed * 0.75m;
+            decimal limit4 = maxSpeed * 0.70m;
+            decimal limit5 = maxSpeed * 0.65m;
+            decimal limit6 = maxSpeed * 0.60m;
+            decimal limit7 = maxSpeed * 0.55m;
+            decimal limit8 = maxSpeed * 0.50m;
 
             if (mph > limit1) {
                 return Color.FromHex("#F8696B");

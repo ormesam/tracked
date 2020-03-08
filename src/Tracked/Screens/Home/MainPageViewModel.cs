@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Models;
 using Tracked.Screens;
 using Tracked.Utilities;
 using Xamarin.Forms;
@@ -52,8 +51,8 @@ namespace Tracked.Home {
             await Context.UI.GoToRecordScreenAsync();
         }
 
-        public async Task GoToReview(Ride ride) {
-            await Context.UI.GoToRideReviewScreenAsync(ride);
+        public async Task GoToReview(RideOverviewDto ride) {
+            await Context.UI.GoToRideReviewScreenAsync(ride.RideId);
         }
     }
 }

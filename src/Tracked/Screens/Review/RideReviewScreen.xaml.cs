@@ -8,18 +8,12 @@ using Xamarin.Forms.Xaml;
 namespace Tracked.Screens.Review {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RideReviewScreen : ContentPage {
-        public RideReviewScreen(MainContext context, IRide ride) {
+        public RideReviewScreen(MainContext context, RideReviewScreenViewModel viewModel) {
             InitializeComponent();
-            BindingContext = new RideReviewScreenViewModel(context, ride);
+            BindingContext = viewModel;
         }
 
         public RideReviewScreenViewModel ViewModel => BindingContext as RideReviewScreenViewModel;
-
-        private async void Delete_Clicked(object sender, EventArgs e) {
-            await ViewModel.Delete();
-
-            await Navigation.PopToRootAsync();
-        }
 
         private async void JumpBreakdown_Clicked(object sender, EventArgs e) {
             await ViewModel.ViewJumpBreakdown();

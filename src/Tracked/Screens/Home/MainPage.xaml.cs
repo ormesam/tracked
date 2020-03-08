@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Models;
 using Xamarin.Forms;
 
 namespace Tracked.Home {
@@ -40,7 +40,7 @@ namespace Tracked.Home {
         }
 
         private async void Ride_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToReview(e.Item as Ride);
+            await ViewModel.GoToReview(e.Item as RideOverviewDto);
         }
     }
 }

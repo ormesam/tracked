@@ -1,34 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Tracked.Models;
-using Xamarin.Forms;
-using Xamarin.Forms.GoogleMaps;
+using Shared.Dtos;
 
 namespace Tracked.Utilities {
     public static class Extensions {
         public static ObservableCollection<T> ToObservable<T>(this IEnumerable<T> list) {
             return new ObservableCollection<T>(list);
-        }
-
-        public static void GoToLocations(this Map map, IList<Location> locations) {
-            var firstLocation = locations.Midpoint();
-
-            var pin = new Position(firstLocation.Point.Latitude, firstLocation.Point.Longitude);
-
-            Device.BeginInvokeOnMainThread(() => {
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));
-            });
-        }
-
-        public static void GoToLocations(this Map map, IList<MapLocation> locations) {
-            var firstLocation = locations.Midpoint();
-
-            var pin = new Position(firstLocation.Point.Latitude, firstLocation.Point.Longitude);
-
-            Device.BeginInvokeOnMainThread(() => {
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(pin, Distance.FromMiles(0.25)));
-            });
         }
 
         public static T Midpoint<T>(this IList<T> list) {
@@ -41,12 +19,12 @@ namespace Tracked.Utilities {
             return list[midpoint];
         }
 
-        public static double GetTime(this IList<AccelerometerReading> readings) {
+        public static decimal GetTime(this IList<AccelerometerReadingDto> readings) {
             if (!readings.Any()) {
                 return 0;
             }
 
-            return (readings.Select(i => i.Timestamp).Max() - readings.Select(i => i.Timestamp).Min()).TotalSeconds;
+            return (decimal)(readings.Select(i => i.Timestamp).Max() - readings.Select(i => i.Timestamp).Min()).TotalSeconds;
         }
 
         public static IList<T> GetRange<T>(this IEnumerable<T> enumerable, int index, int count) {

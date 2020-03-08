@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using Tracked.Contexts;
-using Tracked.JumpDetection;
-using Tracked.Models;
 using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using Tracked.Contexts;
+using Tracked.JumpDetection;
+using Tracked.Models;
 
 namespace Tracked.Screens.Review {
     internal class AccelerometerReadingsScreenViewModel : ViewModelBase {
@@ -77,14 +77,14 @@ namespace Tracked.Screens.Review {
                 StrokeThickness = 1,
                 Color = OxyColors.Red,
                 Type = LineAnnotationType.Horizontal,
-                Y = JumpDetectionUtility.Tolerance,
+                Y = (double)JumpDetectionUtility.Tolerance,
             };
 
             LineAnnotation minToleranceLine = new LineAnnotation() {
                 StrokeThickness = 1,
                 Color = OxyColors.Red,
                 Type = LineAnnotationType.Horizontal,
-                Y = -JumpDetectionUtility.Tolerance,
+                Y = (double)-JumpDetectionUtility.Tolerance,
             };
 
             plot.Annotations.Add(baseLine);

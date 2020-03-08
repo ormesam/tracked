@@ -30,6 +30,14 @@ namespace Tracked.Contexts {
             return await GetAsync<IList<RideOverviewDto>>("rides");
         }
 
+        public async Task<RideDto> GetRide(int id) {
+            return await GetAsync<RideDto>("rides/" + id);
+        }
+
+        public async Task<int> UploadRide(RideUploadDto ride) {
+            return await PostAsync<int>("rides/add", ride);
+        }
+
         protected async Task<TResult> GetAsync<TResult>(string apiEndpoint) {
             return await SendAsync<TResult>(CreateGetRequestMessage(apiEndpoint));
         }

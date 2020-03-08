@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.Utilities;
 
@@ -32,6 +33,7 @@ namespace Tracked.Models {
         public ObservableCollection<Ride> Rides { get; set; }
         public ObservableCollection<Segment> Segments { get; set; }
         public ObservableCollection<SegmentAttempt> SegmentAttempts { get; set; }
+        public ObservableCollection<RideUploadDto> PendingRideUploads { get; set; }
 
         private Model() {
         }
@@ -42,16 +44,23 @@ namespace Tracked.Models {
             Rides = storage.GetRides().ToObservable();
             Segments = storage.GetSegments().ToObservable();
             SegmentAttempts = storage.GetSegmentAttempts().ToObservable();
+            PendingRideUploads = storage.GetPendingRideUploads().ToObservable();
         }
 
-        public async Task SaveRide(Ride ride) {
+        public async Task SaveRideUpload(RideUploadDto ride) {
             if (ride.Id == null) {
                 ride.Id = Guid.NewGuid();
 
-                Rides.Add(ride);
+                PendingRideUploads.Add(ride);
             }
 
             await storage.SaveObject(ride.Id.Value, ride);
+        }
+
+        public async Task RemoveUploadRide(RideUploadDto ride) {
+            PendingRideUploads.Remove(ride);
+
+            await storage.RemoveObject<RideUploadDto>(ride.Id.Value);
         }
 
         public async Task RemoveRide(Ride ride) {
