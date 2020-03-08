@@ -8,7 +8,7 @@ using Xamarin.Forms.Xaml;
 namespace Tracked.Screens.Review {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RideReviewScreen : ContentPage {
-        public RideReviewScreen(MainContext context, RideReviewScreenViewModel viewModel) {
+        public RideReviewScreen(RideReviewScreenViewModel viewModel) {
             InitializeComponent();
             BindingContext = viewModel;
         }

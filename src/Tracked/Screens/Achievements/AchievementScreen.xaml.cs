@@ -1,4 +1,5 @@
-﻿using Tracked.Contexts;
+﻿using Shared.Dtos;
+using Tracked.Contexts;
 using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,7 +14,7 @@ namespace Tracked.Screens.Achievements {
         public AchievementScreenViewModel ViewModel => BindingContext as AchievementScreenViewModel;
 
         private async void Ride_Tapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToRide(e.Item as Ride);
+            await ViewModel.GoToRide(e.Item as RideOverviewDto);
         }
     }
 }

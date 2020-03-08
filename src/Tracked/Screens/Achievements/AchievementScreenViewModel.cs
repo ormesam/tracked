@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Models;
 
 namespace Tracked.Screens.Achievements {
     public class AchievementScreenViewModel : ViewModelBase {
@@ -14,8 +14,8 @@ namespace Tracked.Screens.Achievements {
 
         //public IEnumerable<Ride> Rides => achievement.GetRides();
 
-        public async Task GoToRide(Ride ride) {
-            // await Context.UI.GoToRideReviewScreenAsync(ride);
+        public async Task GoToRide(RideOverviewDto ride) {
+            await Context.UI.GoToRideReviewScreenAsync(ride.RideId);
         }
     }
 }

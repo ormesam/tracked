@@ -94,12 +94,12 @@ namespace Tracked.Contexts {
         public async Task GoToRideReviewScreenAsync(int id) {
             RideReviewScreenViewModel viewModel = new RideReviewScreenViewModel(context);
             await viewModel.Load(id);
-            await GoToScreenAsync(new RideReviewScreen(context, viewModel));
+            await GoToScreenAsync(new RideReviewScreen(viewModel));
         }
 
-        public async Task GoToAccelerometerReadingsScreenAsync(IRide ride) {
-            await GoToScreenAsync(new AccelerometerReadingsScreen(context, ride));
-        }
+        //public async Task GoToAccelerometerReadingsScreenAsync(IRide ride) {
+        //    await GoToScreenAsync(new AccelerometerReadingsScreen(context, ride));
+        //}
 
         ////public async Task GoToAchievementScreenAsync(IAchievement achievement) {
         ////    await GoToScreenAsync(new AchievementScreen(context, achievement));
@@ -110,11 +110,7 @@ namespace Tracked.Contexts {
         }
 
         public async Task GoToCreateSegmentScreenAsync() {
-            await GoToScreenAsync(new SelectRideScreen(context));
-        }
-
-        public async Task GoToCreateSegmentScreenAsync(Ride ride) {
-            await GoToScreenAsync(new CreateSegmentScreen(context, ride));
+            await GoToScreenAsync(new CreateSegmentScreen(context, null));
         }
 
         public async Task GoToSegmentScreenAsync(int segmentId) {

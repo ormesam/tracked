@@ -12,18 +12,6 @@ namespace Tracked.Contexts {
     public class StorageContext {
         public readonly IBlobCache Storage = BlobCache.LocalMachine;
 
-        public IList<Segment> GetSegments() {
-            var segments = Storage.GetAllObjects<Segment>().Wait();
-
-            return segments.ToList();
-        }
-
-        public IList<SegmentAttempt> GetSegmentAttempts() {
-            var attempts = Storage.GetAllObjects<SegmentAttempt>().Wait();
-
-            return attempts.ToList();
-        }
-
         public IList<RideUploadDto> GetPendingRideUploads() {
             var attempts = Storage.GetAllObjects<RideUploadDto>().Wait();
 

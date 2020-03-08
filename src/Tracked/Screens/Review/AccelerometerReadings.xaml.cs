@@ -1,14 +1,13 @@
 ﻿using Tracked.Contexts;
-using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Tracked.Screens.Review {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AccelerometerReadingsScreen : ContentPage {
-        public AccelerometerReadingsScreen(MainContext context, IRide ride) {
+        public AccelerometerReadingsScreen(MainContext context) {
             InitializeComponent();
-            BindingContext = new AccelerometerReadingsScreenViewModel(context, ride);
+            BindingContext = new AccelerometerReadingsScreenViewModel(context, null);
         }
     }
 }

@@ -1,19 +1,17 @@
-﻿using System.Linq;
-using OxyPlot;
+﻿using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Axes;
-using OxyPlot.Series;
+using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.JumpDetection;
-using Tracked.Models;
 
 namespace Tracked.Screens.Review {
     internal class AccelerometerReadingsScreenViewModel : ViewModelBase {
-        private readonly IRide ride;
+        private readonly RideDto ride;
 
         public PlotModel AccelerometerChartModel { get; }
 
-        public AccelerometerReadingsScreenViewModel(MainContext context, IRide ride)
+        public AccelerometerReadingsScreenViewModel(MainContext context, RideDto ride)
             : base(context) {
             this.ride = ride;
 
@@ -35,36 +33,36 @@ namespace Tracked.Screens.Review {
                         IsZoomEnabled = false,
                     },
                 },
-                Series = {
-                    new LineSeries()
-                    {
-                          ItemsSource = ride.AccelerometerReadings
-                            .OrderBy(i => i.Timestamp)
-                            .Select(i => new {
-                                x = i.Timestamp,
-                                y = i.X,
-                            })
-                            .ToList(),
-                          DataFieldX = "x",
-                          DataFieldY = "y",
-                    },
-                }
+                //Series = {
+                //    new LineSeries()
+                //    {
+                //          ItemsSource = ride.AccelerometerReadings
+                //            .OrderBy(i => i.Timestamp)
+                //            .Select(i => new {
+                //                x = i.Timestamp,
+                //                y = i.X,
+                //            })
+                //            .ToList(),
+                //          DataFieldX = "x",
+                //          DataFieldY = "y",
+                //    },
+                //}
             };
 
-            foreach (var jump in ride.Jumps) {
-                plot.Series.Add(new LineSeries {
-                    ItemsSource = jump.Readings
-                        .OrderBy(i => i.Timestamp)
-                        .Select(i => new {
-                            x = i.Timestamp,
-                            y = i.X,
-                        })
-                        .ToList(),
-                    DataFieldX = "x",
-                    DataFieldY = "y",
-                    Color = OxyPlot.OxyColor.FromRgb(255, 0, 0),
-                });
-            }
+            //foreach (var jump in ride.Jumps) {
+            //    plot.Series.Add(new LineSeries {
+            //        ItemsSource = jump.Readings
+            //            .OrderBy(i => i.Timestamp)
+            //            .Select(i => new {
+            //                x = i.Timestamp,
+            //                y = i.X,
+            //            })
+            //            .ToList(),
+            //        DataFieldX = "x",
+            //        DataFieldY = "y",
+            //        Color = OxyPlot.OxyColor.FromRgb(255, 0, 0),
+            //    });
+            //}
 
             LineAnnotation baseLine = new LineAnnotation() {
                 StrokeThickness = 1,

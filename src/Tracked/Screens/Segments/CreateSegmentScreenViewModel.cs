@@ -4,6 +4,7 @@ using Shared.Interfaces;
 using Tracked.Contexts;
 using Tracked.Controls;
 using Tracked.Models;
+using Tracked.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
@@ -14,10 +15,10 @@ namespace Tracked.Screens.Segments {
         private ILatLng lastLatLng;
         private string displayText;
 
-        public Ride Ride { get; }
+        public RideDto Ride { get; }
         public MapControlViewModel MapViewModel { get; }
 
-        public CreateSegmentScreenViewModel(MainContext context, Ride ride) : base(context) {
+        public CreateSegmentScreenViewModel(MainContext context, RideDto ride) : base(context) {
             segment = new SegmentDto();
             Ride = ride;
             count = 1;
@@ -26,7 +27,7 @@ namespace Tracked.Screens.Segments {
             MapViewModel = new MapControlViewModel(
                 context,
                 Ride?.DisplayName ?? "Map",
-                /*ride != null ? PolyUtils.GetMapLocations(Ride) :*/ new List<MapLocation>(),
+                ride != null ? PolyUtils.GetMapLocations(Ride) : new List<MapLocation>(),
                 isReadOnly: false,
                 showRideFeatures: false,
                 isShowingUser: false,
