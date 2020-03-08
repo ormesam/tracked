@@ -4,21 +4,38 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Screens.Settings.ExploreSegmentsScreen"
     Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            IconImageSource="add_icon.png"
-            Clicked="Add_Clicked" />
-    </ContentPage.ToolbarItems>
-    <ContentPage.Content>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="*"/>
+            <RowDefinition
+                Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="No Segments Yet"
+            IsVisible="{Binding HasSegments, Converter={StaticResource InvertBoolConverter}}" />
         <ListView
             ItemsSource="{Binding Segments}"
-            ItemTapped="Segments_ItemTapped">
+            ItemTapped="Segment_ItemTapped"
+            CachingStrategy="RecycleElementAndDataTemplate"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshCommand="{Binding RefreshCommand}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell
-                        Text="{Binding DisplayName}" />
+                        Text="{Binding Name}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </ContentPage.Content>
+        <Button
+            Grid.Row="1"
+            Text="Add Segment"
+            Clicked="Add_Clicked"
+            IsVisible="True"
+            BackgroundColor="Green"
+            TextColor="White"/>
+    </Grid>
 </ContentPage>

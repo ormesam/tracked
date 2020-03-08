@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tracked.Contexts;
 using Tracked.Controls;
 using Tracked.Models;
@@ -25,10 +23,10 @@ namespace Tracked.Screens.Segments {
 
         public string DisplayName => Segment.DisplayName;
 
-        public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
-            .Where(i => i.SegmentId == Segment.Id)
-            .OrderBy(i => i.Time)
-            .ToList();
+        //public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
+        //    .Where(i => i.SegmentId == Segment.Id)
+        //    .OrderBy(i => i.Time)
+        //    .ToList();
 
         public void ChangeName() {
             Context.UI.ShowInputDialog("Change Name", Segment.Name, async (newName) => {
@@ -37,12 +35,12 @@ namespace Tracked.Screens.Segments {
                 OnPropertyChanged(nameof(Title));
                 OnPropertyChanged(nameof(DisplayName));
 
-                await Model.Instance.SaveSegment(Segment);
+                // await Model.Instance.SaveSegment(Segment);
             });
         }
 
         public async Task DeleteSegment(INavigation nav) {
-            await Model.Instance.RemoveSegment(Segment);
+            // await Model.Instance.RemoveSegment(Segment);
 
             await nav.PopAsync();
         }

@@ -38,6 +38,14 @@ namespace Tracked.Contexts {
             return await PostAsync<int>("rides/add", ride);
         }
 
+        public async Task<IList<SegmentOverviewDto>> GetSegmentOverviews() {
+            return await GetAsync<IList<SegmentOverviewDto>>("segments");
+        }
+
+        public async Task<int> UploadSegment(SegmentDto segment) {
+            return await PostAsync<int>("segments/add", segment);
+        }
+
         protected async Task<TResult> GetAsync<TResult>(string apiEndpoint) {
             return await SendAsync<TResult>(CreateGetRequestMessage(apiEndpoint));
         }

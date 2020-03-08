@@ -74,5 +74,44 @@ namespace Api.Controllers {
 
             return segment;
         }
+
+        [HttpPost]
+        [Route("add")]
+        public ActionResult<int> Add(SegmentDto model) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            int userId = this.GetCurrentUserId();
+
+            int segmentId = SaveSegment(userId, model);
+            AnalyseAndSaveSegmentAttempts(segmentId, userId, model);
+
+            return segmentId;
+        }
+
+        private int SaveSegment(int userId, SegmentDto model) {
+            Segment segment = new Segment {
+                Name = model.Name,
+                UserId = userId,
+            };
+
+            segment.SegmentLocation = model.Locations
+                .Select(i => new SegmentLocation {
+                    Latitude = i.Latitude,
+                    Longitude = i.Longitude,
+                    Order = i.Order,
+                })
+                .ToList();
+
+            context.Segment.Add(segment);
+
+            context.SaveChanges();
+
+            return segment.SegmentId;
+        }
+
+        private void AnalyseAndSaveSegmentAttempts(int segmentId, int userId, SegmentDto model) {
+        }
     }
 }

@@ -42,8 +42,8 @@ namespace Tracked.Home {
             } catch (ServiceException ex) {
                 Toast.LongAlert(ex.Message);
             } finally {
-                Refresh();
                 IsRefreshing = false;
+                Refresh();
             }
         }
 

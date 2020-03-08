@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Shared.Dtos;
 using Tracked.Contexts;
@@ -30,9 +28,6 @@ namespace Tracked.Models {
 
         private StorageContext storage;
 
-        public ObservableCollection<Ride> Rides { get; set; }
-        public ObservableCollection<Segment> Segments { get; set; }
-        public ObservableCollection<SegmentAttempt> SegmentAttempts { get; set; }
         public ObservableCollection<RideUploadDto> PendingRideUploads { get; set; }
 
         private Model() {
@@ -41,9 +36,6 @@ namespace Tracked.Models {
         public void Init(MainContext mainContext) {
             storage = mainContext.Storage;
 
-            Rides = storage.GetRides().ToObservable();
-            Segments = storage.GetSegments().ToObservable();
-            SegmentAttempts = storage.GetSegmentAttempts().ToObservable();
             PendingRideUploads = storage.GetPendingRideUploads().ToObservable();
         }
 
@@ -61,57 +53,6 @@ namespace Tracked.Models {
             PendingRideUploads.Remove(ride);
 
             await storage.RemoveObject<RideUploadDto>(ride.Id.Value);
-        }
-
-        public async Task RemoveRide(Ride ride) {
-            var attempts = SegmentAttempts
-                .Where(i => i.RideId == ride.Id)
-                .ToList(); ;
-
-            await RemoveSegmentAttempts(attempts);
-
-            Rides.Remove(ride);
-
-            await storage.RemoveObject<Segment>(ride.Id.Value);
-        }
-
-        public async Task SaveSegment(Segment segment) {
-            if (segment.Id == null) {
-                segment.Id = Guid.NewGuid();
-
-                Segments.Add(segment);
-            }
-
-            await storage.SaveObject(segment.Id.Value, segment);
-        }
-
-        public async Task RemoveSegment(Segment segment) {
-            var attempts = SegmentAttempts
-                .Where(i => i.SegmentId == segment.Id)
-                .ToList();
-
-            await RemoveSegmentAttempts(attempts);
-
-            Segments.Remove(segment);
-
-            await storage.RemoveObject<Segment>(segment.Id.Value);
-        }
-
-        public async Task RemoveSegmentAttempts(IEnumerable<SegmentAttempt> attempts) {
-            foreach (var attempt in attempts) {
-                SegmentAttempts.Remove(attempt);
-                await storage.RemoveObject<SegmentAttempt>(attempt.Id.Value);
-            }
-        }
-
-        public async Task SaveSegmentAttempt(SegmentAttempt segmentAttempt) {
-            if (segmentAttempt.Id == null) {
-                segmentAttempt.Id = Guid.NewGuid();
-
-                SegmentAttempts.Add(segmentAttempt);
-            }
-
-            await storage.SaveObject(segmentAttempt.Id.Value, segmentAttempt);
         }
 
 #if DEBUG
