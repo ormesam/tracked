@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Shared.Dtos;
 using Tracked.Dependancies;
 using Tracked.Home;
 using Tracked.Models;
@@ -126,7 +127,7 @@ namespace Tracked.Contexts {
             // await GoToRideReviewScreenAsync(attempt);
         }
 
-        public async Task GoToSpeedAnalysisScreenAsync(IRide ride) {
+        public async Task GoToSpeedAnalysisScreenAsync(RideDto ride) {
             await GoToScreenAsync(new SpeedAnalysisScreen(context, ride));
         }
     }

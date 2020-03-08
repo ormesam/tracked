@@ -1,16 +1,16 @@
 ﻿using System.Linq;
-using Tracked.Contexts;
-using Tracked.Models;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using Shared.Dtos;
+using Tracked.Contexts;
 using ChartPlotModel = OxyPlot.PlotModel;
 
 namespace Tracked.Screens.Review {
     public class SpeedAnalysisScreenViewModel : ViewModelBase {
-        private readonly IRide ride;
+        private readonly RideDto ride;
         public ChartPlotModel AnalysisChartModel { get; }
 
-        public SpeedAnalysisScreenViewModel(MainContext context, IRide ride) : base(context) {
+        public SpeedAnalysisScreenViewModel(MainContext context, RideDto ride) : base(context) {
             this.ride = ride;
 
             AnalysisChartModel = CreateAnaysisChartModel();

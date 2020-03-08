@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.Controls;
-using Tracked.Models;
 using Tracked.Utilities;
 
 namespace Tracked.Screens.Review {
@@ -45,16 +44,12 @@ namespace Tracked.Screens.Review {
             OnPropertyChanged(nameof(MapViewModel));
         }
 
-        public async Task GoToAttempt(SegmentAttempt attempt) {
-            // await Context.UI.GoToSegmentAttemptScreenAsync(attempt);
+        public async Task GoToAttempt(SegmentAttemptOverviewDto attempt) {
+            await Context.UI.GoToSegmentAttemptScreenAsync(attempt.SegmentAttemptId);
         }
 
         public async Task GoToSpeedAnalysis() {
-            //  await Context.UI.GoToSpeedAnalysisScreenAsync(Ride);
-        }
-
-        public async Task ViewJumpBreakdown() {
-            // await Context.UI.GoToAccelerometerReadingsScreenAsync(Ride);
+            await Context.UI.GoToSpeedAnalysisScreenAsync(Ride);
         }
     }
 }
