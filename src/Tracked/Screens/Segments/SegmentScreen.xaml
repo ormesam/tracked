@@ -13,7 +13,7 @@
             <Label
                 Margin="15"
                 HorizontalOptions="Center"
-                Text="{Binding DisplayName}"
+                Text="{Binding Segment.Name}"
                 FontSize="Large">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer

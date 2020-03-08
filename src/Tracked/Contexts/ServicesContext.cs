@@ -46,6 +46,13 @@ namespace Tracked.Contexts {
             return await PostAsync<int>("segments/add", segment);
         }
 
+        public async Task<string> ChangeSegmentName(int segmentId, string newName) {
+            return await PostAsync<string>("segments/change-name", new SegmentChangeNameDto {
+                SegmentId = segmentId,
+                Name = newName,
+            });
+        }
+
         public async Task<SegmentDto> GetSegment(int id) {
             return await GetAsync<SegmentDto>("segments/" + id);
         }

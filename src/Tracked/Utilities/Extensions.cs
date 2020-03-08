@@ -26,19 +26,5 @@ namespace Tracked.Utilities {
 
             return (decimal)(readings.Select(i => i.Timestamp).Max() - readings.Select(i => i.Timestamp).Min()).TotalSeconds;
         }
-
-        public static IList<T> GetRange<T>(this IEnumerable<T> enumerable, int index, int count) {
-            if (!enumerable.Any()) {
-                return default;
-            }
-
-            var list = enumerable as List<T>;
-
-            if (list == null) {
-                list = enumerable.ToList();
-            }
-
-            return list.GetRange(index, count);
-        }
     }
 }

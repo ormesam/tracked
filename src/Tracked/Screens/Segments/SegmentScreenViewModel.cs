@@ -48,8 +48,9 @@ namespace Tracked.Screens.Segments {
                 Segment.Name = newName;
 
                 OnPropertyChanged(nameof(Title));
+                OnPropertyChanged(nameof(Segment));
 
-                // await Model.Instance.SaveSegment(Segment);
+                await Context.Services.ChangeSegmentName(Segment.SegmentId.Value, newName);
             });
         }
 

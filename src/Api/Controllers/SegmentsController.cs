@@ -113,5 +113,30 @@ namespace Api.Controllers {
 
         private void AnalyseAndSaveSegmentAttempts(int segmentId, int userId, SegmentDto model) {
         }
+
+        [HttpPost]
+        [Route("change-name")]
+        public ActionResult<string> ChangeName(SegmentChangeNameDto model) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            int userId = this.GetCurrentUserId();
+
+            var segment = context.Segment
+                .Where(i => i.UserId == userId)
+                .Where(i => i.SegmentId == model.SegmentId)
+                .SingleOrDefault();
+
+            if (segment == null) {
+                return BadRequest();
+            }
+
+            segment.Name = model.Name;
+
+            context.SaveChanges();
+
+            return segment.Name;
+        }
     }
 }
