@@ -8,5 +8,6 @@ namespace Shared.Dtos {
         public string Name { get; set; }
         public IEnumerable<Medal> Medals { get; set; }
         public string DisplayName => string.IsNullOrWhiteSpace(Name) ? StartUtc.ToString("dd MMM yy HH:mm") : Name;
+        public DateTime StartLocal => StartUtc.ToLocalTime();
     }
 }

@@ -16,10 +16,10 @@ namespace Tracked.Home {
 
         public MainPageViewModel ViewModel => BindingContext as MainPageViewModel;
 
-        protected override void OnAppearing() {
-            ViewModel.Refresh();
-
+        protected override async void OnAppearing() {
             base.OnAppearing();
+
+            await ViewModel.Load();
         }
 
         private async void Add_Clicked(object sender, EventArgs e) {
