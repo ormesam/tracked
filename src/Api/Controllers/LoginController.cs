@@ -27,11 +27,6 @@ namespace Api.Controllers {
             this.context = context;
         }
 
-        [HttpGet]
-        public ActionResult Get() {
-            return Ok("awesome");
-        }
-
         [HttpPost]
         [AllowAnonymous]
         [Route("authenticate")]
