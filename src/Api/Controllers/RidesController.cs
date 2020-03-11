@@ -85,7 +85,7 @@ namespace Api.Controllers {
                 .ToList();
 
             ride.SegmentAttempts = context.SegmentAttempt
-                .Where(row => row.RideId == row.RideId)
+                .Where(row => row.RideId == id)
                 .Select(row => new SegmentAttemptOverviewDto {
                     SegmentAttemptId = row.SegmentAttemptId,
                     RideId = row.RideId,
