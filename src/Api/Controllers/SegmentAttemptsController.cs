@@ -39,6 +39,7 @@ namespace Api.Controllers {
 
             segmentAttempt.Locations = context.SegmentAttemptLocation
                 .Where(row => row.SegmentAttemptId == segmentAttempt.SegmentAttemptId)
+                .OrderBy(row => row.Timestamp)
                 .Select(row => new SegmentAttemptLocationDto {
                     SegmentAttemptLocationId = row.SegmentAttemptLocationId,
                     SegmentAttemptId = row.SegmentAttemptId,
@@ -53,6 +54,7 @@ namespace Api.Controllers {
 
             segmentAttempt.Jumps = context.SegmentAttemptJump
                 .Where(row => row.SegmentAttemptId == id)
+                .OrderBy(row => row.Number)
                 .Select(row => new SegmentAttemptJumpDto {
                     SegmentAttemptJumpId = row.SegmentAttemptJumpId,
                     SegmentAttemptId = row.SegmentAttemptId,

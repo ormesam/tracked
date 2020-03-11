@@ -39,6 +39,7 @@ namespace Api.Controllers {
             var segment = context.Segment
                 .Where(row => row.UserId == userId)
                 .Where(row => row.SegmentId == id)
+                .OrderBy(row => row.Name)
                 .Select(row => new SegmentDto {
                     SegmentId = row.SegmentId,
                     Name = row.Name,
@@ -51,6 +52,7 @@ namespace Api.Controllers {
 
             segment.Locations = context.SegmentLocation
                 .Where(row => row.SegmentId == id)
+                .OrderBy(row => row.Order)
                 .Select(row => new SegmentLocationDto {
                     SegmentLocationId = row.SegmentLocationId,
                     SegmentId = row.SegmentId,
@@ -62,6 +64,7 @@ namespace Api.Controllers {
 
             segment.Attempts = context.SegmentAttempt
                 .Where(row => row.SegmentId == id)
+                .OrderBy(row => row.StartUtc)
                 .Select(row => new SegmentAttemptOverviewDto {
                     SegmentAttemptId = row.SegmentAttemptId,
                     RideId = row.RideId,
