@@ -28,6 +28,7 @@ namespace Api.Controllers {
 
             var rides = context.Ride
                 .Where(row => row.UserId == userId)
+                .OrderBy(row => row.StartUtc)
                 .Select(row => new RideOverviewDto {
                     RideId = row.RideId,
                     Name = row.Name,
@@ -61,6 +62,7 @@ namespace Api.Controllers {
 
             ride.Jumps = context.RideJump
                 .Where(row => row.RideId == id)
+                .OrderBy(row => row.Number)
                 .Select(row => new RideJumpDto {
                     RideJumpId = row.RideJumpId,
                     RideId = row.RideId,
@@ -72,6 +74,7 @@ namespace Api.Controllers {
 
             ride.Locations = context.RideLocation
                 .Where(row => row.RideId == id)
+                .OrderBy(row => row.Timestamp)
                 .Select(row => new RideLocationDto {
                     RideLocationId = row.RideLocationId,
                     RideId = row.RideId,
@@ -94,6 +97,8 @@ namespace Api.Controllers {
                     EndUtc = row.EndUtc,
                     Medal = (Medal)row.Medal,
                 })
+                .ToList()
+                .OrderByDescending(row => row.Time)
                 .ToList();
 
             return ride;
