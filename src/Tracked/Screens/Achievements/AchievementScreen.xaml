@@ -6,13 +6,13 @@
     Title="{Binding Title}">
     <ContentPage.Content>
         <ListView
-            ItemsSource="{Binding Rides}"
+            ItemsSource="{Binding Achievement.Rides}"
             ItemTapped="Ride_Tapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell
                         Text="{Binding DisplayName}"
-                        Detail="{Binding Start, StringFormat='{0:d MMM yy HH:mm}'}"/>
+                        Detail="{Binding StartLocal, StringFormat='{0:d MMM yy HH:mm}'}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

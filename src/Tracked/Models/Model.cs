@@ -28,7 +28,7 @@ namespace Tracked.Models {
 
         private StorageContext storage;
 
-        public ObservableCollection<RideUploadDto> PendingRideUploads { get; set; }
+        public ObservableCollection<CreateRideDto> PendingRideUploads { get; set; }
 
         private Model() {
         }
@@ -39,7 +39,7 @@ namespace Tracked.Models {
             PendingRideUploads = storage.GetPendingRideUploads().ToObservable();
         }
 
-        public async Task SaveRideUpload(RideUploadDto ride) {
+        public async Task SaveRideUpload(CreateRideDto ride) {
             if (ride.Id == null) {
                 ride.Id = Guid.NewGuid();
 
@@ -49,10 +49,10 @@ namespace Tracked.Models {
             await storage.SaveObject(ride.Id.Value, ride);
         }
 
-        public async Task RemoveUploadRide(RideUploadDto ride) {
+        public async Task RemoveUploadRide(CreateRideDto ride) {
             PendingRideUploads.Remove(ride);
 
-            await storage.RemoveObject<RideUploadDto>(ride.Id.Value);
+            await storage.RemoveObject<CreateRideDto>(ride.Id.Value);
         }
 
 #if DEBUG

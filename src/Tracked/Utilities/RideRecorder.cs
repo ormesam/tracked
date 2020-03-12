@@ -14,12 +14,12 @@ namespace Tracked.Utilities {
         private readonly IList<AccelerometerReadingDto> readings;
         private readonly JumpDetectionUtility jumpDetectionUtility;
 
-        public readonly RideUploadDto Ride;
+        public readonly CreateRideDto Ride;
 
         public RideRecorder(MainContext context) {
             this.context = context;
             this.detectJumps = context.Settings.DetectJumps;
-            Ride = new RideUploadDto();
+            Ride = new CreateRideDto();
             readings = new List<AccelerometerReadingDto>();
             jumpDetectionUtility = new JumpDetectionUtility(GeoUtility.Instance);
         }

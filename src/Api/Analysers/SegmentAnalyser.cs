@@ -8,7 +8,7 @@ using Shared.Interfaces;
 
 namespace Api.Analysers {
     public static class SegmentAnalyser {
-        public static void AnalyseRideAndSaveSegmentAttempts(ModelDataContext context, int rideId, int userId, RideUploadDto model) {
+        public static void AnalyseRideAndSaveSegmentAttempts(ModelDataContext context, int rideId, int userId, RideDto model) {
             var matchingSegments = GetMatchingSegments(context, model.Locations.ToArray(), model.Jumps.ToArray());
 
             foreach (var match in matchingSegments) {

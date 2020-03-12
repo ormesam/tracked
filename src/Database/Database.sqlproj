@@ -69,6 +69,10 @@
     <None Include="Create\Tables\SegmentAttempt.sql" />
     <None Include="Create\Tables\TraceMessage.sql" />
     <None Include="Create\Tables\SegmentAttemptLocation.sql" />
+    <None Include="Create\Tables\UserSpeedAchievement.sql" />
+    <None Include="Create\Tables\SpeedAchievement.sql" />
+    <None Include="Create\Tables\UserJumpAchievement.sql" />
+    <None Include="Create\Tables\JumpAchievement.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\DropAndRecreateAll.bat" />

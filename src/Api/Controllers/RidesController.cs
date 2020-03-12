@@ -104,7 +104,7 @@ namespace Api.Controllers {
 
         [HttpPost]
         [Route("add")]
-        public ActionResult<int> Add(RideUploadDto model) {
+        public ActionResult<int> Add(CreateRideDto model) {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
@@ -113,11 +113,12 @@ namespace Api.Controllers {
 
             int rideId = SaveRide(userId, model);
             SegmentAnalyser.AnalyseRideAndSaveSegmentAttempts(context, rideId, userId, model);
+            AchievementAnalyser.AnalyseRideAndSaveAchievements(context, rideId, userId, model);
 
             return rideId;
         }
 
-        private int SaveRide(int userId, RideUploadDto model) {
+        private int SaveRide(int userId, CreateRideDto model) {
             Ride ride = new Ride();
             ride.StartUtc = model.StartUtc;
             ride.EndUtc = model.EndUtc;

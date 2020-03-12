@@ -12,7 +12,8 @@ namespace Shared.Dtos {
         public IList<RideLocationDto> Locations { get; set; }
         public IList<JumpDto> Jumps { get; set; }
         public IList<SegmentAttemptOverviewDto> SegmentAttempts { get; set; }
-        public string DisplayName => Name ?? StartUtc.ToString("dd MMM yy HH:mm");
+        public DateTime StartLocal => StartUtc.ToLocalTime();
+        public string DisplayName => Name ?? StartLocal.ToString("dd MMM yy HH:mm");
         public decimal MaxSpeedMph => Locations.Max(i => i.Mph);
         public decimal AverageSpeedMph => Locations.Average(i => i.Mph);
         public decimal DistanceMiles => DistanceHelpers.GetDistanceMile(Locations.Cast<ILatLng>().ToList());

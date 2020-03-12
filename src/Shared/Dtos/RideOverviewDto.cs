@@ -7,7 +7,7 @@ namespace Shared.Dtos {
         public DateTime StartUtc { get; set; }
         public string Name { get; set; }
         public IEnumerable<Medal> Medals { get; set; }
-        public string DisplayName => string.IsNullOrWhiteSpace(Name) ? StartUtc.ToString("dd MMM yy HH:mm") : Name;
         public DateTime StartLocal => StartUtc.ToLocalTime();
+        public string DisplayName => Name ?? StartLocal.ToString("dd MMM yy HH:mm");
     }
 }

@@ -6,6 +6,7 @@ using Shared.Dtos;
 using Tracked.Dependancies;
 using Tracked.Home;
 using Tracked.Models;
+using Tracked.Screens.Achievements;
 using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Review;
 using Tracked.Screens.SegmentAttempt;
@@ -98,13 +99,9 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new RideReviewScreen(viewModel));
         }
 
-        //public async Task GoToAccelerometerReadingsScreenAsync(IRide ride) {
-        //    await GoToScreenAsync(new AccelerometerReadingsScreen(context, ride));
-        //}
-
-        ////public async Task GoToAchievementScreenAsync(IAchievement achievement) {
-        ////    await GoToScreenAsync(new AchievementScreen(context, achievement));
-        ////}
+        public async Task GoToAchievementScreenAsync(AchievementDto achievement) {
+            await GoToScreenAsync(new AchievementScreen(context, achievement));
+        }
 
         public async Task GoToMapScreenAsync(string title, IList<MapLocation> locations, bool showRideFeatures) {
             await GoToScreenAsync(new MapScreen(context, title, locations, showRideFeatures));
