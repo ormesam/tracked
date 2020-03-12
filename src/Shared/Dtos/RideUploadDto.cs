@@ -7,12 +7,12 @@ namespace Shared.Dtos {
         public DateTime StartUtc { get; set; }
         public DateTime EndUtc { get; set; }
         public IList<RideLocationDto> Locations { get; set; }
-        public IList<RideJumpDto> Jumps { get; set; }
+        public IList<JumpDto> Jumps { get; set; }
         public IList<AccelerometerReadingDto> AccelerometerReadings { get; set; }
 
         public RideUploadDto() {
             Locations = new List<RideLocationDto>();
-            Jumps = new List<RideJumpDto>();
+            Jumps = new List<JumpDto>();
             AccelerometerReadings = new List<AccelerometerReadingDto>();
         }
     }

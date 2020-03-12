@@ -8,6 +8,7 @@ using Tracked.Home;
 using Tracked.Models;
 using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Review;
+using Tracked.Screens.SegmentAttempt;
 using Tracked.Screens.Segments;
 using Tracked.Screens.Settings;
 using Xamarin.Forms;
@@ -120,11 +121,13 @@ namespace Tracked.Contexts {
         }
 
         public async Task GoToSegmentAttemptScreenAsync(int segmentAttemptId) {
-            // await GoToRideReviewScreenAsync(attempt);
+            SegmentAttemptScreenViewModel viewModel = new SegmentAttemptScreenViewModel(context);
+            await viewModel.Load(segmentAttemptId);
+            await GoToScreenAsync(new SegmentAttemptScreen(viewModel));
         }
 
-        public async Task GoToSpeedAnalysisScreenAsync(RideDto ride) {
-            await GoToScreenAsync(new SpeedAnalysisScreen(context, ride));
+        public async Task GoToSpeedAnalysisScreenAsync(IList<RideLocationDto> rideLocation) {
+            await GoToScreenAsync(new SpeedAnalysisScreen(context, rideLocation));
         }
     }
 }

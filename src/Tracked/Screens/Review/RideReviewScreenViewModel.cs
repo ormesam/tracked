@@ -31,7 +31,7 @@ namespace Tracked.Screens.Review {
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
         public IList<SegmentAttemptOverviewDto> Attempts => Ride.SegmentAttempts;
-        public IList<RideJumpDto> Jumps => Ride.Jumps;
+        public IList<JumpDto> Jumps => Ride.Jumps;
 
         public async Task Load(int id) {
             Ride = await Context.Services.GetRide(id);
@@ -39,7 +39,7 @@ namespace Tracked.Screens.Review {
             MapViewModel = new MapControlViewModel(
                 Context,
                 Ride.DisplayName,
-                PolyUtils.GetMapLocations(Ride));
+                PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps));
 
             OnPropertyChanged(nameof(MapViewModel));
         }
@@ -49,7 +49,7 @@ namespace Tracked.Screens.Review {
         }
 
         public async Task GoToSpeedAnalysis() {
-            await Context.UI.GoToSpeedAnalysisScreenAsync(Ride);
+            await Context.UI.GoToSpeedAnalysisScreenAsync(Ride.Locations);
         }
     }
 }

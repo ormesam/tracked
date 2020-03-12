@@ -6,8 +6,8 @@ using Tracked.Models;
 
 namespace Tracked.Utilities {
     public static class PolyUtils {
-        public static IList<MapLocation> GetMapLocations(RideDto ride) {
-            var locations = ride.Locations
+        public static IList<MapLocation> GetMapLocations(IList<RideLocationDto> rideLocations, IList<JumpDto> rideJumps) {
+            var locations = rideLocations
                 .OrderBy(i => i.Timestamp)
                 .Select(i => new {
                     i.Timestamp,
@@ -17,9 +17,9 @@ namespace Tracked.Utilities {
                 })
                 .ToList();
 
-            var jumpsByLocationTime = new Dictionary<DateTime, RideJumpDto>();
+            var jumpsByLocationTime = new Dictionary<DateTime, JumpDto>();
 
-            foreach (var jump in ride.Jumps) {
+            foreach (var jump in rideJumps) {
                 var nearestLocation = locations
                     .OrderBy(i => Math.Abs((i.Timestamp - jump.Timestamp).TotalSeconds))
                     .FirstOrDefault();

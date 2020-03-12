@@ -18,7 +18,7 @@ namespace Tracked.JumpDetection {
         private const decimal maxJumpSeconds = 3;
         public static decimal Tolerance = 0.75m;
 
-        public IList<RideJumpDto> Jumps { get; }
+        public IList<JumpDto> Jumps { get; }
 
         public JumpDetectionUtility(IJumpLocationDetector jumpLocationDetector) {
             this.jumpLocationDetector = jumpLocationDetector;
@@ -28,7 +28,7 @@ namespace Tracked.JumpDetection {
             started = false;
             jumpCount = 1;
 
-            Jumps = new List<RideJumpDto>();
+            Jumps = new List<JumpDto>();
         }
 
         public void AddReading(AccelerometerReadingDto reading) {
@@ -98,7 +98,7 @@ namespace Tracked.JumpDetection {
                 .OrderBy(i => i.Timestamp)
                 .ToList();
 
-            var jump = new RideJumpDto {
+            var jump = new JumpDto {
                 Number = jumpCount++,
                 Timestamp = allReadingsForJump.Select(j => j.Timestamp).Min(),
                 Airtime = Math.Round(allReadingsForJump.GetTime(), 3),

@@ -7,10 +7,10 @@ namespace DataAccess.Models
     {
         public int SegmentAttemptJumpId { get; set; }
         public int SegmentAttemptId { get; set; }
+        public int JumpId { get; set; }
         public int Number { get; set; }
-        public DateTime Timestamp { get; set; }
-        public decimal Airtime { get; set; }
 
+        public virtual Jump Jump { get; set; }
         public virtual SegmentAttempt SegmentAttempt { get; set; }
     }
 }

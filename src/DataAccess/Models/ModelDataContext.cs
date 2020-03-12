@@ -16,8 +16,8 @@ namespace DataAccess.Models
         }
 
         public virtual DbSet<AccelerometerReading> AccelerometerReading { get; set; }
+        public virtual DbSet<Jump> Jump { get; set; }
         public virtual DbSet<Ride> Ride { get; set; }
-        public virtual DbSet<RideJump> RideJump { get; set; }
         public virtual DbSet<RideLocation> RideLocation { get; set; }
         public virtual DbSet<Segment> Segment { get; set; }
         public virtual DbSet<SegmentAttempt> SegmentAttempt { get; set; }
@@ -55,6 +55,19 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_AccelerometerReading_Ride");
             });
 
+            modelBuilder.Entity<Jump>(entity =>
+            {
+                entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");
+
+                entity.Property(e => e.Timestamp).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Ride)
+                    .WithMany(p => p.Jump)
+                    .HasForeignKey(d => d.RideId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Jump_Ride");
+            });
+
             modelBuilder.Entity<Ride>(entity =>
             {
                 entity.Property(e => e.EndUtc).HasColumnType("datetime");
@@ -68,19 +81,6 @@ namespace DataAccess.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Ride_User");
-            });
-
-            modelBuilder.Entity<RideJump>(entity =>
-            {
-                entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");
-
-                entity.Property(e => e.Timestamp).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.RideJump)
-                    .HasForeignKey(d => d.RideId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RideJump_Ride");
             });
 
             modelBuilder.Entity<RideLocation>(entity =>
@@ -142,9 +142,11 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<SegmentAttemptJump>(entity =>
             {
-                entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");
-
-                entity.Property(e => e.Timestamp).HasColumnType("datetime");
+                entity.HasOne(d => d.Jump)
+                    .WithMany(p => p.SegmentAttemptJump)
+                    .HasForeignKey(d => d.JumpId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SegmentAttemptJump_Jump");
 
                 entity.HasOne(d => d.SegmentAttempt)
                     .WithMany(p => p.SegmentAttemptJump)
@@ -155,17 +157,11 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<SegmentAttemptLocation>(entity =>
             {
-                entity.Property(e => e.AccuracyInMetres).HasColumnType("decimal(6, 3)");
-
-                entity.Property(e => e.Altitude).HasColumnType("decimal(6, 3)");
-
-                entity.Property(e => e.Latitude).HasColumnType("decimal(25, 20)");
-
-                entity.Property(e => e.Longitude).HasColumnType("decimal(25, 20)");
-
-                entity.Property(e => e.SpeedMetresPerSecond).HasColumnType("decimal(6, 3)");
-
-                entity.Property(e => e.Timestamp).HasColumnType("datetime");
+                entity.HasOne(d => d.RideLocation)
+                    .WithMany(p => p.SegmentAttemptLocation)
+                    .HasForeignKey(d => d.RideLocationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SegmentAttemptLocation_RideLocation");
 
                 entity.HasOne(d => d.SegmentAttempt)
                     .WithMany(p => p.SegmentAttemptLocation)
@@ -197,7 +193,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD19775EF9A2B")
+                    .HasName("UQ__User__437CD197F41AAD63")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)

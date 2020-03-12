@@ -28,7 +28,7 @@ namespace Api.Controllers {
 
             var rides = context.Ride
                 .Where(row => row.UserId == userId)
-                .OrderBy(row => row.StartUtc)
+                .OrderByDescending(row => row.StartUtc)
                 .Select(row => new RideOverviewDto {
                     RideId = row.RideId,
                     Name = row.Name,
@@ -60,12 +60,11 @@ namespace Api.Controllers {
                 return NotFound();
             }
 
-            ride.Jumps = context.RideJump
+            ride.Jumps = context.Jump
                 .Where(row => row.RideId == id)
                 .OrderBy(row => row.Number)
-                .Select(row => new RideJumpDto {
-                    RideJumpId = row.RideJumpId,
-                    RideId = row.RideId,
+                .Select(row => new JumpDto {
+                    JumpId = row.JumpId,
                     Airtime = row.Airtime,
                     Number = row.Number,
                     Timestamp = row.Timestamp,
@@ -77,7 +76,6 @@ namespace Api.Controllers {
                 .OrderBy(row => row.Timestamp)
                 .Select(row => new RideLocationDto {
                     RideLocationId = row.RideLocationId,
-                    RideId = row.RideId,
                     AccuracyInMetres = row.AccuracyInMetres,
                     Altitude = row.Altitude,
                     Latitude = row.Latitude,
@@ -114,45 +112,9 @@ namespace Api.Controllers {
             int userId = this.GetCurrentUserId();
 
             int rideId = SaveRide(userId, model);
-            AnalyseAndSaveSegmentAttempts(rideId, userId, model);
+            SegmentAnalyser.AnalyseRideAndSaveSegmentAttempts(context, rideId, userId, model);
 
             return rideId;
-        }
-
-        private void AnalyseAndSaveSegmentAttempts(int rideId, int userId, RideUploadDto model) {
-            var matchingSegments = SegmentAnalyser.GetMatchingSegments(context, model.Locations.ToArray(), model.Jumps.ToArray());
-
-            foreach (var match in matchingSegments) {
-                SegmentAttempt attempt = new SegmentAttempt {
-                    RideId = rideId,
-                    SegmentId = match.SegmentId,
-                    UserId = userId,
-                    StartUtc = match.StartUtc,
-                    EndUtc = match.EndUtc,
-                    Medal = (int)match.Medal,
-                    SegmentAttemptLocation = match.Locations
-                        .Select(i => new SegmentAttemptLocation {
-                            AccuracyInMetres = i.AccuracyInMetres,
-                            Altitude = i.Altitude,
-                            Latitude = i.Latitude,
-                            Longitude = i.Longitude,
-                            SpeedMetresPerSecond = i.SpeedMetresPerSecond,
-                            Timestamp = i.Timestamp,
-                        })
-                        .ToList(),
-                    SegmentAttemptJump = match.Jumps
-                        .Select(i => new SegmentAttemptJump {
-                            Airtime = i.Airtime,
-                            Number = i.Number,
-                            Timestamp = i.Timestamp,
-                        })
-                        .ToList(),
-                };
-
-                context.SegmentAttempt.Add(attempt);
-
-                context.SaveChanges();
-            }
         }
 
         private int SaveRide(int userId, RideUploadDto model) {
@@ -172,8 +134,8 @@ namespace Api.Controllers {
                 })
                 .ToList();
 
-            ride.RideJump = model.Jumps
-                .Select(i => new RideJump {
+            ride.Jump = model.Jumps
+                .Select(i => new Jump {
                     Airtime = i.Airtime,
                     Number = i.Number,
                     Timestamp = i.Timestamp,

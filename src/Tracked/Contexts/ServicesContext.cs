@@ -57,6 +57,10 @@ namespace Tracked.Contexts {
             return await GetAsync<SegmentDto>("segments/" + id);
         }
 
+        public async Task<SegmentAttemptDto> GetSegmentAttempt(int segmentAttemptId) {
+            return await GetAsync<SegmentAttemptDto>("segmentAttempts/" + segmentAttemptId);
+        }
+
         protected async Task<TResult> GetAsync<TResult>(string apiEndpoint) {
             return await SendAsync<TResult>(CreateGetRequestMessage(apiEndpoint));
         }

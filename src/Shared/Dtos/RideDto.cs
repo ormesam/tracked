@@ -10,7 +10,7 @@ namespace Shared.Dtos {
         public DateTime EndUtc { get; set; }
         public string Name { get; set; }
         public IList<RideLocationDto> Locations { get; set; }
-        public IList<RideJumpDto> Jumps { get; set; }
+        public IList<JumpDto> Jumps { get; set; }
         public IList<SegmentAttemptOverviewDto> SegmentAttempts { get; set; }
         public string DisplayName => Name ?? StartUtc.ToString("dd MMM yy HH:mm");
         public decimal MaxSpeedMph => Locations.Max(i => i.Mph);
@@ -20,7 +20,7 @@ namespace Shared.Dtos {
 
         public RideDto() {
             Locations = new List<RideLocationDto>();
-            Jumps = new List<RideJumpDto>();
+            Jumps = new List<JumpDto>();
             SegmentAttempts = new List<SegmentAttemptOverviewDto>();
         }
     }

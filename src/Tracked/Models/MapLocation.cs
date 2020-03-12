@@ -6,6 +6,6 @@ namespace Tracked.Models {
         public decimal Mph { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
-        public RideJumpDto Jump { get; set; }
+        public JumpDto Jump { get; set; }
     }
 }

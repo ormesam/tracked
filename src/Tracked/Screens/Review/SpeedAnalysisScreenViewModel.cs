@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using Shared.Dtos;
@@ -7,11 +8,11 @@ using ChartPlotModel = OxyPlot.PlotModel;
 
 namespace Tracked.Screens.Review {
     public class SpeedAnalysisScreenViewModel : ViewModelBase {
-        private readonly RideDto ride;
+        private readonly IList<RideLocationDto> rideLocations;
         public ChartPlotModel AnalysisChartModel { get; }
 
-        public SpeedAnalysisScreenViewModel(MainContext context, RideDto ride) : base(context) {
-            this.ride = ride;
+        public SpeedAnalysisScreenViewModel(MainContext context, IList<RideLocationDto> rideLocations) : base(context) {
+            this.rideLocations = rideLocations;
 
             AnalysisChartModel = CreateAnaysisChartModel();
         }
@@ -44,7 +45,7 @@ namespace Tracked.Screens.Review {
                 Series = {
                     new LineSeries()
                     {
-                          ItemsSource = ride.Locations
+                          ItemsSource = rideLocations
                             .Select(i => new {
                                 x = count1++,
                                 y = i.Mph,
@@ -56,7 +57,7 @@ namespace Tracked.Screens.Review {
                     },
                     new LineSeries()
                     {
-                          ItemsSource = ride.Locations
+                          ItemsSource = rideLocations
                             .Select(i => new {
                                 x = count2++,
                                 y = i.Altitude,

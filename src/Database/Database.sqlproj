@@ -80,7 +80,7 @@
     <None Include="Create\Tables\RideLocation.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Create\Tables\RideJump.sql" />
+    <None Include="Create\Tables\Jump.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\SegmentLocation.sql" />

@@ -1,15 +1,15 @@
-﻿using Shared.Dtos;
+﻿using System.Collections.Generic;
+using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Tracked.Screens.Review {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SpeedAnalysisScreen : ContentPage {
-        public SpeedAnalysisScreen(MainContext context, RideDto ride) {
+        public SpeedAnalysisScreen(MainContext context, IList<RideLocationDto> rideLocations) {
             InitializeComponent();
-            BindingContext = new SpeedAnalysisScreenViewModel(context, ride);
+            BindingContext = new SpeedAnalysisScreenViewModel(context, rideLocations);
         }
 
         public SpeedAnalysisScreenViewModel ViewModel => BindingContext as SpeedAnalysisScreenViewModel;

@@ -8,7 +8,46 @@ using Shared.Interfaces;
 
 namespace Api.Analysers {
     public static class SegmentAnalyser {
-        public static IEnumerable<SegmentAttemptDto> GetMatchingSegments(ModelDataContext context, RideLocationDto[] rideLocations, RideJumpDto[] rideJumps) {
+        public static void AnalyseRideAndSaveSegmentAttempts(ModelDataContext context, int rideId, int userId, RideUploadDto model) {
+            var matchingSegments = GetMatchingSegments(context, model.Locations.ToArray(), model.Jumps.ToArray());
+
+            foreach (var match in matchingSegments) {
+                SegmentAttempt attempt = new SegmentAttempt {
+                    RideId = rideId,
+                    SegmentId = match.SegmentId,
+                    UserId = userId,
+                    StartUtc = match.StartUtc,
+                    EndUtc = match.EndUtc,
+                    Medal = (int)match.Medal,
+                };
+
+                context.SegmentAttempt.Add(attempt);
+                context.SaveChanges();
+
+                var locations = match.Locations
+                    .Select(row => new SegmentAttemptLocation {
+                        SegmentAttemptId = attempt.SegmentAttemptId,
+                        RideLocationId = row.RideLocationId,
+                    })
+                    .ToList();
+
+                context.SegmentAttemptLocation.AddRange(locations);
+                context.SaveChanges();
+
+                var jumps = match.Jumps
+                    .Select(row => new SegmentAttemptJump {
+                        SegmentAttemptId = attempt.SegmentAttemptId,
+                        JumpId = row.JumpId,
+                        Number = row.Number,
+                    })
+                    .ToList();
+
+                context.SegmentAttemptJump.AddRange(jumps);
+                context.SaveChanges();
+            }
+        }
+
+        private static IEnumerable<CreateSegmentAttemptDto> GetMatchingSegments(ModelDataContext context, RideLocationDto[] rideLocations, JumpDto[] Jumps) {
             var segments = context.SegmentLocation
                 .OrderBy(i => i.SegmentId)
                 .ThenBy(i => i.Order)
@@ -20,35 +59,30 @@ namespace Api.Analysers {
             foreach (var segment in segments) {
                 var result = LocationsMatch(segment.Cast<ILatLng>().ToList(), rideLocations.Cast<ILatLng>().ToList());
 
-                if (result != null) {
+                if (result.MatchesSegment) {
                     var locations = rideLocations[result.StartIdx..result.EndIdx]
                         .Select(i => new SegmentAttemptLocationDto {
-                            AccuracyInMetres = i.AccuracyInMetres,
-                            Altitude = i.Altitude,
-                            Latitude = i.Latitude,
-                            Longitude = i.Longitude,
-                            SpeedMetresPerSecond = i.SpeedMetresPerSecond,
-                            Timestamp = i.Timestamp,
+                            RideLocationId = i.RideLocationId,
+                            SegmentAttemptId = segment.Key,
                         })
                         .ToList();
 
                     int jumpCount = 1;
 
-                    var jumps = rideJumps
+                    var jumps = Jumps
                         .Where(i => i.Timestamp >= rideLocations[result.StartIdx].Timestamp)
                         .Where(i => i.Timestamp <= rideLocations[result.EndIdx].Timestamp)
                         .OrderBy(i => i.Number)
                         .Select(i => new SegmentAttemptJumpDto {
-                            Airtime = i.Airtime,
+                            JumpId = i.JumpId,
                             Number = jumpCount++,
-                            Timestamp = i.Timestamp,
                         })
                         .ToList();
 
-                    var segmentAttempt = new SegmentAttemptDto {
+                    var segmentAttempt = new CreateSegmentAttemptDto {
                         SegmentId = segment.Key,
-                        StartUtc = locations.First().Timestamp,
-                        EndUtc = locations.Last().Timestamp,
+                        StartUtc = rideLocations[result.StartIdx].Timestamp,
+                        EndUtc = rideLocations[result.EndIdx].Timestamp,
                         Locations = locations,
                         Jumps = jumps,
                     };
@@ -125,6 +159,8 @@ namespace Api.Analysers {
         private static Medal GetMedal(ModelDataContext context, TimeSpan time, int segmentId) {
             var existingAttempts = context.SegmentAttempt
                 .Where(i => i.SegmentId == segmentId)
+                .Select(i => new { i.EndUtc, i.StartUtc })
+                .ToList()
                 .Select(i => i.EndUtc - i.StartUtc)
                 .OrderBy(i => i)
                 .ToList();

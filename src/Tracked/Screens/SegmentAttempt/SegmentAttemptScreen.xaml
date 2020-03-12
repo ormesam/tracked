@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Tracked.Screens.Review.RideReviewScreen"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Class="Tracked.Screens.SegmentAttempt.SegmentAttemptScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
     Title="{Binding Title}">
     <ContentPage.Content>
@@ -11,11 +14,6 @@
                 <controls:MapControl
                     HeightRequest="300"
                     BindingContext="{Binding MapViewModel}" />
-                <Label
-                    Margin="15"
-                    HorizontalOptions="Center"
-                    Text="{Binding Ride.DisplayName}"
-                    FontSize="Large" />
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition
@@ -50,7 +48,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding Time}" />
+                            Text="{Binding SegmentAttempt.FormattedTime}" />
                     </StackLayout>
 
                     <BoxView
@@ -66,7 +64,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding Ride.DistanceMiles, StringFormat='{}{0:F1} mi'}" />
+                            Text="{Binding SegmentAttempt.DistanceMiles, StringFormat='{}{0:F1} mi'}" />
                     </StackLayout>
 
                     <BoxView
@@ -85,7 +83,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding Ride.AverageSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
+                            Text="{Binding SegmentAttempt.AverageSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
                     </StackLayout>
 
                     <BoxView
@@ -103,7 +101,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding Ride.MaxSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
+                            Text="{Binding SegmentAttempt.MaxSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
                     </StackLayout>
 
                     <BoxView
@@ -122,7 +120,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding JumpCount}" />
+                            Text="{Binding SegmentAttempt.JumpCount}" />
                     </StackLayout>
 
                     <BoxView
@@ -140,7 +138,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding MaxAirtime}" />
+                            Text="{Binding SegmentAttempt.MaxAirtime}" />
                     </StackLayout>
 
                     <BoxView
@@ -167,33 +165,8 @@
                     Margin="0,5"
                     BackgroundColor="LightGray" />
 
-                <Label
-                    Margin="10,4"
-                    Text="Segments"
-                    FontAttributes="Bold"/>
-                <controls:ExtendedListView
-                    ItemsSource="{Binding Attempts}"
-                    IsScrollEnabled="False"
-                    ItemTapped="Attempt_ItemTapped">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <controls:MedalsCell
-                                    Text="{Binding DisplayName}"
-                                    Detail="{Binding FormattedTime}"
-                                    Medal="{Binding Medal}" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </controls:ExtendedListView>
-
-                <BoxView
-                    HeightRequest="10"
-                    Margin="0,5"
-                    BackgroundColor="LightGray" />
-
                 <controls:JumpsControl
-                    Jumps="{Binding Jumps}" />
+                    Jumps="{Binding SegmentAttempt.Jumps}" />
 
                 <BoxView
                     HeightRequest="10"

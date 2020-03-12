@@ -39,28 +39,25 @@ namespace Api.Controllers {
 
             segmentAttempt.Locations = context.SegmentAttemptLocation
                 .Where(row => row.SegmentAttemptId == segmentAttempt.SegmentAttemptId)
-                .OrderBy(row => row.Timestamp)
-                .Select(row => new SegmentAttemptLocationDto {
-                    SegmentAttemptLocationId = row.SegmentAttemptLocationId,
-                    SegmentAttemptId = row.SegmentAttemptId,
-                    AccuracyInMetres = row.AccuracyInMetres,
-                    Altitude = row.Altitude,
-                    Latitude = row.Latitude,
-                    Longitude = row.Longitude,
-                    SpeedMetresPerSecond = row.SpeedMetresPerSecond,
-                    Timestamp = row.Timestamp,
+                .OrderBy(row => row.RideLocation.Timestamp)
+                .Select(row => new RideLocationDto {
+                    AccuracyInMetres = row.RideLocation.AccuracyInMetres,
+                    Altitude = row.RideLocation.Altitude,
+                    Latitude = row.RideLocation.Latitude,
+                    Longitude = row.RideLocation.Longitude,
+                    SpeedMetresPerSecond = row.RideLocation.SpeedMetresPerSecond,
+                    Timestamp = row.RideLocation.Timestamp,
                 })
                 .ToList();
 
             segmentAttempt.Jumps = context.SegmentAttemptJump
                 .Where(row => row.SegmentAttemptId == id)
                 .OrderBy(row => row.Number)
-                .Select(row => new SegmentAttemptJumpDto {
-                    SegmentAttemptJumpId = row.SegmentAttemptJumpId,
-                    SegmentAttemptId = row.SegmentAttemptId,
-                    Airtime = row.Airtime,
+                .Select(row => new JumpDto {
+                    JumpId = row.JumpId,
+                    Airtime = row.Jump.Airtime,
                     Number = row.Number,
-                    Timestamp = row.Timestamp,
+                    Timestamp = row.Jump.Timestamp,
                 })
                 .ToList();
 
