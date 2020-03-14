@@ -43,6 +43,7 @@ namespace Tracked.Utilities {
             await GeoUtility.Instance.Stop();
             await AccelerometerUtility.Instance.Stop();
 
+
             AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
 
@@ -52,13 +53,6 @@ namespace Tracked.Utilities {
             }
 
             await Model.Instance.SaveRideUpload(Ride);
-
-            try {
-                await context.Services.UploadRide(Ride);
-                await Model.Instance.RemoveUploadRide(Ride);
-            } catch (ServiceException ex) {
-                Toast.LongAlert(ex.Message);
-            }
         }
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {

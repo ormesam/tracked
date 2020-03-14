@@ -12,7 +12,7 @@ namespace Tracked.Screens.Achievements {
         public AchievementDto Achievement { get; set; }
 
         public async Task GoToRide(RideOverviewDto ride) {
-            await Context.UI.GoToRideReviewScreenAsync(ride.RideId);
+            await Context.UI.GoToRideReviewScreenAsync(ride.RideId.Value);
         }
     }
 }

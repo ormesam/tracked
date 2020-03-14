@@ -34,8 +34,8 @@ namespace Tracked.Contexts {
             return await GetAsync<RideDto>("rides/" + id);
         }
 
-        public async Task<int> UploadRide(CreateRideDto ride) {
-            return await PostAsync<int>("rides/add", ride);
+        public async Task<RideOverviewDto> UploadRide(CreateRideDto ride) {
+            return await PostAsync<RideOverviewDto>("rides/add", ride);
         }
 
         public async Task<IList<SegmentOverviewDto>> GetSegmentOverviews() {

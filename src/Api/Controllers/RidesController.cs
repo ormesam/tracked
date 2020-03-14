@@ -104,7 +104,7 @@ namespace Api.Controllers {
 
         [HttpPost]
         [Route("add")]
-        public ActionResult<int> Add(CreateRideDto model) {
+        public ActionResult<RideOverviewDto> Add(CreateRideDto model) {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
@@ -115,7 +115,24 @@ namespace Api.Controllers {
             SegmentAnalyser.AnalyseRideAndSaveSegmentAttempts(context, rideId, userId, model);
             AchievementAnalyser.AnalyseRideAndSaveAchievements(context, rideId, userId, model);
 
-            return rideId;
+            return GetRideOverview(rideId);
+        }
+
+        private RideOverviewDto GetRideOverview(int rideId) {
+            var medals = context.SegmentAttempt
+                .Where(row => row.RideId == rideId)
+                .Where(row => row.Medal != (int)Medal.None)
+                .Select(row => (Medal)row.Medal);
+
+            return context.Ride
+                .Where(row => row.RideId == rideId)
+                .Select(row => new RideOverviewDto {
+                    RideId = row.RideId,
+                    Name = row.Name,
+                    StartUtc = row.StartUtc,
+                    Medals = medals,
+                })
+                .SingleOrDefault();
         }
 
         private int SaveRide(int userId, CreateRideDto model) {
