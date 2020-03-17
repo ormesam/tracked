@@ -107,8 +107,8 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new MapScreen(context, title, locations, showRideFeatures));
         }
 
-        public async Task GoToCreateSegmentScreenAsync() {
-            await GoToScreenAsync(new CreateSegmentScreen(context, null));
+        public async Task GoToCreateSegmentScreenAsync(RideDto ride = null) {
+            await GoToScreenAsync(new CreateSegmentScreen(context, ride));
         }
 
         public async Task GoToSegmentScreenAsync(int segmentId) {

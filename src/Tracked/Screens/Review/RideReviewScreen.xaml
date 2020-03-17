@@ -7,9 +7,13 @@
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
+            Text="Create Segment"
+            Clicked="CreateSegment_Clicked"
+            Order="Secondary" />
+        <ToolbarItem
             Text="Delete"
             Clicked="Delete_Clicked"
-            Order="Secondary"/>
+            Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>

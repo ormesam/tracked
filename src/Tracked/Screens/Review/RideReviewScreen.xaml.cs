@@ -34,5 +34,9 @@ namespace Tracked.Screens.Review {
                 await Navigation.PopToRootAsync();
             }
         }
+
+        private async void CreateSegment_Clicked(object sender, EventArgs e) {
+            await ViewModel.CreateSegment();
+        }
     }
 }
