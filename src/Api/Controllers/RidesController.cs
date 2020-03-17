@@ -175,5 +175,37 @@ namespace Api.Controllers {
 
             return ride.RideId;
         }
+
+        [HttpPost]
+        [Route("delete")]
+        public ActionResult<bool> Delete([FromBody] int rideId) {
+            int userId = this.GetCurrentUserId();
+
+            var ride = context.Ride
+                .Where(row => row.RideId == rideId)
+                .Where(row => row.UserId == userId)
+                .SingleOrDefault();
+
+            if (ride == null) {
+                return NotFound();
+            }
+
+            var locations = context.RideLocation.Where(row => row.RideId == rideId);
+            var jumps = context.Jump.Where(row => row.RideId == rideId);
+            var attempts = context.SegmentAttempt.Where(row => row.RideId == rideId);
+            var jumpAchievements = context.UserJumpAchievement.Where(row => row.RideId == rideId);
+            var speedAchievements = context.UserSpeedAchievement.Where(row => row.RideId == rideId);
+
+            context.RideLocation.RemoveRange(locations);
+            context.Jump.RemoveRange(jumps);
+            context.SegmentAttempt.RemoveRange(attempts);
+            context.UserJumpAchievement.RemoveRange(jumpAchievements);
+            context.UserSpeedAchievement.RemoveRange(speedAchievements);
+            context.Ride.Remove(ride);
+
+            context.SaveChanges();
+
+            return true;
+        }
     }
 }

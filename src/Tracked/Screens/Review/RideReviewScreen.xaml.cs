@@ -1,7 +1,6 @@
 ﻿
 using System;
 using Shared.Dtos;
-using Tracked.Contexts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,6 +20,19 @@ namespace Tracked.Screens.Review {
 
         private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
             await ViewModel.GoToAttempt(e.Item as SegmentAttemptOverviewDto);
+        }
+
+        private async void Delete_Clicked(object sender, EventArgs e) {
+            bool delete = await DisplayAlert(
+                "Delete Ride",
+                "Are you sure you want to delete this ride? You will lose all segment attempts and achievements.",
+                "Yes",
+                "No");
+
+            if (delete) {
+                await ViewModel.Delete();
+                await Navigation.PopToRootAsync();
+            }
         }
     }
 }

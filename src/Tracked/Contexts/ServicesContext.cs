@@ -38,6 +38,10 @@ namespace Tracked.Contexts {
             return await PostAsync<RideOverviewDto>("rides/add", ride);
         }
 
+        public async Task DeleteRide(int rideId) {
+            await PostAsync<bool>("rides/delete", rideId);
+        }
+
         public async Task<IList<SegmentOverviewDto>> GetSegmentOverviews() {
             return await GetAsync<IList<SegmentOverviewDto>>("segments");
         }

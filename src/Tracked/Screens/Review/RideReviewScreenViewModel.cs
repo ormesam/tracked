@@ -30,6 +30,7 @@ namespace Tracked.Screens.Review {
         public string Time => (Ride.EndUtc - Ride.StartUtc).ToString(@"mm\:ss");
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
+
         public IList<SegmentAttemptOverviewDto> Attempts => Ride.SegmentAttempts;
         public IList<JumpDto> Jumps => Ride.Jumps;
 
@@ -50,6 +51,10 @@ namespace Tracked.Screens.Review {
 
         public async Task GoToSpeedAnalysis() {
             await Context.UI.GoToSpeedAnalysisScreenAsync(Ride.Locations);
+        }
+
+        public async Task Delete() {
+            await Context.Services.DeleteRide(Ride.RideId);
         }
     }
 }
