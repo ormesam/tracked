@@ -48,7 +48,7 @@ namespace Tracked.Home {
         }
 
         public string UploadText {
-            get { return $"Uploading {PendingUploudCount} ride{(PendingUploudCount > 1 ? "s" : "")}"; }
+            get { return $"Uploading {PendingUploudCount} ride{(PendingUploudCount > 1 ? "s" : "")}..."; }
         }
 
         public int PendingUploudCount {
@@ -58,10 +58,7 @@ namespace Tracked.Home {
         public bool ShowUploadCount => PendingUploudCount > 0;
 
         public ICommand RefreshCommand {
-            get {
-                return new Command(async () =>
-          await Load());
-            }
+            get { return new Command(async () => await Load()); }
         }
 
         public ObservableCollection<RideOverviewDto> Rides { get; set; }

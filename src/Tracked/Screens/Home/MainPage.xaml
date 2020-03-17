@@ -26,7 +26,9 @@
 
             <Label
                 Margin="10"
-                Text="{Binding UploadText}" />
+                Text="{Binding UploadText}"
+                VerticalOptions="Center"
+                TextColor="White" />
 
             <ActivityIndicator
                 Scale="0.5"
