@@ -13,6 +13,7 @@ using Xamarin.Forms;
 namespace Tracked.Home {
     public class MainPageViewModel : ViewModelBase {
         private bool isRefreshing;
+        private bool isUploading;
 
         public MainPageViewModel(MainContext context) : base(context) {
             Rides = new ObservableCollection<RideOverviewDto>();
@@ -33,6 +34,29 @@ namespace Tracked.Home {
             }
         }
 
+        public bool IsUploading {
+            get { return isUploading; }
+            set {
+                if (isUploading != value) {
+                    isUploading = value;
+                    OnPropertyChanged(nameof(IsUploading));
+                    OnPropertyChanged(nameof(UploadText));
+                    OnPropertyChanged(nameof(ShowUploadCount));
+                    OnPropertyChanged(nameof(PendingUploudCount));
+                }
+            }
+        }
+
+        public string UploadText {
+            get { return $"Uploading {PendingUploudCount} ride{(PendingUploudCount > 1 ? "s" : "")}"; }
+        }
+
+        public int PendingUploudCount {
+            get { return Model.Instance.PendingRideUploads.Count; }
+        }
+
+        public bool ShowUploadCount => PendingUploudCount > 0;
+
         public ICommand RefreshCommand {
             get { return new Command(async () => await Load()); }
         }
@@ -47,15 +71,6 @@ namespace Tracked.Home {
             try {
                 // upload rides
                 Rides.Clear();
-
-                foreach (var upload in Model.Instance.PendingRideUploads) {
-                    Rides.Add(new RideOverviewDto {
-                        ClientId = upload.Id,
-                        IsAwaitingUpload = true,
-                        StartUtc = upload.StartUtc,
-                    });
-                }
-
                 var rides = await Context.Services.GetRideOverviews();
 
                 foreach (var ride in rides) {
@@ -68,29 +83,31 @@ namespace Tracked.Home {
                 Toast.LongAlert(ex.Message);
             }
 
+            await UploadRides();
+        }
+
+        private async Task UploadRides() {
             var uploads = Model.Instance.PendingRideUploads
                 .OrderBy(i => i.StartUtc)
                 .ToList();
 
+            IsUploading = true;
+
             foreach (var upload in uploads) {
                 try {
-                    var uploadOverview = Rides.SingleOrDefault(i => i.ClientId == upload.Id);
-
-                    if (uploadOverview == null) {
-                        continue;
-                    }
-
-                    uploadOverview.IsUploading = true;
-
                     RideOverviewDto rideOverview = await Context.Services.UploadRide(upload);
                     await Model.Instance.RemoveUploadRide(upload);
 
-                    Rides.Remove(uploadOverview);
                     Rides.Insert(0, rideOverview);
+
+                    OnPropertyChanged(nameof(PendingUploudCount));
+                    OnPropertyChanged(nameof(UploadText));
                 } catch (ServiceException ex) {
                     Toast.LongAlert(ex.Message);
                 }
             }
+
+            IsUploading = false;
         }
 
         public async Task GoToCreateRide() {
@@ -98,10 +115,6 @@ namespace Tracked.Home {
         }
 
         public async Task GoToReview(RideOverviewDto ride) {
-            if (ride.IsAwaitingUpload) {
-                return;
-            }
-
             await Context.UI.GoToRideReviewScreenAsync(ride.RideId.Value);
         }
     }

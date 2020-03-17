@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Shared.Dtos;
 using Tracked.Accelerometer;
@@ -58,10 +59,12 @@ namespace Tracked.Utilities {
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {
             jumpDetectionUtility.AddReading(e.Data);
             readings.Add(e.Data);
+            Debug.WriteLine(e.Data);
         }
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {
             Ride.Locations.Add(e.Location);
+            Debug.WriteLine(e.Location);
         }
     }
 }

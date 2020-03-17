@@ -8,8 +8,6 @@ namespace Shared.Dtos {
         public DateTime StartUtc { get; set; }
         public string Name { get; set; }
         public IEnumerable<Medal> Medals { get; set; }
-        public bool IsAwaitingUpload { get; set; }
-        public bool IsUploading { get; set; }
         public DateTime StartLocal => StartUtc.ToLocalTime();
         public string DisplayName => Name ?? StartLocal.ToString("dd MMM yy HH:mm");
 
