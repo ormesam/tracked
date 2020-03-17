@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Api.Analysers;
 using Api.Utility;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -88,7 +89,7 @@ namespace Api.Controllers {
             int userId = this.GetCurrentUserId();
 
             int segmentId = SaveSegment(userId, model);
-            AnalyseAndSaveSegmentAttempts(segmentId, userId, model);
+            SegmentAnalyser.AnalyseSegment(context, userId, segmentId);
 
             return segmentId;
         }
@@ -112,9 +113,6 @@ namespace Api.Controllers {
             context.SaveChanges();
 
             return segment.SegmentId;
-        }
-
-        private void AnalyseAndSaveSegmentAttempts(int segmentId, int userId, SegmentDto model) {
         }
 
         [HttpPost]

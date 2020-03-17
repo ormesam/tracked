@@ -112,8 +112,8 @@ namespace Api.Controllers {
             int userId = this.GetCurrentUserId();
 
             int rideId = SaveRide(userId, model);
-            SegmentAnalyser.AnalyseRideAndSaveSegmentAttempts(context, rideId, userId, model);
-            AchievementAnalyser.AnalyseRideAndSaveAchievements(context, rideId, userId, model);
+            SegmentAnalyser.AnalyseRide(context, userId, rideId);
+            AchievementAnalyser.AnalyseRide(context, rideId, userId, model);
 
             return GetRideOverview(rideId);
         }

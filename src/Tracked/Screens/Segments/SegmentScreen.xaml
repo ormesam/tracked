@@ -21,7 +21,7 @@
                 </Label.GestureRecognizers>
             </Label>
             <ListView
-                ItemsSource="{Binding Attempts}"
+                ItemsSource="{Binding Segment.Attempts}"
                 CachingStrategy="RecycleElementAndDataTemplate"
                 ItemTapped="Attempt_Tapped">
                 <ListView.ItemTemplate>

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.Controls;
@@ -38,10 +36,6 @@ namespace Tracked.Screens.Segments {
 
             OnPropertyChanged(nameof(MapViewModel));
         }
-
-        public IList<SegmentAttemptOverviewDto> Attempts => Segment.Attempts
-            .OrderBy(i => i.Time)
-            .ToList();
 
         public void ChangeName() {
             Context.UI.ShowInputDialog("Change Name", Segment.Name, async (newName) => {

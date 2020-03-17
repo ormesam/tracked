@@ -3,28 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using DataAccess.Models;
 using Shared;
-using Shared.Dtos;
 using Shared.Interfaces;
 
 namespace Api.Analysers {
     public static class SegmentAnalyser {
-        public static void AnalyseRideAndSaveSegmentAttempts(ModelDataContext context, int rideId, int userId, RideDto model) {
-            var matchingSegments = GetMatchingSegments(context, model.Locations.ToArray(), model.Jumps.ToArray());
+        public static void AnalyseSegment(ModelDataContext context, int userId, int segmentId) {
+            var rideIds = context.Ride
+                .Where(row => row.UserId == userId)
+                .OrderBy(row => row.StartUtc)
+                .Select(row => row.RideId)
+                .ToArray();
 
-            foreach (var match in matchingSegments) {
+            foreach (int rideId in rideIds) {
+                Analyse(context, userId, rideId, segmentId);
+            }
+        }
+
+        public static void AnalyseRide(ModelDataContext context, int userId, int rideId) {
+            var segmentIds = context.Segment
+                .Where(row => row.UserId == userId)
+                .Select(row => row.SegmentId)
+                .ToArray();
+
+            foreach (int segmentId in segmentIds) {
+                Analyse(context, userId, rideId, segmentId);
+            }
+        }
+
+        private static void Analyse(ModelDataContext context, int userId, int rideId, int segmentId) {
+            var segmentLocations = GetSegmentLocations(context, segmentId);
+            var rideLocations = GetRideLocations(context, rideId);
+            var rideJumps = GetRideJumps(context, rideId);
+
+            var result = LocationsMatch(segmentLocations.Cast<ILatLng>().ToList(), rideLocations.Cast<ILatLng>().ToList());
+
+            if (result.MatchesSegment) {
                 SegmentAttempt attempt = new SegmentAttempt {
                     RideId = rideId,
-                    SegmentId = match.SegmentId,
+                    SegmentId = segmentId,
                     UserId = userId,
-                    StartUtc = match.StartUtc,
-                    EndUtc = match.EndUtc,
-                    Medal = (int)match.Medal,
+                    StartUtc = rideLocations[result.StartIdx].Timestamp,
+                    EndUtc = rideLocations[result.EndIdx].Timestamp,
                 };
+
+                attempt.Medal = (int)GetMedal(context, attempt.EndUtc - attempt.StartUtc, segmentId);
 
                 context.SegmentAttempt.Add(attempt);
                 context.SaveChanges();
 
-                var locations = match.Locations
+                var locations = rideLocations[result.StartIdx..result.EndIdx]
                     .Select(row => new SegmentAttemptLocation {
                         SegmentAttemptId = attempt.SegmentAttemptId,
                         RideLocationId = row.RideLocationId,
@@ -34,11 +61,15 @@ namespace Api.Analysers {
                 context.SegmentAttemptLocation.AddRange(locations);
                 context.SaveChanges();
 
-                var jumps = match.Jumps
+                int jumpCount = 1;
+
+                var jumps = rideJumps
+                    .Where(row => row.Timestamp >= rideLocations[result.StartIdx].Timestamp)
+                    .Where(row => row.Timestamp <= rideLocations[result.EndIdx].Timestamp)
                     .Select(row => new SegmentAttemptJump {
                         SegmentAttemptId = attempt.SegmentAttemptId,
                         JumpId = row.JumpId,
-                        Number = row.Number,
+                        Number = jumpCount++,
                     })
                     .ToList();
 
@@ -47,51 +78,40 @@ namespace Api.Analysers {
             }
         }
 
-        private static IEnumerable<CreateSegmentAttemptDto> GetMatchingSegments(ModelDataContext context, RideLocationDto[] rideLocations, JumpDto[] Jumps) {
-            var segments = context.SegmentLocation
-                .OrderBy(i => i.SegmentId)
-                .ThenBy(i => i.Order)
-                .ToLookup(i => i.SegmentId, i => new LatLng {
-                    Latitude = i.Latitude,
-                    Longitude = i.Longitude,
-                });
+        private static RideJumpAnalysis[] GetRideJumps(ModelDataContext context, int rideId) {
+            return context.Jump
+                .Where(row => row.RideId == rideId)
+                .OrderBy(row => row.Timestamp)
+                .Select(row => new RideJumpAnalysis {
+                    JumpId = row.JumpId,
+                    Timestamp = row.Timestamp,
+                })
+                .ToArray();
+        }
 
-            foreach (var segment in segments) {
-                var result = LocationsMatch(segment.Cast<ILatLng>().ToList(), rideLocations.Cast<ILatLng>().ToList());
+        private static RideLocationAnalysis[] GetRideLocations(ModelDataContext context, int rideId) {
+            return context.RideLocation
+                .Where(row => row.RideId == rideId)
+                .OrderBy(row => row.Timestamp)
+                .Select(row => new RideLocationAnalysis {
+                    RideLocationId = row.RideLocationId,
+                    Latitude = row.Latitude,
+                    Longitude = row.Longitude,
+                    SpeedMetresPerSecond = row.SpeedMetresPerSecond,
+                    Timestamp = row.Timestamp,
+                })
+                .ToArray();
+        }
 
-                if (result.MatchesSegment) {
-                    var locations = rideLocations[result.StartIdx..result.EndIdx]
-                        .Select(i => new SegmentAttemptLocationDto {
-                            RideLocationId = i.RideLocationId,
-                            SegmentAttemptId = segment.Key,
-                        })
-                        .ToList();
-
-                    int jumpCount = 1;
-
-                    var jumps = Jumps
-                        .Where(i => i.Timestamp >= rideLocations[result.StartIdx].Timestamp)
-                        .Where(i => i.Timestamp <= rideLocations[result.EndIdx].Timestamp)
-                        .OrderBy(i => i.Number)
-                        .Select(i => new SegmentAttemptJumpDto {
-                            JumpId = i.JumpId,
-                            Number = jumpCount++,
-                        })
-                        .ToList();
-
-                    var segmentAttempt = new CreateSegmentAttemptDto {
-                        SegmentId = segment.Key,
-                        StartUtc = rideLocations[result.StartIdx].Timestamp,
-                        EndUtc = rideLocations[result.EndIdx].Timestamp,
-                        Locations = locations,
-                        Jumps = jumps,
-                    };
-
-                    segmentAttempt.Medal = GetMedal(context, segmentAttempt.Time, segment.Key);
-
-                    yield return segmentAttempt;
-                }
-            }
+        private static LatLng[] GetSegmentLocations(ModelDataContext context, int segmentId) {
+            return context.SegmentLocation
+                .Where(row => row.SegmentId == segmentId)
+                .OrderBy(row => row.Order)
+                .Select(row => new LatLng {
+                    Latitude = row.Latitude,
+                    Longitude = row.Longitude,
+                })
+                .ToArray();
         }
 
         public static LocationMatchResult LocationsMatch(IList<ILatLng> segmentLocations, IList<ILatLng> rideLocations) {
@@ -198,6 +218,19 @@ namespace Api.Analysers {
         private class LatLng : ILatLng {
             public decimal Latitude { get; set; }
             public decimal Longitude { get; set; }
+        }
+
+        private class RideLocationAnalysis : ILatLng {
+            public int RideLocationId { get; set; }
+            public decimal Latitude { get; set; }
+            public decimal Longitude { get; set; }
+            public decimal SpeedMetresPerSecond { get; set; }
+            public DateTime Timestamp { get; set; }
+        }
+
+        private class RideJumpAnalysis {
+            public int JumpId { get; set; }
+            public DateTime Timestamp { get; set; }
         }
     }
 }
