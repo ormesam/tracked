@@ -22,7 +22,7 @@
             </TableView>
             <Button
                 IsVisible="{Binding IsLoggedIn}"
-                Text="Disconnect From Google"
+                Text="Log Out"
                 Clicked="DisconnectFromGoogle_Click"
                 BackgroundColor="{StaticResource GoogleButtonColour}"
                 TextColor="White" />

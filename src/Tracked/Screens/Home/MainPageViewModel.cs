@@ -58,7 +58,10 @@ namespace Tracked.Home {
         public bool ShowUploadCount => PendingUploudCount > 0;
 
         public ICommand RefreshCommand {
-            get { return new Command(async () => await Load()); }
+            get {
+                return new Command(async () =>
+          await Load());
+            }
         }
 
         public ObservableCollection<RideOverviewDto> Rides { get; set; }
@@ -69,19 +72,17 @@ namespace Tracked.Home {
             IsRefreshing = true;
 
             try {
-                // upload rides
                 Rides.Clear();
                 var rides = await Context.Services.GetRideOverviews();
 
                 foreach (var ride in rides) {
                     Rides.Add(ride);
                 }
-
-                IsRefreshing = false;
             } catch (ServiceException ex) {
-                IsRefreshing = false;
                 Toast.LongAlert(ex.Message);
             }
+
+            IsRefreshing = false;
 
             await UploadRides();
         }

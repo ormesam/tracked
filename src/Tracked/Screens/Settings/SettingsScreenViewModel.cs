@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tracked.Contexts;
+using Tracked.Screens.Login;
 using Xamarin.Forms;
 
 namespace Tracked.Screens.Settings {
@@ -33,7 +34,7 @@ namespace Tracked.Screens.Settings {
         public async Task DisconnectFromGoogle() {
             await Context.Security.ClearAccessToken();
 
-            OnPropertyChanged();
+            App.Current.MainPage = new LoginScreen(Context);
         }
     }
 }
