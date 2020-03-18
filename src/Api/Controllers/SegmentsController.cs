@@ -139,5 +139,35 @@ namespace Api.Controllers {
 
             return segment.Name;
         }
+
+        [HttpPost]
+        [Route("delete")]
+        public ActionResult<bool> Delete([FromBody] int segmentId) {
+            int userId = this.GetCurrentUserId();
+
+            var segment = context.Segment
+                .Where(row => row.SegmentId == segmentId)
+                .Where(row => row.UserId == userId)
+                .SingleOrDefault();
+
+            if (segment == null) {
+                return NotFound();
+            }
+
+            var segmentLocations = context.SegmentLocation.Where(row => row.SegmentId == segmentId);
+            var attempts = context.SegmentAttempt.Where(row => row.SegmentId == segmentId);
+            var attemptLocations = context.SegmentAttemptLocation.Where(row => row.SegmentAttempt.SegmentId == segmentId);
+            var attemptJumps = context.SegmentAttemptJump.Where(row => row.SegmentAttempt.SegmentId == segmentId);
+
+            context.SegmentLocation.RemoveRange(segmentLocations);
+            context.SegmentAttemptLocation.RemoveRange(attemptLocations);
+            context.SegmentAttemptJump.RemoveRange(attemptJumps);
+            context.SegmentAttempt.RemoveRange(attempts);
+            context.Segment.Remove(segment);
+
+            context.SaveChanges();
+
+            return true;
+        }
     }
 }

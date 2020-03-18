@@ -20,5 +20,18 @@ namespace Tracked.Screens.Segments {
         private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
             await ViewModel.GoToAttempt(e.Item as SegmentAttemptOverviewDto);
         }
+
+        private async void Delete_Clicked(object sender, EventArgs e) {
+            bool delete = await DisplayAlert(
+                "Delete Segment",
+                "Are you sure you want to delete this segment?",
+                "Yes",
+                "No");
+
+            if (delete) {
+                await ViewModel.Delete();
+                await Navigation.PopToRootAsync();
+            }
+        }
     }
 }

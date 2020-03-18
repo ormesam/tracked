@@ -51,5 +51,9 @@ namespace Tracked.Screens.Segments {
         public async Task GoToAttempt(SegmentAttemptOverviewDto attempt) {
             await Context.UI.GoToSegmentAttemptScreenAsync(attempt.SegmentAttemptId);
         }
+
+        public async Task Delete() {
+            await Context.Services.DeleteSegment(Segment.SegmentId.Value);
+        }
     }
 }

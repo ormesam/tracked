@@ -61,6 +61,10 @@ namespace Tracked.Contexts {
             return await GetAsync<SegmentDto>("segments/" + id);
         }
 
+        public async Task DeleteSegment(int segmentId) {
+            await PostAsync<bool>("segments/delete", segmentId);
+        }
+
         public async Task<SegmentAttemptDto> GetSegmentAttempt(int segmentAttemptId) {
             return await GetAsync<SegmentAttemptDto>("segmentAttempts/" + segmentAttemptId);
         }
