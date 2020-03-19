@@ -113,7 +113,7 @@ namespace Api.Controllers {
 
             int rideId = SaveRide(userId, model);
             SegmentAnalyser.AnalyseRide(context, userId, rideId);
-            AchievementAnalyser.AnalyseRide(context, rideId, userId, model);
+            AchievementAnalyser.AnalyseRide(context, userId, rideId);
 
             return GetRideOverview(rideId);
         }

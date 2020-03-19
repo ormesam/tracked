@@ -1,11 +1,9 @@
 ﻿using System.Linq;
-using Api.Achievements;
 using DataAccess.Models;
-using Shared.Dtos;
 
 namespace Api.Analysers {
     public static class AchievementAnalyser {
-        public static void AnalyseRide(ModelDataContext context, int rideId, int userId, RideDto model) {
+        public static void AnalyseRide(ModelDataContext context, int userId, int rideId) {
             var speedAchievements = context.SpeedAchievement
                 .Select(row => new MinSpeedAchievement {
                     SpeedAchievementId = row.SpeedAchievementId,
@@ -22,8 +20,11 @@ namespace Api.Analysers {
                 })
                 .ToArray();
 
+            var rideLocations = AnalyserHelper.GetRideLocations(context, rideId);
+            var rideJumps = AnalyserHelper.GetRideJumps(context, rideId);
+
             foreach (var speedAchievement in speedAchievements) {
-                if (speedAchievement.Check(model)) {
+                if (speedAchievement.Check(rideLocations)) {
                     UserSpeedAchievement userSpeedAchievement = new UserSpeedAchievement {
                         RideId = rideId,
                         SpeedAchievementId = speedAchievement.SpeedAchievementId,
@@ -36,7 +37,7 @@ namespace Api.Analysers {
             }
 
             foreach (var jumpAchievement in jumpAchievements) {
-                if (jumpAchievement.Check(model)) {
+                if (jumpAchievement.Check(rideJumps)) {
                     UserJumpAchievement userJumpAchievement = new UserJumpAchievement {
                         RideId = rideId,
                         JumpAchievementId = jumpAchievement.JumpAchievementId,
