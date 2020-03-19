@@ -2,37 +2,36 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Tracked.Models;
+using Shared.Dtos;
 using Tracked.Utilities;
 
 namespace Tracked.JumpDetection {
     public class JumpDetectionUtility {
         private readonly IJumpLocationDetector jumpLocationDetector;
-        private readonly Queue<AccelerometerReading> readings;
-        private readonly IList<AccelerometerReading> takeoffReadings;
-        private readonly IList<AccelerometerReading> freefallReadings;
+        private readonly Queue<AccelerometerReadingDto> readings;
+        private readonly IList<AccelerometerReadingDto> takeoffReadings;
+        private readonly IList<AccelerometerReadingDto> freefallReadings;
         private bool started;
         private int jumpCount;
-        private const double startTolerance = 2;
-        private const double minJumpSeconds = 0.3;
-        private const double maxJumpSeconds = 3;
+        private const decimal startTolerance = 2;
+        private const decimal minJumpSeconds = 0.3m;
+        private const decimal maxJumpSeconds = 3;
+        public static decimal Tolerance = 0.75m;
 
-        public static double Tolerance = 0.75;
-
-        public IList<Jump> Jumps { get; }
+        public IList<JumpDto> Jumps { get; }
 
         public JumpDetectionUtility(IJumpLocationDetector jumpLocationDetector) {
             this.jumpLocationDetector = jumpLocationDetector;
-            readings = new Queue<AccelerometerReading>();
-            takeoffReadings = new List<AccelerometerReading>();
-            freefallReadings = new List<AccelerometerReading>();
+            readings = new Queue<AccelerometerReadingDto>();
+            takeoffReadings = new List<AccelerometerReadingDto>();
+            freefallReadings = new List<AccelerometerReadingDto>();
             started = false;
             jumpCount = 1;
 
-            Jumps = new List<Jump>();
+            Jumps = new List<JumpDto>();
         }
 
-        public void AddReading(AccelerometerReading reading) {
+        public void AddReading(AccelerometerReadingDto reading) {
             if (!started && (reading.X < -startTolerance || reading.X > startTolerance)) {
                 started = true;
             }
@@ -45,10 +44,10 @@ namespace Tracked.JumpDetection {
 
             readings.Enqueue(reading);
 
-            if (reading.IsFreefallReading()) {
+            if (IsFreefallReading(reading)) {
                 freefallReadings.Add(reading);
             } else {
-                double jumpTime = freefallReadings.GetTime();
+                decimal jumpTime = freefallReadings.GetTime();
 
                 if (jumpTime >= minJumpSeconds && jumpTime <= maxJumpSeconds) {
                     // The jump meets the minimum time requirment so create the jump
@@ -67,13 +66,19 @@ namespace Tracked.JumpDetection {
             }
         }
 
+        private bool IsFreefallReading(AccelerometerReadingDto reading) {
+            return Math.Abs(reading.X) <= Tolerance &&
+                Math.Abs(reading.Y) <= Tolerance &&
+                Math.Abs(reading.Z) <= Tolerance;
+        }
+
         private void CreateJump() {
             var lastReadings = readings
                 .Where(i => i.Timestamp < freefallReadings.First().Timestamp)
                 .OrderByDescending(i => i.Timestamp)
                 .ToList();
 
-            double? lastReading = null;
+            decimal? lastReading = null;
 
             foreach (var r in lastReadings) {
                 if (lastReading != null && r.X > lastReading) {
@@ -85,7 +90,7 @@ namespace Tracked.JumpDetection {
                 takeoffReadings.Add(r);
             }
 
-            var allReadingsForJump = new List<AccelerometerReading>();
+            var allReadingsForJump = new List<AccelerometerReadingDto>();
             allReadingsForJump.AddRange(takeoffReadings);
             allReadingsForJump.AddRange(freefallReadings);
 
@@ -93,11 +98,10 @@ namespace Tracked.JumpDetection {
                 .OrderBy(i => i.Timestamp)
                 .ToList();
 
-            var jump = new Jump {
+            var jump = new JumpDto {
                 Number = jumpCount++,
                 Timestamp = allReadingsForJump.Select(j => j.Timestamp).Min(),
                 Airtime = Math.Round(allReadingsForJump.GetTime(), 3),
-                Readings = allReadingsForJump,
             };
 
             if (jumpLocationDetector.GetLastLocation(jump.Timestamp)?.Mph >= 5) {

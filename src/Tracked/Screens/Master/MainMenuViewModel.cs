@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Tracked.Contexts;
 using Tracked.Controls;
 using Tracked.Models;
@@ -9,8 +8,6 @@ namespace Tracked.Screens.Master {
         private bool isLoggingIn;
 
         public MainMenuViewModel(MainContext context) : base(context) {
-            Context.Security.LoggedInStatusChanged += Security_UserChanged;
-
             MenuItems = new ObservableCollection<ExtendedMenuItem>
             {
                  new ExtendedMenuItem
@@ -49,24 +46,5 @@ namespace Tracked.Screens.Master {
         }
 
         public ObservableCollection<ExtendedMenuItem> MenuItems { get; }
-
-        public string LoggedInText => Context.Security.Name ?? "Connected to Google";
-
-        private void Security_UserChanged(object sender, EventArgs e) {
-            OnPropertyChanged(nameof(IsLoggedIn));
-            OnPropertyChanged(nameof(LoggedInText));
-
-            isLoggingIn = false;
-        }
-
-        public void ConnectToGoogle() {
-            if (isLoggingIn) {
-                return;
-            }
-
-            isLoggingIn = true;
-
-            Context.Security.ConnectToGoogle();
-        }
     }
 }

@@ -5,6 +5,11 @@ namespace DataAccess.Models
 {
     public partial class RideLocation
     {
+        public RideLocation()
+        {
+            SegmentAttemptLocation = new HashSet<SegmentAttemptLocation>();
+        }
+
         public int RideLocationId { get; set; }
         public int RideId { get; set; }
         public DateTime Timestamp { get; set; }
@@ -15,5 +20,6 @@ namespace DataAccess.Models
         public decimal Altitude { get; set; }
 
         public virtual Ride Ride { get; set; }
+        public virtual ICollection<SegmentAttemptLocation> SegmentAttemptLocation { get; set; }
     }
 }

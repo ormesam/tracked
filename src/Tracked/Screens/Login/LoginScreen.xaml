@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Login.LoginScreen">
+    <ContentPage.Content>
+        <Grid
+            BackgroundColor="#090870">
+
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="*" />
+                <RowDefinition
+                    Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Image
+                Source="logo.png" />
+
+            <Button
+                Grid.Row="1"
+                Text="Login with Google"
+                Clicked="LoginWithGoogle_Clicked"
+                BackgroundColor="{StaticResource GoogleButtonColour}"
+                TextColor="White" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

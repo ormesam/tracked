@@ -8,20 +8,49 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition
+                Height="Auto"/>
+            <RowDefinition
                 Height="*"/>
             <RowDefinition
                 Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid
+            BackgroundColor="Orange"
+            IsVisible="{Binding ShowUploadCount}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Margin="10"
+                Text="{Binding UploadText}"
+                VerticalOptions="Center"
+                TextColor="White" />
+
+            <ActivityIndicator
+                Scale="0.5"
+                Grid.Column="1"
+                IsRunning="{Binding IsUploading}"
+                IsEnabled="True"
+                IsVisible="{Binding IsUploading}"
+                Color="White"
+                BackgroundColor="Transparent" />
+        </Grid>
         <Label
+            Grid.Row="1"
             HorizontalOptions="Center"
             VerticalOptions="Center"
             Text="No Rides Yet"
             IsVisible="{Binding HasRides, Converter={StaticResource InvertBoolConverter}}" />
         <ListView
+            Grid.Row="1"
             ItemsSource="{Binding Rides}"
             ItemTapped="Ride_ItemTapped"
-            CachingStrategy="RecycleElementAndDataTemplate"
-            IsPullToRefreshEnabled="{Binding IsLoggedIn}"
+            CachingStrategy="RecycleElement"
+            IsPullToRefreshEnabled="True"
             IsRefreshing="{Binding IsRefreshing}"
             RefreshCommand="{Binding RefreshCommand}">
             <ListView.ItemTemplate>
@@ -29,14 +58,14 @@
                     <ViewCell>
                         <controls:MedalsCell
                             Text="{Binding DisplayName}"
-                            Detail="{Binding Start, StringFormat='{0:d MMM yy HH:mm}'}"
+                            Detail="{Binding StartLocal, StringFormat='{0:d MMM yy HH:mm}'}"
                             Medals="{Binding Medals}" />
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         <Button
-            Grid.Row="1"
+            Grid.Row="2"
             Text="Add Ride"
             Clicked="Add_Clicked"
             IsVisible="True"

@@ -1,4 +1,4 @@
-﻿using Tracked.Achievements;
+﻿using Shared.Dtos;
 using Tracked.Contexts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,8 +13,14 @@ namespace Tracked.Screens.Review {
 
         public AchievementOverviewScreenViewModel ViewModel => BindingContext as AchievementOverviewScreenViewModel;
 
+        protected override async void OnAppearing() {
+            base.OnAppearing();
+
+            await ViewModel.Load();
+        }
+
         private async void Achievements_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAchievement(e.Item as IAchievement);
+            await ViewModel.GoToAchievement(e.Item as AchievementDto);
         }
     }
 }

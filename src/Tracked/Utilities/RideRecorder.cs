@@ -1,27 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Shared.Dtos;
 using Tracked.Accelerometer;
+using Tracked.Contexts;
 using Tracked.JumpDetection;
 using Tracked.Models;
 
 namespace Tracked.Utilities {
     public class RideRecorder {
+        private readonly MainContext context;
         private readonly bool detectJumps;
-        private readonly IList<AccelerometerReading> readings;
+        private readonly IList<AccelerometerReadingDto> readings;
         private readonly JumpDetectionUtility jumpDetectionUtility;
 
-        public readonly Ride Ride;
+        public readonly CreateRideDto Ride;
 
-        public RideRecorder(bool detectJumps) {
-            this.detectJumps = detectJumps;
-            Ride = new Ride();
-            readings = new List<AccelerometerReading>();
+        public RideRecorder(MainContext context) {
+            this.context = context;
+            this.detectJumps = context.Settings.DetectJumps;
+            Ride = new CreateRideDto();
+            readings = new List<AccelerometerReadingDto>();
             jumpDetectionUtility = new JumpDetectionUtility(GeoUtility.Instance);
         }
 
         public async Task StartRide() {
-            Ride.Start = DateTime.UtcNow;
+            Ride.StartUtc = DateTime.UtcNow;
 
             AccelerometerUtility.Instance.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
@@ -34,10 +39,11 @@ namespace Tracked.Utilities {
         }
 
         public async Task StopRide() {
-            Ride.End = DateTime.UtcNow;
+            Ride.EndUtc = DateTime.UtcNow;
 
             await GeoUtility.Instance.Stop();
             await AccelerometerUtility.Instance.Stop();
+
 
             AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
@@ -47,18 +53,18 @@ namespace Tracked.Utilities {
                 Ride.Jumps = jumpDetectionUtility.Jumps;
             }
 
-            await Model.Instance.SaveRide(Ride);
-
-            await Model.Instance.CompareSegments(Ride);
+            await Model.Instance.SaveRideUpload(Ride);
         }
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {
             jumpDetectionUtility.AddReading(e.Data);
             readings.Add(e.Data);
+            Debug.WriteLine(e.Data);
         }
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {
             Ride.Locations.Add(e.Location);
+            Debug.WriteLine(e.Location);
         }
     }
 }

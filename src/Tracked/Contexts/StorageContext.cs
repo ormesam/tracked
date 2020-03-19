@@ -5,26 +5,15 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
+using Shared.Dtos;
 using Tracked.Models;
 
 namespace Tracked.Contexts {
     public class StorageContext {
         public readonly IBlobCache Storage = BlobCache.LocalMachine;
 
-        public IList<Ride> GetRides() {
-            var rides = Storage.GetAllObjects<Ride>().Wait();
-
-            return rides.ToList();
-        }
-
-        public IList<Segment> GetSegments() {
-            var segments = Storage.GetAllObjects<Segment>().Wait();
-
-            return segments.ToList();
-        }
-
-        public IList<SegmentAttempt> GetSegmentAttempts() {
-            var attempts = Storage.GetAllObjects<SegmentAttempt>().Wait();
+        public IList<CreateRideDto> GetPendingRideUploads() {
+            var attempts = Storage.GetAllObjects<CreateRideDto>().Wait();
 
             return attempts.ToList();
         }

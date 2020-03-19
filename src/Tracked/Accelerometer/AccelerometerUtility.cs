@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Tracked.Models;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
+using Shared.Dtos;
 
 namespace Tracked.Accelerometer {
     public class AccelerometerUtility {
@@ -64,7 +64,7 @@ namespace Tracked.Accelerometer {
             if (!string.IsNullOrWhiteSpace(value)) {
                 DateTime timeStamp = DateTime.UtcNow;
 
-                double[] xyz = new double[3];
+                decimal[] xyz = new decimal[3];
                 string[] parsedData = value.Split(',');
 
                 if (parsedData.Length != 3) {
@@ -72,12 +72,12 @@ namespace Tracked.Accelerometer {
                 }
 
                 for (int i = 0; i < xyz.Length; i++) {
-                    if (double.TryParse(parsedData[i], out double result)) {
+                    if (decimal.TryParse(parsedData[i], out decimal result)) {
                         xyz[i] = result;
                     }
                 }
 
-                var data = new AccelerometerReading {
+                var data = new AccelerometerReadingDto {
                     Timestamp = timeStamp,
                     X = xyz[0],
                     Y = xyz[1],

@@ -20,9 +20,5 @@ namespace Tracked.Screens.Master {
 
             navMenu.SelectedItem = null;
         }
-
-        private void ConnectToGoogle_Clicked(object sender, System.EventArgs e) {
-            ViewModel.ConnectToGoogle();
-        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
-using Tracked.Models;
+using Shared.Dtos;
 
 namespace Tracked.JumpDetection {
     public interface IJumpLocationDetector {
-        Location GetLastLocation(DateTime time);
+        RideLocationDto GetLastLocation(DateTime time);
     }
 }

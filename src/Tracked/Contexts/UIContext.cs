@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tracked.Achievements;
+using Shared.Dtos;
 using Tracked.Dependancies;
 using Tracked.Home;
 using Tracked.Models;
 using Tracked.Screens.Achievements;
 using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Review;
+using Tracked.Screens.SegmentAttempt;
 using Tracked.Screens.Segments;
 using Tracked.Screens.Settings;
 using Xamarin.Forms;
@@ -92,15 +93,13 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new RecordScreen(context));
         }
 
-        public async Task GoToRideReviewScreenAsync(IRide ride) {
-            await GoToScreenAsync(new RideReviewScreen(context, ride));
+        public async Task GoToRideReviewScreenAsync(int id) {
+            RideReviewScreenViewModel viewModel = new RideReviewScreenViewModel(context);
+            await viewModel.Load(id);
+            await GoToScreenAsync(new RideReviewScreen(viewModel));
         }
 
-        public async Task GoToAccelerometerReadingsScreenAsync(IRide ride) {
-            await GoToScreenAsync(new AccelerometerReadingsScreen(context, ride));
-        }
-
-        public async Task GoToAchievementScreenAsync(IAchievement achievement) {
+        public async Task GoToAchievementScreenAsync(AchievementDto achievement) {
             await GoToScreenAsync(new AchievementScreen(context, achievement));
         }
 
@@ -108,24 +107,24 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new MapScreen(context, title, locations, showRideFeatures));
         }
 
-        public async Task GoToCreateSegmentScreenAsync() {
-            await GoToScreenAsync(new SelectRideScreen(context));
-        }
-
-        public async Task GoToCreateSegmentScreenAsync(Ride ride) {
+        public async Task GoToCreateSegmentScreenAsync(RideDto ride = null) {
             await GoToScreenAsync(new CreateSegmentScreen(context, ride));
         }
 
-        public async Task GoToSegmentScreenAsync(Segment segment) {
-            await GoToScreenAsync(new SegmentScreen(context, segment));
+        public async Task GoToSegmentScreenAsync(int segmentId) {
+            SegmentScreenViewModel viewModel = new SegmentScreenViewModel(context);
+            await viewModel.Load(segmentId);
+            await GoToScreenAsync(new SegmentScreen(viewModel));
         }
 
-        public async Task GoToSegmentAttemptScreenAsync(SegmentAttempt attempt) {
-            await GoToRideReviewScreenAsync(attempt);
+        public async Task GoToSegmentAttemptScreenAsync(int segmentAttemptId) {
+            SegmentAttemptScreenViewModel viewModel = new SegmentAttemptScreenViewModel(context);
+            await viewModel.Load(segmentAttemptId);
+            await GoToScreenAsync(new SegmentAttemptScreen(viewModel));
         }
 
-        public async Task GoToSpeedAnalysisScreenAsync(IRide ride) {
-            await GoToScreenAsync(new SpeedAnalysisScreen(context, ride));
+        public async Task GoToSpeedAnalysisScreenAsync(IList<RideLocationDto> rideLocation) {
+            await GoToScreenAsync(new SpeedAnalysisScreen(context, rideLocation));
         }
     }
 }

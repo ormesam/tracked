@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Models;
 using Xamarin.Forms;
 
 namespace Tracked.Home {
@@ -16,10 +16,10 @@ namespace Tracked.Home {
 
         public MainPageViewModel ViewModel => BindingContext as MainPageViewModel;
 
-        protected override void OnAppearing() {
-            ViewModel.Refresh();
-
+        protected override async void OnAppearing() {
             base.OnAppearing();
+
+            await ViewModel.Load();
         }
 
         private async void Add_Clicked(object sender, EventArgs e) {
@@ -40,7 +40,7 @@ namespace Tracked.Home {
         }
 
         private async void Ride_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToReview(e.Item as Ride);
+            await ViewModel.GoToReview(e.Item as RideOverviewDto);
         }
     }
 }

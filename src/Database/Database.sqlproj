@@ -58,6 +58,8 @@
     <Folder Include="Properties" />
     <Folder Include="Create" />
     <Folder Include="Create\Tables" />
+    <Folder Include="Upgrades" />
+    <Folder Include="Upgrades\2020-03-10" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\User.sql" />
@@ -66,6 +68,11 @@
     <None Include="Create\Tables\Segment.sql" />
     <None Include="Create\Tables\SegmentAttempt.sql" />
     <None Include="Create\Tables\TraceMessage.sql" />
+    <None Include="Create\Tables\SegmentAttemptLocation.sql" />
+    <None Include="Create\Tables\UserSpeedAchievement.sql" />
+    <None Include="Create\Tables\SpeedAchievement.sql" />
+    <None Include="Create\Tables\UserJumpAchievement.sql" />
+    <None Include="Create\Tables\JumpAchievement.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\DropAndRecreateAll.bat" />
@@ -81,5 +88,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\SegmentLocation.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Create\Tables\SegmentAttemptJump.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Upgrades\2020-03-10\Upgrade.sql" />
   </ItemGroup>
 </Project>

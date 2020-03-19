@@ -17,7 +17,7 @@ namespace Tracked.Screens.Review {
         private AccelerometerStatus accelerometerStatus;
 
         public RecordScreenViewModel(MainContext context) : base(context) {
-            rideController = new RideRecorder(Context.Settings.DetectJumps);
+            rideController = new RideRecorder(Context);
             accelerometerStatus = AccelerometerUtility.Instance.Status;
             isRunning = false;
             hasRan = false;

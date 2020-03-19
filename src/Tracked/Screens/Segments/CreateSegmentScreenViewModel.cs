@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using Shared.Dtos;
+using Shared.Interfaces;
 using Tracked.Contexts;
 using Tracked.Controls;
 using Tracked.Models;
@@ -9,16 +10,16 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace Tracked.Screens.Segments {
     public class CreateSegmentScreenViewModel : ViewModelBase {
-        private readonly Segment segment;
+        private readonly SegmentDto segment;
         private int count;
-        private LatLng lastLatLng;
+        private ILatLng lastLatLng;
         private string displayText;
 
-        public Ride Ride { get; }
+        public RideDto Ride { get; }
         public MapControlViewModel MapViewModel { get; }
 
-        public CreateSegmentScreenViewModel(MainContext context, Ride ride) : base(context) {
-            segment = new Segment();
+        public CreateSegmentScreenViewModel(MainContext context, RideDto ride) : base(context) {
+            segment = new SegmentDto();
             Ride = ride;
             count = 1;
             displayText = "Tap on the map to set a start point";
@@ -26,7 +27,7 @@ namespace Tracked.Screens.Segments {
             MapViewModel = new MapControlViewModel(
                 context,
                 Ride?.DisplayName ?? "Map",
-                ride != null ? PolyUtils.GetMapLocations(Ride) : new List<MapLocation>(),
+                ride != null ? PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps) : new List<MapLocation>(),
                 isReadOnly: false,
                 showRideFeatures: false,
                 isShowingUser: false,
@@ -38,7 +39,7 @@ namespace Tracked.Screens.Segments {
         }
 
         private void MapViewModel_MapTapped(object sender, MapClickedEventArgs e) {
-            AddPin(e.Point.Latitude, e.Point.Longitude);
+            AddPin((decimal)e.Point.Latitude, (decimal)e.Point.Longitude);
         }
 
         public string Name {
@@ -59,7 +60,7 @@ namespace Tracked.Screens.Segments {
         public override string Title => "Create Segment";
 
         public void Save(INavigation nav) {
-            if (!segment.Points.Any()) {
+            if (segment.Locations.Count <= 2) {
                 return;
             }
 
@@ -70,18 +71,20 @@ namespace Tracked.Screens.Segments {
 
                 segment.Name = newName;
 
-                await Model.Instance.SaveSegment(segment);
-
-                await Model.Instance.AnalyseExistingRides(segment);
+                await Context.Services.UploadSegment(segment);
 
                 await nav.PopAsync();
             });
         }
 
-        public void AddPin(double latitude, double longitude) {
-            segment.Points.Add(new SegmentLocation(count++, latitude, longitude));
+        public void AddPin(decimal latitude, decimal longitude) {
+            segment.Locations.Add(new SegmentLocationDto {
+                Order = count++,
+                Latitude = latitude,
+                Longitude = longitude
+            });
 
-            LatLng thisLatLng = new LatLng(latitude, longitude);
+            ILatLng thisLatLng = new LatLng((double)latitude, (double)longitude);
 
             if (lastLatLng != null) {
                 MapViewModel.AddPolyLine(new[] { lastLatLng, thisLatLng }, Color.Red);

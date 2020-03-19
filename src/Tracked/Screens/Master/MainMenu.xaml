@@ -18,17 +18,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button
-                IsVisible="{Binding IsLoggedIn, Converter={StaticResource InvertBoolConverter}}"
-                Text="Connect to Google"
-                Clicked="ConnectToGoogle_Clicked"
-                BackgroundColor="{StaticResource GoogleButtonColour}"
-                TextColor="White" />
-            <Label
-                Margin="15"
-                HorizontalTextAlignment="Center"
-                Text="{Binding LoggedInText}"
-                IsVisible="{Binding IsLoggedIn}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

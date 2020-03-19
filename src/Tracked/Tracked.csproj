@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="akavache" Version="6.9.10" />
-    <PackageReference Include="GeoCoordinate" Version="1.1.0" />
     <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.43.0.1602" />
     <PackageReference Include="OxyPlot.Xamarin.Forms" Version="1.0.0" />
     <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
@@ -54,6 +53,9 @@
     <EmbeddedResource Update="Screens\Bluetooth\BluetoothSetupScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Screens\Login\LoginScreen.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Screens\Master\MainMenu.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -72,6 +74,9 @@
     <EmbeddedResource Update="Screens\Review\RideReviewScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Screens\SegmentAttempt\SegmentAttemptScreen.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Screens\Segments\CreateSegmentScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -79,9 +84,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Segments\SegmentScreen.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Segments\SelectRideScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Settings\SettingsScreen.xaml">

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Tracked.Models;
+using Shared.Dtos;
 using Xamarin.Forms;
 
 namespace Tracked.Controls {
@@ -7,12 +7,12 @@ namespace Tracked.Controls {
         public static readonly BindableProperty JumpsProperty =
             BindableProperty.Create(
                 nameof(Jumps),
-                typeof(IEnumerable<Jump>),
+                typeof(IEnumerable<JumpDto>),
                 typeof(JumpsControl),
                 null);
 
-        public IEnumerable<Jump> Jumps {
-            get => (IEnumerable<Jump>)GetValue(JumpsProperty);
+        public IEnumerable<JumpDto> Jumps {
+            get => (IEnumerable<JumpDto>)GetValue(JumpsProperty);
             set => SetValue(JumpsProperty, value);
         }
     }

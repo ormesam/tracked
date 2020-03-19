@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tracked.Dependancies;
-using Tracked.JumpDetection;
-using Tracked.Models;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using Shared.Dtos;
+using Tracked.Dependancies;
+using Tracked.JumpDetection;
 using Xamarin.Forms;
 
 namespace Tracked.Utilities {
@@ -30,7 +30,7 @@ namespace Tracked.Utilities {
 
         public event LocationChangedEventHandler LocationChanged;
 
-        private Location lastLocation;
+        private RideLocationDto lastLocation;
 
         private GeoUtility() {
             CrossGeolocator.Current.DesiredAccuracy = 0;
@@ -44,12 +44,13 @@ namespace Tracked.Utilities {
                 return;
             }
 
-            var location = new Location {
+            var location = new RideLocationDto {
                 Timestamp = position.Timestamp.UtcDateTime,
-                Point = new LatLng(position.Latitude, position.Longitude),
-                AccuracyInMetres = position.Accuracy,
-                SpeedMetresPerSecond = position.Speed,
-                Altitude = position.Altitude,
+                Latitude = (decimal)position.Latitude,
+                Longitude = (decimal)position.Longitude,
+                AccuracyInMetres = (decimal)position.Accuracy,
+                SpeedMetresPerSecond = (decimal)position.Speed,
+                Altitude = (decimal)position.Altitude,
             };
 
             lastLocation = location;
@@ -70,7 +71,7 @@ namespace Tracked.Utilities {
                 PauseLocationUpdatesAutomatically = false,
             };
 
-            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 2, false, listenerSettings);
+            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 1, false, listenerSettings);
         }
 
         public async Task Stop() {
@@ -81,7 +82,7 @@ namespace Tracked.Utilities {
             lastLocation = null;
         }
 
-        public Location GetLastLocation(DateTime time) {
+        public RideLocationDto GetLastLocation(DateTime time) {
             return lastLocation;
         }
     }

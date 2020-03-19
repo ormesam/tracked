@@ -1,24 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Tracked.Achievements;
+﻿using System.Threading.Tasks;
+using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Models;
-using Xamarin.Forms;
 
 namespace Tracked.Screens.Achievements {
     public class AchievementScreenViewModel : ViewModelBase {
-        private readonly IAchievement achievement;
-
-        public AchievementScreenViewModel(MainContext context, IAchievement achievement) : base(context) {
-            this.achievement = achievement;
+        public AchievementScreenViewModel(MainContext context, AchievementDto achievement) : base(context) {
+            Achievement = achievement;
         }
 
-        public override string Title => achievement.Name;
+        public override string Title => Achievement.Name;
+        public AchievementDto Achievement { get; set; }
 
-        public IEnumerable<Ride> Rides => achievement.GetRides();
-
-        public async Task GoToRide(Ride ride) {
-            await Context.UI.GoToRideReviewScreenAsync(ride);
+        public async Task GoToRide(RideOverviewDto ride) {
+            await Context.UI.GoToRideReviewScreenAsync(ride.RideId.Value);
         }
     }
 }

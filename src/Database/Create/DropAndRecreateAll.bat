@@ -6,7 +6,13 @@ sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\Jump.sql
 sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\Segment.sql
 sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\SegmentLocation.sql
 sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\SegmentAttempt.sql
+sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\SegmentAttemptLocation.sql
+sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\SegmentAttemptJump.sql
 sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\AccelerometerReading.sql
+sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\SpeedAchievement.sql
+sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\JumpAchievement.sql
+sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\UserSpeedAchievement.sql
+sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\UserJumpAchievement.sql
 sqlcmd -E -S localhost -d TrackedDev -i ..\..\Database\Create\Tables\TraceMessage.sql
 
 cd /d "..\..\DataAccess"

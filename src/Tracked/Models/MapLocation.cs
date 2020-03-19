@@ -1,7 +1,11 @@
-﻿namespace Tracked.Models {
-    public class MapLocation {
-        public double Mph { get; set; }
-        public LatLng Point { get; set; }
-        public Jump Jump { get; set; }
+﻿using Shared.Dtos;
+using Shared.Interfaces;
+
+namespace Tracked.Models {
+    public class MapLocation : ILatLng {
+        public decimal Mph { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public JumpDto Jump { get; set; }
     }
 }

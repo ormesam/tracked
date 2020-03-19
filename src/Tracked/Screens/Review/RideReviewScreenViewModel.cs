@@ -1,90 +1,64 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.Controls;
-using Tracked.Models;
 using Tracked.Utilities;
-using Xamarin.Forms;
 
 namespace Tracked.Screens.Review {
     public class RideReviewScreenViewModel : ViewModelBase {
-        public readonly IRide Ride;
+        private RideDto ride;
 
-        public RideReviewScreenViewModel(MainContext context, IRide ride) : base(context) {
-            Ride = ride;
-
-            MapViewModel = new MapControlViewModel(
-                context,
-                Ride.DisplayName,
-                PolyUtils.GetMapLocations(Ride));
+        public RideReviewScreenViewModel(MainContext context) : base(context) {
         }
 
-        public override string Title => DisplayName;
+        public override string Title => Ride.DisplayName;
 
-        public string DisplayName => Ride.DisplayName;
-
-        public MapControlViewModel MapViewModel { get; }
-
-        public double AverageSpeed {
-            get {
-                if (!Ride.Locations.Any()) {
-                    return 0;
+        public RideDto Ride {
+            get { return ride; }
+            set {
+                if (ride != value) {
+                    ride = value;
+                    OnPropertyChanged();
                 }
-
-                return Ride.Locations.Average(i => i.Mph);
             }
         }
 
-        public double MaxSpeed {
-            get {
-                if (!Ride.Locations.Any()) {
-                    return 0;
-                }
+        public MapControlViewModel MapViewModel { get; set; }
 
-                return Ride.Locations.Max(i => i.Mph);
-            }
-        }
-
-        public double Distance {
-            get {
-                if (!Ride.Locations.Any()) {
-                    return 0;
-                }
-
-                return Ride.Locations.CalculateDistanceMi();
-            }
-        }
-
-        public string Time => (Ride.End - Ride.Start).ToString(@"mm\:ss");
+        public string Time => (Ride.EndUtc - Ride.StartUtc).ToString(@"mm\:ss");
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
-        public bool ShowAttempts => Ride.ShowAttempts;
 
-        public IList<SegmentAttempt> Attempts => !ShowAttempts ? new List<SegmentAttempt>() :
-            Model.Instance.SegmentAttempts
-                .Where(i => i.RideId == Ride.Id)
-                .OrderByDescending(i => i.Start)
-                .ToList();
+        public IList<SegmentAttemptOverviewDto> Attempts => Ride.SegmentAttempts;
+        public IList<JumpDto> Jumps => Ride.Jumps;
 
-        public IList<Jump> Jumps => Ride.Jumps
-            .OrderBy(i => i.Timestamp)
-            .ToList();
+        public async Task Load(int id) {
+            Ride = await Context.Services.GetRide(id);
 
-        public async Task Delete() {
-            await Model.Instance.RemoveRide(Ride as Ride);
+            MapViewModel = new MapControlViewModel(
+                Context,
+                Ride.DisplayName,
+                PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps));
+
+            OnPropertyChanged(nameof(MapViewModel));
         }
 
-        public async Task GoToAttempt(SegmentAttempt attempt) {
-            await Context.UI.GoToSegmentAttemptScreenAsync(attempt);
+        public async Task GoToAttempt(SegmentAttemptOverviewDto attempt) {
+            await Context.UI.GoToSegmentAttemptScreenAsync(attempt.SegmentAttemptId);
         }
 
         public async Task GoToSpeedAnalysis() {
-            await Context.UI.GoToSpeedAnalysisScreenAsync(Ride);
+            await Context.UI.GoToSpeedAnalysisScreenAsync(Ride.Locations);
         }
 
-        public async Task ViewJumpBreakdown() {
-            await Context.UI.GoToAccelerometerReadingsScreenAsync(Ride);
+        public async Task CreateSegment() {
+            await Context.UI.GoToCreateSegmentScreenAsync(Ride);
+        }
+
+        public async Task Delete() {
+            await Context.Services.DeleteRide(Ride.RideId);
         }
     }
 }

@@ -1,54 +1,59 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.Controls;
-using Tracked.Models;
 using Tracked.Utilities;
-using Xamarin.Forms;
 
 namespace Tracked.Screens.Segments {
     public class SegmentScreenViewModel : ViewModelBase {
-        public Segment Segment { get; }
-        public MapControlViewModel MapViewModel { get; }
+        private SegmentDto segment;
 
-        public SegmentScreenViewModel(MainContext context, Segment segment) : base(context) {
-            Segment = segment;
-            MapViewModel = new MapControlViewModel(
-                context,
-                Segment.DisplayName,
-                PolyUtils.GetMapLocations(Segment.Points),
-                showRideFeatures: false);
+        public SegmentScreenViewModel(MainContext context) : base(context) {
         }
 
         public override string Title => Segment.Name;
 
-        public string DisplayName => Segment.DisplayName;
+        public SegmentDto Segment {
+            get { return segment; }
+            set {
+                if (segment != value) {
+                    segment = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public IList<SegmentAttempt> Attempts => Model.Instance.SegmentAttempts
-            .Where(i => i.SegmentId == Segment.Id)
-            .OrderBy(i => i.Time)
-            .ToList();
+        public MapControlViewModel MapViewModel { get; set; }
+
+        public async Task Load(int id) {
+            Segment = await Context.Services.GetSegment(id);
+
+            MapViewModel = new MapControlViewModel(
+                Context,
+                Segment.Name,
+                PolyUtils.GetMapLocations(Segment.Locations),
+                showRideFeatures: false);
+
+            OnPropertyChanged(nameof(MapViewModel));
+        }
 
         public void ChangeName() {
             Context.UI.ShowInputDialog("Change Name", Segment.Name, async (newName) => {
                 Segment.Name = newName;
 
                 OnPropertyChanged(nameof(Title));
-                OnPropertyChanged(nameof(DisplayName));
+                OnPropertyChanged(nameof(Segment));
 
-                await Model.Instance.SaveSegment(Segment);
+                await Context.Services.ChangeSegmentName(Segment.SegmentId.Value, newName);
             });
         }
 
-        public async Task DeleteSegment(INavigation nav) {
-            await Model.Instance.RemoveSegment(Segment);
-
-            await nav.PopAsync();
+        public async Task GoToAttempt(SegmentAttemptOverviewDto attempt) {
+            await Context.UI.GoToSegmentAttemptScreenAsync(attempt.SegmentAttemptId);
         }
 
-        public async Task GoToAttempt(SegmentAttempt attempt) {
-            await Context.UI.GoToSegmentAttemptScreenAsync(attempt);
+        public async Task Delete() {
+            await Context.Services.DeleteSegment(Segment.SegmentId.Value);
         }
     }
 }
