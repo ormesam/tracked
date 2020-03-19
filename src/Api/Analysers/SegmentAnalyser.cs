@@ -31,9 +31,9 @@ namespace Api.Analysers {
         }
 
         private static void Analyse(ModelDataContext context, int userId, int rideId, int segmentId) {
-            var segmentLocations = GetSegmentLocations(context, segmentId);
-            var rideLocations = GetRideLocations(context, rideId);
-            var rideJumps = GetRideJumps(context, rideId);
+            var segmentLocations = AnalyserHelper.GetSegmentLocations(context, segmentId);
+            var rideLocations = AnalyserHelper.GetRideLocations(context, rideId);
+            var rideJumps = AnalyserHelper.GetRideJumps(context, rideId);
 
             var result = LocationsMatch(segmentLocations.Cast<ILatLng>().ToList(), rideLocations.Cast<ILatLng>().ToList());
 
@@ -76,42 +76,6 @@ namespace Api.Analysers {
                 context.SegmentAttemptJump.AddRange(jumps);
                 context.SaveChanges();
             }
-        }
-
-        private static RideJumpAnalysis[] GetRideJumps(ModelDataContext context, int rideId) {
-            return context.Jump
-                .Where(row => row.RideId == rideId)
-                .OrderBy(row => row.Timestamp)
-                .Select(row => new RideJumpAnalysis {
-                    JumpId = row.JumpId,
-                    Timestamp = row.Timestamp,
-                })
-                .ToArray();
-        }
-
-        private static RideLocationAnalysis[] GetRideLocations(ModelDataContext context, int rideId) {
-            return context.RideLocation
-                .Where(row => row.RideId == rideId)
-                .OrderBy(row => row.Timestamp)
-                .Select(row => new RideLocationAnalysis {
-                    RideLocationId = row.RideLocationId,
-                    Latitude = row.Latitude,
-                    Longitude = row.Longitude,
-                    SpeedMetresPerSecond = row.SpeedMetresPerSecond,
-                    Timestamp = row.Timestamp,
-                })
-                .ToArray();
-        }
-
-        private static LatLng[] GetSegmentLocations(ModelDataContext context, int segmentId) {
-            return context.SegmentLocation
-                .Where(row => row.SegmentId == segmentId)
-                .OrderBy(row => row.Order)
-                .Select(row => new LatLng {
-                    Latitude = row.Latitude,
-                    Longitude = row.Longitude,
-                })
-                .ToArray();
         }
 
         public static LocationMatchResult LocationsMatch(IList<ILatLng> segmentLocations, IList<ILatLng> rideLocations) {
@@ -213,24 +177,6 @@ namespace Api.Analysers {
             public bool MatchesSegment { get; set; }
             public int StartIdx { get; set; }
             public int EndIdx { get; set; }
-        }
-
-        private class LatLng : ILatLng {
-            public decimal Latitude { get; set; }
-            public decimal Longitude { get; set; }
-        }
-
-        private class RideLocationAnalysis : ILatLng {
-            public int RideLocationId { get; set; }
-            public decimal Latitude { get; set; }
-            public decimal Longitude { get; set; }
-            public decimal SpeedMetresPerSecond { get; set; }
-            public DateTime Timestamp { get; set; }
-        }
-
-        private class RideJumpAnalysis {
-            public int JumpId { get; set; }
-            public DateTime Timestamp { get; set; }
         }
     }
 }
