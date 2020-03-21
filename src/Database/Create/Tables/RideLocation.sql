@@ -4,9 +4,9 @@
     [RideId] int NOT NULL CONSTRAINT [FK_RideLocation_Ride] REFERENCES [Ride],
 
     [Timestamp] datetime NOT NULL,
-    [Latitude] decimal(25,20) NOT NULL,
-    [Longitude] decimal(25,20) NOT NULL,
-    [AccuracyInMetres] decimal(6,3) NOT NULL,
-    [SpeedMetresPerSecond] decimal(6,3) NOT NULL,
-    [Altitude] decimal(6,3) NOT NULL,
+    [Latitude] float NOT NULL,
+    [Longitude] float NOT NULL,
+    [AccuracyInMetres] float NOT NULL,
+    [SpeedMetresPerSecond] float NOT NULL,
+    [Altitude] float NOT NULL,
 )

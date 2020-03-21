@@ -44,22 +44,22 @@ namespace Api.Analysers {
     }
 
     internal class LatLng : ILatLng {
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 
     internal class RideLocationAnalysis : ILatLng {
         public int RideLocationId { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
-        public decimal SpeedMetresPerSecond { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double SpeedMetresPerSecond { get; set; }
         public DateTime Timestamp { get; set; }
-        public decimal Mph => SpeedMetresPerSecond * 2.23694m;
+        public double Mph => SpeedMetresPerSecond * 2.23694;
     }
 
     internal class RideJumpAnalysis {
         public int JumpId { get; set; }
-        public decimal Airtime { get; set; }
+        public double Airtime { get; set; }
         public DateTime Timestamp { get; set; }
     }
 }

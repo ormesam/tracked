@@ -5,6 +5,6 @@ namespace Shared.Dtos {
         public int JumpId { get; set; }
         public int Number { get; set; }
         public DateTime Timestamp { get; set; }
-        public decimal Airtime { get; set; }
+        public double Airtime { get; set; }
     }
 }

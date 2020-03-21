@@ -3,9 +3,9 @@ using Shared.Interfaces;
 
 namespace Tracked.Models {
     public class MapLocation : ILatLng {
-        public decimal Mph { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public double Mph { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public JumpDto Jump { get; set; }
     }
 }

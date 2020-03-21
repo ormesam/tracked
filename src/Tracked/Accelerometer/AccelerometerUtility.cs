@@ -64,7 +64,7 @@ namespace Tracked.Accelerometer {
             if (!string.IsNullOrWhiteSpace(value)) {
                 DateTime timeStamp = DateTime.UtcNow;
 
-                decimal[] xyz = new decimal[3];
+                double[] xyz = new double[3];
                 string[] parsedData = value.Split(',');
 
                 if (parsedData.Length != 3) {
@@ -72,7 +72,7 @@ namespace Tracked.Accelerometer {
                 }
 
                 for (int i = 0; i < xyz.Length; i++) {
-                    if (decimal.TryParse(parsedData[i], out decimal result)) {
+                    if (double.TryParse(parsedData[i], out double result)) {
                         xyz[i] = result;
                     }
                 }

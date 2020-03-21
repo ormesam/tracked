@@ -5,5 +5,5 @@
 
     [Number] int NOT NULL,
     [Timestamp] datetime NOT NULL,
-    [Airtime] decimal(5,3) NOT NULL,
+    [Airtime] float NOT NULL,
 )

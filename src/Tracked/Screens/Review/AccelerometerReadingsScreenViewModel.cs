@@ -75,14 +75,14 @@ namespace Tracked.Screens.Review {
                 StrokeThickness = 1,
                 Color = OxyColors.Red,
                 Type = LineAnnotationType.Horizontal,
-                Y = (double)JumpDetectionUtility.Tolerance,
+                Y = JumpDetectionUtility.Tolerance,
             };
 
             LineAnnotation minToleranceLine = new LineAnnotation() {
                 StrokeThickness = 1,
                 Color = OxyColors.Red,
                 Type = LineAnnotationType.Horizontal,
-                Y = (double)-JumpDetectionUtility.Tolerance,
+                Y = -JumpDetectionUtility.Tolerance,
             };
 
             plot.Annotations.Add(baseLine);

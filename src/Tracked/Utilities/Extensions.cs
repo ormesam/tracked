@@ -19,12 +19,12 @@ namespace Tracked.Utilities {
             return list[midpoint];
         }
 
-        public static decimal GetTime(this IList<AccelerometerReadingDto> readings) {
+        public static double GetTime(this IList<AccelerometerReadingDto> readings) {
             if (!readings.Any()) {
                 return 0;
             }
 
-            return (decimal)(readings.Select(i => i.Timestamp).Max() - readings.Select(i => i.Timestamp).Min()).TotalSeconds;
+            return (readings.Select(i => i.Timestamp).Max() - readings.Select(i => i.Timestamp).Min()).TotalSeconds;
         }
     }
 }

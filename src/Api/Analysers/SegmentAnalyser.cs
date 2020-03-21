@@ -126,10 +126,10 @@ namespace Api.Analysers {
 
         private static ILatLng GetClosestPoint(IList<ILatLng> locations, ILatLng point) {
             ILatLng closestLocation = null;
-            decimal lastDistance = decimal.MaxValue;
+            double lastDistance = double.MaxValue;
 
             foreach (var location in locations) {
-                decimal distance = location.GetDistanceM(point);
+                double distance = location.GetDistanceM(point);
 
                 if (distance < lastDistance) {
                     lastDistance = distance;

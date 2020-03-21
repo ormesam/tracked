@@ -8,8 +8,8 @@ namespace DataAccess.Models
         public int SegmentLocationId { get; set; }
         public int SegmentId { get; set; }
         public int Order { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
         public virtual Segment Segment { get; set; }
     }

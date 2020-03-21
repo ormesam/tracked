@@ -14,7 +14,7 @@ namespace DataAccess.Models
         public int RideId { get; set; }
         public int Number { get; set; }
         public DateTime Timestamp { get; set; }
-        public decimal Airtime { get; set; }
+        public double Airtime { get; set; }
 
         public virtual Ride Ride { get; set; }
         public virtual ICollection<SegmentAttemptJump> SegmentAttemptJump { get; set; }

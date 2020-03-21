@@ -5,13 +5,13 @@ namespace Shared.Dtos {
     public class RideLocationDto : ILatLng {
         public int RideLocationId { get; set; }
         public DateTime Timestamp { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
-        public decimal AccuracyInMetres { get; set; }
-        public decimal SpeedMetresPerSecond { get; set; }
-        public decimal Altitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double AccuracyInMetres { get; set; }
+        public double SpeedMetresPerSecond { get; set; }
+        public double Altitude { get; set; }
 
-        public decimal Mph => SpeedMetresPerSecond * 2.23694m;
+        public double Mph => SpeedMetresPerSecond * 2.23694;
 
         public override string ToString() {
             return $"{Timestamp}: Lat: {Latitude}, Lon: {Longitude}, Mph: {Mph}";

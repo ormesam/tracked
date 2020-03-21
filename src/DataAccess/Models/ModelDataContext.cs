@@ -46,12 +46,6 @@ namespace DataAccess.Models
             {
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
-                entity.Property(e => e.X).HasColumnType("decimal(5, 3)");
-
-                entity.Property(e => e.Y).HasColumnType("decimal(5, 3)");
-
-                entity.Property(e => e.Z).HasColumnType("decimal(5, 3)");
-
                 entity.HasOne(d => d.Ride)
                     .WithMany(p => p.AccelerometerReading)
                     .HasForeignKey(d => d.RideId)
@@ -61,8 +55,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<Jump>(entity =>
             {
-                entity.Property(e => e.Airtime).HasColumnType("decimal(5, 3)");
-
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
@@ -74,8 +66,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<JumpAchievement>(entity =>
             {
-                entity.Property(e => e.MinAirtime).HasColumnType("decimal(5, 3)");
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -98,16 +88,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<RideLocation>(entity =>
             {
-                entity.Property(e => e.AccuracyInMetres).HasColumnType("decimal(6, 3)");
-
-                entity.Property(e => e.Altitude).HasColumnType("decimal(6, 3)");
-
-                entity.Property(e => e.Latitude).HasColumnType("decimal(25, 20)");
-
-                entity.Property(e => e.Longitude).HasColumnType("decimal(25, 20)");
-
-                entity.Property(e => e.SpeedMetresPerSecond).HasColumnType("decimal(6, 3)");
-
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
@@ -185,10 +165,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<SegmentLocation>(entity =>
             {
-                entity.Property(e => e.Latitude).HasColumnType("decimal(25, 20)");
-
-                entity.Property(e => e.Longitude).HasColumnType("decimal(25, 20)");
-
                 entity.HasOne(d => d.Segment)
                     .WithMany(p => p.SegmentLocation)
                     .HasForeignKey(d => d.SegmentId)
@@ -198,8 +174,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<SpeedAchievement>(entity =>
             {
-                entity.Property(e => e.MinMph).HasColumnType("decimal(4, 1)");
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -215,7 +189,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD197B8C7D75B")
+                    .HasName("UQ__User__437CD197474A84E7")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)

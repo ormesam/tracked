@@ -17,9 +17,9 @@ namespace Shared.Dtos {
         public string FormattedTime => Time.ToString(@"mm\:ss");
         public int JumpCount => Jumps.Count;
         public string MaxAirtime => Jumps.Count == 0 ? "-" : $"{Jumps.Max(i => i.Airtime)}s";
-        public decimal MaxSpeedMph => Locations.Max(i => i.Mph);
-        public decimal AverageSpeedMph => Locations.Average(i => i.Mph);
-        public decimal DistanceMiles => DistanceHelpers.GetDistanceMile(Locations.Cast<ILatLng>().ToList());
+        public double MaxSpeedMph => Locations.Max(i => i.Mph);
+        public double AverageSpeedMph => Locations.Average(i => i.Mph);
+        public double DistanceMiles => DistanceHelpers.GetDistanceMile(Locations.Cast<ILatLng>().ToList());
 
         public SegmentAttemptDto() {
             Locations = new List<RideLocationDto>();

@@ -12,7 +12,7 @@ namespace DataAccess.Models
 
         public int SpeedAchievementId { get; set; }
         public string Name { get; set; }
-        public decimal MinMph { get; set; }
+        public double MinMph { get; set; }
 
         public virtual ICollection<UserSpeedAchievement> UserSpeedAchievement { get; set; }
     }

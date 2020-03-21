@@ -13,10 +13,10 @@ namespace Tracked.JumpDetection {
         private readonly IList<AccelerometerReadingDto> freefallReadings;
         private bool started;
         private int jumpCount;
-        private const decimal startTolerance = 2;
-        private const decimal minJumpSeconds = 0.3m;
-        private const decimal maxJumpSeconds = 3;
-        public static decimal Tolerance = 0.75m;
+        private const double startTolerance = 2;
+        private const double minJumpSeconds = 0.3;
+        private const double maxJumpSeconds = 3;
+        public static double Tolerance = 0.75;
 
         public IList<JumpDto> Jumps { get; }
 
@@ -47,7 +47,7 @@ namespace Tracked.JumpDetection {
             if (IsFreefallReading(reading)) {
                 freefallReadings.Add(reading);
             } else {
-                decimal jumpTime = freefallReadings.GetTime();
+                double jumpTime = freefallReadings.GetTime();
 
                 if (jumpTime >= minJumpSeconds && jumpTime <= maxJumpSeconds) {
                     // The jump meets the minimum time requirment so create the jump
@@ -78,7 +78,7 @@ namespace Tracked.JumpDetection {
                 .OrderByDescending(i => i.Timestamp)
                 .ToList();
 
-            decimal? lastReading = null;
+            double? lastReading = null;
 
             foreach (var r in lastReadings) {
                 if (lastReading != null && r.X > lastReading) {

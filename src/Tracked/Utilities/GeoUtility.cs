@@ -46,11 +46,11 @@ namespace Tracked.Utilities {
 
             var location = new RideLocationDto {
                 Timestamp = position.Timestamp.UtcDateTime,
-                Latitude = (decimal)position.Latitude,
-                Longitude = (decimal)position.Longitude,
-                AccuracyInMetres = (decimal)position.Accuracy,
-                SpeedMetresPerSecond = (decimal)position.Speed,
-                Altitude = (decimal)position.Altitude,
+                Latitude = position.Latitude,
+                Longitude = position.Longitude,
+                AccuracyInMetres = position.Accuracy,
+                SpeedMetresPerSecond = position.Speed,
+                Altitude = position.Altitude,
             };
 
             lastLocation = location;

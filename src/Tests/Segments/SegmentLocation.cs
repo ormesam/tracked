@@ -2,12 +2,12 @@
 
 namespace Tests.Segments {
     public class SegmentLocation : ILatLng {
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
         public SegmentLocation(int number, double lat, double lng) {
-            Latitude = (decimal)lat;
-            Longitude = (decimal)lng;
+            Latitude = lat;
+            Longitude = lng;
         }
     }
 }

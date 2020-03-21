@@ -8,9 +8,9 @@ namespace DataAccess.Models
         public int AccelerometerReadingId { get; set; }
         public int RideId { get; set; }
         public DateTime Time { get; set; }
-        public decimal X { get; set; }
-        public decimal Y { get; set; }
-        public decimal Z { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
 
         public virtual Ride Ride { get; set; }
     }

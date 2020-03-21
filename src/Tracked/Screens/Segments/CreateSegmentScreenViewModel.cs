@@ -39,7 +39,7 @@ namespace Tracked.Screens.Segments {
         }
 
         private void MapViewModel_MapTapped(object sender, MapClickedEventArgs e) {
-            AddPin((decimal)e.Point.Latitude, (decimal)e.Point.Longitude);
+            AddPin(e.Point.Latitude, e.Point.Longitude);
         }
 
         public string Name {
@@ -77,14 +77,14 @@ namespace Tracked.Screens.Segments {
             });
         }
 
-        public void AddPin(decimal latitude, decimal longitude) {
+        public void AddPin(double latitude, double longitude) {
             segment.Locations.Add(new SegmentLocationDto {
                 Order = count++,
                 Latitude = latitude,
                 Longitude = longitude
             });
 
-            ILatLng thisLatLng = new LatLng((double)latitude, (double)longitude);
+            ILatLng thisLatLng = new LatLng(latitude, longitude);
 
             if (lastLatLng != null) {
                 MapViewModel.AddPolyLine(new[] { lastLatLng, thisLatLng }, Color.Red);

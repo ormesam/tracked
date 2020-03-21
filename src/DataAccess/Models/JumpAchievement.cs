@@ -12,7 +12,7 @@ namespace DataAccess.Models
 
         public int JumpAchievementId { get; set; }
         public string Name { get; set; }
-        public decimal MinAirtime { get; set; }
+        public double MinAirtime { get; set; }
 
         public virtual ICollection<UserJumpAchievement> UserJumpAchievement { get; set; }
     }

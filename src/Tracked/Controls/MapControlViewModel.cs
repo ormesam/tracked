@@ -66,7 +66,7 @@ namespace Tracked.Controls {
                 }
             }
 
-            InitalCamera = CameraUpdateFactory.NewPositionZoom(new Position((double)centre.Latitude, (double)centre.Longitude), zoom);
+            InitalCamera = CameraUpdateFactory.NewPositionZoom(new Position(centre.Latitude, centre.Longitude), zoom);
         }
 
         public MapType MapType {
@@ -164,7 +164,7 @@ namespace Tracked.Controls {
 
         private void AddMaxSpeedPin(MapLocation location, bool hasMultiplePins) {
             Pin pin = new Pin {
-                Position = new Position((double)location.Latitude, (double)location.Longitude),
+                Position = new Position(location.Latitude, location.Longitude),
                 Label = Math.Round(location.Mph, 1) + " mi/h",
                 Icon = BitmapDescriptorFactory.FromBundle("speed_icon.png"),
                 Rotation = hasMultiplePins ? 330 : 0,
@@ -175,7 +175,7 @@ namespace Tracked.Controls {
 
         private void AddJumpPin(MapLocation location, bool hasMultiplePins) {
             Pin pin = new Pin {
-                Position = new Position((double)location.Latitude, (double)location.Longitude),
+                Position = new Position(location.Latitude, location.Longitude),
                 Label = Math.Round(location.Jump.Airtime, 3) + "s",
                 Icon = BitmapDescriptorFactory.FromBundle("jump_icon.png"),
                 Rotation = hasMultiplePins ? 30 : 0,
@@ -192,7 +192,7 @@ namespace Tracked.Controls {
             Polyline polyline = new Polyline();
 
             foreach (var latLng in latLngs) {
-                polyline.Positions.Add(new Position((double)latLng.Latitude, (double)latLng.Longitude));
+                polyline.Positions.Add(new Position(latLng.Latitude, latLng.Longitude));
             }
 
             polyline.StrokeColor = colour;
@@ -201,15 +201,15 @@ namespace Tracked.Controls {
             map.Polylines.Add(polyline);
         }
 
-        private Color GetMaxSpeedColour(decimal mph, decimal maxSpeed) {
-            decimal limit1 = maxSpeed * 0.95m;
-            decimal limit2 = maxSpeed * 0.85m;
-            decimal limit3 = maxSpeed * 0.75m;
-            decimal limit4 = maxSpeed * 0.70m;
-            decimal limit5 = maxSpeed * 0.65m;
-            decimal limit6 = maxSpeed * 0.60m;
-            decimal limit7 = maxSpeed * 0.55m;
-            decimal limit8 = maxSpeed * 0.50m;
+        private Color GetMaxSpeedColour(double mph, double maxSpeed) {
+            double limit1 = maxSpeed * 0.95;
+            double limit2 = maxSpeed * 0.85;
+            double limit3 = maxSpeed * 0.75;
+            double limit4 = maxSpeed * 0.70;
+            double limit5 = maxSpeed * 0.65;
+            double limit6 = maxSpeed * 0.60;
+            double limit7 = maxSpeed * 0.55;
+            double limit8 = maxSpeed * 0.50;
 
             if (mph > limit1) {
                 return Color.FromHex("#F8696B");
