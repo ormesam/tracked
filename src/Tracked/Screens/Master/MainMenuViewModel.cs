@@ -5,8 +5,6 @@ using Tracked.Models;
 
 namespace Tracked.Screens.Master {
     public class MainMenuViewModel : ViewModelBase {
-        private bool isLoggingIn;
-
         public MainMenuViewModel(MainContext context) : base(context) {
             MenuItems = new ObservableCollection<ExtendedMenuItem>
             {

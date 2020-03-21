@@ -14,7 +14,6 @@ using Xamarin.Essentials;
 namespace Tracked.Contexts {
     public class ServicesContext {
         private readonly MainContext mainContext;
-        private readonly Uri baseUri = new Uri(Constants.Url);
 
         public ServicesContext(MainContext mainContext) {
             this.mainContext = mainContext;
@@ -107,7 +106,6 @@ namespace Tracked.Contexts {
             }
 
             using (HttpClient client = new HttpClient()) {
-                // client.BaseAddress = baseUri;
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

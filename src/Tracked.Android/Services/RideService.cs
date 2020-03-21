@@ -36,7 +36,7 @@ namespace Tracked.Droid.Services {
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId) {
             StartForeground(notificationId, GetNotification());
 
-            return StartCommandResult.NotSticky;
+            return StartCommandResult.Sticky;
         }
 
         public override IBinder OnBind(Intent intent) {
