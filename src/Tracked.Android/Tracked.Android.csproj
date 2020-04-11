@@ -99,9 +99,6 @@
     <PackageReference Include="Xamarin.Forms.GoogleMaps">
       <Version>3.2.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms.RangeSlider">
-      <Version>1.0.2</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Base">
       <Version>71.1610.0</Version>
     </PackageReference>
