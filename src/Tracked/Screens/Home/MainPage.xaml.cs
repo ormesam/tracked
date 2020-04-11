@@ -23,15 +23,14 @@ namespace Tracked.Home {
         }
 
         private async void Add_Clicked(object sender, EventArgs e) {
-            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            var status = await CrossPermissions.Current.CheckPermissionStatusAsync<LocationPermission>();
 
             if (status != PermissionStatus.Granted) {
                 if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location)) {
                     await DisplayAlert("Location Required", "Location is required to record a ride", "OK");
                 }
 
-                var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-                status = results[Permission.Location];
+                status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
             }
 
             if (status == PermissionStatus.Granted) {
