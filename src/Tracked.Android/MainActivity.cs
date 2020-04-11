@@ -4,18 +4,16 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Tracked.Droid.Services;
 using OxyPlot.Xamarin.Forms.Platform.Android;
 using Plugin.CurrentActivity;
+using Tracked.Droid.Location;
 using Xamarin.Auth;
 using Xamarin.Auth.Presenters.XamarinAndroid;
 
 namespace Tracked.Droid {
     [Activity(Label = "Tracked Dev", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
-        public RideService Service { get; set; }
-        public bool Bound { get; set; }
-        public CustomServiceConnection ServiceConnection { get; set; }
+        public LocationServiceConnection LocationServiceConnection { get; private set; }
 
         protected override void OnCreate(Bundle bundle) {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -31,19 +29,18 @@ namespace Tracked.Droid {
             AuthenticationConfiguration.Init(this, bundle);
             CustomTabsConfiguration.CustomTabsClosingMessage = null;
 
-            ServiceConnection = new CustomServiceConnection { Activity = this };
-
-            if (Intent.Action == RideService.MainActivityAction) {
-                System.Diagnostics.Debug.WriteLine("Opened from ride notification");
-            }
-
             LoadApplication(new App());
         }
 
         protected override void OnStart() {
             base.OnStart();
 
-            BindService(new Intent(this, typeof(RideService)), ServiceConnection, Bind.AutoCreate);
+            if (LocationServiceConnection == null) {
+                LocationServiceConnection = new LocationServiceConnection(this);
+            }
+
+            var serviceToStart = new Intent(this, typeof(LocationService));
+            BindService(serviceToStart, LocationServiceConnection, Bind.AutoCreate);
 
             Console.WriteLine();
             Console.WriteLine("STARTED");
@@ -67,14 +64,6 @@ namespace Tracked.Droid {
         }
 
         protected override void OnStop() {
-            if (Bound) {
-                // Unbind from the service. This signals to the service that this activity is no longer
-                // in the foreground, and the service can respond by promoting itself to a foreground
-                // service.
-                UnbindService(ServiceConnection);
-                Bound = false;
-            }
-
             base.OnStop();
 
             Console.WriteLine();
