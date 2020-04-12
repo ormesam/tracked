@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Plugin.Geolocator;
 using Shared.Interfaces;
 using Tracked.Contexts;
 using Tracked.Models;
@@ -57,13 +56,6 @@ namespace Tracked.Controls {
             if (locations.Any()) {
                 centre = locations.Midpoint();
                 zoom = 15;
-            } else if (isShowingUser) {
-                var lastLocation = CrossGeolocator.Current.GetLastKnownLocationAsync().Result;
-
-                if (lastLocation != null) {
-                    centre = new LatLng(lastLocation.Latitude, lastLocation.Longitude);
-                    zoom = 15;
-                }
             }
 
             InitalCamera = CameraUpdateFactory.NewPositionZoom(new Position(centre.Latitude, centre.Longitude), zoom);

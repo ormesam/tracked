@@ -1,6 +1,7 @@
-﻿using Tracked.Dependancies;
+﻿using Plugin.CurrentActivity;
+using Tracked.Dependancies;
 using Tracked.Droid.Dependancies;
-using Plugin.CurrentActivity;
+using Tracked.Droid.Services;
 
 [assembly: Xamarin.Forms.Dependency(typeof(NativeGeoUtility))]
 namespace Tracked.Droid.Dependancies {
@@ -12,11 +13,11 @@ namespace Tracked.Droid.Dependancies {
         }
 
         public void Start() {
-            mainActivity.Service.StartForegroundService();
+            mainActivity.StartLocationUpdates();
         }
 
         public void Stop() {
-            mainActivity.Service.RemoveForegroundService();
+            mainActivity.StopLocationUpdates();
         }
     }
 }

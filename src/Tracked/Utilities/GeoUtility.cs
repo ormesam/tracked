@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Plugin.Geolocator;
-using Plugin.Geolocator.Abstractions;
 using Shared.Dtos;
 using Tracked.Dependancies;
 using Tracked.JumpDetection;
@@ -33,26 +30,9 @@ namespace Tracked.Utilities {
         private RideLocationDto lastLocation;
 
         private GeoUtility() {
-            CrossGeolocator.Current.DesiredAccuracy = 0;
-            CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
         }
 
-        private void Current_PositionChanged(object sender, PositionEventArgs e) {
-            var position = e.Position;
-
-            if (position.Accuracy > 20) {
-                return;
-            }
-
-            var location = new RideLocationDto {
-                Timestamp = position.Timestamp.UtcDateTime,
-                Latitude = position.Latitude,
-                Longitude = position.Longitude,
-                AccuracyInMetres = position.Accuracy,
-                SpeedMetresPerSecond = position.Speed,
-                Altitude = position.Altitude,
-            };
-
+        public void AddLocation(RideLocationDto location) {
             lastLocation = location;
 
             LocationChanged?.Invoke(new LocationChangedEventArgs {
@@ -60,24 +40,12 @@ namespace Tracked.Utilities {
             });
         }
 
-        public async Task Start() {
+        public void Start() {
             DependencyService.Get<INativeGeoUtility>().Start();
-
-            var listenerSettings = new ListenerSettings {
-                ActivityType = ActivityType.Fitness,
-                AllowBackgroundUpdates = true,
-                DeferLocationUpdates = false,
-                ListenForSignificantChanges = false,
-                PauseLocationUpdatesAutomatically = false,
-            };
-
-            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 1, false, listenerSettings);
         }
 
-        public async Task Stop() {
+        public void Stop() {
             DependencyService.Get<INativeGeoUtility>().Stop();
-
-            await CrossGeolocator.Current.StopListeningAsync();
 
             lastLocation = null;
         }
