@@ -31,7 +31,7 @@ namespace Tracked.Utilities {
             AccelerometerUtility.Instance.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
 
-            await GeoUtility.Instance.Start();
+            GeoUtility.Instance.Start();
 
             if (detectJumps) {
                 await AccelerometerUtility.Instance.Start();
@@ -41,7 +41,7 @@ namespace Tracked.Utilities {
         public async Task StopRide() {
             Ride.EndUtc = DateTime.UtcNow;
 
-            await GeoUtility.Instance.Stop();
+            GeoUtility.Instance.Stop();
             await AccelerometerUtility.Instance.Stop();
 
 

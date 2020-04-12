@@ -71,6 +71,12 @@ namespace Tracked.Droid {
             Console.WriteLine();
         }
 
+        protected override void OnDestroy() {
+            base.OnDestroy();
+
+            UnbindService(LocationServiceConnection);
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults) {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);

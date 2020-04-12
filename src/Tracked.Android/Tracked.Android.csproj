@@ -84,9 +84,6 @@
     <PackageReference Include="Plugin.Permissions">
       <Version>6.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Xam.Plugin.Geolocator">
-      <Version>4.5.0.6</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.617" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
@@ -119,7 +116,6 @@
     <Compile Include="Dependancies\Toast.cs" />
     <Compile Include="Location\LocationBinder.cs" />
     <Compile Include="Location\LocationServiceConnection.cs" />
-    <Compile Include="Location\LocationUpdater.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\ExtendedListViewRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
