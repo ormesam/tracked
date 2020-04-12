@@ -3,7 +3,7 @@ using Tracked.Contexts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Tracked.Screens.Review {
+namespace Tracked.Screens.Record {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RecordScreen : ContentPage {
         public RecordScreen(MainContext context) {

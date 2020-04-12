@@ -66,7 +66,7 @@
     <EmbeddedResource Update="Screens\Review\MapScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Review\RecordScreen.xaml">
+    <EmbeddedResource Update="Screens\Record\RecordScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Review\RideReviewScreen.xaml">

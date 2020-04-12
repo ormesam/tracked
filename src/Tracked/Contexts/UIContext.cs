@@ -8,6 +8,7 @@ using Tracked.Home;
 using Tracked.Models;
 using Tracked.Screens.Achievements;
 using Tracked.Screens.Bluetooth;
+using Tracked.Screens.Record;
 using Tracked.Screens.Review;
 using Tracked.Screens.SegmentAttempt;
 using Tracked.Screens.Segments;

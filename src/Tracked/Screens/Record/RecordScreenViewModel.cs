@@ -6,7 +6,7 @@ using Tracked.Controls;
 using Tracked.Models;
 using Tracked.Utilities;
 
-namespace Tracked.Screens.Review {
+namespace Tracked.Screens.Record {
     public class RecordScreenViewModel : ViewModelBase {
         private readonly RideRecorder rideController;
         private bool isRunning;
