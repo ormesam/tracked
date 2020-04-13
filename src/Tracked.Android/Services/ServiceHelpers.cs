@@ -11,10 +11,10 @@ namespace Tracked.Droid.Services {
             context.LocationServiceConnection.Binder.LocationService.StartLocationUpdates();
         }
 
-        public static void StopLocationUpdates(this MainActivity context, Bundle args = null) {
+        public static void StopLocationUpdates(this MainActivity context) {
             context.LocationServiceConnection.Binder.LocationService.StopLocationUpdates();
-
-            context.StopForegroundServiceCompat<LocationService>(args);
+            context.LocationServiceConnection.Binder.LocationService.StopForeground(true);
+            context.LocationServiceConnection.Binder.LocationService.StopService(new Intent(context, typeof(LocationService)));
         }
 
         public static void StartForegroundServiceCompat<T>(this Context context, Bundle args = null) where T : Service {
@@ -29,16 +29,6 @@ namespace Tracked.Droid.Services {
             } else {
                 context.StartService(intent);
             }
-        }
-
-        public static void StopForegroundServiceCompat<T>(this Context context, Bundle args = null) where T : Service {
-            var intent = new Intent(context, typeof(T));
-
-            if (args != null) {
-                intent.PutExtras(args);
-            }
-
-            context.StopService(intent);
         }
     }
 }

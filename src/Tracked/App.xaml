@@ -5,8 +5,13 @@
     x:Class="Tracked.App"
     xmlns:converters="clr-namespace:Tracked.Converters">
     <Application.Resources>
+        <converters:BoolToGpsColourConverter
+            x:Key="BoolToGpsColourConverter" />
         <converters:InvertBoolConverter
             x:Key="InvertBoolConverter" />
+        <converters:AccelerometerStatusToColourConverter
+            x:Key="AccelerometerStatusToColourConverter" />
+
         <Color
             x:Key="DefaultBackgroundColour">
             #080870

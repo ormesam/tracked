@@ -26,7 +26,7 @@ namespace Tracked.Droid.Location {
             locationManager = (LocationManager)GetSystemService(LocationService);
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O) {
-                NotificationChannel mChannel = new NotificationChannel(channelId, Tag, NotificationImportance.High);
+                NotificationChannel mChannel = new NotificationChannel(channelId, Tag, NotificationImportance.Default);
                 notificationManager.CreateNotificationChannel(mChannel);
             }
         }
@@ -72,8 +72,6 @@ namespace Tracked.Droid.Location {
         }
 
         public void OnLocationChanged(Android.Locations.Location location) {
-            System.Diagnostics.Debug.WriteLine(location);
-
             if (location.Accuracy > 20) {
                 return;
             }

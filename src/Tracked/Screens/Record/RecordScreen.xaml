@@ -6,22 +6,35 @@
     x:Class="Tracked.Screens.Record.RecordScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <Grid>
+        <Grid
+            RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition
-                    Height="*" />
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
                 <RowDefinition
                     Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid
-                IsVisible="{Binding IsReady}">
-                <controls:MapControl
-                    BindingContext="{Binding MapViewModel}" />
-            </Grid>
+            <Label
+                HorizontalTextAlignment="Center"
+                TextColor="White"
+                BackgroundColor="{Binding HasAcquiredGpsSignal, Converter={StaticResource BoolToGpsColourConverter}}"
+                Padding="5"
+                Text="{Binding GpsSignalMessage}" />
+
+            <Label
+                Grid.Row="1"
+                HorizontalTextAlignment="Center"
+                TextColor="White"
+                IsVisible="{Binding IsAccelerometerRequired}"
+                BackgroundColor="{Binding AccelerometerStatus, Converter={StaticResource AccelerometerStatusToColourConverter}}"
+                Padding="5"
+                Text="{Binding AccelerometerMessage}" />
 
             <StackLayout
-                Grid.Row="1"
+                Grid.Row="2"
                 IsVisible="{Binding IsReady}">
                 <Button
                     Text="Start"
@@ -36,14 +49,6 @@
                     BackgroundColor="Orange"
                     TextColor="White" />
             </StackLayout>
-            
-            <Label
-                Grid.RowSpan="2"
-                IsVisible="{Binding IsReady, Converter={StaticResource InvertBoolConverter}}"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                BackgroundColor="Default"
-                Text="{Binding ReadyText}" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

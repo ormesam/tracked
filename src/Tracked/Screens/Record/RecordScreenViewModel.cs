@@ -1,37 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tracked.Accelerometer;
 using Tracked.Contexts;
-using Tracked.Controls;
 using Tracked.Models;
 using Tracked.Utilities;
 
 namespace Tracked.Screens.Record {
     public class RecordScreenViewModel : ViewModelBase {
         private readonly RideRecorder rideController;
-        private bool isRunning;
-        private bool hasRan;
 
-        public MapControlViewModel MapViewModel { get; }
-
+        private RecordStatus status;
         private AccelerometerStatus accelerometerStatus;
+        private bool hasAcquiredGpsSignal;
 
         public RecordScreenViewModel(MainContext context) : base(context) {
             rideController = new RideRecorder(Context);
             accelerometerStatus = AccelerometerUtility.Instance.Status;
-            isRunning = false;
-            hasRan = false;
-
-            MapViewModel = new MapControlViewModel(
-                context,
-                Title,
-                new List<MapLocation>(),
-                isReadOnly: false,
-                showRideFeatures: false,
-                isShowingUser: true,
-                goToMapPageOnClick: false);
+            status = RecordStatus.NotStarted;
 
             AccelerometerUtility.Instance.StatusChanged += BleAccelerometerUtility_StatusChanged;
+            GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
+        }
+
+        private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {
+            if (e.Location.AccuracyInMetres < 20) {
+                GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
+                HasAcquiredGpsSignal = true;
+            }
         }
 
         private void BleAccelerometerUtility_StatusChanged(AccelerometerStatusChangedEventArgs e) {
@@ -44,16 +38,29 @@ namespace Tracked.Screens.Record {
                 if (accelerometerStatus != value) {
                     accelerometerStatus = value;
                     OnPropertyChanged(nameof(AccelerometerStatus));
-                    OnPropertyChanged(nameof(ReadyText));
+                    OnPropertyChanged(nameof(AccelerometerMessage));
                     OnPropertyChanged(nameof(IsReady));
                     OnPropertyChanged(nameof(CanSeeStartButton));
                 }
             }
         }
 
-        public bool IsReady => Context.Settings.DetectJumps ? AccelerometerStatus == AccelerometerStatus.Ready : true;
+        public bool HasAcquiredGpsSignal {
+            get { return hasAcquiredGpsSignal; }
+            set {
+                if (hasAcquiredGpsSignal != value) {
+                    hasAcquiredGpsSignal = value;
+                    OnPropertyChanged(nameof(HasAcquiredGpsSignal));
+                    OnPropertyChanged(nameof(GpsSignalMessage));
+                }
+            }
+        }
 
-        public string ReadyText {
+        public string GpsSignalMessage => HasAcquiredGpsSignal ? "GPS Acquired" : "Acquiring GPS";
+
+        public bool IsAccelerometerRequired => Context.Settings.DetectJumps;
+
+        public string AccelerometerMessage {
             get {
                 switch (AccelerometerStatus) {
                     case AccelerometerStatus.NotConnected:
@@ -61,43 +68,37 @@ namespace Tracked.Screens.Record {
                     case AccelerometerStatus.NotReady:
                         return "Connecting to accelerometer...";
                     default:
-                        return "Connected";
+                        return "Connected to accelerometer";
                 }
             }
         }
 
-        public bool IsRunning {
-            get { return isRunning; }
+        public bool IsReady => HasAcquiredGpsSignal && IsAccelerometerRequired ? AccelerometerStatus == AccelerometerStatus.Ready : true;
+
+        public RecordStatus Status {
+            get { return status; }
             set {
-                if (isRunning != value) {
-                    isRunning = value;
-                    OnPropertyChanged(nameof(IsRunning));
+                if (status != value) {
+                    status = value;
+                    OnPropertyChanged(nameof(Status));
                     OnPropertyChanged(nameof(CanSeeStartButton));
                 }
             }
         }
 
-        public bool HasRan {
-            get { return hasRan; }
-            set {
-                if (hasRan != value) {
-                    hasRan = value;
-                    OnPropertyChanged(nameof(HasRan));
-                    OnPropertyChanged(nameof(CanSeeStartButton));
-                }
-            }
-        }
-
-        public bool CanSeeStartButton => IsReady && !IsRunning && !HasRan;
+        public bool CanSeeStartButton => IsReady && Status == RecordStatus.NotStarted;
 
         public async Task Start() {
-            IsRunning = true;
-            HasRan = false;
+            Status = RecordStatus.Running;
+
             await rideController.StartRide();
         }
 
         public async Task Stop() {
             await rideController.StopRide();
+            GeoUtility.Instance.Stop();
+
+            Status = RecordStatus.Complete;
         }
     }
 }

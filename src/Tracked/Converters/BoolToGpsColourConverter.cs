@@ -3,10 +3,10 @@ using System.Globalization;
 using Xamarin.Forms;
 
 namespace Tracked.Converters {
-    public class InvertBoolConverter : IValueConverter {
+    public class BoolToGpsColourConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value is bool boolValue) {
-                return !boolValue;
+                return boolValue ? Color.FromHex("#00b300") : Color.FromHex("#ffa500");
             }
 
             return null;

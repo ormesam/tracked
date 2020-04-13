@@ -27,12 +27,15 @@ namespace Tracked.Utilities {
 
         public event LocationChangedEventHandler LocationChanged;
 
+        private bool isRunning;
         private RideLocationDto lastLocation;
 
         private GeoUtility() {
         }
 
         public void AddLocation(RideLocationDto location) {
+            System.Diagnostics.Debug.WriteLine(location);
+
             lastLocation = location;
 
             LocationChanged?.Invoke(new LocationChangedEventArgs {
@@ -41,12 +44,23 @@ namespace Tracked.Utilities {
         }
 
         public void Start() {
+            if (isRunning) {
+                return;
+            }
+
+            isRunning = true;
+
             DependencyService.Get<INativeGeoUtility>().Start();
         }
 
         public void Stop() {
+            if (!isRunning) {
+                return;
+            }
+
             DependencyService.Get<INativeGeoUtility>().Stop();
 
+            isRunning = false;
             lastLocation = null;
         }
 
