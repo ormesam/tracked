@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Timers;
 using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.Models;
@@ -7,6 +9,8 @@ using Tracked.Utilities;
 namespace Tracked.Screens.Record {
     public class RecordScreenViewModel : ViewModelBase {
         private readonly RideRecorder rideController;
+        private readonly Stopwatch stopWatch;
+        private readonly Timer timer;
 
         private RecordStatus status;
         private AccelerometerStatus accelerometerStatus;
@@ -16,9 +20,17 @@ namespace Tracked.Screens.Record {
             rideController = new RideRecorder(Context);
             accelerometerStatus = AccelerometerUtility.Instance.Status;
             status = RecordStatus.NotStarted;
+            stopWatch = new Stopwatch();
+            timer = new Timer();
+            timer.Elapsed += Timer_Elapsed;
+            timer.Interval = 1000;
 
             AccelerometerUtility.Instance.StatusChanged += BleAccelerometerUtility_StatusChanged;
             GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e) {
+            OnPropertyChanged(nameof(TimerDisplay));
         }
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {
@@ -39,8 +51,7 @@ namespace Tracked.Screens.Record {
                     accelerometerStatus = value;
                     OnPropertyChanged(nameof(AccelerometerStatus));
                     OnPropertyChanged(nameof(AccelerometerMessage));
-                    OnPropertyChanged(nameof(IsReady));
-                    OnPropertyChanged(nameof(CanSeeStartButton));
+                    OnPropertyChanged(nameof(CanStart));
                 }
             }
         }
@@ -52,6 +63,7 @@ namespace Tracked.Screens.Record {
                     hasAcquiredGpsSignal = value;
                     OnPropertyChanged(nameof(HasAcquiredGpsSignal));
                     OnPropertyChanged(nameof(GpsSignalMessage));
+                    OnPropertyChanged(nameof(CanStart));
                 }
             }
         }
@@ -73,7 +85,25 @@ namespace Tracked.Screens.Record {
             }
         }
 
-        public bool IsReady => HasAcquiredGpsSignal && IsAccelerometerRequired ? AccelerometerStatus == AccelerometerStatus.Ready : true;
+        public string TimerDisplay {
+            get {
+                if (!stopWatch.IsRunning) {
+                    return "--:--:--";
+                }
+
+                return stopWatch.Elapsed.ToString(@"hh\:mm\:ss");
+            }
+        }
+
+        public bool CanStart => HasAcquiredGpsSignal &&
+            (IsAccelerometerRequired ? AccelerometerStatus == AccelerometerStatus.Ready : true) &&
+            Status == RecordStatus.NotStarted;
+
+        public bool CanStop => Status == RecordStatus.Running;
+
+        public bool ShowNotifications => Status == RecordStatus.NotStarted;
+
+        public bool ShowAccelerometerNotification => ShowNotifications && IsAccelerometerRequired;
 
         public RecordStatus Status {
             get { return status; }
@@ -81,20 +111,27 @@ namespace Tracked.Screens.Record {
                 if (status != value) {
                     status = value;
                     OnPropertyChanged(nameof(Status));
-                    OnPropertyChanged(nameof(CanSeeStartButton));
+                    OnPropertyChanged(nameof(CanStart));
+                    OnPropertyChanged(nameof(CanStop));
+                    OnPropertyChanged(nameof(ShowNotifications));
+                    OnPropertyChanged(nameof(ShowAccelerometerNotification));
                 }
             }
         }
 
-        public bool CanSeeStartButton => IsReady && Status == RecordStatus.NotStarted;
-
         public async Task Start() {
             Status = RecordStatus.Running;
+
+            stopWatch.Start();
+            timer.Start();
 
             await rideController.StartRide();
         }
 
         public async Task Stop() {
+            stopWatch.Stop();
+            timer.Stop();
+
             await rideController.StopRide();
             GeoUtility.Instance.Stop();
 
