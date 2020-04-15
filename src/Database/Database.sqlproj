@@ -60,6 +60,7 @@
     <Folder Include="Create\Tables" />
     <Folder Include="Upgrades" />
     <Folder Include="Upgrades\2020-03-10" />
+    <Folder Include="Upgrades\2020-04-15" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\User.sql" />
@@ -73,6 +74,7 @@
     <None Include="Create\Tables\SpeedAchievement.sql" />
     <None Include="Create\Tables\UserJumpAchievement.sql" />
     <None Include="Create\Tables\JumpAchievement.sql" />
+    <None Include="Upgrades\2020-04-15\Upgrade.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\DropAndRecreateAll.bat" />
