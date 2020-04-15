@@ -14,7 +14,7 @@ namespace Shared.Dtos {
         public double Mph => SpeedMetresPerSecond * 2.23694;
 
         public override string ToString() {
-            return $"{Timestamp}: Lat: {Latitude}, Lon: {Longitude}, Mph: {Mph}";
+            return $"{Timestamp}: Lat: {Latitude}, Lon: {Longitude}, Mph: {Mph}, Accuracy: {AccuracyInMetres}";
         }
     }
 }

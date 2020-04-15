@@ -38,11 +38,6 @@ namespace Tracked.Utilities {
             }
         }
 
-        public void PauseRide() {
-            AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
-            GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
-        }
-
         public async Task StopRide() {
             AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
@@ -68,7 +63,6 @@ namespace Tracked.Utilities {
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {
             Ride.Locations.Add(e.Location);
-            Debug.WriteLine(e.Location);
         }
     }
 }
