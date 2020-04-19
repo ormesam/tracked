@@ -8,25 +8,18 @@ using Tracked.Models;
 using Tracked.Screens;
 using Tracked.Utilities;
 using Xamarin.Forms;
-using Xamarin.Forms.GoogleMaps;
+using Xamarin.Forms.Maps;
 
 namespace Tracked.Controls {
     public class MapControlViewModel : ViewModelBase {
         private readonly bool goToMapPageOnClick;
         private readonly string title;
-        private readonly bool isReadOnly;
-        private readonly bool isShowingUser;
-
-        private Map map;
+        public readonly bool isReadOnly;
+        private readonly bool showRideFeatures;
+        private CustomMap map;
         private MapType mapType;
 
         public event EventHandler<MapClickedEventArgs> MapTapped;
-
-        public bool ShowRideFeatures { get; }
-        public bool CanChangeMapType { get; }
-        public CameraUpdate InitalCamera { get; }
-        public IList<MapLocation> Locations { get; }
-        public override string Title => title;
 
         public MapControlViewModel(
             MainContext context,
@@ -34,7 +27,6 @@ namespace Tracked.Controls {
             IList<MapLocation> locations,
             bool isReadOnly = true,
             bool showRideFeatures = true,
-            bool isShowingUser = false,
             bool goToMapPageOnClick = true,
             MapType mapType = MapType.Street,
             bool canChangeMapType = false)
@@ -43,23 +35,39 @@ namespace Tracked.Controls {
             this.title = title;
             this.goToMapPageOnClick = goToMapPageOnClick;
             this.isReadOnly = isReadOnly;
-            this.isShowingUser = isShowingUser;
 
             Locations = locations;
-            ShowRideFeatures = showRideFeatures;
+            this.showRideFeatures = showRideFeatures;
             MapType = mapType;
             CanChangeMapType = canChangeMapType;
+        }
 
-            ILatLng centre = new LatLng(57.1499749, -2.1950675);
-            double zoom = 10;
+        public CustomMap CreateMap() {
+            Position centre = new Position(57.1499749, -2.1950675);
 
-            if (locations.Any()) {
-                centre = locations.Midpoint();
-                zoom = 15;
+            if (Locations.Any()) {
+                var midPoint = Locations.Midpoint();
+                centre = new Position(midPoint.Latitude, midPoint.Longitude);
             }
 
-            InitalCamera = CameraUpdateFactory.NewPositionZoom(new Position(centre.Latitude, centre.Longitude), zoom);
+            map = new CustomMap(MapSpan.FromCenterAndRadius(centre, Distance.FromMiles(.5)), isReadOnly);
+            map.IsShowingUser = false;
+            map.SetBinding(Map.MapTypeProperty, nameof(MapType), BindingMode.TwoWay);
+            map.InputTransparent = isReadOnly;
+            map.MapClicked += (s, e) => {
+                if (!goToMapPageOnClick) {
+                    MapTapped?.Invoke(null, e);
+                }
+            };
+
+            CreatePolylinesFromLocations();
+
+            return map;
         }
+
+        public bool CanChangeMapType { get; }
+        public IList<MapLocation> Locations { get; }
+        public override string Title => title;
 
         public MapType MapType {
             get { return mapType; }
@@ -71,23 +79,9 @@ namespace Tracked.Controls {
             }
         }
 
+        public bool CanMove => !isReadOnly;
+
         public IEnumerable<MapType> MapTypes => (IEnumerable<MapType>)Enum.GetValues(typeof(MapType));
-
-        public void Init(Map map) {
-            // set up readonly properties here so we can access the ui settings
-            this.map = map;
-
-            this.map.UiSettings.CompassEnabled = !isReadOnly;
-            this.map.MyLocationEnabled = isShowingUser;
-            this.map.UiSettings.MyLocationButtonEnabled = isShowingUser;
-            this.map.UiSettings.RotateGesturesEnabled = !isReadOnly;
-            this.map.UiSettings.ScrollGesturesEnabled = !isReadOnly;
-            this.map.UiSettings.TiltGesturesEnabled = !isReadOnly;
-            this.map.UiSettings.ZoomControlsEnabled = !isReadOnly;
-            this.map.UiSettings.ZoomGesturesEnabled = !isReadOnly;
-
-            CreatePolylinesFromLocations();
-        }
 
         private void CreatePolylinesFromLocations() {
             if (Locations.Count <= 1) {
@@ -95,7 +89,7 @@ namespace Tracked.Controls {
             }
 
             // Only need one line if no colours are involved
-            if (!ShowRideFeatures) {
+            if (!showRideFeatures) {
                 AddPolyLine(Locations.Cast<ILatLng>().ToList(), Color.Blue);
 
                 return;
@@ -108,7 +102,7 @@ namespace Tracked.Controls {
             };
 
             for (int i = 1; i < Locations.Count; i++) {
-                var colour = ShowRideFeatures ? GetMaxSpeedColour(Locations[i].Mph, maxSpeed) : Color.Blue;
+                var colour = showRideFeatures ? GetMaxSpeedColour(Locations[i].Mph, maxSpeed) : Color.Blue;
 
                 if (colour != lastColour) {
                     AddPolyLine(polylineLocations, lastColour);
@@ -138,27 +132,19 @@ namespace Tracked.Controls {
             AddPolyLine(polylineLocations, lastColour);
         }
 
-        public async Task OnMapClicked(MapClickedEventArgs args) {
-            if (goToMapPageOnClick) {
-                await GoToMapScreenAsync();
-            } else {
-                MapTapped?.Invoke(null, args);
-            }
-        }
-
         private async Task GoToMapScreenAsync() {
             if (!goToMapPageOnClick) {
                 return;
             }
 
-            await Context.UI.GoToMapScreenAsync(title, Locations, ShowRideFeatures);
+            await Context.UI.GoToMapScreenAsync(title, Locations, showRideFeatures);
         }
 
         private void AddMaxSpeedPin(MapLocation location, bool hasMultiplePins) {
-            Pin pin = new Pin {
+            Pin pin = new CustomMapPin {
                 Position = new Position(location.Latitude, location.Longitude),
                 Label = Math.Round(location.Mph, 1) + " mi/h",
-                Icon = BitmapDescriptorFactory.FromBundle("speed_icon.png"),
+                IsSpeedPin = true,
                 Rotation = hasMultiplePins ? 330 : 0,
             };
 
@@ -166,10 +152,10 @@ namespace Tracked.Controls {
         }
 
         private void AddJumpPin(MapLocation location, bool hasMultiplePins) {
-            Pin pin = new Pin {
+            Pin pin = new CustomMapPin {
                 Position = new Position(location.Latitude, location.Longitude),
                 Label = Math.Round(location.Jump.Airtime, 3) + "s",
-                Icon = BitmapDescriptorFactory.FromBundle("jump_icon.png"),
+                IsJumpPin = true,
                 Rotation = hasMultiplePins ? 30 : 0,
             };
 
@@ -184,13 +170,13 @@ namespace Tracked.Controls {
             Polyline polyline = new Polyline();
 
             foreach (var latLng in latLngs) {
-                polyline.Positions.Add(new Position(latLng.Latitude, latLng.Longitude));
+                polyline.Geopath.Add(new Position(latLng.Latitude, latLng.Longitude));
             }
 
             polyline.StrokeColor = colour;
-            polyline.StrokeWidth = 3f;
+            polyline.StrokeWidth = 10f;
 
-            map.Polylines.Add(polyline);
+            map.MapElements.Add(polyline);
         }
 
         private Color GetMaxSpeedColour(double mph, double maxSpeed) {
@@ -236,6 +222,12 @@ namespace Tracked.Controls {
             }
 
             return Color.FromHex("#63BE7B");
+        }
+
+        public async Task OnMappedTapped(object sender, EventArgs e) {
+            if (goToMapPageOnClick) {
+                await GoToMapScreenAsync();
+            }
         }
     }
 }

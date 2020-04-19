@@ -2,7 +2,7 @@
 <ContentView 
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     x:Class="Tracked.Controls.MapControl">
     <ContentView.Content>
         <Grid>
@@ -15,11 +15,13 @@
                 ItemsSource="{Binding MapTypes}"
                 SelectedItem="{Binding MapType, Mode=TwoWay}" />
 
-            <maps:Map
-                x:Name="map"
-                InitialCameraUpdate="{Binding InitalCamera}"
-                MapClicked="Map_MapClicked"
-                MapType="{Binding MapType, Mode=TwoWay}" />
+            <Grid
+                x:Name="MapContainer">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="Map_Tapped" />
+                </Grid.GestureRecognizers>
+            </Grid>
 
             <ImageButton
                 IsVisible="{Binding CanChangeMapType}"

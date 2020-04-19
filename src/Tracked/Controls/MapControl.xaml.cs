@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using Xamarin.Forms;
-using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.Xaml;
 
 namespace Tracked.Controls {
@@ -15,15 +15,21 @@ namespace Tracked.Controls {
         public MapControlViewModel ViewModel => BindingContext as MapControlViewModel;
 
         private void MapControl_LayoutChanged(object sender, EventArgs e) {
-            ViewModel.Init(map);
-        }
+            Device.BeginInvokeOnMainThread(() => {
+                if (MapContainer.Children.Any()) {
+                    return;
+                }
 
-        private async void Map_MapClicked(object sender, MapClickedEventArgs e) {
-            await ViewModel.OnMapClicked(e);
+                MapContainer.Children.Add(ViewModel.CreateMap());
+            });
         }
 
         private void ChangeLayer_Pressed(object sender, EventArgs e) {
             picker.Focus();
+        }
+
+        private async void Map_Tapped(object sender, EventArgs e) {
+            await ViewModel.OnMappedTapped(sender, e);
         }
     }
 }

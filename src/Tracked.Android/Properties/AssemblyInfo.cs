@@ -44,7 +44,7 @@ using Shared;
 [assembly: UsesPermission(Android.Manifest.Permission.AccessWifiState)]
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
 
-[assembly: MetaData("com.google.android.maps.v2.API_KEY", Value = Constants.GoogleMapsApiKey)]
+[assembly: MetaData("com.google.android.geo.API_KEY", Value = Constants.GoogleMapsApiKey)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 
 [assembly: Application(UsesCleartextTraffic = true)]

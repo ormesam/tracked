@@ -6,7 +6,7 @@ using Tracked.Controls;
 using Tracked.Models;
 using Tracked.Utilities;
 using Xamarin.Forms;
-using Xamarin.Forms.GoogleMaps;
+using Xamarin.Forms.Maps;
 
 namespace Tracked.Screens.Segments {
     public class CreateSegmentScreenViewModel : ViewModelBase {
@@ -30,7 +30,6 @@ namespace Tracked.Screens.Segments {
                 ride != null ? PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps) : new List<MapLocation>(),
                 isReadOnly: false,
                 showRideFeatures: false,
-                isShowingUser: false,
                 goToMapPageOnClick: false,
                 mapType: MapType.Satellite,
                 canChangeMapType: true);
@@ -39,7 +38,7 @@ namespace Tracked.Screens.Segments {
         }
 
         private void MapViewModel_MapTapped(object sender, MapClickedEventArgs e) {
-            AddPin(e.Point.Latitude, e.Point.Longitude);
+            AddPin(e.Position.Latitude, e.Position.Longitude);
         }
 
         public string Name {

@@ -11,7 +11,6 @@ namespace Tracked.Screens.Review {
                 locations,
                 isReadOnly: false,
                 showRideFeatures: showRideFeatures,
-                isShowingUser: false,
                 goToMapPageOnClick: false,
                 canChangeMapType: true) {
         }

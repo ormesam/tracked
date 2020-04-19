@@ -24,7 +24,7 @@ namespace Tracked.Droid {
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            Xamarin.FormsGoogleMaps.Init(this, bundle);
+            Xamarin.FormsMaps.Init(this, bundle);
             PlotViewRenderer.Init();
             AuthenticationConfiguration.Init(this, bundle);
             CustomTabsConfiguration.CustomTabsClosingMessage = null;
