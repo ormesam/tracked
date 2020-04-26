@@ -3,12 +3,12 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Tracked.Accelerometer;
-using Tracked.Contexts;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Exceptions;
+using Tracked.Accelerometer;
+using Tracked.Contexts;
 
 namespace Tracked.Screens.Bluetooth {
     public class BluetoothSetupScreenViewModel : ViewModelBase {
@@ -59,12 +59,6 @@ namespace Tracked.Screens.Bluetooth {
             OnPropertyChanged();
         }
 
-        private void Characteristic_ValueUpdated(object sender, CharacteristicUpdatedEventArgs e) {
-            var temp = e.Characteristic.StringValue;
-
-            Debug.WriteLine(DateTime.Now + " - " + temp);
-        }
-
         private void Ble_StateChanged(object sender, BluetoothStateChangedArgs e) {
             OnPropertyChanged();
         }
@@ -86,6 +80,9 @@ namespace Tracked.Screens.Bluetooth {
                 IsScanning = false;
 
                 await adapter.ConnectToDeviceAsync(device);
+
+                Context.Settings.BluetoothDeviceId = device.Id;
+                await Context.Storage.SaveSettings(Context.Settings);
 
                 DevicesFound.Clear();
             } catch (DeviceConnectionException e) {

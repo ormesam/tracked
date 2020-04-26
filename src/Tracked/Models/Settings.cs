@@ -8,6 +8,8 @@ namespace Tracked.Models {
         public Guid? Id { get; set; }
         [JsonProperty]
         public bool DetectJumps { get; set; }
+        [JsonProperty]
+        public Guid BluetoothDeviceId { get; set; }
 
         public void ResetDefaults() {
             DetectJumps = true;
