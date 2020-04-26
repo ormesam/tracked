@@ -79,8 +79,8 @@ namespace Tracked.Screens.Record {
                     AccelerometerStatus.BluetoothTurnedOff => "Bluetooth not turned on",
                     AccelerometerStatus.BluetoothTurningOn => "Bluetooth turning on...",
                     AccelerometerStatus.NotConnected => "No accelerometer connected",
-                    AccelerometerStatus.NotReady => "Connecting to accelerometer...",
-                    AccelerometerStatus.Ready => "Connected to accelerometer",
+                    AccelerometerStatus.Connecting => "Connecting to accelerometer...",
+                    AccelerometerStatus.Connected => "Connected to accelerometer",
                     _ => null,
                 };
             }
@@ -97,7 +97,7 @@ namespace Tracked.Screens.Record {
         }
 
         public bool CanStart => HasAcquiredGpsSignal &&
-            (IsAccelerometerRequired ? AccelerometerStatus == AccelerometerStatus.Ready : true) &&
+            (IsAccelerometerRequired ? AccelerometerStatus == AccelerometerStatus.Connected : true) &&
             Status == RecordStatus.NotStarted;
 
         public bool CanStop => Status == RecordStatus.Running;

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
+using Plugin.BLE.Abstractions.Exceptions;
 using Shared.Dtos;
 
 namespace Tracked.Accelerometer {
@@ -42,6 +43,8 @@ namespace Tracked.Accelerometer {
             adapter.DeviceDisconnected += Adapter_DeviceDisconnected;
 
             ble.StateChanged += Ble_StateChanged;
+
+            status = ble.IsOn ? AccelerometerStatus.NotConnected : AccelerometerStatus.BluetoothTurnedOff;
         }
 
         private void Ble_StateChanged(object sender, BluetoothStateChangedArgs e) {
@@ -118,16 +121,30 @@ namespace Tracked.Accelerometer {
                 characteristic = characteristics.First();
                 characteristic.ValueUpdated += Characteristic_ValueUpdated;
 
-                Status = AccelerometerStatus.Ready;
+                Status = AccelerometerStatus.Connected;
             };
 
-            Status = AccelerometerStatus.NotReady;
+            Status = AccelerometerStatus.Connecting;
 
             device.DiscoverServices();
         }
 
         private void Adapter_DeviceDisconnected(object sender, DeviceEventArgs e) {
             Status = AccelerometerStatus.NotConnected;
+        }
+
+        public async Task TryConnect(Guid? id) {
+            if (Status != AccelerometerStatus.NotConnected || id == null) {
+                return;
+            }
+
+            Status = AccelerometerStatus.Connecting;
+
+            try {
+                await adapter.ConnectToKnownDeviceAsync(id.Value);
+            } catch (DeviceConnectionException) {
+                Status = AccelerometerStatus.NotConnected;
+            }
         }
 
         public async Task Start() {
@@ -153,7 +170,7 @@ namespace Tracked.Accelerometer {
             await Stop();
 
             if (characteristic != null) {
-                Status = AccelerometerStatus.NotReady;
+                Status = AccelerometerStatus.Connecting;
                 characteristic.ValueUpdated -= Characteristic_ValueUpdated;
                 characteristic = null;
             }

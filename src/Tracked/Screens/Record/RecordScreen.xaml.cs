@@ -1,4 +1,5 @@
 ﻿using System;
+using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.Models;
 using Tracked.Utilities;
@@ -15,10 +16,14 @@ namespace Tracked.Screens.Record {
 
         public RecordScreenViewModel ViewModel => BindingContext as RecordScreenViewModel;
 
-        protected override void OnAppearing() {
+        protected override async void OnAppearing() {
             base.OnAppearing();
 
             GeoUtility.Instance.Start();
+
+            if (ViewModel.IsAccelerometerRequired) {
+                await AccelerometerUtility.Instance.TryConnect(ViewModel.Context.Settings.BluetoothDeviceId);
+            }
         }
 
         protected override void OnDisappearing() {

@@ -3,7 +3,7 @@
         BluetoothTurnedOff,
         BluetoothTurningOn,
         NotConnected,
-        NotReady,
-        Ready,
+        Connecting,
+        Connected,
     }
 }
