@@ -9,6 +9,8 @@ namespace Tracked.Converters {
             if (value is AccelerometerStatus status) {
                 switch (status) {
                     case AccelerometerStatus.NotConnected:
+                    case AccelerometerStatus.BluetoothTurnedOff:
+                    case AccelerometerStatus.BluetoothTurningOn:
                         return Color.FromHex("#FF0000");
                     case AccelerometerStatus.NotReady:
                         return Color.FromHex("#ffa500");

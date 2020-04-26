@@ -74,14 +74,15 @@ namespace Tracked.Screens.Record {
 
         public string AccelerometerMessage {
             get {
-                switch (AccelerometerStatus) {
-                    case AccelerometerStatus.NotConnected:
-                        return "No accelerometer connected";
-                    case AccelerometerStatus.NotReady:
-                        return "Connecting to accelerometer...";
-                    default:
-                        return "Connected to accelerometer";
-                }
+                return AccelerometerStatus switch
+                {
+                    AccelerometerStatus.BluetoothTurnedOff => "Bluetooth not turned on",
+                    AccelerometerStatus.BluetoothTurningOn => "Bluetooth turning on...",
+                    AccelerometerStatus.NotConnected => "No accelerometer connected",
+                    AccelerometerStatus.NotReady => "Connecting to accelerometer...",
+                    AccelerometerStatus.Ready => "Connected to accelerometer",
+                    _ => null,
+                };
             }
         }
 

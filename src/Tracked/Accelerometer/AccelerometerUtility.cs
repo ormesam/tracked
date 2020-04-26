@@ -27,6 +27,7 @@ namespace Tracked.Accelerometer {
 
         #endregion
 
+        private readonly IBluetoothLE ble = CrossBluetoothLE.Current;
         private readonly IAdapter adapter = CrossBluetoothLE.Current.Adapter;
 
         private ICharacteristic characteristic;
@@ -34,10 +35,22 @@ namespace Tracked.Accelerometer {
 
         public event AccelerometerChangedEventHandler AccelerometerChanged;
         public event AccelerometerStatusChangedEventHandler StatusChanged;
+        public bool IsBluetoothOn => ble.IsOn;
 
         private AccelerometerUtility() {
             adapter.DeviceConnected += Adapter_DeviceConnected;
             adapter.DeviceDisconnected += Adapter_DeviceDisconnected;
+
+            ble.StateChanged += Ble_StateChanged;
+        }
+
+        private void Ble_StateChanged(object sender, BluetoothStateChangedArgs e) {
+            Status = e.NewState switch
+            {
+                BluetoothState.TurningOn => AccelerometerStatus.BluetoothTurningOn,
+                BluetoothState.On => AccelerometerStatus.NotConnected,
+                _ => AccelerometerStatus.BluetoothTurnedOff,
+            };
         }
 
         private void Characteristic_ValueUpdated(object sender, CharacteristicUpdatedEventArgs e) {
