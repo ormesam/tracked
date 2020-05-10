@@ -27,23 +27,23 @@ namespace Tracked.Utilities {
         public async Task StartRide() {
             Ride.StartUtc = DateTime.UtcNow;
 
-            AccelerometerUtility.Instance.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
+            context.AccelerometerUtility.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
             context.GeoUtility.LocationChanged += GeoUtility_LocationChanged;
 
             context.GeoUtility.Start();
 
             if (detectJumps) {
-                await AccelerometerUtility.Instance.Start();
+                await context.AccelerometerUtility.Start();
             }
         }
 
         public async Task StopRide() {
-            AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
+            context.AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
             context.GeoUtility.LocationChanged -= GeoUtility_LocationChanged;
 
             Ride.EndUtc = DateTime.UtcNow;
 
-            await AccelerometerUtility.Instance.Stop();
+            await context.AccelerometerUtility.Stop();
             context.GeoUtility.Stop();
 
             if (detectJumps) {

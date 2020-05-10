@@ -1,5 +1,4 @@
 ﻿using System;
-using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.Models;
 using Xamarin.Forms;
@@ -21,7 +20,7 @@ namespace Tracked.Screens.Record {
             ViewModel.Context.GeoUtility.Start();
 
             if (ViewModel.IsAccelerometerRequired) {
-                await AccelerometerUtility.Instance.TryConnect(ViewModel.Context.Settings.BluetoothDeviceId);
+                await ViewModel.Context.AccelerometerUtility.TryConnect(ViewModel.Context.Settings.BluetoothDeviceId);
             }
         }
 

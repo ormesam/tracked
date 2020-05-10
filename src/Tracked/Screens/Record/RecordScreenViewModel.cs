@@ -17,13 +17,13 @@ namespace Tracked.Screens.Record {
 
         public RecordScreenViewModel(MainContext context) : base(context) {
             rideController = new RideRecorder(Context);
-            accelerometerStatus = AccelerometerUtility.Instance.Status;
+            accelerometerStatus = Context.AccelerometerUtility.Status;
             status = RecordStatus.NotStarted;
             timer = new Timer();
             timer.Elapsed += Timer_Elapsed;
             timer.Interval = 1000;
 
-            AccelerometerUtility.Instance.StatusChanged += BleAccelerometerUtility_StatusChanged;
+            Context.AccelerometerUtility.StatusChanged += BleAccelerometerUtility_StatusChanged;
             Context.GeoUtility.LocationChanged += GeoUtility_LocationChanged;
         }
 

@@ -4,7 +4,6 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Shared;
-using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.Screens.Login;
 using Tracked.Screens.Master;
@@ -20,9 +19,6 @@ namespace Tracked {
             InitializeComponent();
 
             MainContext = new MainContext();
-
-            // initialise
-            _ = AccelerometerUtility.Instance;
 
             if (MainContext.Security.IsLoggedIn) {
                 MainPage = new MasterScreen(MainContext);

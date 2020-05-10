@@ -9,25 +9,6 @@ using Shared.Dtos;
 
 namespace Tracked.Accelerometer {
     public class AccelerometerUtility {
-        #region Singleton stuff
-
-        private static AccelerometerUtility instance;
-        private static readonly object _lock = new object();
-
-        public static AccelerometerUtility Instance {
-            get {
-                lock (_lock) {
-                    if (instance == null) {
-                        instance = new AccelerometerUtility();
-                    }
-
-                    return instance;
-                }
-            }
-        }
-
-        #endregion
-
         private readonly IBluetoothLE ble = CrossBluetoothLE.Current;
         private readonly IAdapter adapter = CrossBluetoothLE.Current.Adapter;
 
@@ -38,7 +19,7 @@ namespace Tracked.Accelerometer {
         public event AccelerometerStatusChangedEventHandler StatusChanged;
         public bool IsBluetoothOn => ble.IsOn;
 
-        private AccelerometerUtility() {
+        public AccelerometerUtility() {
             adapter.DeviceConnected += Adapter_DeviceConnected;
             adapter.DeviceDisconnected += Adapter_DeviceDisconnected;
 

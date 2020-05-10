@@ -7,7 +7,6 @@ using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Exceptions;
-using Tracked.Accelerometer;
 using Tracked.Contexts;
 
 namespace Tracked.Screens.Bluetooth {
@@ -92,7 +91,7 @@ namespace Tracked.Screens.Bluetooth {
         }
 
         public async Task DisconnectDevice() {
-            await AccelerometerUtility.Instance.Reset();
+            await Context.AccelerometerUtility.Reset();
 
             foreach (var device in adapter.ConnectedDevices) {
                 await adapter.DisconnectDeviceAsync(device);
