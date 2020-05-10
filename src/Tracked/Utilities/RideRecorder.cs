@@ -21,16 +21,16 @@ namespace Tracked.Utilities {
             this.detectJumps = context.Settings.DetectJumps;
             Ride = new CreateRideDto();
             readings = new List<AccelerometerReadingDto>();
-            jumpDetectionUtility = new JumpDetectionUtility(GeoUtility.Instance);
+            jumpDetectionUtility = new JumpDetectionUtility(context.GeoUtility);
         }
 
         public async Task StartRide() {
             Ride.StartUtc = DateTime.UtcNow;
 
             AccelerometerUtility.Instance.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
-            GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
+            context.GeoUtility.LocationChanged += GeoUtility_LocationChanged;
 
-            GeoUtility.Instance.Start();
+            context.GeoUtility.Start();
 
             if (detectJumps) {
                 await AccelerometerUtility.Instance.Start();
@@ -39,12 +39,12 @@ namespace Tracked.Utilities {
 
         public async Task StopRide() {
             AccelerometerUtility.Instance.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
-            GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
+            context.GeoUtility.LocationChanged -= GeoUtility_LocationChanged;
 
             Ride.EndUtc = DateTime.UtcNow;
 
             await AccelerometerUtility.Instance.Stop();
-            GeoUtility.Instance.Stop();
+            context.GeoUtility.Stop();
 
             if (detectJumps) {
                 Ride.AccelerometerReadings = readings;

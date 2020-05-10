@@ -1,4 +1,5 @@
 ﻿using Tracked.Models;
+using Tracked.Utilities;
 
 namespace Tracked.Contexts {
     public class MainContext {
@@ -8,6 +9,7 @@ namespace Tracked.Contexts {
         public SecurityContext Security { get; }
         public ServicesContext Services { get; }
         public Settings Settings { get; }
+        public GeoUtility GeoUtility { get; set; }
 
         public MainContext() {
             Storage = new StorageContext();
@@ -15,6 +17,7 @@ namespace Tracked.Contexts {
             UI = new UIContext(this);
             Security = new SecurityContext(this);
             Services = new ServicesContext(this);
+            GeoUtility = new GeoUtility();
             Settings = Storage.GetSettings();
         }
     }

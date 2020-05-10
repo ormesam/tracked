@@ -2,7 +2,6 @@
 using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.Models;
-using Tracked.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,7 +18,7 @@ namespace Tracked.Screens.Record {
         protected override async void OnAppearing() {
             base.OnAppearing();
 
-            GeoUtility.Instance.Start();
+            ViewModel.Context.GeoUtility.Start();
 
             if (ViewModel.IsAccelerometerRequired) {
                 await AccelerometerUtility.Instance.TryConnect(ViewModel.Context.Settings.BluetoothDeviceId);
@@ -28,7 +27,7 @@ namespace Tracked.Screens.Record {
 
         protected override void OnDisappearing() {
             if (ViewModel.Status != RecordStatus.Running) {
-                GeoUtility.Instance.Stop();
+                ViewModel.Context.GeoUtility.Stop();
             }
 
             base.OnDisappearing();

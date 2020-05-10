@@ -12,22 +12,22 @@ using Xamarin.Forms;
 
 namespace Tracked {
     public partial class App : Application {
-        private readonly MainContext mainContext;
+        public MainContext MainContext { get; }
         public static new App Current => (App)Application.Current;
         public static MasterScreen RootPage => Current.MainPage as MasterScreen;
 
         public App() {
             InitializeComponent();
 
-            mainContext = new MainContext();
+            MainContext = new MainContext();
 
             // initialise
             _ = AccelerometerUtility.Instance;
 
-            if (mainContext.Security.IsLoggedIn) {
-                MainPage = new MasterScreen(mainContext);
+            if (MainContext.Security.IsLoggedIn) {
+                MainPage = new MasterScreen(MainContext);
             } else {
-                MainPage = new LoginScreen(mainContext);
+                MainPage = new LoginScreen(MainContext);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Tracked {
         }
 
         protected override void OnSleep() {
-            mainContext.Storage.Storage.Flush();
+            MainContext.Storage.Storage.Flush();
         }
 
         protected override void OnResume() {

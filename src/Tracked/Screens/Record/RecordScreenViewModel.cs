@@ -24,7 +24,7 @@ namespace Tracked.Screens.Record {
             timer.Interval = 1000;
 
             AccelerometerUtility.Instance.StatusChanged += BleAccelerometerUtility_StatusChanged;
-            GeoUtility.Instance.LocationChanged += GeoUtility_LocationChanged;
+            Context.GeoUtility.LocationChanged += GeoUtility_LocationChanged;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e) {
@@ -33,7 +33,7 @@ namespace Tracked.Screens.Record {
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {
             if (e.Location.AccuracyInMetres < 20) {
-                GeoUtility.Instance.LocationChanged -= GeoUtility_LocationChanged;
+                Context.GeoUtility.LocationChanged -= GeoUtility_LocationChanged;
                 HasAcquiredGpsSignal = true;
             }
         }
@@ -130,7 +130,7 @@ namespace Tracked.Screens.Record {
             timer.Stop();
 
             await rideController.StopRide();
-            GeoUtility.Instance.Stop();
+            Context.GeoUtility.Stop();
 
             Status = RecordStatus.Complete;
         }

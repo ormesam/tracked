@@ -5,7 +5,6 @@ using Android.Locations;
 using Android.OS;
 using Android.Support.V4.App;
 using Shared.Dtos;
-using Tracked.Utilities;
 
 namespace Tracked.Droid.Location {
     [Service]
@@ -85,7 +84,7 @@ namespace Tracked.Droid.Location {
                 Altitude = location.Altitude,
             };
 
-            GeoUtility.Instance.AddLocation(locationDto);
+            App.Current.MainContext.GeoUtility.AddLocation(locationDto);
         }
 
         public void OnProviderDisabled(string provider) {
