@@ -4,5 +4,6 @@
         public const string GoogleAuthRedirectUrl = "";
         public const string GoogleOAuthApiKey = "";
         public const string Url = "";
+        public const string AppCenterKey = "";
     }
 }

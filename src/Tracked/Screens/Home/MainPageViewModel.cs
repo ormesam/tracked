@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.AppCenter.Crashes;
 using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.Models;

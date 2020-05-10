@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.Threading.Tasks;
 using System.Timers;
 using Tracked.Accelerometer;
@@ -9,7 +9,6 @@ using Tracked.Utilities;
 namespace Tracked.Screens.Record {
     public class RecordScreenViewModel : ViewModelBase {
         private readonly RideRecorder rideController;
-        private readonly Stopwatch stopWatch;
         private readonly Timer timer;
 
         private RecordStatus status;
@@ -20,7 +19,6 @@ namespace Tracked.Screens.Record {
             rideController = new RideRecorder(Context);
             accelerometerStatus = AccelerometerUtility.Instance.Status;
             status = RecordStatus.NotStarted;
-            stopWatch = new Stopwatch();
             timer = new Timer();
             timer.Elapsed += Timer_Elapsed;
             timer.Interval = 1000;
@@ -88,11 +86,11 @@ namespace Tracked.Screens.Record {
 
         public string TimerDisplay {
             get {
-                if (!stopWatch.IsRunning) {
+                if (Status == RecordStatus.NotStarted) {
                     return "--:--:--";
                 }
 
-                return stopWatch.Elapsed.ToString(@"hh\:mm\:ss");
+                return (DateTime.UtcNow - rideController.Ride.StartUtc).ToString(@"hh\:mm\:ss");
             }
         }
 
@@ -123,14 +121,12 @@ namespace Tracked.Screens.Record {
         public async Task Start() {
             Status = RecordStatus.Running;
 
-            stopWatch.Start();
             timer.Start();
 
             await rideController.StartRide();
         }
 
         public async Task Stop() {
-            stopWatch.Stop();
             timer.Stop();
 
             await rideController.StopRide();

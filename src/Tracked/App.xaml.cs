@@ -1,5 +1,9 @@
 ﻿using System;
 using Akavache;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Shared;
 using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.Models;
@@ -30,6 +34,8 @@ namespace Tracked {
         }
 
         protected override void OnStart() {
+            AppCenter.Start($"android={Constants.AppCenterKey};", typeof(Analytics), typeof(Crashes));
+
             // Handle when your app starts
             BlobCache.EnsureInitialized();
 #if DEBUG
