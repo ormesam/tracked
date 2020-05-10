@@ -3,10 +3,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.AppCenter.Crashes;
 using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Models;
 using Tracked.Screens;
 using Tracked.Utilities;
 using Xamarin.Forms;
@@ -53,7 +51,7 @@ namespace Tracked.Home {
         }
 
         public int PendingUploudCount {
-            get { return Model.Instance.PendingRideUploads.Count; }
+            get { return Context.Model.PendingRideUploads.Count; }
         }
 
         public bool ShowUploadCount => PendingUploudCount > 0;
@@ -86,7 +84,7 @@ namespace Tracked.Home {
         }
 
         private async Task UploadRides() {
-            var uploads = Model.Instance.PendingRideUploads
+            var uploads = Context.Model.PendingRideUploads
                 .OrderBy(i => i.StartUtc)
                 .ToList();
 
@@ -95,7 +93,7 @@ namespace Tracked.Home {
             foreach (var upload in uploads) {
                 try {
                     RideOverviewDto rideOverview = await Context.Services.UploadRide(upload);
-                    await Model.Instance.RemoveUploadRide(upload);
+                    await Context.Model.RemoveUploadRide(upload);
 
                     Rides.Insert(0, rideOverview);
 

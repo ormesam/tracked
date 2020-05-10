@@ -6,7 +6,6 @@ using Microsoft.AppCenter.Crashes;
 using Shared;
 using Tracked.Accelerometer;
 using Tracked.Contexts;
-using Tracked.Models;
 using Tracked.Screens.Login;
 using Tracked.Screens.Master;
 using Xamarin.Forms;
@@ -24,7 +23,6 @@ namespace Tracked {
 
             // initialise
             _ = AccelerometerUtility.Instance;
-            Model.Instance.Init(mainContext);
 
             if (mainContext.Security.IsLoggedIn) {
                 MainPage = new MasterScreen(mainContext);

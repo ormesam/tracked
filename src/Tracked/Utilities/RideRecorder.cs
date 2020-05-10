@@ -6,7 +6,6 @@ using Shared.Dtos;
 using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.JumpDetection;
-using Tracked.Models;
 
 namespace Tracked.Utilities {
     public class RideRecorder {
@@ -52,7 +51,7 @@ namespace Tracked.Utilities {
                 Ride.Jumps = jumpDetectionUtility.Jumps;
             }
 
-            await Model.Instance.SaveRideUpload(Ride);
+            await context.Model.SaveRideUpload(Ride);
         }
 
         private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {

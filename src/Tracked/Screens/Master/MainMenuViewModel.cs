@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Tracked.Contexts;
 using Tracked.Controls;
-using Tracked.Models;
 
 namespace Tracked.Screens.Master {
     public class MainMenuViewModel : ViewModelBase {
@@ -37,7 +36,7 @@ namespace Tracked.Screens.Master {
                 new ExtendedMenuItem
                  {
                       Title = "Run Utility",
-                      OnClick = Model.Instance.RunUtilityAsync,
+                      OnClick = Context.Model.RunUtilityAsync,
                  },
 #endif
             };

@@ -2,6 +2,7 @@
 
 namespace Tracked.Contexts {
     public class MainContext {
+        public ModelContext Model { get; }
         public StorageContext Storage { get; }
         public UIContext UI { get; }
         public SecurityContext Security { get; }
@@ -10,6 +11,7 @@ namespace Tracked.Contexts {
 
         public MainContext() {
             Storage = new StorageContext();
+            Model = new ModelContext(this);
             UI = new UIContext(this);
             Security = new SecurityContext(this);
             Services = new ServicesContext(this);
