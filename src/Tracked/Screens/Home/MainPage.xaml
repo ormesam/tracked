@@ -56,10 +56,53 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <controls:MedalsCell
-                            Text="{Binding DisplayName}"
-                            Detail="{Binding StartLocal, StringFormat='{0:d MMM yy HH:mm}'}"
-                            Medals="{Binding Medals}" />
+                        <Grid
+                            RowSpacing="0"
+                            Padding="10,0,10,0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Text="{Binding Title}" />
+
+                            <StackLayout
+                                Orientation="Horizontal"
+                                Grid.Row="1">
+                                <Label
+                                    Text="{Binding DistanceMiles, StringFormat='{}{0:F1} mi'}"
+                                    Margin="0,0,10,0"/>
+                                <Label
+                                    Text="{Binding Time, StringFormat='{}{0:hh}:{0:mm}:{0:ss}'}"
+                                    Margin="10,0" />
+                                <Label
+                                    Text="{Binding MaxSpeedMph, StringFormat='{}{0:F1}mph'}"
+                                    Margin="10,0" />
+                            </StackLayout>
+                    
+
+                            <controls:RepeaterView
+                                Grid.Column="1"
+                                Grid.RowSpan="2"
+                                Orientation="Horizontal"
+                                HeightRequest="20"
+                                VerticalOptions="Center"
+                                ItemsSource="{Binding Medals}">
+                                <controls:RepeaterView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image
+                                            Source="{Binding Medal, Converter={StaticResource MedalToImageConverter}}" />
+                                    </DataTemplate>
+                                </controls:RepeaterView.ItemTemplate>
+                            </controls:RepeaterView>
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -80,7 +80,7 @@ namespace Tracked.Droid.Location {
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
                 AccuracyInMetres = location.Accuracy,
-                SpeedMetresPerSecond = location.Speed,
+                Mph = location.Speed * 2.23694,
                 Altitude = location.Altitude,
             };
 

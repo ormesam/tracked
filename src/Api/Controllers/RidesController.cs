@@ -6,6 +6,7 @@ using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using Shared.Dtos;
+using Shared.Interfaces;
 
 namespace Api.Controllers {
     [Route("api/[controller]")]
@@ -33,6 +34,10 @@ namespace Api.Controllers {
                     RideId = row.RideId,
                     Name = row.Name,
                     StartUtc = row.StartUtc,
+                    DistanceMiles = row.DistanceMiles,
+                    EndUtc = row.EndUtc,
+                    JumpCount = row.Jump.Count,
+                    MaxSpeedMph = row.MaxSpeedMph,
                     Medals = medalsByRide[row.RideId],
                 })
                 .ToList();
@@ -53,6 +58,9 @@ namespace Api.Controllers {
                     StartUtc = row.StartUtc,
                     EndUtc = row.EndUtc,
                     Name = row.Name,
+                    AverageSpeedMph = row.AverageSpeedMph,
+                    MaxSpeedMph = row.MaxSpeedMph,
+                    DistanceMiles = row.DistanceMiles,
                 })
                 .SingleOrDefault();
 
@@ -80,7 +88,7 @@ namespace Api.Controllers {
                     Altitude = row.Altitude,
                     Latitude = row.Latitude,
                     Longitude = row.Longitude,
-                    SpeedMetresPerSecond = row.SpeedMetresPerSecond,
+                    Mph = row.Mph,
                     Timestamp = row.Timestamp,
                 })
                 .ToList();
@@ -130,6 +138,10 @@ namespace Api.Controllers {
                     RideId = row.RideId,
                     Name = row.Name,
                     StartUtc = row.StartUtc,
+                    DistanceMiles = row.DistanceMiles,
+                    EndUtc = row.EndUtc,
+                    JumpCount = row.Jump.Count,
+                    MaxSpeedMph = row.MaxSpeedMph,
                     Medals = medals,
                 })
                 .SingleOrDefault();
@@ -140,6 +152,9 @@ namespace Api.Controllers {
             ride.StartUtc = model.StartUtc;
             ride.EndUtc = model.EndUtc;
             ride.UserId = userId;
+            ride.AverageSpeedMph = model.Locations.Average(i => i.Mph);
+            ride.MaxSpeedMph = model.Locations.Max(i => i.Mph);
+            ride.DistanceMiles = DistanceHelpers.GetDistanceMile(model.Locations.Cast<ILatLng>().ToList());
 
             ride.RideLocation = model.Locations
                 .Select(i => new RideLocation {
@@ -147,7 +162,7 @@ namespace Api.Controllers {
                     Altitude = i.Altitude,
                     Latitude = i.Latitude,
                     Longitude = i.Longitude,
-                    SpeedMetresPerSecond = i.SpeedMetresPerSecond,
+                    Mph = i.Mph,
                     Timestamp = i.Timestamp,
                 })
                 .ToList();

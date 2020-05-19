@@ -95,7 +95,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding Ride.AverageSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
+                            Text="{Binding Ride.AverageSpeedMph, StringFormat='{}{0:F1} mph'}" />
                     </StackLayout>
 
                     <BoxView
@@ -113,7 +113,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding Ride.MaxSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
+                            Text="{Binding Ride.MaxSpeedMph, StringFormat='{}{0:F1} mph'}" />
                     </StackLayout>
 
                     <BoxView

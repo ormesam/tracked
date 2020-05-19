@@ -7,6 +7,6 @@
     [Latitude] float NOT NULL,
     [Longitude] float NOT NULL,
     [AccuracyInMetres] float NOT NULL,
-    [SpeedMetresPerSecond] float NOT NULL,
+    [Mph] float NOT NULL,
     [Altitude] float NOT NULL,
 )

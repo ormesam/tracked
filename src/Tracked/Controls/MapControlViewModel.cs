@@ -143,7 +143,7 @@ namespace Tracked.Controls {
         private void AddMaxSpeedPin(MapLocation location, bool hasMultiplePins) {
             Pin pin = new CustomMapPin {
                 Position = new Position(location.Latitude, location.Longitude),
-                Label = Math.Round(location.Mph, 1) + " mi/h",
+                Label = Math.Round(location.Mph, 1) + " mph",
                 IsSpeedPin = true,
                 Rotation = hasMultiplePins ? 330 : 0,
             };

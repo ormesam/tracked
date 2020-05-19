@@ -45,7 +45,7 @@ namespace Api.Controllers {
                     Altitude = row.RideLocation.Altitude,
                     Latitude = row.RideLocation.Latitude,
                     Longitude = row.RideLocation.Longitude,
-                    SpeedMetresPerSecond = row.RideLocation.SpeedMetresPerSecond,
+                    Mph = row.RideLocation.Mph,
                     Timestamp = row.RideLocation.Timestamp,
                 })
                 .ToList();

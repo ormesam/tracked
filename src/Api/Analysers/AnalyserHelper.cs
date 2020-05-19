@@ -25,7 +25,7 @@ namespace Api.Analysers {
                     RideLocationId = row.RideLocationId,
                     Latitude = row.Latitude,
                     Longitude = row.Longitude,
-                    SpeedMetresPerSecond = row.SpeedMetresPerSecond,
+                    Mph = row.Mph,
                     Timestamp = row.Timestamp,
                 })
                 .ToArray();
@@ -52,9 +52,8 @@ namespace Api.Analysers {
         public int RideLocationId { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public double SpeedMetresPerSecond { get; set; }
+        public double Mph { get; set; }
         public DateTime Timestamp { get; set; }
-        public double Mph => SpeedMetresPerSecond * 2.23694;
     }
 
     internal class RideJumpAnalysis {

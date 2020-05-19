@@ -83,7 +83,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding SegmentAttempt.AverageSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
+                            Text="{Binding SegmentAttempt.AverageSpeedMph, StringFormat='{}{0:F1} mph'}" />
                     </StackLayout>
 
                     <BoxView
@@ -101,7 +101,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding SegmentAttempt.MaxSpeedMph, StringFormat='{}{0:F1} mi/h'}" />
+                            Text="{Binding SegmentAttempt.MaxSpeedMph, StringFormat='{}{0:F1} mph'}" />
                     </StackLayout>
 
                     <BoxView

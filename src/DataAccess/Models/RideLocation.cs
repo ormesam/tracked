@@ -16,7 +16,7 @@ namespace DataAccess.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public double AccuracyInMetres { get; set; }
-        public double SpeedMetresPerSecond { get; set; }
+        public double Mph { get; set; }
         public double Altitude { get; set; }
 
         public virtual Ride Ride { get; set; }
