@@ -11,6 +11,8 @@
             x:Key="InvertBoolConverter" />
         <converters:AccelerometerStatusToColourConverter
             x:Key="AccelerometerStatusToColourConverter" />
+        <converters:MedalToImageConverter
+            x:Key="MedalToImageConverter" />
 
         <Color
             x:Key="DefaultBackgroundColour">

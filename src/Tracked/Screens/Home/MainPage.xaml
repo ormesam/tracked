@@ -77,12 +77,15 @@
                                 Orientation="Horizontal"
                                 Grid.Row="1">
                                 <Label
+                                    FontSize="Small"
                                     Text="{Binding DistanceMiles, StringFormat='{}{0:F1} mi'}"
                                     Margin="0,0,10,0"/>
                                 <Label
+                                    FontSize="Small"
                                     Text="{Binding Time, StringFormat='{}{0:hh}:{0:mm}:{0:ss}'}"
                                     Margin="10,0" />
                                 <Label
+                                    FontSize="Small"
                                     Text="{Binding MaxSpeedMph, StringFormat='{}{0:F1}mph'}"
                                     Margin="10,0" />
                             </StackLayout>
@@ -98,7 +101,7 @@
                                 <controls:RepeaterView.ItemTemplate>
                                     <DataTemplate>
                                         <Image
-                                            Source="{Binding Medal, Converter={StaticResource MedalToImageConverter}}" />
+                                            Source="{Binding ., Converter={StaticResource MedalToImageConverter}}" />
                                     </DataTemplate>
                                 </controls:RepeaterView.ItemTemplate>
                             </controls:RepeaterView>
