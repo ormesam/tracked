@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Microsoft.AppCenter.Crashes;
 using OxyPlot.Xamarin.Forms.Platform.Android;
 using Plugin.CurrentActivity;
 using Tracked.Droid.Location;
@@ -14,6 +16,22 @@ namespace Tracked.Droid {
     [Activity(Label = "Tracked Dev", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
         public LocationServiceConnection LocationServiceConnection { get; private set; }
+
+        public MainActivity() {
+            TaskScheduler.UnobservedTaskException += (sender, args) => {
+                Crashes.TrackError(args.Exception);
+            };
+
+            AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) => {
+                Crashes.TrackError(args.Exception);
+            };
+
+            AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
+                if (e.ExceptionObject is Exception ex) {
+                    Crashes.TrackError(ex);
+                }
+            };
+        }
 
         protected override void OnCreate(Bundle bundle) {
             TabLayoutResource = Resource.Layout.Tabbar;
