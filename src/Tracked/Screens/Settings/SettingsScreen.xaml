@@ -4,11 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Screens.Settings.SettingsScreen"
     Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            IconImageSource="tick_icon.png"
-            Clicked="Save_Clicked" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <TableView

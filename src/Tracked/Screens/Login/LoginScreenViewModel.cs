@@ -10,6 +10,7 @@ namespace Tracked.Screens.Login {
 
         private void Security_LoggedInStatusChanged(object sender, EventArgs e) {
             if (Context.Security.IsLoggedIn) {
+                Context.Security.LoggedInStatusChanged -= Security_LoggedInStatusChanged;
                 App.Current.MainPage = new MasterScreen(Context);
             }
         }

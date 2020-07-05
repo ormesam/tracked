@@ -81,7 +81,6 @@ namespace Tracked.Screens.Bluetooth {
                 await adapter.ConnectToDeviceAsync(device);
 
                 Context.Settings.BluetoothDeviceId = device.Id;
-                await Context.Storage.SaveSettings(Context.Settings);
 
                 DevicesFound.Clear();
             } catch (DeviceConnectionException e) {

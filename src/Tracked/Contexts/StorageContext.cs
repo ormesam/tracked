@@ -26,28 +26,6 @@ namespace Tracked.Contexts {
             await Storage.InvalidateObject<T>(id.ToString());
         }
 
-        public Settings GetSettings() {
-            var settings = Storage.GetAllObjects<Settings>().Wait().SingleOrDefault();
-
-            if (settings == null) {
-                settings = new Settings();
-                SaveSettings(settings).Wait();
-            }
-
-            Debug.WriteLine("Settings: Detect Jumps = " + settings.DetectJumps);
-
-            return settings;
-        }
-
-        public async Task SaveSettings(Settings settings) {
-            if (settings.Id == null) {
-                settings.Id = Guid.NewGuid();
-                settings.ResetDefaults();
-            }
-
-            await SaveObject(settings.Id.Value, settings);
-        }
-
         public async Task SetAccessToken(string token) {
             await BlobCache.Secure.InsertObject("AccessToken", token);
         }

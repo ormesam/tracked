@@ -18,7 +18,7 @@ namespace Tracked.Utilities {
 
         public RideRecorder(MainContext context) {
             this.context = context;
-            this.detectJumps = context.Settings.DetectJumps;
+            this.detectJumps = context.Settings.IsDetectingJumps;
             Ride = new CreateRideDto();
             readings = new List<AccelerometerReadingDto>();
             jumpDetectionUtility = new JumpDetectionUtility(context.GeoUtility);
