@@ -7,7 +7,7 @@ using Android.Support.V4.App;
 using Shared.Dtos;
 
 namespace Tracked.Droid.Location {
-    [Service]
+    [Service(Enabled = true)]
     public class LocationService : Service, ILocationListener {
         private const string channelId = "default";
         public static string MainActivityAction = "OpenedFromLocationServiceNotification";

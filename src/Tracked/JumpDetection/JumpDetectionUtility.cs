@@ -14,9 +14,9 @@ namespace Tracked.JumpDetection {
         private bool started;
         private int jumpCount;
         private const double startTolerance = 2;
-        private const double minJumpSeconds = 0.3;
+        private const double minJumpSeconds = 0.25;
         private const double maxJumpSeconds = 3;
-        public static double Tolerance = 0.75;
+        public static double Tolerance = 0.6;
 
         public IList<JumpDto> Jumps { get; }
 
