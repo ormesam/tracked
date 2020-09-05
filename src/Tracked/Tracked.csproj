@@ -12,16 +12,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="akavache" Version="6.10.17" />
-    <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.45.0.1869" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.2.1" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.2.1" />
+    <PackageReference Include="akavache" Version="6.10.20" />
+    <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.48.0.1869" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.1" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.1" />
     <PackageReference Include="OxyPlot.Xamarin.Forms" Version="1.0.0" />
     <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
     <PackageReference Include="Xamarin.Auth" Version="1.7.0" />
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
-    <PackageReference Include="Xamarin.Forms.Maps" Version="4.6.0.800" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="4.8.0.1364" />
   </ItemGroup>
 
   <ItemGroup>
