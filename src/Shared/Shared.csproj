@@ -6,24 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ConstantFile Include="Constants.cs" />
-    <OriginalConstantFile Include="OriginalConstants.cs" />
-    <LocalConstantFile Include="LocalConstants.cs" />
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="Exists('$(ProjectDir)\LocalConstants.cs')">
-    <Move SourceFiles="@(ConstantFile)" DestinationFiles="@(OriginalConstantFile)" />
-    <Move SourceFiles="@(LocalConstantFile)" DestinationFiles="@(ConstantFile)" />
-  </Target>
-
-  <Target Name="PostBuild" BeforeTargets="PostBuildEvent" Condition="Exists('$(ProjectDir)\OriginalConstants.cs')">
-    <Move SourceFiles="@(ConstantFile)" DestinationFiles="@(LocalConstantFile)" />
-    <Move SourceFiles="@(OriginalConstantFile)" DestinationFiles="@(ConstantFile)" />
-  </Target>
-
-  <ItemGroup>
-    <Compile Remove="LocalConstants.cs" />
-    <Compile Remove="OriginalConstants.cs" />
+    <Compile Remove="Constants.Debug.cs" Condition="Exists('Constants.Debug.cs') and $(Configuration) != 'Debug'" />
+    <Compile Remove="Constants.Release.cs" Condition="Exists('Constants.Release.cs') and $(Configuration) != 'Release'" />
+    <Compile Remove="Constants.cs" Condition="Exists('Constants.$(Configuration).cs')" />
   </ItemGroup>
 
 </Project>
