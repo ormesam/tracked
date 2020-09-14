@@ -15,6 +15,7 @@ namespace Api.Controllers {
             this.context = context;
         }
 
+        [HttpGet]
         public ActionResult<IList<AchievementDto>> Get() {
             int userId = this.GetCurrentUserId();
 

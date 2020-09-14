@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Shared;
 using Tracked.Auth;
 using Tracked.Utilities;
-using Shared;
 using Xamarin.Auth;
 
 namespace Tracked.Contexts {
