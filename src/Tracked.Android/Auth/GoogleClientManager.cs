@@ -138,17 +138,16 @@ namespace Tracked.Droid.Auth {
                 GivenName = userAccount.GivenName,
                 FamilyName = userAccount.FamilyName,
                 Email = userAccount.Email,
-                Picture = new Uri((userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
+                Picture = new Uri(userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : string.Empty),
             };
 
             idToken = userAccount.IdToken;
-            Console.WriteLine($"Id Token: {idToken}");
 
             if (userAccount.GrantedScopes != null && userAccount.GrantedScopes.Count > 0) {
                 var scopes = $"oauth2:{string.Join(' ', userAccount.GrantedScopes.Select(s => s.ScopeUri).ToArray())}";
-                Console.WriteLine($"Scopes: {scopes}");
                 var tcs = new TaskCompletionSource<string>();
-                System.Threading.Tasks.Task.Run(() => {
+
+                await System.Threading.Tasks.Task.Run(() => {
                     try {
                         tcs.TrySetResult(GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes));
                     } catch (Exception ex) {
@@ -158,8 +157,6 @@ namespace Tracked.Droid.Auth {
                 });
 
                 accessToken = await tcs.Task;
-
-                Console.WriteLine($"Access Token: {accessToken}");
             }
 
             var googleArgs = new GoogleClientResultEventArgs(user, GoogleActionStatus.Completed);
