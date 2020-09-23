@@ -42,7 +42,7 @@ namespace Api.Controllers {
             if (user == null) {
                 user = new User {
                     GoogleUserId = googleResponse.GoogleUserId,
-                    Name = googleResponse.Name
+                    Name = loginDto.User.Name,
                 };
 
                 context.User.Add(user);
@@ -64,15 +64,13 @@ namespace Api.Controllers {
                 signingCredentials: credentials);
 
             return new LoginResponseDto {
-                Name = googleResponse.Name,
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
             };
         }
 
         private async Task<GoogleResponse> GetGoogleDetails(string accessToken) {
             try {
-                var message = new HttpRequestMessage(HttpMethod.Post, "/oauth2/v3/tokeninfo");
-                message.Content = new StringContent(JsonConvert.SerializeObject(new { id_token = accessToken }));
+                var message = new HttpRequestMessage(HttpMethod.Get, $"/oauth2/v1/userinfo?alt=json&access_token={accessToken}");
 
                 using (HttpClient client = new HttpClient()) {
                     client.BaseAddress = new Uri("https://www.googleapis.com");
@@ -95,14 +93,8 @@ namespace Api.Controllers {
         }
 
         private class GoogleResponse {
-            [JsonProperty("sub")]
+            [JsonProperty("id")]
             public string GoogleUserId { get; set; }
-
-            [JsonProperty("name")]
-            public string Name { get; set; }
-
-            [JsonProperty("aud")]
-            public string AppId { get; set; } // TODO
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
 using Shared.Dtos;
-using Tracked.Models;
 
 namespace Tracked.Contexts {
     public class StorageContext {
@@ -32,14 +30,6 @@ namespace Tracked.Contexts {
 
         public string GetAccessToken() {
             return BlobCache.Secure.GetOrCreateObject("AccessToken", () => string.Empty).Wait();
-        }
-
-        public async Task SetName(string name) {
-            await BlobCache.Secure.InsertObject("Name", name);
-        }
-
-        public string GetName() {
-            return BlobCache.Secure.GetOrCreateObject("Name", () => string.Empty).Wait();
         }
     }
 }

@@ -8,6 +8,7 @@ using Android.Runtime;
 using Microsoft.AppCenter.Crashes;
 using OxyPlot.Xamarin.Forms.Platform.Android;
 using Plugin.CurrentActivity;
+using Tracked.Droid.Auth;
 using Tracked.Droid.Location;
 using Xamarin.Auth;
 using Xamarin.Auth.Presenters.XamarinAndroid;
@@ -45,6 +46,7 @@ namespace Tracked.Droid {
             Xamarin.FormsMaps.Init(this, bundle);
             PlotViewRenderer.Init();
             AuthenticationConfiguration.Init(this, bundle);
+            GoogleClientManager.Init(this);
             CustomTabsConfiguration.CustomTabsClosingMessage = null;
 
             LoadApplication(new App());
@@ -100,6 +102,11 @@ namespace Tracked.Droid {
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data) {
+            base.OnActivityResult(requestCode, resultCode, data);
+            GoogleClientManager.OnAuthCompleted(requestCode, data);
         }
     }
 }

@@ -13,8 +13,8 @@ namespace Tracked.Screens.Login {
 
         public LoginScreenViewModel ViewModel => BindingContext as LoginScreenViewModel;
 
-        private void LoginWithGoogle_Clicked(object sender, EventArgs e) {
-            ViewModel.LoginWithGoogle();
+        private async void LoginWithGoogle_Clicked(object sender, EventArgs e) {
+            await ViewModel.LoginWithGoogle();
         }
     }
 }

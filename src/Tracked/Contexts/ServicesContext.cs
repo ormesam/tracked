@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Shared;
+using Shared.Dto;
 using Shared.Dtos;
 using Tracked.Utilities;
 using Xamarin.Essentials;
@@ -19,9 +20,10 @@ namespace Tracked.Contexts {
             this.mainContext = mainContext;
         }
 
-        public async Task<LoginResponseDto> Login(string googleAccessToken) {
+        public async Task<LoginResponseDto> Login(string googleAccessToken, GoogleUserDto user) {
             return await PostAsync<LoginResponseDto>("login/authenticate", new LoginDto {
                 GoogleAccessToken = googleAccessToken,
+                User = user,
             });
         }
 
@@ -133,7 +135,7 @@ namespace Tracked.Contexts {
 
         private async Task HandleRequestError(HttpResponseMessage response) {
             if (response.StatusCode == HttpStatusCode.Unauthorized) {
-                await mainContext.Security.ClearAccessToken();
+                await mainContext.Security.Logout();
 
                 throw new ServiceException("You have been logged out.");
             }

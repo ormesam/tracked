@@ -1,98 +1,52 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Shared;
+﻿using System.Threading.Tasks;
 using Tracked.Auth;
+using Tracked.Screens.Master;
 using Tracked.Utilities;
-using Xamarin.Auth;
 
 namespace Tracked.Contexts {
     public class SecurityContext {
-        private MainContext mainContext;
+        private readonly MainContext mainContext;
         public string AccessToken { get; private set; }
-        public string Name { get; private set; }
 
-        public bool IsLoggedIn => !string.IsNullOrEmpty(AccessToken);
-
-        public event EventHandler LoggedInStatusChanged;
+        public bool IsLoggedIn => !string.IsNullOrEmpty(AccessToken) && CrossGoogleClient.Current.IsLoggedIn;
 
         public SecurityContext(MainContext mainContext) {
             this.mainContext = mainContext;
 
             AccessToken = this.mainContext.Storage.GetAccessToken();
-            Name = this.mainContext.Storage.GetName();
         }
 
-        public async Task SetAccessToken(string token, string name) {
+        public async Task SetAccessToken(string token) {
             AccessToken = token;
-            Name = name;
             await mainContext.Storage.SetAccessToken(token);
-            await mainContext.Storage.SetName(name);
-
-            LoggedInStatusChanged?.Invoke(null, null);
         }
 
-        public async Task ClearAccessToken() {
+        public async Task Logout() {
             AccessToken = null;
-            Name = null;
             await mainContext.Storage.SetAccessToken(null);
-            await mainContext.Storage.SetName(null);
-
-            LoggedInStatusChanged?.Invoke(null, null);
+            CrossGoogleClient.Current.Logout();
         }
 
-        public void ConnectToGoogle() {
-            var authenticator = new OAuth2Authenticator(
-                Constants.GoogleOAuthApiKey,
-                null,
-                "https://www.googleapis.com/auth/userinfo.email",
-                new Uri("https://accounts.google.com/o/oauth2/auth"),
-                new Uri(Constants.GoogleAuthRedirectUrl + ":/oauth2redirect"),
-                new Uri("https://www.googleapis.com/oauth2/v4/token"),
-                null,
-                true);
-
-            authenticator.Completed += Authenticator_Completed;
-            authenticator.Error += Authenticator_Error;
-
-            AuthenticationState.Authenticator = authenticator;
-
-            var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
-            presenter.Login(authenticator);
-        }
-
-        private void Authenticator_Error(object sender, AuthenticatorErrorEventArgs e) {
-            var authenticator = sender as OAuth2Authenticator;
-
-            if (authenticator != null) {
-                authenticator.Completed -= Authenticator_Completed;
-                authenticator.Error -= Authenticator_Error;
+        public async Task ConnectToGoogle() {
+            if (CrossGoogleClient.Current.IsLoggedIn) {
+                return;
             }
 
-            Debug.WriteLine("Authentication error: " + e.Message);
-        }
+            var result = await CrossGoogleClient.Current.LoginAsync();
 
-        private async void Authenticator_Completed(object sender, AuthenticatorCompletedEventArgs e) {
-            var authenticator = sender as OAuth2Authenticator;
+            if (result.Status == GoogleActionStatus.Completed) {
+                var loginResponse = await mainContext.Services.Login(CrossGoogleClient.Current.AccessToken, result.User);
 
-            if (authenticator != null) {
-                authenticator.Completed -= Authenticator_Completed;
-                authenticator.Error -= Authenticator_Error;
+                await SetAccessToken(loginResponse.AccessToken);
+
+                Toast.LongAlert("Connected to Google");
+
+                App.Current.MainPage = new MasterScreen(mainContext);
+
+                return;
             }
 
-            if (e.IsAuthenticated) {
-                string accessToken = e.Account.Properties["id_token"];
-
-                try {
-                    var loginResponse = await mainContext.Services.Login(accessToken);
-
-                    await SetAccessToken(loginResponse.AccessToken, loginResponse.Name);
-
-                    Toast.LongAlert("Connected to Google");
-                } catch (ServiceException) {
-                    Toast.LongAlert("Unable to connect to Google\nTry again later");
-                }
-            }
+            Toast.LongAlert("Unable to connect to Google\nTry again later");
         }
     }
 }
