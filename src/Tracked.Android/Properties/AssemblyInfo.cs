@@ -11,7 +11,7 @@ using Shared;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Tracked.Android")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright © 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
@@ -30,7 +30,6 @@ using Shared;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 // Add some common permissions, these can be removed if not needed
-[assembly: UsesPermission(Android.Manifest.Permission.AccessCoarseLocation)]
 [assembly: UsesPermission(Android.Manifest.Permission.AccessFineLocation)]
 [assembly: UsesPermission(Android.Manifest.Permission.Bluetooth)]
 [assembly: UsesPermission(Android.Manifest.Permission.BluetoothAdmin)]
@@ -47,4 +46,13 @@ using Shared;
 [assembly: MetaData("com.google.android.geo.API_KEY", Value = Constants.GoogleMapsApiKey)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 
-[assembly: Application(UsesCleartextTraffic = true)]
+[assembly: Application(
+    UsesCleartextTraffic = true,
+    Icon = "@mipmap/ic_launcher",
+    Label = Constants.AppName,
+#if DEBUG
+    Debuggable = true
+#else
+    Debuggable = false
+#endif
+)]

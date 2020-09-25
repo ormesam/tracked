@@ -30,22 +30,13 @@ namespace Tracked {
         protected override void OnStart() {
             AppCenter.Start($"android={Constants.AppCenterKey};", typeof(Analytics), typeof(Crashes));
 
-            // Handle when your app starts
             BlobCache.EnsureInitialized();
-#if DEBUG
-            BlobCache.ApplicationName = "Tracked Dev";
-#else
-            BlobCache.ApplicationName = "Tracked";
-#endif
+            BlobCache.ApplicationName = Shared.Constants.AppName;
             BlobCache.ForcedDateTimeKind = DateTimeKind.Utc;
         }
 
         protected override void OnSleep() {
             MainContext.Storage.Storage.Flush();
-        }
-
-        protected override void OnResume() {
-            // Handle when your app resumes
         }
     }
 }
