@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
@@ -11,19 +12,17 @@ using Android.Gms.Tasks;
 using Java.Interop;
 using Shared.Dto;
 using Tracked.Auth;
+using ThreadingTask = System.Threading.Tasks.Task;
 
 namespace Tracked.Droid.Auth {
-
     public class GoogleClientManager : Java.Lang.Object, IGoogleClientManager, IOnCompleteListener {
         private readonly GoogleSignInClient googleSignInClient;
 
         private static readonly int authActivityID = 9637;
         private static TaskCompletionSource<GoogleResponse> loginTcs;
-        private static string idToken;
         private static string accessToken;
         private static Activity currentActivity;
 
-        public string IdToken => idToken;
         public string AccessToken => accessToken;
 
         public GoogleUserDto CurrentUser {
@@ -107,7 +106,6 @@ namespace Tracked.Droid.Auth {
             }
 
             if (GoogleSignIn.GetLastSignedInAccount(currentActivity) != null) {
-                idToken = null;
                 accessToken = null;
                 googleSignInClient.SignOut();
             }
@@ -141,18 +139,16 @@ namespace Tracked.Droid.Auth {
                 Picture = new Uri(userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : string.Empty),
             };
 
-            idToken = userAccount.IdToken;
-
             if (userAccount.GrantedScopes != null && userAccount.GrantedScopes.Count > 0) {
                 var scopes = $"oauth2:{string.Join(' ', userAccount.GrantedScopes.Select(s => s.ScopeUri).ToArray())}";
                 var tcs = new TaskCompletionSource<string>();
 
-                await System.Threading.Tasks.Task.Run(() => {
+                await ThreadingTask.Run(() => {
                     try {
                         tcs.TrySetResult(GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes));
                     } catch (Exception ex) {
                         tcs.TrySetResult(string.Empty);
-                        Console.WriteLine($"Ex: {ex}");
+                        Debug.WriteLine($"Ex: {ex}");
                     }
                 });
 
@@ -161,7 +157,6 @@ namespace Tracked.Droid.Auth {
 
             var googleArgs = new GoogleClientResultEventArgs(user, GoogleActionStatus.Completed);
 
-            // Send the result to the receivers
             loginTcs.TrySetResult(new GoogleResponse(googleArgs));
         }
 
@@ -211,8 +206,7 @@ namespace Tracked.Droid.Auth {
                     exception = new GoogleClientBaseException(
                         string.IsNullOrEmpty(apiException.Message)
                             ? GoogleClientBaseException.SignInDefaultErrorMessage
-                            : apiException.Message
-                        );
+                            : apiException.Message);
                     break;
             }
 
