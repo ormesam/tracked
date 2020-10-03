@@ -2,7 +2,7 @@
 
 namespace Shared.Dtos {
     public class LoginDto {
-        public string GoogleAccessToken { get; set; }
+        public string GoogleIdToken { get; set; }
         public GoogleUserDto User { get; set; }
     }
 }

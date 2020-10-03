@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Gms.Auth;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.Gms.Tasks;
 using Java.Interop;
+using Shared;
 using Shared.Dto;
 using Tracked.Auth;
-using ThreadingTask = System.Threading.Tasks.Task;
 
 namespace Tracked.Droid.Auth {
     public class GoogleClientManager : Java.Lang.Object, IGoogleClientManager, IOnCompleteListener {
@@ -20,10 +17,10 @@ namespace Tracked.Droid.Auth {
 
         private static readonly int authActivityID = 9637;
         private static TaskCompletionSource<GoogleResponse> loginTcs;
-        private static string accessToken;
+        private static string idToken;
         private static Activity currentActivity;
 
-        public string AccessToken => accessToken;
+        public string IdToken => idToken;
 
         public GoogleUserDto CurrentUser {
             get {
@@ -50,6 +47,7 @@ namespace Tracked.Droid.Auth {
             }
 
             var googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+                .RequestIdToken(Constants.GoogleRequestIdToken)
                 .RequestEmail()
                 .RequestScopes(new Scope(Scopes.Profile))
                 .Build();
@@ -106,7 +104,7 @@ namespace Tracked.Droid.Auth {
             }
 
             if (GoogleSignIn.GetLastSignedInAccount(currentActivity) != null) {
-                accessToken = null;
+                idToken = null;
                 googleSignInClient.SignOut();
             }
         }
@@ -129,7 +127,7 @@ namespace Tracked.Droid.Auth {
             GoogleSignIn.GetSignedInAccountFromIntent(data).AddOnCompleteListener(CrossGoogleClient.Current as IOnCompleteListener);
         }
 
-        private async void OnSignInSuccessful(GoogleSignInAccount userAccount) {
+        private void OnSignInSuccessful(GoogleSignInAccount userAccount) {
             GoogleUserDto user = new GoogleUserDto {
                 Id = userAccount.Id,
                 Name = userAccount.DisplayName,
@@ -139,21 +137,7 @@ namespace Tracked.Droid.Auth {
                 Picture = new Uri(userAccount.PhotoUrl != null ? $"{userAccount.PhotoUrl}" : string.Empty),
             };
 
-            if (userAccount.GrantedScopes != null && userAccount.GrantedScopes.Count > 0) {
-                var scopes = $"oauth2:{string.Join(' ', userAccount.GrantedScopes.Select(s => s.ScopeUri).ToArray())}";
-                var tcs = new TaskCompletionSource<string>();
-
-                await ThreadingTask.Run(() => {
-                    try {
-                        tcs.TrySetResult(GoogleAuthUtil.GetToken(Application.Context, userAccount.Account, scopes));
-                    } catch (Exception ex) {
-                        tcs.TrySetResult(string.Empty);
-                        Debug.WriteLine($"Ex: {ex}");
-                    }
-                });
-
-                accessToken = await tcs.Task;
-            }
+            idToken = userAccount.IdToken;
 
             var googleArgs = new GoogleClientResultEventArgs(user, GoogleActionStatus.Completed);
 

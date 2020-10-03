@@ -6,7 +6,7 @@ namespace Tracked.Auth {
         Task<GoogleResponse> LoginAsync();
         Task<GoogleResponse> SilentLoginAsync();
         void Logout();
-        string AccessToken { get; }
+        string IdToken { get; }
         GoogleUserDto CurrentUser { get; }
         bool IsLoggedIn { get; }
     }

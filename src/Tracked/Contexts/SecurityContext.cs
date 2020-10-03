@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Shared.Dto;
 using Tracked.Auth;
 using Tracked.Screens.Master;
 using Tracked.Utilities;
@@ -28,25 +29,31 @@ namespace Tracked.Contexts {
         }
 
         public async Task ConnectToGoogle() {
-            if (CrossGoogleClient.Current.IsLoggedIn) {
-                return;
-            }
+            if (!CrossGoogleClient.Current.IsLoggedIn) {
+                var result = await CrossGoogleClient.Current.LoginAsync();
 
-            var result = await CrossGoogleClient.Current.LoginAsync();
+                if (result.Status == GoogleActionStatus.Completed) {
+                    await Login(result.User);
 
-            if (result.Status == GoogleActionStatus.Completed) {
-                var loginResponse = await mainContext.Services.Login(CrossGoogleClient.Current.AccessToken, result.User);
-
-                await SetAccessToken(loginResponse.AccessToken);
-
-                Toast.LongAlert("Connected to Google");
-
-                App.Current.MainPage = new MasterScreen(mainContext);
+                    return;
+                }
+            } else {
+                await Login(CrossGoogleClient.Current.CurrentUser);
 
                 return;
             }
 
             Toast.LongAlert("Unable to connect to Google\nTry again later");
+        }
+
+        private async Task Login(GoogleUserDto user) {
+            var loginResponse = await mainContext.Services.Login(CrossGoogleClient.Current.IdToken, user);
+
+            await SetAccessToken(loginResponse.AccessToken);
+
+            Toast.LongAlert("Connected to Google");
+
+            App.Current.MainPage = new MasterScreen(mainContext);
         }
     }
 }

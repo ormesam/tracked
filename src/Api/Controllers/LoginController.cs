@@ -31,7 +31,7 @@ namespace Api.Controllers {
         [AllowAnonymous]
         [Route("authenticate")]
         public async Task<ActionResult<LoginResponseDto>> Authenticate(LoginDto loginDto) {
-            GoogleResponse googleResponse = await GetGoogleDetails(loginDto.GoogleAccessToken);
+            GoogleResponse googleResponse = await GetGoogleDetails(loginDto.GoogleIdToken);
 
             if (string.IsNullOrWhiteSpace(googleResponse?.GoogleUserId)) {
                 return Unauthorized();
@@ -68,9 +68,10 @@ namespace Api.Controllers {
             };
         }
 
-        private async Task<GoogleResponse> GetGoogleDetails(string accessToken) {
+        private async Task<GoogleResponse> GetGoogleDetails(string idToken) {
             try {
-                var message = new HttpRequestMessage(HttpMethod.Get, $"/oauth2/v1/userinfo?alt=json&access_token={accessToken}");
+                var message = new HttpRequestMessage(HttpMethod.Post, "/oauth2/v3/tokeninfo");
+                message.Content = new StringContent(JsonConvert.SerializeObject(new { id_token = idToken }));
 
                 using (HttpClient client = new HttpClient()) {
                     client.BaseAddress = new Uri("https://www.googleapis.com");
@@ -93,7 +94,7 @@ namespace Api.Controllers {
         }
 
         private class GoogleResponse {
-            [JsonProperty("id")]
+            [JsonProperty("sub")]
             public string GoogleUserId { get; set; }
         }
     }
