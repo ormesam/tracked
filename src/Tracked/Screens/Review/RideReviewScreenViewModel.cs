@@ -58,7 +58,7 @@ namespace Tracked.Screens.Review {
         }
 
         public async Task Delete() {
-            await Context.Services.DeleteRide(Ride.RideId);
+            await Context.Services.DeleteRide(Ride.RideId.Value);
         }
     }
 }

@@ -99,4 +99,10 @@
   <ItemGroup>
     <None Include="Upgrades\2020-03-10\Upgrade.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Create\Tables\DistanceAchievement.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Create\Tables\UserDistanceAchievement.sql" />
+  </ItemGroup>
 </Project>

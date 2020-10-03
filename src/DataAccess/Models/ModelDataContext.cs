@@ -16,6 +16,7 @@ namespace DataAccess.Models
         }
 
         public virtual DbSet<AccelerometerReading> AccelerometerReading { get; set; }
+        public virtual DbSet<DistanceAchievement> DistanceAchievement { get; set; }
         public virtual DbSet<Jump> Jump { get; set; }
         public virtual DbSet<JumpAchievement> JumpAchievement { get; set; }
         public virtual DbSet<Ride> Ride { get; set; }
@@ -28,6 +29,7 @@ namespace DataAccess.Models
         public virtual DbSet<SpeedAchievement> SpeedAchievement { get; set; }
         public virtual DbSet<TraceMessage> TraceMessage { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserDistanceAchievement> UserDistanceAchievement { get; set; }
         public virtual DbSet<UserJumpAchievement> UserJumpAchievement { get; set; }
         public virtual DbSet<UserSpeedAchievement> UserSpeedAchievement { get; set; }
 
@@ -51,6 +53,13 @@ namespace DataAccess.Models
                     .HasForeignKey(d => d.RideId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AccelerometerReading_Ride");
+            });
+
+            modelBuilder.Entity<DistanceAchievement>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(200);
             });
 
             modelBuilder.Entity<Jump>(entity =>
@@ -189,7 +198,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD1979EEB4176")
+                    .HasName("UQ__User__437CD1976ED45178")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)
@@ -197,6 +206,27 @@ namespace DataAccess.Models
                     .HasMaxLength(255);
 
                 entity.Property(e => e.Name).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<UserDistanceAchievement>(entity =>
+            {
+                entity.HasOne(d => d.DistanceAchievement)
+                    .WithMany(p => p.UserDistanceAchievement)
+                    .HasForeignKey(d => d.DistanceAchievementId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserDistanceAchievement_DistanceAchievement");
+
+                entity.HasOne(d => d.Ride)
+                    .WithMany(p => p.UserDistanceAchievement)
+                    .HasForeignKey(d => d.RideId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserDistanceAchievement_Ride");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserDistanceAchievement)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserDistanceAchievement_User");
             });
 
             modelBuilder.Entity<UserJumpAchievement>(entity =>

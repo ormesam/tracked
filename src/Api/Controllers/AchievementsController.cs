@@ -22,6 +22,7 @@ namespace Api.Controllers {
             var achievements = new List<AchievementDto>();
             achievements.AddRange(GetSpeedAchievements(userId));
             achievements.AddRange(GetJumpAchievements(userId));
+            achievements.AddRange(GetDistanceAchievements(userId));
 
             return achievements;
         }
@@ -82,6 +83,35 @@ namespace Api.Controllers {
             }
 
             return jumpAchievements;
+        }
+
+        private IEnumerable<AchievementDto> GetDistanceAchievements(int userId) {
+            var userDistanceAchievements = context.UserDistanceAchievement
+                .Where(row => row.UserId == userId)
+                .Select(row => new {
+                    row.DistanceAchievementId,
+                    row.RideId,
+                    row.Ride.Name,
+                    row.Ride.StartUtc,
+                })
+                .ToLookup(row => row.DistanceAchievementId, row => new RideOverviewDto {
+                    RideId = row.RideId,
+                    Name = row.Name,
+                    StartUtc = row.StartUtc,
+                });
+
+            var distanceAchievements = context.DistanceAchievement
+                .Select(row => new AchievementDto {
+                    AchievementId = row.DistanceAchievementId,
+                    Name = row.Name,
+                })
+                .ToList();
+
+            foreach (var distanceAchievement in distanceAchievements) {
+                distanceAchievement.Rides = userDistanceAchievements[distanceAchievement.AchievementId].ToList();
+            }
+
+            return distanceAchievements;
         }
     }
 }

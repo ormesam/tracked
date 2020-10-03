@@ -7,6 +7,7 @@ namespace Api.Analysers {
             var analysers = new IAchievementAnalyser[] {
                 new SpeedAnalyser(),
                 new JumpAnalyser(),
+                new DistanceAnalyser(),
             };
 
             foreach (var analyser in analysers) {
