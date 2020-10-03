@@ -119,11 +119,11 @@ namespace Api.Controllers {
 
             int userId = this.GetCurrentUserId();
 
-            int rideId = SaveRide(userId, model);
-            SegmentAnalyser.AnalyseRide(context, userId, rideId);
-            AchievementAnalyser.AnalyseRide(context, userId, rideId);
+            model.RideId = SaveRide(userId, model);
+            SegmentAnalyser.AnalyseRide(context, userId, model.RideId.Value);
+            AchievementAnalyser.AnalyseRide(context, userId, model);
 
-            return GetRideOverview(rideId);
+            return GetRideOverview(model.RideId.Value);
         }
 
         private RideOverviewDto GetRideOverview(int rideId) {

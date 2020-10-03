@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using Shared.Dtos;
 
 namespace Api.Analysers {
     public class MinJumpAchievement {
@@ -7,8 +7,8 @@ namespace Api.Analysers {
         public string Name { get; set; }
         public double MinAirtime { get; set; }
 
-        internal bool Check(IEnumerable<RideJumpAnalysis> jumps) {
-            return jumps.Any(i => i.Airtime >= MinAirtime);
+        internal bool Check(RideDto ride) {
+            return ride.Jumps.Any(i => i.Airtime >= MinAirtime);
         }
     }
 }
