@@ -86,6 +86,8 @@ namespace DataAccess.Models
 
                 entity.Property(e => e.Name).HasMaxLength(200);
 
+                entity.Property(e => e.RouteSvgPath).IsRequired();
+
                 entity.Property(e => e.StartUtc).HasColumnType("datetime");
 
                 entity.HasOne(d => d.User)
@@ -198,7 +200,7 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD1976ED45178")
+                    .HasName("UQ__User__437CD19721CB98AF")
                     .IsUnique();
 
                 entity.Property(e => e.GoogleUserId)

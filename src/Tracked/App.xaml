@@ -13,6 +13,8 @@
             x:Key="AccelerometerStatusToColourConverter" />
         <converters:MedalToImageConverter
             x:Key="MedalToImageConverter" />
+        <converters:RouteSvgConverter
+            x:Key="RouteSvgConverter" />
 
         <Color
             x:Key="DefaultBackgroundColour">

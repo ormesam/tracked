@@ -38,6 +38,9 @@ namespace Api.Controllers {
                     EndUtc = row.EndUtc,
                     JumpCount = row.Jump.Count,
                     MaxSpeedMph = row.MaxSpeedMph,
+                    RouteSvgPath = row.RouteSvgPath,
+                    RouteCanvasWidthSvg = row.RouteCanvasWidthSvg,
+                    RouteCanvasHeightSvg = row.RouteCanvasHeightSvg,
                     Medals = medalsByRide[row.RideId],
                 })
                 .ToList();
@@ -148,6 +151,8 @@ namespace Api.Controllers {
         }
 
         private int SaveRide(int userId, CreateRideDto model) {
+            var routeSvgDetails = new SvgBuilder(model).Build();
+
             Ride ride = new Ride();
             ride.StartUtc = model.StartUtc;
             ride.EndUtc = model.EndUtc;
@@ -155,6 +160,9 @@ namespace Api.Controllers {
             ride.AverageSpeedMph = model.Locations.Average(i => i.Mph);
             ride.MaxSpeedMph = model.Locations.Max(i => i.Mph);
             ride.DistanceMiles = DistanceHelpers.GetDistanceMile(model.Locations.Cast<ILatLng>().ToList());
+            ride.RouteCanvasWidthSvg = routeSvgDetails.width;
+            ride.RouteCanvasHeightSvg = routeSvgDetails.height;
+            ride.RouteSvgPath = routeSvgDetails.path;
 
             ride.RideLocation = model.Locations
                 .Select(i => new RideLocation {

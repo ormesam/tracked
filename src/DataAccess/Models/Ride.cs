@@ -24,6 +24,9 @@ namespace DataAccess.Models
         public double DistanceMiles { get; set; }
         public double MaxSpeedMph { get; set; }
         public double AverageSpeedMph { get; set; }
+        public int RouteCanvasWidthSvg { get; set; }
+        public int RouteCanvasHeightSvg { get; set; }
+        public string RouteSvgPath { get; set; }
 
         public virtual User User { get; set; }
         public virtual ICollection<AccelerometerReading> AccelerometerReading { get; set; }

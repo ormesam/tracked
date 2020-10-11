@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Home.MainPage"
     xmlns:controls="clr-namespace:Tracked.Controls"
+    xmlns:ffImageLoading="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     Title="{Binding Title}">
     <Grid>
         <Grid.RowDefinitions>
@@ -52,7 +53,8 @@
             CachingStrategy="RecycleElement"
             IsPullToRefreshEnabled="True"
             IsRefreshing="{Binding IsRefreshing}"
-            RefreshCommand="{Binding RefreshCommand}">
+            RefreshCommand="{Binding RefreshCommand}"
+            HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -61,6 +63,7 @@
                             Padding="10,0,10,0">
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
@@ -89,7 +92,6 @@
                                     Text="{Binding MaxSpeedMph, StringFormat='{}{0:F1}mph'}"
                                     Margin="10,0" />
                             </StackLayout>
-                    
 
                             <controls:RepeaterView
                                 Grid.Column="1"
@@ -105,6 +107,13 @@
                                     </DataTemplate>
                                 </controls:RepeaterView.ItemTemplate>
                             </controls:RepeaterView>
+
+                            <ffImageLoading:SvgCachedImage
+                                Grid.Row="2"
+                                Grid.ColumnSpan="2"
+                                HeightRequest="200"
+                                Margin="10"
+                                Source="{Binding RouteSvg}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

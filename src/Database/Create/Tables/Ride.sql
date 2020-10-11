@@ -9,4 +9,7 @@
     [DistanceMiles] float NOT NULL,
     [MaxSpeedMph] float NOT NULL,
     [AverageSpeedMph] float NOT NULL,
+    [RouteCanvasWidthSvg] int NOT NULL,
+    [RouteCanvasHeightSvg] int NOT NULL,
+    [RouteSvgPath] nvarchar(max) NOT NULL,
 )
