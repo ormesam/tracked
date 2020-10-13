@@ -4,9 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Home.MainPage"
     xmlns:controls="clr-namespace:Tracked.Controls"
-    xmlns:ffImageLoading="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:ffImageLoading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffImageLoadingSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:ffImageTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
     Title="{Binding Title}">
-    <Grid>
+    <Grid
+        RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition
                 Height="Auto"/>
@@ -57,65 +60,135 @@
             HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <Grid
-                            RowSpacing="0"
-                            Padding="10,0,10,0">
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Label
-                                Text="{Binding Title}" />
-
+                    <controls:RideOverviewCell>
+                        <Frame
+                            Padding="0,0,0,10"
+                            Margin="0"
+                            BackgroundColor="LightGray">
                             <StackLayout
-                                Orientation="Horizontal"
-                                Grid.Row="1">
-                                <Label
-                                    FontSize="Small"
-                                    Text="{Binding DistanceMiles, StringFormat='{}{0:F1} mi'}"
-                                    Margin="0,0,10,0"/>
-                                <Label
-                                    FontSize="Small"
-                                    Text="{Binding Time, StringFormat='{}{0:hh}:{0:mm}:{0:ss}'}"
-                                    Margin="10,0" />
-                                <Label
-                                    FontSize="Small"
-                                    Text="{Binding MaxSpeedMph, StringFormat='{}{0:F1}mph'}"
-                                    Margin="10,0" />
+                                Padding="10"
+                                BackgroundColor="White">
+                                <Grid
+                                    RowSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <ffImageLoading:CachedImage
+                                        Grid.Column="0"
+                                        Grid.RowSpan="2"
+                                        Source="{Binding UserProfileImageUrl}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="45"
+                                        HeightRequest="45">
+                                        <ffImageLoading:CachedImage.Transformations>
+                                            <ffImageTransformations:CircleTransformation />
+                                        </ffImageLoading:CachedImage.Transformations>
+                                    </ffImageLoading:CachedImage>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding UserName}"
+                                        FontAttributes="Bold"
+                                        FontSize="Subtitle"
+                                        VerticalTextAlignment="End"/>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        Text="{Binding TimeDisplay}"
+                                        VerticalOptions="Center"
+                                        Padding="0"
+                                        Margin="0"
+                                        FontSize="Small" />
+                                </Grid>
+
+                                <Grid
+                                    ColumnSpacing="0"
+                                    RowSpacing="0">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        FontSize="Micro"
+                                        Text="Distance" />
+                                    <Label
+                                        Grid.Row="1"
+                                        FontSize="Large"
+                                        Text="{Binding DistanceMiles, StringFormat='{}{0:F1} mi'}" />
+
+                                    <BoxView
+                                        Grid.Column="1"
+                                        Grid.RowSpan="2"
+                                        WidthRequest="1"
+                                        Margin="10,0,10,0"
+                                        BackgroundColor="LightGray" />
+
+                                    <Label
+                                        Grid.Column="2"
+                                        FontSize="Micro"
+                                        Text="Max Speed" />
+                                    <Label
+                                        Grid.Column="2"
+                                        Grid.Row="1"
+                                        FontSize="Large"
+                                        Text="{Binding MaxSpeedMph, StringFormat='{}{0:F1}mph'}" />
+
+                                    <BoxView
+                                        Grid.Column="3"
+                                        Grid.RowSpan="2"
+                                        WidthRequest="1"
+                                        Margin="10,0,10,0"
+                                        BackgroundColor="LightGray" />
+
+                                    <Label
+                                        Grid.Column="4"
+                                        FontSize="Micro"
+                                        Text="Duration" />
+                                    <Label
+                                        Grid.Column="4"
+                                        Grid.Row="1"
+                                        FontSize="Large"
+                                        Text="{Binding FormattedTime}" />
+                                </Grid>
+
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    VerticalOptions="Center"
+                                    BindableLayout.ItemsSource="{Binding Medals}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image
+                                                HeightRequest="20"
+                                                WidthRequest="20"
+                                                Source="{Binding ., Converter={StaticResource MedalToImageConverter}}" />
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+
+                                <ffImageLoadingSvg:SvgCachedImage
+                                    Margin="10"
+                                    HeightRequest="200" />
                             </StackLayout>
-
-                            <controls:RepeaterView
-                                Grid.Column="1"
-                                Grid.RowSpan="2"
-                                Orientation="Horizontal"
-                                HeightRequest="20"
-                                VerticalOptions="Center"
-                                ItemsSource="{Binding Medals}">
-                                <controls:RepeaterView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Image
-                                            Source="{Binding ., Converter={StaticResource MedalToImageConverter}}" />
-                                    </DataTemplate>
-                                </controls:RepeaterView.ItemTemplate>
-                            </controls:RepeaterView>
-
-                            <ffImageLoading:SvgCachedImage
-                                Grid.Row="2"
-                                Grid.ColumnSpan="2"
-                                HeightRequest="200"
-                                Margin="10"
-                                Source="{Binding RouteSvg}" />
-                        </Grid>
-                    </ViewCell>
+                        </Frame>
+                    </controls:RideOverviewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -125,6 +198,7 @@
             Clicked="Add_Clicked"
             IsVisible="True"
             BackgroundColor="Green"
-            TextColor="White"/>
+            TextColor="White"
+            CornerRadius="0"/>
     </Grid>
 </ContentPage>

@@ -43,6 +43,8 @@ namespace Api.Controllers {
                 user = new User {
                     GoogleUserId = googleResponse.GoogleUserId,
                     Name = loginDto.User.Name,
+                    CreatedUtc = DateTime.UtcNow,
+                    ProfileImageUrl = loginDto.User.Picture.ToString(),
                 };
 
                 context.User.Add(user);

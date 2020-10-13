@@ -200,14 +200,22 @@ namespace DataAccess.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD19721CB98AF")
+                    .HasName("UQ__User__437CD197FC4AE696")
                     .IsUnique();
+
+                entity.Property(e => e.CreatedUtc).HasColumnType("datetime");
 
                 entity.Property(e => e.GoogleUserId)
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.Name).HasMaxLength(255);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.ProfileImageUrl)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<UserDistanceAchievement>(entity =>

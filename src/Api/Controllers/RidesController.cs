@@ -36,12 +36,14 @@ namespace Api.Controllers {
                     StartUtc = row.StartUtc,
                     DistanceMiles = row.DistanceMiles,
                     EndUtc = row.EndUtc,
-                    JumpCount = row.Jump.Count,
                     MaxSpeedMph = row.MaxSpeedMph,
                     RouteSvgPath = row.RouteSvgPath,
                     RouteCanvasWidthSvg = row.RouteCanvasWidthSvg,
                     RouteCanvasHeightSvg = row.RouteCanvasHeightSvg,
                     Medals = medalsByRide[row.RideId],
+                    UserId = row.UserId,
+                    UserName = row.User.Name,
+                    UserProfileImageUrl = row.User.ProfileImageUrl,
                 })
                 .ToList();
 
@@ -143,9 +145,14 @@ namespace Api.Controllers {
                     StartUtc = row.StartUtc,
                     DistanceMiles = row.DistanceMiles,
                     EndUtc = row.EndUtc,
-                    JumpCount = row.Jump.Count,
                     MaxSpeedMph = row.MaxSpeedMph,
                     Medals = medals,
+                    UserId = row.UserId,
+                    UserName = row.User.Name,
+                    UserProfileImageUrl = row.User.ProfileImageUrl,
+                    RouteSvgPath = row.RouteSvgPath,
+                    RouteCanvasWidthSvg = row.RouteCanvasWidthSvg,
+                    RouteCanvasHeightSvg = row.RouteCanvasHeightSvg,
                 })
                 .SingleOrDefault();
         }
