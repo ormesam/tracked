@@ -158,7 +158,7 @@ namespace Api.Controllers {
         }
 
         private int SaveRide(int userId, CreateRideDto model) {
-            var routeSvgDetails = new SvgBuilder(model).Build();
+            var routeSvgDetails = new SvgBuilder(model.Locations.Cast<ILatLng>()).Build();
 
             Ride ride = new Ride();
             ride.StartUtc = model.StartUtc;

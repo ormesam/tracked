@@ -1,18 +1,12 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Models
-{
-    public partial class ModelDataContext : DbContext
-    {
-        public ModelDataContext()
-        {
+namespace DataAccess.Models {
+    public partial class ModelDataContext : DbContext {
+        public ModelDataContext() {
         }
 
         public ModelDataContext(DbContextOptions<ModelDataContext> options)
-            : base(options)
-        {
+            : base(options) {
         }
 
         public virtual DbSet<AccelerometerReading> AccelerometerReading { get; set; }
@@ -33,19 +27,15 @@ namespace DataAccess.Models
         public virtual DbSet<UserJumpAchievement> UserJumpAchievement { get; set; }
         public virtual DbSet<UserSpeedAchievement> UserSpeedAchievement { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            if (!optionsBuilder.IsConfigured) {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=TrackedDev;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=localhost\\MSSQLSERVER01;Database=TrackedDev;Trusted_Connection=True;");
             }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<AccelerometerReading>(entity =>
-            {
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<AccelerometerReading>(entity => {
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
@@ -55,15 +45,13 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_AccelerometerReading_Ride");
             });
 
-            modelBuilder.Entity<DistanceAchievement>(entity =>
-            {
+            modelBuilder.Entity<DistanceAchievement>(entity => {
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(200);
             });
 
-            modelBuilder.Entity<Jump>(entity =>
-            {
+            modelBuilder.Entity<Jump>(entity => {
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
@@ -73,15 +61,13 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_Jump_Ride");
             });
 
-            modelBuilder.Entity<JumpAchievement>(entity =>
-            {
+            modelBuilder.Entity<JumpAchievement>(entity => {
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(200);
             });
 
-            modelBuilder.Entity<Ride>(entity =>
-            {
+            modelBuilder.Entity<Ride>(entity => {
                 entity.Property(e => e.EndUtc).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).HasMaxLength(200);
@@ -97,8 +83,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_Ride_User");
             });
 
-            modelBuilder.Entity<RideLocation>(entity =>
-            {
+            modelBuilder.Entity<RideLocation>(entity => {
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
@@ -108,8 +93,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_RideLocation_Ride");
             });
 
-            modelBuilder.Entity<Segment>(entity =>
-            {
+            modelBuilder.Entity<Segment>(entity => {
                 entity.Property(e => e.Name).HasMaxLength(255);
 
                 entity.HasOne(d => d.User)
@@ -119,8 +103,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_Segment_User");
             });
 
-            modelBuilder.Entity<SegmentAttempt>(entity =>
-            {
+            modelBuilder.Entity<SegmentAttempt>(entity => {
                 entity.Property(e => e.EndUtc).HasColumnType("datetime");
 
                 entity.Property(e => e.StartUtc).HasColumnType("datetime");
@@ -144,8 +127,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_SegmentAttempt_User");
             });
 
-            modelBuilder.Entity<SegmentAttemptJump>(entity =>
-            {
+            modelBuilder.Entity<SegmentAttemptJump>(entity => {
                 entity.HasOne(d => d.Jump)
                     .WithMany(p => p.SegmentAttemptJump)
                     .HasForeignKey(d => d.JumpId)
@@ -159,8 +141,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_SegmentAttemptJump_SegmentAttempt");
             });
 
-            modelBuilder.Entity<SegmentAttemptLocation>(entity =>
-            {
+            modelBuilder.Entity<SegmentAttemptLocation>(entity => {
                 entity.HasOne(d => d.RideLocation)
                     .WithMany(p => p.SegmentAttemptLocation)
                     .HasForeignKey(d => d.RideLocationId)
@@ -174,8 +155,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_SegmentAttemptLocation_SegmentAttempt");
             });
 
-            modelBuilder.Entity<SegmentLocation>(entity =>
-            {
+            modelBuilder.Entity<SegmentLocation>(entity => {
                 entity.HasOne(d => d.Segment)
                     .WithMany(p => p.SegmentLocation)
                     .HasForeignKey(d => d.SegmentId)
@@ -183,22 +163,19 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_SegmentLocation_Segment");
             });
 
-            modelBuilder.Entity<SpeedAchievement>(entity =>
-            {
+            modelBuilder.Entity<SpeedAchievement>(entity => {
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(200);
             });
 
-            modelBuilder.Entity<TraceMessage>(entity =>
-            {
+            modelBuilder.Entity<TraceMessage>(entity => {
                 entity.Property(e => e.DateUtc).HasColumnType("datetime");
 
                 entity.Property(e => e.Message).IsRequired();
             });
 
-            modelBuilder.Entity<User>(entity =>
-            {
+            modelBuilder.Entity<User>(entity => {
                 entity.HasIndex(e => e.GoogleUserId)
                     .HasName("UQ__User__437CD197FC4AE696")
                     .IsUnique();
@@ -218,8 +195,7 @@ namespace DataAccess.Models
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<UserDistanceAchievement>(entity =>
-            {
+            modelBuilder.Entity<UserDistanceAchievement>(entity => {
                 entity.HasOne(d => d.DistanceAchievement)
                     .WithMany(p => p.UserDistanceAchievement)
                     .HasForeignKey(d => d.DistanceAchievementId)
@@ -239,8 +215,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_UserDistanceAchievement_User");
             });
 
-            modelBuilder.Entity<UserJumpAchievement>(entity =>
-            {
+            modelBuilder.Entity<UserJumpAchievement>(entity => {
                 entity.HasOne(d => d.JumpAchievement)
                     .WithMany(p => p.UserJumpAchievement)
                     .HasForeignKey(d => d.JumpAchievementId)
@@ -260,8 +235,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_UserJumpAchievement_User");
             });
 
-            modelBuilder.Entity<UserSpeedAchievement>(entity =>
-            {
+            modelBuilder.Entity<UserSpeedAchievement>(entity => {
                 entity.HasOne(d => d.Ride)
                     .WithMany(p => p.UserSpeedAchievement)
                     .HasForeignKey(d => d.RideId)

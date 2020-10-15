@@ -1,74 +1,79 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Shared.Dtos;
+using CoordinateSharp;
 using Shared.Interfaces;
 
 namespace Api.Utility {
     public class SvgBuilder {
-        private int width = 1024;
-        private int height;
-        private IEnumerable<ILatLng> locations;
-        private ILatLng topLeft;
-        private ILatLng bottomRight;
-        private IDictionary<ILatLng, (int x, int y)> positionByLatLng = new Dictionary<ILatLng, (int x, int y)>();
+        private readonly int svgWidth = 1024;
+        private readonly IEnumerable<ILatLng> originalLocations;
+        private readonly IList<Point> positions = new List<Point>();
+        private int svgHeight;
+        private (double x, double y) topLeft;
+        private (double x, double y) bottomRight;
 
-        public SvgBuilder(RideDto ride) {
-            this.locations = ride.Locations.Cast<ILatLng>();
+        public SvgBuilder(IEnumerable<ILatLng> locations) {
+            this.originalLocations = locations;
         }
 
         public (int width, int height, string path) Build() {
+            foreach (var location in originalLocations) {
+                var coord = new Coordinate(location.Latitude, location.Longitude);
+
+                positions.Add(new Point(coord.UTM.Easting, coord.UTM.Northing));
+            }
+
             CalculateBoundaries();
             CalculatePositions();
 
-            return (width, height, CreateSvg());
+            return (svgWidth, svgHeight, CreateSvg());
         }
 
         private void CalculateBoundaries() {
-            topLeft = new LatLng(locations.Min(i => i.Latitude), locations.Min(i => i.Longitude));
-            bottomRight = new LatLng(locations.Max(i => i.Latitude), locations.Max(i => i.Longitude));
+            topLeft = (positions.Min(i => i.X), positions.Min(i => i.Y));
+            bottomRight = (positions.Max(i => i.X), positions.Max(i => i.Y));
 
-            var aspectRatio = (bottomRight.Latitude - topLeft.Latitude) / (bottomRight.Longitude - topLeft.Longitude);
+            var width = bottomRight.x - topLeft.x;
+            var height = bottomRight.y - topLeft.y;
 
-            height = (int)(width * aspectRatio);
+            var aspectRatio = height / width;
+
+            this.svgHeight = (int)(this.svgWidth * aspectRatio);
         }
 
         private void CalculatePositions() {
-            foreach (var latLng in locations) {
-                var percentageX = (latLng.Longitude - topLeft.Longitude) / (bottomRight.Longitude - topLeft.Longitude);
-                var percentageY = (latLng.Latitude - topLeft.Latitude) / (bottomRight.Latitude - topLeft.Latitude);
+            for (int i = 0; i < positions.Count; i++) {
+                var position = positions[i];
 
-                int x = (int)(width * percentageX);
-                int y = (int)(height - (height * percentageY));
+                var percentageX = (position.X - topLeft.x) / (bottomRight.x - topLeft.x);
+                var percentageY = (position.Y - topLeft.y) / (bottomRight.y - topLeft.y);
 
-                positionByLatLng.Add(latLng, (x, y));
+                positions[i].X = (int)(svgWidth * percentageX);
+                positions[i].Y = (int)(svgHeight - (svgHeight * percentageY));
             }
         }
 
         private string CreateSvg() {
-            var start = positionByLatLng[locations.First()];
+            var start = positions.First();
 
             StringBuilder sb = new StringBuilder();
-            sb.Append($"M {start.x},{start.y}");
+            sb.Append($"M {start.X},{start.Y}");
 
-            foreach (var latLng in locations) {
-                var position = positionByLatLng[latLng];
-
-                sb.Append($" L {position.x},{position.y}");
+            foreach (var position in positions) {
+                sb.Append($" L {position.X},{position.Y}");
             }
 
             return sb.ToString();
         }
 
-        private class LatLng : ILatLng {
-            public double Latitude { get; set; }
-            public double Longitude { get; set; }
+        private class Point {
             public double X { get; set; }
             public double Y { get; set; }
 
-            public LatLng(double lat, double lon) {
-                this.Latitude = lat;
-                this.Longitude = lon;
+            public Point(double easting, double northing) {
+                this.X = easting;
+                this.Y = northing;
             }
         }
     }

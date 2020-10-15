@@ -29,6 +29,7 @@ namespace Tracked.Home {
                 if (value != isRefreshing) {
                     isRefreshing = value;
                     OnPropertyChanged(nameof(IsRefreshing));
+                    OnPropertyChanged(nameof(HasRides));
                 }
             }
         }
@@ -62,7 +63,7 @@ namespace Tracked.Home {
 
         public ObservableCollection<RideOverviewDto> Rides { get; set; }
 
-        public bool HasRides => Rides.Any();
+        public bool HasRides => Rides.Any() || IsRefreshing;
 
         public async Task Load() {
             IsRefreshing = true;

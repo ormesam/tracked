@@ -184,8 +184,7 @@
                                 </StackLayout>
 
                                 <ffImageLoadingSvg:SvgCachedImage
-                                    Margin="10"
-                                    HeightRequest="200" />
+                                    HeightRequest="200"/>
                             </StackLayout>
                         </Frame>
                     </controls:RideOverviewCell>
