@@ -43,6 +43,7 @@ namespace Tracked.Home {
                     OnPropertyChanged(nameof(UploadText));
                     OnPropertyChanged(nameof(ShowUploadCount));
                     OnPropertyChanged(nameof(PendingUploudCount));
+                    OnPropertyChanged(nameof(IsRefreshing));
                 }
             }
         }

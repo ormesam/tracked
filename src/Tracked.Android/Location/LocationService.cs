@@ -3,11 +3,12 @@ using Android.App;
 using Android.Content;
 using Android.Locations;
 using Android.OS;
+using Android.Runtime;
 using Android.Support.V4.App;
 using Shared.Dtos;
 
 namespace Tracked.Droid.Location {
-    [Service(Enabled = true)]
+    [Register("com.samorme.tracked.LocationService")]
     public class LocationService : Service, ILocationListener {
         private const string channelId = "default";
         public static string MainActivityAction = "OpenedFromLocationServiceNotification";
