@@ -8,7 +8,7 @@ using Shared.Dtos;
 using Shared.Interfaces;
 
 namespace Api.Analysers {
-    public class SegmentAnalyser : IAchievementAnalyser {
+    public class SegmentAnalyser : IRideAnalyser {
         public void Analyse(ModelDataContext context, int userId, RideDto ride) {
             var segmentIds = context.Segment
                 .Where(row => row.UserId == userId)

@@ -4,7 +4,7 @@ using Shared.Dtos;
 namespace Api.Analysers {
     public class Analyser {
         public static void AnalyseRide(ModelDataContext context, int userId, RideDto ride) {
-            var analysers = new IAchievementAnalyser[] {
+            var analysers = new IRideAnalyser[] {
                 new SpeedAnalyser(),
                 new JumpAnalyser(),
                 new DistanceAnalyser(),

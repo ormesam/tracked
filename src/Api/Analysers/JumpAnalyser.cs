@@ -3,7 +3,7 @@ using DataAccess.Models;
 using Shared.Dtos;
 
 namespace Api.Analysers {
-    public class JumpAnalyser : IAchievementAnalyser {
+    public class JumpAnalyser : IRideAnalyser {
         public void Analyse(ModelDataContext context, int userId, RideDto ride) {
             var jumpAchievements = context.JumpAchievement
                 .Select(row => new MinJumpAchievement {

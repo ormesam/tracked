@@ -3,7 +3,7 @@ using DataAccess.Models;
 using Shared.Dtos;
 
 namespace Api.Analysers {
-    public class SpeedAnalyser : IAchievementAnalyser {
+    public class SpeedAnalyser : IRideAnalyser {
         public void Analyse(ModelDataContext context, int userId, RideDto ride) {
             var speedAchievements = context.SpeedAchievement
                 .Select(row => new MinSpeedAchievement {
