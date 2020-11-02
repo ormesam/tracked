@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace Shared.Dtos {
     public class RideDto {
         public int? RideId { get; set; }
+        public int? UserId { get; set; }
         public DateTime StartUtc { get; set; }
         public DateTime EndUtc { get; set; }
         public string Name { get; set; }

@@ -55,62 +55,11 @@ namespace Api.Controllers {
         public ActionResult<RideDto> Get(int id) {
             int userId = this.GetCurrentUserId();
 
-            var ride = context.Ride
-                .Where(row => row.UserId == userId)
-                .Where(row => row.RideId == id)
-                .Select(row => new RideDto {
-                    RideId = row.RideId,
-                    StartUtc = row.StartUtc,
-                    EndUtc = row.EndUtc,
-                    Name = row.Name,
-                    AverageSpeedMph = row.AverageSpeedMph,
-                    MaxSpeedMph = row.MaxSpeedMph,
-                    DistanceMiles = row.DistanceMiles,
-                })
-                .SingleOrDefault();
+            var ride = RideHelper.GetRideDto(context, id, userId);
 
             if (ride == null) {
                 return NotFound();
             }
-
-            ride.Jumps = context.Jump
-                .Where(row => row.RideId == id)
-                .OrderBy(row => row.Number)
-                .Select(row => new JumpDto {
-                    JumpId = row.JumpId,
-                    Airtime = row.Airtime,
-                    Number = row.Number,
-                    Timestamp = row.Timestamp,
-                })
-                .ToList();
-
-            ride.Locations = context.RideLocation
-                .Where(row => row.RideId == id)
-                .OrderBy(row => row.Timestamp)
-                .Select(row => new RideLocationDto {
-                    RideLocationId = row.RideLocationId,
-                    AccuracyInMetres = row.AccuracyInMetres,
-                    Altitude = row.Altitude,
-                    Latitude = row.Latitude,
-                    Longitude = row.Longitude,
-                    Mph = row.Mph,
-                    Timestamp = row.Timestamp,
-                })
-                .ToList();
-
-            ride.SegmentAttempts = context.SegmentAttempt
-                .Where(row => row.RideId == id)
-                .Select(row => new SegmentAttemptOverviewDto {
-                    SegmentAttemptId = row.SegmentAttemptId,
-                    RideId = row.RideId,
-                    DisplayName = row.Segment.Name,
-                    StartUtc = row.StartUtc,
-                    EndUtc = row.EndUtc,
-                    Medal = (Medal)row.Medal,
-                })
-                .ToList()
-                .OrderByDescending(row => row.Time)
-                .ToList();
 
             return ride;
         }
@@ -125,8 +74,7 @@ namespace Api.Controllers {
             int userId = this.GetCurrentUserId();
 
             model.RideId = SaveRide(userId, model);
-            SegmentAnalyser.AnalyseRide(context, userId, model.RideId.Value);
-            AchievementAnalyser.AnalyseRide(context, userId, model);
+            Analyser.AnalyseRide(context, userId, model);
 
             return GetRideOverview(model.RideId.Value);
         }

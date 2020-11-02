@@ -89,7 +89,7 @@ namespace Api.Controllers {
             int userId = this.GetCurrentUserId();
 
             int segmentId = SaveSegment(userId, model);
-            SegmentAnalyser.AnalyseSegment(context, userId, segmentId);
+            new SegmentAnalyser().AnalyseSegment(context, userId, segmentId);
 
             return segmentId;
         }

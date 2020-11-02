@@ -1,13 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Api.Utility;
 using DataAccess.Models;
 using Shared;
+using Shared.Dtos;
 using Shared.Interfaces;
 
 namespace Api.Analysers {
-    public static class SegmentAnalyser {
-        public static void AnalyseSegment(ModelDataContext context, int userId, int segmentId) {
+    public class SegmentAnalyser : IAchievementAnalyser {
+        public void Analyse(ModelDataContext context, int userId, RideDto ride) {
+            var segmentIds = context.Segment
+                .Where(row => row.UserId == userId)
+                .Select(row => row.SegmentId)
+                .ToArray();
+
+            foreach (int segmentId in segmentIds) {
+                Analyse(context, userId, ride, segmentId);
+            }
+        }
+
+        public void AnalyseSegment(ModelDataContext context, int userId, int segmentId) {
             var rideIds = context.Ride
                 .Where(row => row.UserId == userId)
                 .OrderBy(row => row.StartUtc)
@@ -15,70 +28,74 @@ namespace Api.Analysers {
                 .ToArray();
 
             foreach (int rideId in rideIds) {
-                Analyse(context, userId, rideId, segmentId);
+                var ride = RideHelper.GetRideDto(context, rideId, userId);
+
+                Analyse(context, userId, ride, segmentId);
             }
         }
 
-        public static void AnalyseRide(ModelDataContext context, int userId, int rideId) {
-            var segmentIds = context.Segment
-                .Where(row => row.UserId == userId)
-                .Select(row => row.SegmentId)
-                .ToArray();
-
-            foreach (int segmentId in segmentIds) {
-                Analyse(context, userId, rideId, segmentId);
-            }
-        }
-
-        private static void Analyse(ModelDataContext context, int userId, int rideId, int segmentId) {
-            var segmentLocations = AnalyserHelper.GetSegmentLocations(context, segmentId);
-            var rideLocations = AnalyserHelper.GetRideLocations(context, rideId);
-            var rideJumps = AnalyserHelper.GetRideJumps(context, rideId);
+        private void Analyse(ModelDataContext context, int userId, RideDto ride, int segmentId) {
+            var segmentLocations = GetSegmentLocations(context, segmentId);
+            var rideLocations = ride.Locations.ToArray();
+            var rideJumps = ride.Jumps;
 
             var result = LocationsMatch(segmentLocations.Cast<ILatLng>().ToList(), rideLocations.Cast<ILatLng>().ToList());
 
-            if (result.MatchesSegment) {
-                SegmentAttempt attempt = new SegmentAttempt {
-                    RideId = rideId,
-                    SegmentId = segmentId,
-                    UserId = userId,
-                    StartUtc = rideLocations[result.StartIdx].Timestamp,
-                    EndUtc = rideLocations[result.EndIdx].Timestamp,
-                };
-
-                attempt.Medal = (int)GetMedal(context, attempt.EndUtc - attempt.StartUtc, segmentId);
-
-                context.SegmentAttempt.Add(attempt);
-                context.SaveChanges();
-
-                var locations = rideLocations[result.StartIdx..result.EndIdx]
-                    .Select(row => new SegmentAttemptLocation {
-                        SegmentAttemptId = attempt.SegmentAttemptId,
-                        RideLocationId = row.RideLocationId,
-                    })
-                    .ToList();
-
-                context.SegmentAttemptLocation.AddRange(locations);
-                context.SaveChanges();
-
-                int jumpCount = 1;
-
-                var jumps = rideJumps
-                    .Where(row => row.Timestamp >= rideLocations[result.StartIdx].Timestamp)
-                    .Where(row => row.Timestamp <= rideLocations[result.EndIdx].Timestamp)
-                    .Select(row => new SegmentAttemptJump {
-                        SegmentAttemptId = attempt.SegmentAttemptId,
-                        JumpId = row.JumpId,
-                        Number = jumpCount++,
-                    })
-                    .ToList();
-
-                context.SegmentAttemptJump.AddRange(jumps);
-                context.SaveChanges();
+            if (!result.MatchesSegment) {
+                return;
             }
+
+            SegmentAttempt attempt = new SegmentAttempt {
+                RideId = ride.RideId.Value,
+                SegmentId = segmentId,
+                UserId = userId,
+                StartUtc = rideLocations[result.StartIdx].Timestamp,
+                EndUtc = rideLocations[result.EndIdx].Timestamp,
+            };
+
+            attempt.Medal = (int)GetMedal(context, attempt.EndUtc - attempt.StartUtc, segmentId);
+
+            context.SegmentAttempt.Add(attempt);
+            context.SaveChanges();
+
+            var locations = rideLocations[result.StartIdx..result.EndIdx]
+                .Select(row => new SegmentAttemptLocation {
+                    SegmentAttemptId = attempt.SegmentAttemptId,
+                    RideLocationId = row.RideLocationId,
+                })
+                .ToList();
+
+            context.SegmentAttemptLocation.AddRange(locations);
+            context.SaveChanges();
+
+            int jumpCount = 1;
+
+            var jumps = rideJumps
+                .Where(row => row.Timestamp >= rideLocations[result.StartIdx].Timestamp)
+                .Where(row => row.Timestamp <= rideLocations[result.EndIdx].Timestamp)
+                .Select(row => new SegmentAttemptJump {
+                    SegmentAttemptId = attempt.SegmentAttemptId,
+                    JumpId = row.JumpId,
+                    Number = jumpCount++,
+                })
+                .ToList();
+
+            context.SegmentAttemptJump.AddRange(jumps);
+            context.SaveChanges();
         }
 
-        public static LocationMatchResult LocationsMatch(IList<ILatLng> segmentLocations, IList<ILatLng> rideLocations) {
+        private LatLng[] GetSegmentLocations(ModelDataContext context, int segmentId) {
+            return context.SegmentLocation
+                .Where(row => row.SegmentId == segmentId)
+                .OrderBy(row => row.Order)
+                .Select(row => new LatLng {
+                    Latitude = row.Latitude,
+                    Longitude = row.Longitude,
+                })
+                .ToArray();
+        }
+
+        public LocationMatchResult LocationsMatch(IList<ILatLng> segmentLocations, IList<ILatLng> rideLocations) {
             bool matchesStart = rideLocations
                 .HasPointOnLine(segmentLocations.First());
 
@@ -124,7 +141,7 @@ namespace Api.Analysers {
             };
         }
 
-        private static ILatLng GetClosestPoint(IList<ILatLng> locations, ILatLng point) {
+        private ILatLng GetClosestPoint(IList<ILatLng> locations, ILatLng point) {
             ILatLng closestLocation = null;
             double lastDistance = double.MaxValue;
 
@@ -140,7 +157,7 @@ namespace Api.Analysers {
             return closestLocation;
         }
 
-        private static Medal GetMedal(ModelDataContext context, TimeSpan time, int segmentId) {
+        private Medal GetMedal(ModelDataContext context, TimeSpan time, int segmentId) {
             var existingAttempts = context.SegmentAttempt
                 .Where(i => i.SegmentId == segmentId)
                 .Select(i => new { i.EndUtc, i.StartUtc })
@@ -172,11 +189,15 @@ namespace Api.Analysers {
             return Medal.None;
         }
 
-
         public class LocationMatchResult {
             public bool MatchesSegment { get; set; }
             public int StartIdx { get; set; }
             public int EndIdx { get; set; }
+        }
+
+        private class LatLng : ILatLng {
+            public double Latitude { get; set; }
+            public double Longitude { get; set; }
         }
     }
 }
