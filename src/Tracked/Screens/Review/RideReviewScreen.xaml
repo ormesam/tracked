@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Screens.Review.RideReviewScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
+    xmlns:localControls="clr-namespace:Tracked.Screens.Review.Controls"
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
@@ -17,16 +18,16 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout
+                Spacing="0">
+                <localControls:Header />
+
                 <controls:MapControl
                     HeightRequest="300"
                     BindingContext="{Binding MapViewModel}" />
-                <Label
-                    Margin="15"
-                    HorizontalOptions="Center"
-                    Text="{Binding Ride.DisplayName}"
-                    FontSize="Large" />
-                <Grid>
+
+                <Grid
+                    Padding="0,15,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition
                             Height="Auto" />
@@ -60,7 +61,7 @@
                         <Label
                             FontSize="Large"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding Time}" />
+                            Text="{Binding Ride.FormattedTime}" />
                     </StackLayout>
 
                     <BoxView
@@ -153,13 +154,6 @@
                             Text="{Binding MaxAirtime}" />
                     </StackLayout>
 
-                    <BoxView
-                        Grid.Row="5"
-                        Grid.ColumnSpan="3"
-                        HeightRequest="1"
-                        Margin="10"
-                        BackgroundColor="LightGray" />
-
                     <Button
                         Grid.Row="6"
                         Grid.ColumnSpan="3"
@@ -173,6 +167,7 @@
                 </Grid>
 
                 <BoxView
+                    IsVisible="{Binding HasSegments}"
                     HeightRequest="10"
                     Margin="0,5"
                     BackgroundColor="LightGray" />
@@ -200,6 +195,7 @@
                 </controls:ExtendedListView>
 
                 <BoxView
+                    IsVisible="{Binding HasJumps}"
                     HeightRequest="10"
                     Margin="0,5"
                     BackgroundColor="LightGray" />

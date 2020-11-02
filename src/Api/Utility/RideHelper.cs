@@ -18,6 +18,8 @@ namespace Api.Utility {
                     MaxSpeedMph = row.MaxSpeedMph,
                     DistanceMiles = row.DistanceMiles,
                     UserId = row.UserId,
+                    UserName = row.User.Name,
+                    UserProfileImageUrl = row.User.ProfileImageUrl,
                 })
                 .SingleOrDefault();
 

@@ -19,7 +19,7 @@ namespace Shared.Dtos {
 
         public string FormattedTime {
             get {
-                var time = EndUtc - StartUtc;
+                var time = EndUtc.ToLocalTime() - StartUtc.ToLocalTime();
 
                 if (time < TimeSpan.FromMinutes(1)) {
                     return $"{time:ss}s".Trim('0');

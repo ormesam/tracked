@@ -13,7 +13,7 @@ namespace Tracked.Screens.Review {
         public RideReviewScreenViewModel(MainContext context) : base(context) {
         }
 
-        public override string Title => Ride.DisplayName;
+        public override string Title => "Ride";
 
         public RideDto Ride {
             get { return ride; }
@@ -27,7 +27,6 @@ namespace Tracked.Screens.Review {
 
         public MapControlViewModel MapViewModel { get; set; }
 
-        public string Time => (Ride.EndUtc - Ride.StartUtc).ToString(@"mm\:ss");
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
         public bool HasJumps => JumpCount > 0;
@@ -40,7 +39,7 @@ namespace Tracked.Screens.Review {
 
             MapViewModel = new MapControlViewModel(
                 Context,
-                Ride.DisplayName,
+                "Ride",
                 PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps));
 
             OnPropertyChanged(nameof(MapViewModel));

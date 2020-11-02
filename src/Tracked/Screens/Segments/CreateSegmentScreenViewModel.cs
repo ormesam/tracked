@@ -26,7 +26,7 @@ namespace Tracked.Screens.Segments {
 
             MapViewModel = new MapControlViewModel(
                 context,
-                Ride?.DisplayName ?? "Map",
+                "Ride",
                 ride != null ? PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps) : new List<MapLocation>(),
                 isReadOnly: false,
                 showRideFeatures: false,

@@ -18,7 +18,7 @@ namespace Tracked.Screens.Review {
             AccelerometerChartModel = CreateAccelerometerChartModel();
         }
 
-        public override string Title => ride.DisplayName;
+        public override string Title => "Ride";
 
         private PlotModel CreateAccelerometerChartModel() {
             var plot = new PlotModel {
