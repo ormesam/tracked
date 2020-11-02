@@ -180,11 +180,13 @@
                 <Label
                     Margin="10,4"
                     Text="Segments"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold"
+                    IsVisible="{Binding HasSegments}"/>
                 <controls:ExtendedListView
                     ItemsSource="{Binding Attempts}"
                     IsScrollEnabled="False"
-                    ItemTapped="Attempt_ItemTapped">
+                    ItemTapped="Attempt_ItemTapped"
+                    IsVisible="{Binding HasSegments}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -203,12 +205,8 @@
                     BackgroundColor="LightGray" />
 
                 <controls:JumpsControl
+                    IsVisible="{Binding HasJumps}"
                     Jumps="{Binding Jumps}" />
-
-                <BoxView
-                    HeightRequest="10"
-                    Margin="0,5"
-                    BackgroundColor="LightGray" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

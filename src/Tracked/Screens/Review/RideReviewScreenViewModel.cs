@@ -30,7 +30,8 @@ namespace Tracked.Screens.Review {
         public string Time => (Ride.EndUtc - Ride.StartUtc).ToString(@"mm\:ss");
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
-
+        public bool HasJumps => JumpCount > 0;
+        public bool HasSegments => Attempts.Count > 0;
         public IList<SegmentAttemptOverviewDto> Attempts => Ride.SegmentAttempts;
         public IList<JumpDto> Jumps => Ride.Jumps;
 
