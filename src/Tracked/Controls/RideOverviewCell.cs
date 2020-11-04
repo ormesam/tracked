@@ -28,8 +28,9 @@ namespace Tracked.Controls {
 
             var item = BindingContext as RideOverviewDto;
 
-            if (item == null)
+            if (item == null) {
                 return;
+            }
 
             cachedRouteSvg.Source = item.RouteSvg;
             cachedProfileImage.Source = item.UserProfileImageUrl;
