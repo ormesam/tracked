@@ -56,6 +56,10 @@ namespace Tracked.Screens.Review {
             await Context.UI.GoToSpeedAnalysisScreenAsync(Ride.Locations);
         }
 
+        public async Task GoToSegment(SegmentAttemptOverviewDto segmentAttempt) {
+            await Context.UI.GoToSegmentScreenAsync(segmentAttempt.SegmentId);
+        }
+
         public async Task CreateSegment() {
             await Context.UI.GoToCreateSegmentScreenAsync(Ride);
         }

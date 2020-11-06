@@ -1,5 +1,6 @@
 ﻿
 using System;
+using Shared.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -32,6 +33,10 @@ namespace Tracked.Screens.Review {
 
         private async void CreateSegment_Clicked(object sender, EventArgs e) {
             await ViewModel.CreateSegment();
+        }
+
+        private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
+            await ViewModel.GoToSegment(e.Item as SegmentAttemptOverviewDto);
         }
     }
 }
