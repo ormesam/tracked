@@ -12,7 +12,7 @@ namespace Tracked.Screens.Segments {
 
         public SegmentScreenViewModel ViewModel => BindingContext as SegmentScreenViewModel;
 
-        private void Name_Tapped(object sender, EventArgs e) {
+        private void ChangeName_Clicked(object sender, EventArgs e) {
             ViewModel.ChangeName();
         }
 

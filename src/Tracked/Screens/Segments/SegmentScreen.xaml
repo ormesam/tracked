@@ -10,22 +10,16 @@
             Text="Delete"
             Clicked="Delete_Clicked"
             Order="Secondary" />
+        <ToolbarItem
+            Text="Rename"
+            Clicked="ChangeName_Clicked"
+            Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <controls:MapControl
-                HeightRequest="300"
+                HeightRequest="400"
                 BindingContext="{Binding MapViewModel}" />
-            <Label
-                Margin="15"
-                HorizontalOptions="Center"
-                Text="{Binding Segment.Name}"
-                FontSize="Large">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer
-                            Tapped="Name_Tapped" />
-                </Label.GestureRecognizers>
-            </Label>
             <ListView
                 ItemsSource="{Binding Segment.Attempts}"
                 CachingStrategy="RecycleElementAndDataTemplate">
