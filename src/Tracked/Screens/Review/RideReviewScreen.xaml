@@ -180,7 +180,6 @@
                 <controls:ExtendedListView
                     ItemsSource="{Binding Attempts}"
                     IsScrollEnabled="False"
-                    ItemTapped="Attempt_ItemTapped"
                     IsVisible="{Binding HasSegments}">
                     <ListView.ItemTemplate>
                         <DataTemplate>

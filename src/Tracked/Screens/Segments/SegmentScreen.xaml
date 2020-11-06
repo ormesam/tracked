@@ -28,8 +28,7 @@
             </Label>
             <ListView
                 ItemsSource="{Binding Segment.Attempts}"
-                CachingStrategy="RecycleElementAndDataTemplate"
-                ItemTapped="Attempt_Tapped">
+                CachingStrategy="RecycleElementAndDataTemplate">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

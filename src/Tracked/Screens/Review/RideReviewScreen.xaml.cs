@@ -1,6 +1,5 @@
 ﻿
 using System;
-using Shared.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,10 +15,6 @@ namespace Tracked.Screens.Review {
 
         private async void SpeedAnalysis_Clicked(object sender, EventArgs e) {
             await ViewModel.GoToSpeedAnalysis();
-        }
-
-        private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAttempt(e.Item as SegmentAttemptOverviewDto);
         }
 
         private async void Delete_Clicked(object sender, EventArgs e) {

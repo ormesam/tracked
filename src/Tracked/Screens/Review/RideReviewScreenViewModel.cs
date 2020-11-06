@@ -52,10 +52,6 @@ namespace Tracked.Screens.Review {
             await Context.UI.GoToMapScreenAsync("Ride", PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps), true);
         }
 
-        public async Task GoToAttempt(SegmentAttemptOverviewDto attempt) {
-            await Context.UI.GoToSegmentAttemptScreenAsync(attempt.SegmentAttemptId);
-        }
-
         public async Task GoToSpeedAnalysis() {
             await Context.UI.GoToSpeedAnalysisScreenAsync(Ride.Locations);
         }

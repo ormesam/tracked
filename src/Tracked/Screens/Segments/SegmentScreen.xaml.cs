@@ -1,5 +1,4 @@
 ﻿using System;
-using Shared.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,10 +14,6 @@ namespace Tracked.Screens.Segments {
 
         private void Name_Tapped(object sender, EventArgs e) {
             ViewModel.ChangeName();
-        }
-
-        private async void Attempt_Tapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAttempt(e.Item as SegmentAttemptOverviewDto);
         }
 
         private async void Delete_Clicked(object sender, EventArgs e) {
