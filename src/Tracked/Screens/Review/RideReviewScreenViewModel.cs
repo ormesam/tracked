@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shared.Dtos;
@@ -42,7 +43,13 @@ namespace Tracked.Screens.Review {
                 "Ride",
                 PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps));
 
+            MapViewModel.MapControlTapped += MapViewModel_MapControlTapped;
+
             OnPropertyChanged(nameof(MapViewModel));
+        }
+
+        private async void MapViewModel_MapControlTapped(object sender, EventArgs e) {
+            await Context.UI.GoToMapScreenAsync("Ride", PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps), true);
         }
 
         public async Task GoToAttempt(SegmentAttemptOverviewDto attempt) {

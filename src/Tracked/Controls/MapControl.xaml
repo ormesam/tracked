@@ -19,7 +19,7 @@
                 x:Name="MapContainer">
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer
-                        Tapped="Map_Tapped" />
+                        Tapped="MapControl_Tapped" />
                 </Grid.GestureRecognizers>
             </Grid>
 

@@ -30,7 +30,6 @@ namespace Tracked.Screens.Segments {
                 ride != null ? PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps) : new List<MapLocation>(),
                 isReadOnly: false,
                 showRideFeatures: false,
-                goToMapPageOnClick: false,
                 mapType: MapType.Satellite,
                 canChangeMapType: true);
 

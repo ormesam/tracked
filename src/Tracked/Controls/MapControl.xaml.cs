@@ -28,8 +28,8 @@ namespace Tracked.Controls {
             picker.Focus();
         }
 
-        private async void Map_Tapped(object sender, EventArgs e) {
-            await ViewModel.OnMappedTapped(sender, e);
+        private void MapControl_Tapped(object sender, EventArgs e) {
+            ViewModel.OnMappedTapped(sender, e);
         }
     }
 }

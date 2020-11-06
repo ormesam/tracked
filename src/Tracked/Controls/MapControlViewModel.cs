@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Shared.Interfaces;
 using Tracked.Contexts;
 using Tracked.Models;
@@ -12,7 +11,6 @@ using Xamarin.Forms.Maps;
 
 namespace Tracked.Controls {
     public class MapControlViewModel : ViewModelBase {
-        private readonly bool goToMapPageOnClick;
         private readonly string title;
         public readonly bool isReadOnly;
         private readonly bool showRideFeatures;
@@ -20,6 +18,7 @@ namespace Tracked.Controls {
         private MapType mapType;
 
         public event EventHandler<MapClickedEventArgs> MapTapped;
+        public event EventHandler<EventArgs> MapControlTapped;
 
         public MapControlViewModel(
             MainContext context,
@@ -27,13 +26,11 @@ namespace Tracked.Controls {
             IList<MapLocation> locations,
             bool isReadOnly = true,
             bool showRideFeatures = true,
-            bool goToMapPageOnClick = true,
             MapType mapType = MapType.Street,
             bool canChangeMapType = false)
             : base(context) {
 
             this.title = title;
-            this.goToMapPageOnClick = goToMapPageOnClick;
             this.isReadOnly = isReadOnly;
 
             Locations = locations;
@@ -46,8 +43,7 @@ namespace Tracked.Controls {
             Position centre = new Position(57.1499749, -2.1950675);
 
             if (Locations.Any()) {
-                var midPoint = Locations.Midpoint();
-                centre = new Position(midPoint.Latitude, midPoint.Longitude);
+                centre = Locations.Midpoint();
             }
 
             map = new CustomMap(MapSpan.FromCenterAndRadius(centre, Distance.FromMiles(.5)), isReadOnly);
@@ -55,9 +51,7 @@ namespace Tracked.Controls {
             map.SetBinding(Map.MapTypeProperty, nameof(MapType), BindingMode.TwoWay);
             map.InputTransparent = isReadOnly;
             map.MapClicked += (s, e) => {
-                if (!goToMapPageOnClick) {
-                    MapTapped?.Invoke(null, e);
-                }
+                MapTapped?.Invoke(null, e);
             };
 
             CreatePolylinesFromLocations();
@@ -130,14 +124,6 @@ namespace Tracked.Controls {
             }
 
             AddPolyLine(polylineLocations, lastColour);
-        }
-
-        private async Task GoToMapScreenAsync() {
-            if (!goToMapPageOnClick) {
-                return;
-            }
-
-            await Context.UI.GoToMapScreenAsync(title, Locations, showRideFeatures);
         }
 
         private void AddMaxSpeedPin(MapLocation location, bool hasMultiplePins) {
@@ -224,10 +210,8 @@ namespace Tracked.Controls {
             return Color.FromHex("#63BE7B");
         }
 
-        public async Task OnMappedTapped(object sender, EventArgs e) {
-            if (goToMapPageOnClick) {
-                await GoToMapScreenAsync();
-            }
+        public void OnMappedTapped(object sender, EventArgs e) {
+            MapControlTapped?.Invoke(sender, e);
         }
     }
 }

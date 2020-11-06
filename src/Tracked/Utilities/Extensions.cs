@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Shared.Dtos;
+using Tracked.Models;
+using Xamarin.Forms.Maps;
 
 namespace Tracked.Utilities {
     public static class Extensions {
@@ -9,14 +11,11 @@ namespace Tracked.Utilities {
             return new ObservableCollection<T>(list);
         }
 
-        public static T Midpoint<T>(this IList<T> list) {
-            if (!list.Any()) {
-                return default;
-            }
+        public static Position Midpoint(this IList<MapLocation> list) {
+            var lat = list.Average(i => i.Latitude);
+            var lon = list.Average(i => i.Longitude);
 
-            int midpoint = (list.Count - 1) / 2;
-
-            return list[midpoint];
+            return new Position(lat, lon);
         }
 
         public static double GetTime(this IList<AccelerometerReadingDto> readings) {
