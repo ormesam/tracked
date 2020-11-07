@@ -6,8 +6,6 @@ sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tabl
 sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tables\Segment.sql
 sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tables\SegmentLocation.sql
 sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tables\SegmentAttempt.sql
-sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tables\SegmentAttemptLocation.sql
-sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tables\SegmentAttemptJump.sql
 sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tables\AccelerometerReading.sql
 sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tables\SpeedAchievement.sql
 sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tables\JumpAchievement.sql

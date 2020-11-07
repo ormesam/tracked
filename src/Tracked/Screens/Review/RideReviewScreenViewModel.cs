@@ -32,7 +32,7 @@ namespace Tracked.Screens.Review {
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
         public bool HasJumps => JumpCount > 0;
         public bool HasSegments => Attempts.Count > 0;
-        public IList<SegmentAttemptOverviewDto> Attempts => Ride.SegmentAttempts;
+        public IList<SegmentAttemptDto> Attempts => Ride.SegmentAttempts;
         public IList<JumpDto> Jumps => Ride.Jumps;
 
         public async Task Load(int id) {
@@ -49,14 +49,14 @@ namespace Tracked.Screens.Review {
         }
 
         private async void MapViewModel_MapControlTapped(object sender, EventArgs e) {
-            await Context.UI.GoToMapScreenAsync("Ride", PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps), true);
+            await Context.UI.GoToMapScreenAsync(Ride);
         }
 
         public async Task GoToSpeedAnalysis() {
             await Context.UI.GoToSpeedAnalysisScreenAsync(Ride.Locations);
         }
 
-        public async Task GoToSegment(SegmentAttemptOverviewDto segmentAttempt) {
+        public async Task GoToSegment(SegmentAttemptDto segmentAttempt) {
             await Context.UI.GoToSegmentScreenAsync(segmentAttempt.SegmentId);
         }
 

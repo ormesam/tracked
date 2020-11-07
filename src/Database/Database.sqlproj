@@ -71,7 +71,6 @@
     <None Include="Create\Tables\Segment.sql" />
     <None Include="Create\Tables\SegmentAttempt.sql" />
     <None Include="Create\Tables\TraceMessage.sql" />
-    <None Include="Create\Tables\SegmentAttemptLocation.sql" />
     <None Include="Create\Tables\UserSpeedAchievement.sql" />
     <None Include="Create\Tables\SpeedAchievement.sql" />
     <None Include="Create\Tables\UserJumpAchievement.sql" />
@@ -94,9 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\SegmentLocation.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Create\Tables\SegmentAttemptJump.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Upgrades\2020-03-10\Upgrade.sql" />

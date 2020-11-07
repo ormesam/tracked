@@ -6,6 +6,30 @@
     x:Class="Tracked.Screens.Review.MapScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <controls:MapControl />
+        <Grid
+            RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <controls:MapControl />
+
+            <ListView
+                Grid.Row="1"
+                ItemsSource="{Binding SegmentAttempts}"
+                ItemTapped="SegmentAttempt_Tapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <controls:MedalsCell
+                                Text="{Binding DisplayName}"
+                                Detail="{Binding FormattedTime}"
+                                Medal="{Binding Medal}" />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

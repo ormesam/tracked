@@ -5,11 +5,11 @@ namespace Shared.Dtos {
         public int? SegmentId { get; set; }
         public string Name { get; set; }
         public IList<SegmentLocationDto> Locations { get; set; }
-        public IList<SegmentAttemptOverviewDto> Attempts { get; set; }
+        public IList<SegmentAttemptDto> Attempts { get; set; }
 
         public SegmentDto() {
             Locations = new List<SegmentLocationDto>();
-            Attempts = new List<SegmentAttemptOverviewDto>();
+            Attempts = new List<SegmentAttemptDto>();
         }
     }
 }

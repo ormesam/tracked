@@ -171,8 +171,6 @@ namespace Api.Controllers {
             var locations = context.RideLocation.Where(row => row.RideId == rideId);
             var jumps = context.Jump.Where(row => row.RideId == rideId);
             var attempts = context.SegmentAttempt.Where(row => row.RideId == rideId);
-            var attemptLocations = context.SegmentAttemptLocation.Where(row => row.RideLocation.RideId == rideId);
-            var attemptJumps = context.SegmentAttemptJump.Where(row => row.Jump.RideId == rideId);
             var jumpAchievements = context.UserJumpAchievement.Where(row => row.RideId == rideId);
             var speedAchievements = context.UserSpeedAchievement.Where(row => row.RideId == rideId);
             var distanceAchievements = context.UserDistanceAchievement.Where(row => row.RideId == rideId);
@@ -180,8 +178,6 @@ namespace Api.Controllers {
             context.RideLocation.RemoveRange(locations);
             context.Jump.RemoveRange(jumps);
             context.SegmentAttempt.RemoveRange(attempts);
-            context.SegmentAttemptLocation.RemoveRange(attemptLocations);
-            context.SegmentAttemptJump.RemoveRange(attemptJumps);
             context.UserJumpAchievement.RemoveRange(jumpAchievements);
             context.UserSpeedAchievement.RemoveRange(speedAchievements);
             context.UserDistanceAchievement.RemoveRange(distanceAchievements);

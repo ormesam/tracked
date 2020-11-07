@@ -103,8 +103,8 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new AchievementScreen(context, achievement));
         }
 
-        public async Task GoToMapScreenAsync(string title, IList<MapLocation> locations, bool showRideFeatures) {
-            await GoToScreenAsync(new MapScreen(context, title, locations, showRideFeatures));
+        public async Task GoToMapScreenAsync(RideDto ride) {
+            await GoToScreenAsync(new MapScreen(context, ride));
         }
 
         public async Task GoToCreateSegmentScreenAsync(RideDto ride = null) {

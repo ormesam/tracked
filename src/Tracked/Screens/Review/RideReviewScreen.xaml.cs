@@ -36,7 +36,7 @@ namespace Tracked.Screens.Review {
         }
 
         private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToSegment(e.Item as SegmentAttemptOverviewDto);
+            await ViewModel.GoToSegment(e.Item as SegmentAttemptDto);
         }
     }
 }

@@ -14,11 +14,12 @@ namespace Tracked.Controls {
         private readonly string title;
         public readonly bool isReadOnly;
         private readonly bool showRideFeatures;
-        private CustomMap map;
         private MapType mapType;
 
         public event EventHandler<MapClickedEventArgs> MapTapped;
         public event EventHandler<EventArgs> MapControlTapped;
+
+        protected CustomMap Map { get; set; }
 
         public MapControlViewModel(
             MainContext context,
@@ -46,17 +47,17 @@ namespace Tracked.Controls {
                 centre = Locations.Midpoint();
             }
 
-            map = new CustomMap(MapSpan.FromCenterAndRadius(centre, Distance.FromMiles(.5)), isReadOnly);
-            map.IsShowingUser = false;
-            map.SetBinding(Map.MapTypeProperty, nameof(MapType), BindingMode.TwoWay);
-            map.InputTransparent = isReadOnly;
-            map.MapClicked += (s, e) => {
+            Map = new CustomMap(MapSpan.FromCenterAndRadius(centre, Distance.FromMiles(.5)), isReadOnly);
+            Map.IsShowingUser = false;
+            Map.SetBinding(Xamarin.Forms.Maps.Map.MapTypeProperty, nameof(MapType), BindingMode.TwoWay);
+            Map.InputTransparent = isReadOnly;
+            Map.MapClicked += (s, e) => {
                 MapTapped?.Invoke(null, e);
             };
 
             CreatePolylinesFromLocations();
 
-            return map;
+            return Map;
         }
 
         public bool CanChangeMapType { get; }
@@ -134,7 +135,7 @@ namespace Tracked.Controls {
                 Rotation = hasMultiplePins ? 330 : 0,
             };
 
-            map.Pins.Add(pin);
+            Map.Pins.Add(pin);
         }
 
         private void AddJumpPin(MapLocation location, bool hasMultiplePins) {
@@ -145,7 +146,7 @@ namespace Tracked.Controls {
                 Rotation = hasMultiplePins ? 30 : 0,
             };
 
-            map.Pins.Add(pin);
+            Map.Pins.Add(pin);
         }
 
         public void AddPolyLine(IList<ILatLng> latLngs, Color colour) {
@@ -162,7 +163,7 @@ namespace Tracked.Controls {
             polyline.StrokeColor = colour;
             polyline.StrokeWidth = 10f;
 
-            map.MapElements.Add(polyline);
+            Map.MapElements.Add(polyline);
         }
 
         private Color GetMaxSpeedColour(double mph, double maxSpeed) {
