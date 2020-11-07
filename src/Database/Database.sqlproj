@@ -63,6 +63,7 @@
     <Folder Include="Upgrades\2020-04-15" />
     <Folder Include="Upgrades\2020-05-19" />
     <Folder Include="Upgrades\2020-10-11" />
+    <Folder Include="Upgrades\2020-11-07" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\User.sql" />
@@ -78,6 +79,7 @@
     <None Include="Upgrades\2020-04-15\Upgrade.sql" />
     <None Include="Upgrades\2020-05-19\Upgrade.sql" />
     <None Include="Upgrades\2020-10-11\Upgrade.sql" />
+    <None Include="Upgrades\2020-11-07\Upgrade.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\DropAndRecreateAll.bat" />
