@@ -18,10 +18,6 @@ namespace Tracked.Screens.Review {
             await ViewModel.GoToSpeedAnalysis();
         }
 
-        private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToAttempt(e.Item as SegmentAttemptOverviewDto);
-        }
-
         private async void Delete_Clicked(object sender, EventArgs e) {
             bool delete = await DisplayAlert(
                 "Delete Ride",
@@ -37,6 +33,10 @@ namespace Tracked.Screens.Review {
 
         private async void CreateSegment_Clicked(object sender, EventArgs e) {
             await ViewModel.CreateSegment();
+        }
+
+        private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
+            await ViewModel.GoToSegment(e.Item as SegmentAttemptDto);
         }
     }
 }

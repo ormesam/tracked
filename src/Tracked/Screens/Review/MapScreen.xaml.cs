@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Tracked.Screens.Review {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapScreen : ContentPage {
-        public MapScreen(MainContext context, string title, IList<MapLocation> locations, bool showRideFeatures) {
+        public MapScreen(MainContext context, RideDto ride) {
             InitializeComponent();
-            BindingContext = new MapScreenViewModel(context, title, locations, showRideFeatures);
+            BindingContext = new MapScreenViewModel(context, ride);
         }
 
         public MapScreenViewModel ViewModel => BindingContext as MapScreenViewModel;
+
+        private void SegmentAttempt_Tapped(object sender, ItemTappedEventArgs e) {
+            ViewModel.HighlightSegment(e.Item as SegmentAttemptDto);
+        }
     }
 }

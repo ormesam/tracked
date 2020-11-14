@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Shared.Dtos;
+using Shared.Interfaces;
 using Tracked.Models;
 using Xamarin.Forms.Maps;
 
@@ -11,7 +12,15 @@ namespace Tracked.Utilities {
             return new ObservableCollection<T>(list);
         }
 
-        public static Position Midpoint(this IList<MapLocation> list) {
+        public static Position Midpoint(this IEnumerable<RideLocationDto> list) {
+            return Midpoint(list.Cast<ILatLng>());
+        }
+
+        public static Position Midpoint(this IEnumerable<MapLocation> list) {
+            return Midpoint(list.Cast<ILatLng>());
+        }
+
+        public static Position Midpoint(this IEnumerable<ILatLng> list) {
             var lat = list.Average(i => i.Latitude);
             var lon = list.Average(i => i.Longitude);
 

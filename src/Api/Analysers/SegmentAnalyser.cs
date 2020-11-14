@@ -57,31 +57,6 @@ namespace Api.Analysers {
 
             context.SegmentAttempt.Add(attempt);
             context.SaveChanges();
-
-            var locations = rideLocations[result.StartIdx..result.EndIdx]
-                .Select(row => new SegmentAttemptLocation {
-                    SegmentAttemptId = attempt.SegmentAttemptId,
-                    RideLocationId = row.RideLocationId,
-                })
-                .ToList();
-
-            context.SegmentAttemptLocation.AddRange(locations);
-            context.SaveChanges();
-
-            int jumpCount = 1;
-
-            var jumps = rideJumps
-                .Where(row => row.Timestamp >= rideLocations[result.StartIdx].Timestamp)
-                .Where(row => row.Timestamp <= rideLocations[result.EndIdx].Timestamp)
-                .Select(row => new SegmentAttemptJump {
-                    SegmentAttemptId = attempt.SegmentAttemptId,
-                    JumpId = row.JumpId,
-                    Number = jumpCount++,
-                })
-                .ToList();
-
-            context.SegmentAttemptJump.AddRange(jumps);
-            context.SaveChanges();
         }
 
         private LatLng[] GetSegmentLocations(ModelDataContext context, int segmentId) {

@@ -66,7 +66,7 @@ namespace Api.Controllers {
             segment.Attempts = context.SegmentAttempt
                 .Where(row => row.SegmentId == id)
                 .OrderByDescending(row => row.StartUtc)
-                .Select(row => new SegmentAttemptOverviewDto {
+                .Select(row => new SegmentAttemptDto {
                     SegmentAttemptId = row.SegmentAttemptId,
                     RideId = row.RideId,
                     DisplayName = row.Ride.Name ?? row.Ride.StartUtc.ToString("dd MMM yy HH:mm"),
@@ -156,12 +156,8 @@ namespace Api.Controllers {
 
             var segmentLocations = context.SegmentLocation.Where(row => row.SegmentId == segmentId);
             var attempts = context.SegmentAttempt.Where(row => row.SegmentId == segmentId);
-            var attemptLocations = context.SegmentAttemptLocation.Where(row => row.SegmentAttempt.SegmentId == segmentId);
-            var attemptJumps = context.SegmentAttemptJump.Where(row => row.SegmentAttempt.SegmentId == segmentId);
 
             context.SegmentLocation.RemoveRange(segmentLocations);
-            context.SegmentAttemptLocation.RemoveRange(attemptLocations);
-            context.SegmentAttemptJump.RemoveRange(attemptJumps);
             context.SegmentAttempt.RemoveRange(attempts);
             context.Segment.Remove(segment);
 

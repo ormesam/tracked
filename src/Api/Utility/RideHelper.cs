@@ -54,8 +54,9 @@ namespace Api.Utility {
 
             ride.SegmentAttempts = context.SegmentAttempt
                 .Where(row => row.RideId == rideId)
-                .Select(row => new SegmentAttemptOverviewDto {
+                .Select(row => new SegmentAttemptDto {
                     SegmentAttemptId = row.SegmentAttemptId,
+                    SegmentId = row.SegmentId,
                     RideId = row.RideId,
                     DisplayName = row.Segment.Name,
                     StartUtc = row.StartUtc,

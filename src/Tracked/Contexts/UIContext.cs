@@ -10,7 +10,6 @@ using Tracked.Screens.Achievements;
 using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Record;
 using Tracked.Screens.Review;
-using Tracked.Screens.SegmentAttempt;
 using Tracked.Screens.Segments;
 using Tracked.Screens.Settings;
 using Xamarin.Forms;
@@ -104,8 +103,8 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new AchievementScreen(context, achievement));
         }
 
-        public async Task GoToMapScreenAsync(string title, IList<MapLocation> locations, bool showRideFeatures) {
-            await GoToScreenAsync(new MapScreen(context, title, locations, showRideFeatures));
+        public async Task GoToMapScreenAsync(RideDto ride) {
+            await GoToScreenAsync(new MapScreen(context, ride));
         }
 
         public async Task GoToCreateSegmentScreenAsync(RideDto ride = null) {
@@ -116,12 +115,6 @@ namespace Tracked.Contexts {
             SegmentScreenViewModel viewModel = new SegmentScreenViewModel(context);
             await viewModel.Load(segmentId);
             await GoToScreenAsync(new SegmentScreen(viewModel));
-        }
-
-        public async Task GoToSegmentAttemptScreenAsync(int segmentAttemptId) {
-            SegmentAttemptScreenViewModel viewModel = new SegmentAttemptScreenViewModel(context);
-            await viewModel.Load(segmentAttemptId);
-            await GoToScreenAsync(new SegmentAttemptScreen(viewModel));
         }
 
         public async Task GoToSpeedAnalysisScreenAsync(IList<RideLocationDto> rideLocation) {
