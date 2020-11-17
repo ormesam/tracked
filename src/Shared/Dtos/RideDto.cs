@@ -15,7 +15,7 @@ namespace Shared.Dtos {
         public double DistanceMiles { get; set; }
         public IList<RideLocationDto> Locations { get; set; }
         public IList<JumpDto> Jumps { get; set; }
-        public IList<SegmentAttemptDto> SegmentAttempts { get; set; }
+        public IList<TrailAttemptDto> TrailAttempts { get; set; }
 
         public string FormattedTime {
             get {
@@ -52,7 +52,7 @@ namespace Shared.Dtos {
         public RideDto() {
             Locations = new List<RideLocationDto>();
             Jumps = new List<JumpDto>();
-            SegmentAttempts = new List<SegmentAttemptDto>();
+            TrailAttempts = new List<TrailAttemptDto>();
         }
     }
 }

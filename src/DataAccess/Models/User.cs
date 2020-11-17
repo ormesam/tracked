@@ -8,8 +8,8 @@ namespace DataAccess.Models
         public User()
         {
             Ride = new HashSet<Ride>();
-            Segment = new HashSet<Segment>();
-            SegmentAttempt = new HashSet<SegmentAttempt>();
+            Trail = new HashSet<Trail>();
+            TrailAttempt = new HashSet<TrailAttempt>();
             UserDistanceAchievement = new HashSet<UserDistanceAchievement>();
             UserJumpAchievement = new HashSet<UserJumpAchievement>();
             UserSpeedAchievement = new HashSet<UserSpeedAchievement>();
@@ -22,8 +22,8 @@ namespace DataAccess.Models
         public string ProfileImageUrl { get; set; }
 
         public virtual ICollection<Ride> Ride { get; set; }
-        public virtual ICollection<Segment> Segment { get; set; }
-        public virtual ICollection<SegmentAttempt> SegmentAttempt { get; set; }
+        public virtual ICollection<Trail> Trail { get; set; }
+        public virtual ICollection<TrailAttempt> TrailAttempt { get; set; }
         public virtual ICollection<UserDistanceAchievement> UserDistanceAchievement { get; set; }
         public virtual ICollection<UserJumpAchievement> UserJumpAchievement { get; set; }
         public virtual ICollection<UserSpeedAchievement> UserSpeedAchievement { get; set; }

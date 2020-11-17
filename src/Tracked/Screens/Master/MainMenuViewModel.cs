@@ -14,8 +14,8 @@ namespace Tracked.Screens.Master {
                  },
                  new ExtendedMenuItem
                  {
-                      Title = "Segments",
-                      OnClick = Context.UI.GoToExploreSegmentsScreenAsync,
+                      Title = "Trails",
+                      OnClick = Context.UI.GoToExploreTrailsScreenAsync,
                  },
                  new ExtendedMenuItem
                  {

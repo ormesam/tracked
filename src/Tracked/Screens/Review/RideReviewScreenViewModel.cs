@@ -31,8 +31,8 @@ namespace Tracked.Screens.Review {
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
         public bool HasJumps => JumpCount > 0;
-        public bool HasSegments => Attempts.Count > 0;
-        public IList<SegmentAttemptDto> Attempts => Ride.SegmentAttempts;
+        public bool HasTrails => Attempts.Count > 0;
+        public IList<TrailAttemptDto> Attempts => Ride.TrailAttempts;
         public IList<JumpDto> Jumps => Ride.Jumps;
 
         public async Task Load(int id) {
@@ -56,12 +56,12 @@ namespace Tracked.Screens.Review {
             await Context.UI.GoToSpeedAnalysisScreenAsync(Ride.Locations);
         }
 
-        public async Task GoToSegment(SegmentAttemptDto segmentAttempt) {
-            await Context.UI.GoToSegmentScreenAsync(segmentAttempt.SegmentId);
+        public async Task GoToTrail(TrailAttemptDto trailAttempt) {
+            await Context.UI.GoToTrailScreenAsync(trailAttempt.TrailId);
         }
 
-        public async Task CreateSegment() {
-            await Context.UI.GoToCreateSegmentScreenAsync(Ride);
+        public async Task CreateTrail() {
+            await Context.UI.GoToCreateTrailScreenAsync(Ride);
         }
 
         public async Task Delete() {

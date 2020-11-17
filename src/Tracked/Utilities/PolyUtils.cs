@@ -43,7 +43,7 @@ namespace Tracked.Utilities {
             return mapLocations;
         }
 
-        public static IList<MapLocation> GetMapLocations(IList<SegmentLocationDto> locations) {
+        public static IList<MapLocation> GetMapLocations(IList<TrailLocationDto> locations) {
             return locations
                 .OrderBy(i => i.Order)
                 .Select(i => new MapLocation {

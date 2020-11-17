@@ -10,7 +10,7 @@ using Xamarin.Forms.Maps;
 namespace Tracked.Screens.Review {
     public class MapScreenViewModel : MapControlViewModel {
         private readonly RideDto ride;
-        private Polyline selectedSegmentLine;
+        private Polyline selectedTrailLine;
 
         public MapScreenViewModel(MainContext context, RideDto ride)
             : base(context, "Ride", PolyUtils.GetMapLocations(ride.Locations, ride.Jumps), isReadOnly: false, showRideFeatures: true, canChangeMapType: true) {
@@ -18,14 +18,14 @@ namespace Tracked.Screens.Review {
             this.ride = ride;
         }
 
-        public IList<SegmentAttemptDto> SegmentAttempts => ride.SegmentAttempts;
+        public IList<TrailAttemptDto> TrailAttempts => ride.TrailAttempts;
 
-        public void HighlightSegment(SegmentAttemptDto attempt) {
-            if (selectedSegmentLine != null) {
-                Map.MapElements.Remove(selectedSegmentLine);
+        public void HighlightTrail(TrailAttemptDto attempt) {
+            if (selectedTrailLine != null) {
+                Map.MapElements.Remove(selectedTrailLine);
             }
 
-            selectedSegmentLine = new Polyline();
+            selectedTrailLine = new Polyline();
 
             var latLngs = ride.Locations
                 .Where(i => i.Timestamp >= attempt.StartUtc)
@@ -33,13 +33,13 @@ namespace Tracked.Screens.Review {
 
 
             foreach (var latLng in latLngs) {
-                selectedSegmentLine.Geopath.Add(new Position(latLng.Latitude, latLng.Longitude));
+                selectedTrailLine.Geopath.Add(new Position(latLng.Latitude, latLng.Longitude));
             }
 
-            selectedSegmentLine.StrokeColor = Color.Blue;
-            selectedSegmentLine.StrokeWidth = 20f;
+            selectedTrailLine.StrokeColor = Color.Blue;
+            selectedTrailLine.StrokeWidth = 20f;
 
-            Map.MapElements.Add(selectedSegmentLine);
+            Map.MapElements.Add(selectedTrailLine);
 
             var centre = latLngs.Midpoint();
             Map.MoveToRegion(MapSpan.FromCenterAndRadius(centre, Distance.FromMiles(.25)));

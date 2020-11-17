@@ -10,7 +10,7 @@ using Tracked.Screens.Achievements;
 using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Record;
 using Tracked.Screens.Review;
-using Tracked.Screens.Segments;
+using Tracked.Screens.Trails;
 using Tracked.Screens.Settings;
 using Xamarin.Forms;
 
@@ -83,8 +83,8 @@ namespace Tracked.Contexts {
             await GoToSideBarItemAsync(new AchievementOverviewScreen(context));
         }
 
-        public async Task GoToExploreSegmentsScreenAsync() {
-            await GoToSideBarItemAsync(new ExploreSegmentsScreen(context));
+        public async Task GoToExploreTrailsScreenAsync() {
+            await GoToSideBarItemAsync(new ExploreTrailsScreen(context));
         }
 
         #endregion
@@ -107,14 +107,14 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new MapScreen(context, ride));
         }
 
-        public async Task GoToCreateSegmentScreenAsync(RideDto ride = null) {
-            await GoToScreenAsync(new CreateSegmentScreen(context, ride));
+        public async Task GoToCreateTrailScreenAsync(RideDto ride = null) {
+            await GoToScreenAsync(new CreateTrailScreen(context, ride));
         }
 
-        public async Task GoToSegmentScreenAsync(int segmentId) {
-            SegmentScreenViewModel viewModel = new SegmentScreenViewModel(context);
-            await viewModel.Load(segmentId);
-            await GoToScreenAsync(new SegmentScreen(viewModel));
+        public async Task GoToTrailScreenAsync(int trailId) {
+            TrailScreenViewModel viewModel = new TrailScreenViewModel(context);
+            await viewModel.Load(trailId);
+            await GoToScreenAsync(new TrailScreen(viewModel));
         }
 
         public async Task GoToSpeedAnalysisScreenAsync(IList<RideLocationDto> rideLocation) {

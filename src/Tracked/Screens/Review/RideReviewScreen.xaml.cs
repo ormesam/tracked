@@ -21,7 +21,7 @@ namespace Tracked.Screens.Review {
         private async void Delete_Clicked(object sender, EventArgs e) {
             bool delete = await DisplayAlert(
                 "Delete Ride",
-                "Are you sure you want to delete this ride? You will lose all segment attempts and achievements.",
+                "Are you sure you want to delete this ride? You will lose all trail attempts and achievements.",
                 "Yes",
                 "No");
 
@@ -31,12 +31,12 @@ namespace Tracked.Screens.Review {
             }
         }
 
-        private async void CreateSegment_Clicked(object sender, EventArgs e) {
-            await ViewModel.CreateSegment();
+        private async void CreateTrail_Clicked(object sender, EventArgs e) {
+            await ViewModel.CreateTrail();
         }
 
         private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToSegment(e.Item as SegmentAttemptDto);
+            await ViewModel.GoToTrail(e.Item as TrailAttemptDto);
         }
     }
 }

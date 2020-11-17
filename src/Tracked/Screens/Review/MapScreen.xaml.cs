@@ -13,8 +13,8 @@ namespace Tracked.Screens.Review {
 
         public MapScreenViewModel ViewModel => BindingContext as MapScreenViewModel;
 
-        private void SegmentAttempt_Tapped(object sender, ItemTappedEventArgs e) {
-            ViewModel.HighlightSegment(e.Item as SegmentAttemptDto);
+        private void TrailAttempt_Tapped(object sender, ItemTappedEventArgs e) {
+            ViewModel.HighlightTrail(e.Item as TrailAttemptDto);
         }
     }
 }

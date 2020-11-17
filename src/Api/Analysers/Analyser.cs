@@ -8,7 +8,7 @@ namespace Api.Analysers {
                 new SpeedAnalyser(),
                 new JumpAnalyser(),
                 new DistanceAnalyser(),
-                new SegmentAnalyser(),
+                new TrailAnalyser(),
             };
 
             foreach (var analyser in analysers) {

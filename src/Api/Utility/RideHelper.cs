@@ -52,13 +52,13 @@ namespace Api.Utility {
                 })
                 .ToList();
 
-            ride.SegmentAttempts = context.SegmentAttempt
+            ride.TrailAttempts = context.TrailAttempt
                 .Where(row => row.RideId == rideId)
-                .Select(row => new SegmentAttemptDto {
-                    SegmentAttemptId = row.SegmentAttemptId,
-                    SegmentId = row.SegmentId,
+                .Select(row => new TrailAttemptDto {
+                    TrailAttemptId = row.TrailAttemptId,
+                    TrailId = row.TrailId,
                     RideId = row.RideId,
-                    DisplayName = row.Segment.Name,
+                    DisplayName = row.Trail.Name,
                     StartUtc = row.StartUtc,
                     EndUtc = row.EndUtc,
                     Medal = (Medal)row.Medal,

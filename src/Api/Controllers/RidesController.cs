@@ -22,7 +22,7 @@ namespace Api.Controllers {
         public ActionResult<IList<RideOverviewDto>> Get() {
             int userId = this.GetCurrentUserId();
 
-            var medalsByRide = context.SegmentAttempt
+            var medalsByRide = context.TrailAttempt
                 .Where(row => row.UserId == userId)
                 .Where(row => row.Medal != (int)Medal.None)
                 .ToLookup(row => row.RideId, row => (Medal)row.Medal);
@@ -80,7 +80,7 @@ namespace Api.Controllers {
         }
 
         private RideOverviewDto GetRideOverview(int rideId) {
-            var medals = context.SegmentAttempt
+            var medals = context.TrailAttempt
                 .Where(row => row.RideId == rideId)
                 .Where(row => row.Medal != (int)Medal.None)
                 .Select(row => (Medal)row.Medal);
@@ -170,14 +170,14 @@ namespace Api.Controllers {
 
             var locations = context.RideLocation.Where(row => row.RideId == rideId);
             var jumps = context.Jump.Where(row => row.RideId == rideId);
-            var attempts = context.SegmentAttempt.Where(row => row.RideId == rideId);
+            var attempts = context.TrailAttempt.Where(row => row.RideId == rideId);
             var jumpAchievements = context.UserJumpAchievement.Where(row => row.RideId == rideId);
             var speedAchievements = context.UserSpeedAchievement.Where(row => row.RideId == rideId);
             var distanceAchievements = context.UserDistanceAchievement.Where(row => row.RideId == rideId);
 
             context.RideLocation.RemoveRange(locations);
             context.Jump.RemoveRange(jumps);
-            context.SegmentAttempt.RemoveRange(attempts);
+            context.TrailAttempt.RemoveRange(attempts);
             context.UserJumpAchievement.RemoveRange(jumpAchievements);
             context.UserSpeedAchievement.RemoveRange(speedAchievements);
             context.UserDistanceAchievement.RemoveRange(distanceAchievements);

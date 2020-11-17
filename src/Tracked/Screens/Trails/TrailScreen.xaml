@@ -2,23 +2,27 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Trails.TrailScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
-    x:Class="Tracked.Screens.Review.MapScreen"
     Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Delete"
+            Clicked="Delete_Clicked"
+            Order="Secondary" />
+        <ToolbarItem
+            Text="Rename"
+            Clicked="ChangeName_Clicked"
+            Order="Secondary" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid
-            RowSpacing="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            
-            <controls:MapControl />
-
+        <StackLayout>
+            <controls:MapControl
+                HeightRequest="400"
+                BindingContext="{Binding MapViewModel}" />
             <ListView
-                Grid.Row="1"
-                ItemsSource="{Binding TrailAttempts}"
-                ItemTapped="TrailAttempt_Tapped">
+                ItemsSource="{Binding Trail.Attempts}"
+                CachingStrategy="RecycleElementAndDataTemplate">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -30,6 +34,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

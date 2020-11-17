@@ -43,27 +43,27 @@ namespace Tracked.Contexts {
             await PostAsync<bool>("rides/delete", rideId);
         }
 
-        public async Task<IList<SegmentOverviewDto>> GetSegmentOverviews() {
-            return await GetAsync<IList<SegmentOverviewDto>>("segments");
+        public async Task<IList<TrailOverviewDto>> GetTrailOverviews() {
+            return await GetAsync<IList<TrailOverviewDto>>("trails");
         }
 
-        public async Task<int> UploadSegment(SegmentDto segment) {
-            return await PostAsync<int>("segments/add", segment);
+        public async Task<int> UploadTrail(TrailDto trail) {
+            return await PostAsync<int>("trails/add", trail);
         }
 
-        public async Task<string> ChangeSegmentName(int segmentId, string newName) {
-            return await PostAsync<string>("segments/change-name", new SegmentChangeNameDto {
-                SegmentId = segmentId,
+        public async Task<string> ChangeTrailName(int trailId, string newName) {
+            return await PostAsync<string>("trails/change-name", new TrailChangeNameDto {
+                TrailId = trailId,
                 Name = newName,
             });
         }
 
-        public async Task<SegmentDto> GetSegment(int id) {
-            return await GetAsync<SegmentDto>("segments/" + id);
+        public async Task<TrailDto> GetTrail(int id) {
+            return await GetAsync<TrailDto>("trails/" + id);
         }
 
-        public async Task DeleteSegment(int segmentId) {
-            await PostAsync<bool>("segments/delete", segmentId);
+        public async Task DeleteTrail(int trailId) {
+            await PostAsync<bool>("trails/delete", trailId);
         }
 
         public async Task<IList<AchievementDto>> GetAchievements() {

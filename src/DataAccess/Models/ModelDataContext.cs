@@ -21,11 +21,11 @@ namespace DataAccess.Models
         public virtual DbSet<JumpAchievement> JumpAchievement { get; set; }
         public virtual DbSet<Ride> Ride { get; set; }
         public virtual DbSet<RideLocation> RideLocation { get; set; }
-        public virtual DbSet<Segment> Segment { get; set; }
-        public virtual DbSet<SegmentAttempt> SegmentAttempt { get; set; }
-        public virtual DbSet<SegmentLocation> SegmentLocation { get; set; }
         public virtual DbSet<SpeedAchievement> SpeedAchievement { get; set; }
         public virtual DbSet<TraceMessage> TraceMessage { get; set; }
+        public virtual DbSet<Trail> Trail { get; set; }
+        public virtual DbSet<TrailAttempt> TrailAttempt { get; set; }
+        public virtual DbSet<TrailLocation> TrailLocation { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserDistanceAchievement> UserDistanceAchievement { get; set; }
         public virtual DbSet<UserJumpAchievement> UserJumpAchievement { get; set; }
@@ -106,51 +106,6 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_RideLocation_Ride");
             });
 
-            modelBuilder.Entity<Segment>(entity =>
-            {
-                entity.Property(e => e.Name).HasMaxLength(255);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Segment)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Segment_User");
-            });
-
-            modelBuilder.Entity<SegmentAttempt>(entity =>
-            {
-                entity.Property(e => e.EndUtc).HasColumnType("datetime");
-
-                entity.Property(e => e.StartUtc).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.SegmentAttempt)
-                    .HasForeignKey(d => d.RideId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SegmentAttempt_Ride");
-
-                entity.HasOne(d => d.Segment)
-                    .WithMany(p => p.SegmentAttempt)
-                    .HasForeignKey(d => d.SegmentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SegmentAttempt_Segment");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.SegmentAttempt)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SegmentAttempt_User");
-            });
-
-            modelBuilder.Entity<SegmentLocation>(entity =>
-            {
-                entity.HasOne(d => d.Segment)
-                    .WithMany(p => p.SegmentLocation)
-                    .HasForeignKey(d => d.SegmentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SegmentLocation_Segment");
-            });
-
             modelBuilder.Entity<SpeedAchievement>(entity =>
             {
                 entity.Property(e => e.Name)
@@ -165,10 +120,55 @@ namespace DataAccess.Models
                 entity.Property(e => e.Message).IsRequired();
             });
 
+            modelBuilder.Entity<Trail>(entity =>
+            {
+                entity.Property(e => e.Name).HasMaxLength(255);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Trail)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Trail_User");
+            });
+
+            modelBuilder.Entity<TrailAttempt>(entity =>
+            {
+                entity.Property(e => e.EndUtc).HasColumnType("datetime");
+
+                entity.Property(e => e.StartUtc).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Ride)
+                    .WithMany(p => p.TrailAttempt)
+                    .HasForeignKey(d => d.RideId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TrailAttempt_Ride");
+
+                entity.HasOne(d => d.Trail)
+                    .WithMany(p => p.TrailAttempt)
+                    .HasForeignKey(d => d.TrailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TrailAttempt_Trail");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.TrailAttempt)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TrailAttempt_User");
+            });
+
+            modelBuilder.Entity<TrailLocation>(entity =>
+            {
+                entity.HasOne(d => d.Trail)
+                    .WithMany(p => p.TrailLocation)
+                    .HasForeignKey(d => d.TrailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TrailLocation_Trail");
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD1971BFB44AD")
+                    .HasName("UQ__User__437CD197B5AD85E5")
                     .IsUnique();
 
                 entity.Property(e => e.CreatedUtc).HasColumnType("datetime");

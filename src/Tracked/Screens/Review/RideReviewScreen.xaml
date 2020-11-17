@@ -8,8 +8,8 @@
     Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem
-            Text="Create Segment"
-            Clicked="CreateSegment_Clicked"
+            Text="Create Trail"
+            Clicked="CreateTrail_Clicked"
             Order="Secondary" />
         <ToolbarItem
             Text="Delete"
@@ -167,20 +167,20 @@
                 </Grid>
 
                 <BoxView
-                    IsVisible="{Binding HasSegments}"
+                    IsVisible="{Binding HasTrails}"
                     HeightRequest="10"
                     Margin="0,5"
                     BackgroundColor="LightGray" />
 
                 <Label
                     Margin="10,4"
-                    Text="Segments"
+                    Text="Trails"
                     FontAttributes="Bold"
-                    IsVisible="{Binding HasSegments}"/>
+                    IsVisible="{Binding HasTrails}"/>
                 <controls:ExtendedListView
                     ItemsSource="{Binding Attempts}"
                     IsScrollEnabled="False"
-                    IsVisible="{Binding HasSegments}"
+                    IsVisible="{Binding HasTrails}"
                     ItemTapped="Attempt_ItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
