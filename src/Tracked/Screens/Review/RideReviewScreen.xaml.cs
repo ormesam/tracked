@@ -12,6 +12,21 @@ namespace Tracked.Screens.Review {
             BindingContext = viewModel;
         }
 
+        protected override void OnAppearing() {
+            if (ViewModel.CanCreateTrail) {
+                var item = new ToolbarItem {
+                    Text = "Create Trail",
+                    Order = ToolbarItemOrder.Secondary,
+                };
+
+                item.Clicked += CreateTrail_Clicked; ;
+
+                page.ToolbarItems.Add(item);
+            }
+
+            base.OnAppearing();
+        }
+
         public RideReviewScreenViewModel ViewModel => BindingContext as RideReviewScreenViewModel;
 
         private async void SpeedAnalysis_Clicked(object sender, EventArgs e) {

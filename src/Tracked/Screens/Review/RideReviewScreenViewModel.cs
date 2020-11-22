@@ -34,6 +34,7 @@ namespace Tracked.Screens.Review {
         public bool HasTrails => Attempts.Count > 0;
         public IList<TrailAttemptDto> Attempts => Ride.TrailAttempts;
         public IList<JumpDto> Jumps => Ride.Jumps;
+        public bool CanCreateTrail => Context.Security.IsAdmin;
 
         public async Task Load(int id) {
             Ride = await Context.Services.GetRide(id);

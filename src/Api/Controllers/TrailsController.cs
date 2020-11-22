@@ -3,6 +3,7 @@ using System.Linq;
 using Api.Analysers;
 using Api.Utility;
 using DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using Shared.Dtos;
@@ -10,6 +11,7 @@ using Shared.Dtos;
 namespace Api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TrailsController : ControllerBase {
         private readonly ModelDataContext context;
 
@@ -84,6 +86,10 @@ namespace Api.Controllers {
         public ActionResult<int> Add(TrailDto model) {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
+            }
+
+            if (!this.IsCurrentUserAdmin()) {
+                return NotFound();
             }
 
             int userId = this.GetCurrentUserId();

@@ -35,6 +35,8 @@ namespace Tracked.Screens.Settings {
 
         public bool HasTrails => Trails.Any();
 
+        public bool CanCreateTrail => Context.Security.IsAdmin;
+
         public async Task Load() {
             IsRefreshing = true;
 

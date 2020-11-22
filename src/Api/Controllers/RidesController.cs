@@ -3,6 +3,7 @@ using System.Linq;
 using Api.Analysers;
 using Api.Utility;
 using DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using Shared.Dtos;
@@ -11,6 +12,7 @@ using Shared.Interfaces;
 namespace Api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RidesController : ControllerBase {
         private readonly ModelDataContext context;
 

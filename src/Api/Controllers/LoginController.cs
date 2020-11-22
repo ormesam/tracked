@@ -18,6 +18,7 @@ using Shared.Dtos;
 namespace Api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LoginController : ControllerBase {
         private readonly IOptions<AppSettings> appSettings;
         private ModelDataContext context;
@@ -57,11 +58,13 @@ namespace Api.Controllers {
 
             var claims = new List<Claim> {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserId.ToString()),
+                new Claim("IsAdmin", user.IsAdmin.ToString()),
             };
 
             var token = new JwtSecurityToken(
                 issuer: "samorme.com",
                 audience: "samorme.com",
+                expires: DateTime.UtcNow.AddDays(1),
                 claims: claims,
                 signingCredentials: credentials);
 
