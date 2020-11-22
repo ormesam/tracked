@@ -36,3 +36,7 @@ CREATE TABLE [TrailLocation] (
     [Latitude] float NOT NULL,
     [Longitude] float NOT NULL,
 )
+
+ALTER TABLE [User] ADD
+    [IsAdmin] bit NOT NULL
+GO
