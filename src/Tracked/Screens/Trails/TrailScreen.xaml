@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Trails.TrailScreen"
+    xmlns:controls="clr-namespace:Tracked.Controls"
+    Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Delete"
+            Clicked="Delete_Clicked"
+            Order="Secondary" />
+        <ToolbarItem
+            Text="Rename"
+            Clicked="ChangeName_Clicked"
+            Order="Secondary" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <controls:MapControl
+                HeightRequest="400"
+                BindingContext="{Binding MapViewModel}" />
+            <ListView
+                ItemsSource="{Binding Trail.Attempts}"
+                CachingStrategy="RecycleElementAndDataTemplate">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <controls:MedalsCell
+                                Text="{Binding DisplayName}"
+                                Detail="{Binding FormattedTime}"
+                                Medal="{Binding Medal}" />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

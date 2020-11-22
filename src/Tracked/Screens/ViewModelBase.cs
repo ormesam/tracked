@@ -14,7 +14,5 @@ namespace Tracked.Screens {
         }
 
         public virtual string Title => "Tracked";
-
-        public bool IsLoggedIn => Context.Security.IsLoggedIn;
     }
 }

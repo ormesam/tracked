@@ -43,6 +43,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Screens\Trails\CreateTrailScreen.xaml.cs">
+      <DependentUpon>CreateTrailScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Screens\Trails\ExploreTrailsScreen.xaml.cs">
+      <DependentUpon>ExploreTrailsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Screens\Trails\TrailScreen.xaml.cs">
+      <DependentUpon>TrailScreen.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Controls\JumpsControl.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -82,13 +94,13 @@
     <EmbeddedResource Update="Screens\Review\RideReviewScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Segments\CreateSegmentScreen.xaml">
+    <EmbeddedResource Update="Screens\Trails\CreateTrailScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Segments\ExploreSegmentsScreen.xaml">
+    <EmbeddedResource Update="Screens\Trails\ExploreTrailsScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Segments\SegmentScreen.xaml">
+    <EmbeddedResource Update="Screens\Trails\TrailScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Settings\SettingsScreen.xaml">

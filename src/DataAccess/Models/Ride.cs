@@ -10,7 +10,7 @@ namespace DataAccess.Models
             AccelerometerReading = new HashSet<AccelerometerReading>();
             Jump = new HashSet<Jump>();
             RideLocation = new HashSet<RideLocation>();
-            SegmentAttempt = new HashSet<SegmentAttempt>();
+            TrailAttempt = new HashSet<TrailAttempt>();
             UserDistanceAchievement = new HashSet<UserDistanceAchievement>();
             UserJumpAchievement = new HashSet<UserJumpAchievement>();
             UserSpeedAchievement = new HashSet<UserSpeedAchievement>();
@@ -32,7 +32,7 @@ namespace DataAccess.Models
         public virtual ICollection<AccelerometerReading> AccelerometerReading { get; set; }
         public virtual ICollection<Jump> Jump { get; set; }
         public virtual ICollection<RideLocation> RideLocation { get; set; }
-        public virtual ICollection<SegmentAttempt> SegmentAttempt { get; set; }
+        public virtual ICollection<TrailAttempt> TrailAttempt { get; set; }
         public virtual ICollection<UserDistanceAchievement> UserDistanceAchievement { get; set; }
         public virtual ICollection<UserJumpAchievement> UserJumpAchievement { get; set; }
         public virtual ICollection<UserSpeedAchievement> UserSpeedAchievement { get; set; }

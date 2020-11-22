@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Settings.ExploreTrailsScreen"
+    Title="{Binding Title}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="*"/>
+            <RowDefinition
+                Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="No Trails Yet"
+            IsVisible="{Binding HasTrails, Converter={StaticResource InvertBoolConverter}}" />
+        <ListView
+            ItemsSource="{Binding Trails}"
+            ItemTapped="Trail_ItemTapped"
+            CachingStrategy="RecycleElementAndDataTemplate"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshCommand="{Binding RefreshCommand}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell
+                        Text="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button
+            Grid.Row="1"
+            IsVisible="{Binding CanCreateTrail}"
+            Text="Create Trail"
+            Clicked="Add_Clicked"
+            BackgroundColor="Green"
+            TextColor="White"/>
+    </Grid>
+</ContentPage>

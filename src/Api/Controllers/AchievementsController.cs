@@ -2,12 +2,14 @@
 using System.Linq;
 using Api.Utility;
 using DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Dtos;
 
 namespace Api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AchievementsController : ControllerBase {
         private ModelDataContext context;
 

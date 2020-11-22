@@ -5,12 +5,9 @@
     x:Class="Tracked.Screens.Review.RideReviewScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
     xmlns:localControls="clr-namespace:Tracked.Screens.Review.Controls"
-    Title="{Binding Title}">
+    Title="{Binding Title}"
+    x:Name="page">
     <ContentPage.ToolbarItems>
-        <ToolbarItem
-            Text="Create Segment"
-            Clicked="CreateSegment_Clicked"
-            Order="Secondary" />
         <ToolbarItem
             Text="Delete"
             Clicked="Delete_Clicked"
@@ -167,20 +164,20 @@
                 </Grid>
 
                 <BoxView
-                    IsVisible="{Binding HasSegments}"
+                    IsVisible="{Binding HasTrails}"
                     HeightRequest="10"
                     Margin="0,5"
                     BackgroundColor="LightGray" />
 
                 <Label
                     Margin="10,4"
-                    Text="Segments"
+                    Text="Trails"
                     FontAttributes="Bold"
-                    IsVisible="{Binding HasSegments}"/>
+                    IsVisible="{Binding HasTrails}"/>
                 <controls:ExtendedListView
                     ItemsSource="{Binding Attempts}"
                     IsScrollEnabled="False"
-                    IsVisible="{Binding HasSegments}"
+                    IsVisible="{Binding HasTrails}"
                     ItemTapped="Attempt_ItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>

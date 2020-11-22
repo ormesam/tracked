@@ -17,7 +17,7 @@ namespace Tracked.Screens.Settings {
         public async Task DisconnectFromGoogle() {
             await Context.Security.Logout();
 
-            App.Current.MainPage = new LoginScreen(Context);
+            App.Current.MainPage = new LoginScreen(Context, false);
         }
     }
 }

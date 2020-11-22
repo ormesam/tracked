@@ -17,8 +17,8 @@
 
             <ListView
                 Grid.Row="1"
-                ItemsSource="{Binding SegmentAttempts}"
-                ItemTapped="SegmentAttempt_Tapped">
+                ItemsSource="{Binding TrailAttempts}"
+                ItemTapped="TrailAttempt_Tapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

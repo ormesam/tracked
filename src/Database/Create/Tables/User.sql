@@ -5,4 +5,5 @@
     [Name] nvarchar(255) NOT NULL,
     [CreatedUtc] datetime NOT NULL,
     [ProfileImageUrl] nvarchar(255) NOT NULL,
+    [IsAdmin] bit NOT NULL,
 )

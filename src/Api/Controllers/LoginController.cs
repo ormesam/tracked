@@ -18,6 +18,7 @@ using Shared.Dtos;
 namespace Api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LoginController : ControllerBase {
         private readonly IOptions<AppSettings> appSettings;
         private ModelDataContext context;
@@ -57,17 +58,33 @@ namespace Api.Controllers {
 
             var claims = new List<Claim> {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserId.ToString()),
+                new Claim("IsAdmin", user.IsAdmin.ToString()),
             };
 
             var token = new JwtSecurityToken(
                 issuer: "samorme.com",
                 audience: "samorme.com",
+                expires: DateTime.UtcNow.AddDays(1),
                 claims: claims,
                 signingCredentials: credentials);
 
             return new LoginResponseDto {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                User = GetUser(user.UserId),
             };
+        }
+
+        private UserDto GetUser(int userId) {
+            return context.User
+                .Where(row => row.UserId == userId)
+                .Select(row => new UserDto {
+                    UserId = row.UserId,
+                    Name = row.Name,
+                    ProfileImageUrl = row.ProfileImageUrl,
+                    IsAdmin = row.IsAdmin,
+                    CreatedUtc = row.CreatedUtc,
+                })
+                .Single();
         }
 
         private async Task<GoogleResponse> GetGoogleDetails(string idToken) {

@@ -64,13 +64,12 @@
     <Folder Include="Upgrades\2020-05-19" />
     <Folder Include="Upgrades\2020-10-11" />
     <Folder Include="Upgrades\2020-11-07" />
+    <Folder Include="Upgrades\2020-11-17" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\User.sql" />
     <None Include="Create\DropAndCreate.sql" />
     <None Include="Create\Tables\AccelerometerReading.sql" />
-    <None Include="Create\Tables\Segment.sql" />
-    <None Include="Create\Tables\SegmentAttempt.sql" />
     <None Include="Create\Tables\TraceMessage.sql" />
     <None Include="Create\Tables\UserSpeedAchievement.sql" />
     <None Include="Create\Tables\SpeedAchievement.sql" />
@@ -94,9 +93,6 @@
     <None Include="Create\Tables\Jump.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Create\Tables\SegmentLocation.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Upgrades\2020-03-10\Upgrade.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -104,5 +100,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\UserDistanceAchievement.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Create\Tables\Trail.sql" />
+    <None Include="Create\Tables\TrailAttempt.sql" />
+    <None Include="Create\Tables\TrailLocation.sql" />
+    <None Include="Upgrades\2020-11-17\Upgrade.sql" />
   </ItemGroup>
 </Project>

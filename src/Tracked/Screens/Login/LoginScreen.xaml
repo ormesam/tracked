@@ -12,13 +12,26 @@
                     Height="*" />
                 <RowDefinition
                     Height="Auto"/>
+                <RowDefinition
+                    Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Image
                 Source="logo.png" />
 
-            <Button
+
+            <ActivityIndicator
                 Grid.Row="1"
+                Scale="0.5"
+                IsRunning="True"
+                IsEnabled="True"
+                IsVisible="{Binding IsLoggingIn}"
+                Color="White"
+                BackgroundColor="Transparent" />
+
+            <Button
+                Grid.Row="2"
+                IsVisible="{Binding IsLoggingIn, Converter={StaticResource InvertBoolConverter}}"
                 Text="Login with Google"
                 Clicked="LoginWithGoogle_Clicked"
                 BackgroundColor="{StaticResource GoogleButtonColour}"

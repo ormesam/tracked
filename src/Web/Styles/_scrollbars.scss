@@ -1,0 +1,28 @@
+$scrollbar-width: 5px;
+$scrollbar-background: lightgray;
+$scrollbar-thumb-color: #888;
+$scrollbar-thumb-hover-color: #555;
+
+// Firefox
+* {
+    scrollbar-width: thin; // Can't set exact width.
+    scrollbar-color: $scrollbar-thumb-color $scrollbar-background;
+}
+
+// Chrome/Edge/Safari etc.
+
+*::-webkit-scrollbar {
+    width: $scrollbar-width;
+}
+
+*::-webkit-scrollbar-track {
+    background: $scrollbar-background;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: $scrollbar-thumb-color;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: $scrollbar-thumb-hover-color;
+}

@@ -12,6 +12,21 @@ namespace Tracked.Screens.Review {
             BindingContext = viewModel;
         }
 
+        protected override void OnAppearing() {
+            if (ViewModel.CanCreateTrail) {
+                var item = new ToolbarItem {
+                    Text = "Create Trail",
+                    Order = ToolbarItemOrder.Secondary,
+                };
+
+                item.Clicked += CreateTrail_Clicked; ;
+
+                page.ToolbarItems.Add(item);
+            }
+
+            base.OnAppearing();
+        }
+
         public RideReviewScreenViewModel ViewModel => BindingContext as RideReviewScreenViewModel;
 
         private async void SpeedAnalysis_Clicked(object sender, EventArgs e) {
@@ -21,7 +36,7 @@ namespace Tracked.Screens.Review {
         private async void Delete_Clicked(object sender, EventArgs e) {
             bool delete = await DisplayAlert(
                 "Delete Ride",
-                "Are you sure you want to delete this ride? You will lose all segment attempts and achievements.",
+                "Are you sure you want to delete this ride? You will lose all trail attempts and achievements.",
                 "Yes",
                 "No");
 
@@ -31,12 +46,12 @@ namespace Tracked.Screens.Review {
             }
         }
 
-        private async void CreateSegment_Clicked(object sender, EventArgs e) {
-            await ViewModel.CreateSegment();
+        private async void CreateTrail_Clicked(object sender, EventArgs e) {
+            await ViewModel.CreateTrail();
         }
 
         private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToSegment(e.Item as SegmentAttemptDto);
+            await ViewModel.GoToTrail(e.Item as TrailAttemptDto);
         }
     }
 }

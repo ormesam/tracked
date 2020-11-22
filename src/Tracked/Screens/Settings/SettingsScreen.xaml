@@ -16,7 +16,6 @@
                 </TableSection>
             </TableView>
             <Button
-                IsVisible="{Binding IsLoggedIn}"
                 Text="Log Out"
                 Clicked="DisconnectFromGoogle_Click"
                 BackgroundColor="{StaticResource GoogleButtonColour}"
