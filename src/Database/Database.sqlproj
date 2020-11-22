@@ -59,10 +59,6 @@
     <Folder Include="Create" />
     <Folder Include="Create\Tables" />
     <Folder Include="Upgrades" />
-    <Folder Include="Upgrades\2020-03-10" />
-    <Folder Include="Upgrades\2020-04-15" />
-    <Folder Include="Upgrades\2020-05-19" />
-    <Folder Include="Upgrades\2020-10-11" />
     <Folder Include="Upgrades\2020-11-07" />
     <Folder Include="Upgrades\2020-11-17" />
   </ItemGroup>
@@ -75,9 +71,6 @@
     <None Include="Create\Tables\SpeedAchievement.sql" />
     <None Include="Create\Tables\UserJumpAchievement.sql" />
     <None Include="Create\Tables\JumpAchievement.sql" />
-    <None Include="Upgrades\2020-04-15\Upgrade.sql" />
-    <None Include="Upgrades\2020-05-19\Upgrade.sql" />
-    <None Include="Upgrades\2020-10-11\Upgrade.sql" />
     <None Include="Upgrades\2020-11-07\Upgrade.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -91,9 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\Jump.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Upgrades\2020-03-10\Upgrade.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\DistanceAchievement.sql" />

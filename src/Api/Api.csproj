@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+    <UserSecretsId>b7aae5c0-3cba-447e-9599-d7f89567fa1c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
