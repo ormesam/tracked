@@ -1,5 +1,4 @@
 ﻿using System;
-using Tracked.Dependancies;
 
 namespace Tracked.Auth {
     public static class CrossGoogleClient {
@@ -7,7 +6,7 @@ namespace Tracked.Auth {
 
         public static void SetInstance(IGoogleClientManager googleClientManager) {
             if (instance != null) {
-                throw new InvalidOperationException("CrossGoogleClient: Instance already initialized.");
+                return;
             }
 
             instance = googleClientManager;

@@ -38,5 +38,10 @@ CREATE TABLE [TrailLocation] (
 )
 
 ALTER TABLE [User] ADD
-    [IsAdmin] bit NOT NULL
+    [IsAdmin] bit NOT NULL,
+	CONSTRAINT [DF_1] DEFAULT 1 FOR [IsAdmin]
+GO
+
+ALTER TABLE [User]
+DROP [DF_1]
 GO

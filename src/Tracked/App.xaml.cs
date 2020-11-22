@@ -7,6 +7,7 @@ using Shared;
 using Tracked.Contexts;
 using Tracked.Screens.Login;
 using Tracked.Screens.Master;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Tracked {
@@ -18,20 +19,17 @@ namespace Tracked {
         public App() {
             InitializeComponent();
 
-            MainContext = new MainContext();
+            VersionTracking.Track();
 
-            if (MainContext.Security.IsLoggedIn) {
-                MainPage = new MasterScreen(MainContext);
-            } else {
-                MainPage = new LoginScreen(MainContext);
-            }
+            MainContext = new MainContext();
+            MainPage = new LoginScreen(MainContext, !VersionTracking.IsFirstLaunchEver);
         }
 
         protected override void OnStart() {
             AppCenter.Start($"android={Constants.AppCenterKey};", typeof(Analytics), typeof(Crashes));
 
             BlobCache.EnsureInitialized();
-            BlobCache.ApplicationName = Shared.Constants.AppName;
+            BlobCache.ApplicationName = Constants.AppName;
             BlobCache.ForcedDateTimeKind = DateTimeKind.Utc;
         }
 

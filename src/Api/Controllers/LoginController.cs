@@ -67,7 +67,21 @@ namespace Api.Controllers {
 
             return new LoginResponseDto {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                User = GetUser(user.UserId),
             };
+        }
+
+        private UserDto GetUser(int userId) {
+            return context.User
+                .Where(row => row.UserId == userId)
+                .Select(row => new UserDto {
+                    UserId = row.UserId,
+                    Name = row.Name,
+                    ProfileImageUrl = row.ProfileImageUrl,
+                    IsAdmin = row.IsAdmin,
+                    CreatedUtc = row.CreatedUtc,
+                })
+                .Single();
         }
 
         private async Task<GoogleResponse> GetGoogleDetails(string idToken) {

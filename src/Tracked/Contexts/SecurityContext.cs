@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Shared.Dto;
+using Shared.Dtos;
+using Shared.Exceptions;
 using Tracked.Auth;
 using Tracked.Screens.Master;
 using Tracked.Utilities;
@@ -7,9 +9,21 @@ using Tracked.Utilities;
 namespace Tracked.Contexts {
     public class SecurityContext {
         private readonly MainContext mainContext;
-        public string AccessToken { get; private set; }
+        private UserDto user;
 
-        public bool IsLoggedIn => !string.IsNullOrEmpty(AccessToken) && CrossGoogleClient.Current.IsLoggedIn;
+        internal string AccessToken { get; private set; }
+
+        internal int UserId {
+            get {
+                if (user == null) {
+                    throw new NotLoggedInException();
+                }
+
+                return user.UserId.Value;
+            }
+        }
+
+        internal bool IsAdmin => user?.IsAdmin ?? false;
 
         public SecurityContext(MainContext mainContext) {
             this.mainContext = mainContext;
@@ -17,20 +31,23 @@ namespace Tracked.Contexts {
             AccessToken = this.mainContext.Storage.GetAccessToken();
         }
 
-        public async Task SetAccessToken(string token) {
-            AccessToken = token;
-            await mainContext.Storage.SetAccessToken(token);
-        }
-
         public async Task Logout() {
             AccessToken = null;
+            user = null;
+
             await mainContext.Storage.SetAccessToken(null);
             CrossGoogleClient.Current.Logout();
         }
 
         public async Task ConnectToGoogle() {
-            if (!CrossGoogleClient.Current.IsLoggedIn) {
-                var result = await CrossGoogleClient.Current.LoginAsync();
+            if (!CrossGoogleClient.Current.IsLoggedIn || string.IsNullOrWhiteSpace(CrossGoogleClient.Current.IdToken)) {
+                GoogleResponse result;
+
+                try {
+                    result = await CrossGoogleClient.Current.LoginAsync();
+                } catch {
+                    return;
+                }
 
                 if (result.Status == GoogleActionStatus.Completed) {
                     await Login(result.User);
@@ -49,11 +66,17 @@ namespace Tracked.Contexts {
         private async Task Login(GoogleUserDto user) {
             var loginResponse = await mainContext.Services.Login(CrossGoogleClient.Current.IdToken, user);
 
-            await SetAccessToken(loginResponse.AccessToken);
+            await Login(loginResponse.AccessToken, loginResponse.User);
 
             Toast.LongAlert("Connected to Google");
 
             App.Current.MainPage = new MasterScreen(mainContext);
+        }
+
+        private async Task Login(string token, UserDto user) {
+            AccessToken = token;
+            this.user = user;
+            await mainContext.Storage.SetAccessToken(token);
         }
     }
 }
