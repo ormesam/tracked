@@ -21,10 +21,7 @@ namespace Api.Controllers {
 
         [HttpGet]
         public ActionResult<IList<TrailOverviewDto>> Get() {
-            int userId = this.GetCurrentUserId();
-
             var trails = context.Trail
-                .Where(row => row.UserId == userId)
                 .OrderBy(row => row.Name)
                 .Select(row => new TrailOverviewDto {
                     TrailId = row.TrailId,
@@ -38,10 +35,7 @@ namespace Api.Controllers {
         [HttpGet]
         [Route("{id}")]
         public ActionResult<TrailDto> Get(int id) {
-            int userId = this.GetCurrentUserId();
-
             var trail = context.Trail
-                .Where(row => row.UserId == userId)
                 .Where(row => row.TrailId == id)
                 .Select(row => new TrailDto {
                     TrailId = row.TrailId,
@@ -128,10 +122,11 @@ namespace Api.Controllers {
                 return BadRequest(ModelState);
             }
 
-            int userId = this.GetCurrentUserId();
+            if (!this.IsCurrentUserAdmin()) {
+                return NotFound();
+            }
 
             var trail = context.Trail
-                .Where(i => i.UserId == userId)
                 .Where(i => i.TrailId == model.TrailId)
                 .SingleOrDefault();
 
@@ -149,11 +144,12 @@ namespace Api.Controllers {
         [HttpPost]
         [Route("delete")]
         public ActionResult<bool> Delete([FromBody] int trailId) {
-            int userId = this.GetCurrentUserId();
+            if (!this.IsCurrentUserAdmin()) {
+                return NotFound();
+            }
 
             var trail = context.Trail
                 .Where(row => row.TrailId == trailId)
-                .Where(row => row.UserId == userId)
                 .SingleOrDefault();
 
             if (trail == null) {

@@ -11,7 +11,6 @@ namespace Api.Analysers {
     public class TrailAnalyser : IRideAnalyser {
         public void Analyse(ModelDataContext context, int userId, RideDto ride) {
             var trailIds = context.Trail
-                .Where(row => row.UserId == userId)
                 .Select(row => row.TrailId)
                 .ToArray();
 
