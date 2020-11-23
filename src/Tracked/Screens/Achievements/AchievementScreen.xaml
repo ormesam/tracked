@@ -11,8 +11,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell
-                        Text="{Binding DisplayName}"
-                        Detail="{Binding StartLocal, StringFormat='{0:d MMM yy HH:mm}'}"/>
+                        Text="{Binding TimeDisplay}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
