@@ -30,10 +30,12 @@ namespace Tracked.Screens.Review {
 
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
-        public bool HasJumps => JumpCount > 0;
-        public bool HasTrails => Attempts.Count > 0;
+        public bool HasJumps => Ride.Jumps.Any();
+        public bool HasTrails => Attempts.Any();
+        public bool HasAchievements => Achievements.Any();
         public IList<TrailAttemptDto> Attempts => Ride.TrailAttempts;
         public IList<JumpDto> Jumps => Ride.Jumps;
+        public IList<AchievementDto> Achievements => Ride.Achievements;
         public bool CanCreateTrail => Context.Security.IsAdmin;
 
         public async Task Load(int id) {

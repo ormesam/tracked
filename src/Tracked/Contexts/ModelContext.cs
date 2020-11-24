@@ -32,15 +32,5 @@ namespace Tracked.Contexts {
 
             await Storage.RemoveObject<CreateRideDto>(ride.Id.Value);
         }
-
-#if DEBUG
-        public async Task RunUtilityAsync() {
-            // Perform single use operations here such as fixing data.
-
-            Toast.LongAlert("Done!");
-
-            await Task.CompletedTask;
-        }
-#endif
     }
 }

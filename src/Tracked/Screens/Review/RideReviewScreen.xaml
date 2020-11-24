@@ -200,6 +200,46 @@
                 <controls:JumpsControl
                     IsVisible="{Binding HasJumps}"
                     Jumps="{Binding Jumps}" />
+
+                <BoxView
+                    IsVisible="{Binding HasAchievements}"
+                    HeightRequest="10"
+                    Margin="0,5"
+                    BackgroundColor="LightGray" />
+
+                <Label
+                    Margin="10,4"
+                    Text="Achievements"
+                    FontAttributes="Bold"
+                    IsVisible="{Binding HasAchievements}"/>
+                <controls:ExtendedListView
+                    IsVisible="{Binding HasAchievements}"
+                    ItemsSource="{Binding Achievements}"
+                    IsScrollEnabled="False">
+                    <controls:ExtendedListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid
+                                    Padding="10,0,10,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center"/>
+
+                                    <Image
+                                        Grid.Column="1"
+                                        HeightRequest="20"
+                                        VerticalOptions="Center"
+                                        Source="trophy.png" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </controls:ExtendedListView.ItemTemplate>
+                </controls:ExtendedListView>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

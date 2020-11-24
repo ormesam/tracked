@@ -19,11 +19,6 @@ namespace Tracked.Screens.Master {
                  },
                  new ExtendedMenuItem
                  {
-                      Title = "Achievements",
-                      OnClick = Context.UI.GoToAchievementOverviewScreenAsync,
-                 },
-                 new ExtendedMenuItem
-                 {
                       Title = "Bluetooth",
                       OnClick = Context.UI.GoToBluetoothScreenAsync,
                  },
@@ -32,13 +27,6 @@ namespace Tracked.Screens.Master {
                       Title = "Settings",
                       OnClick = Context.UI.GoToSettingsScreenAsync,
                  },
-#if DEBUG
-                new ExtendedMenuItem
-                 {
-                      Title = "Run Utility",
-                      OnClick = Context.Model.RunUtilityAsync,
-                 },
-#endif
             };
         }
 

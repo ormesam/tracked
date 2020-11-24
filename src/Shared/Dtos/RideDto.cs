@@ -16,6 +16,7 @@ namespace Shared.Dtos {
         public IList<RideLocationDto> Locations { get; set; }
         public IList<JumpDto> Jumps { get; set; }
         public IList<TrailAttemptDto> TrailAttempts { get; set; }
+        public IList<AchievementDto> Achievements { get; set; }
 
         public string FormattedTime {
             get {
@@ -53,6 +54,7 @@ namespace Shared.Dtos {
             Locations = new List<RideLocationDto>();
             Jumps = new List<JumpDto>();
             TrailAttempts = new List<TrailAttemptDto>();
+            Achievements = new List<AchievementDto>();
         }
     }
 }
