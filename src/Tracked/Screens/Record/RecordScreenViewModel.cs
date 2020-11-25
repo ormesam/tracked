@@ -72,8 +72,7 @@ namespace Tracked.Screens.Record {
 
         public string AccelerometerMessage {
             get {
-                return AccelerometerStatus switch
-                {
+                return AccelerometerStatus switch {
                     AccelerometerStatus.BluetoothTurnedOff => "Bluetooth not turned on",
                     AccelerometerStatus.BluetoothTurningOn => "Bluetooth turning on...",
                     AccelerometerStatus.NotConnected => "No accelerometer connected",

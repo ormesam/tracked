@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 using Shared.Dtos;
 using Tracked.Dependancies;
 using Tracked.Home;
-using Tracked.Models;
-using Tracked.Screens.Achievements;
 using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Record;
 using Tracked.Screens.Review;
-using Tracked.Screens.Trails;
 using Tracked.Screens.Settings;
+using Tracked.Screens.Trails;
 using Xamarin.Forms;
 
 namespace Tracked.Contexts {
@@ -79,10 +77,6 @@ namespace Tracked.Contexts {
             await GoToSideBarItemAsync(new SettingsScreen(context));
         }
 
-        public async Task GoToAchievementOverviewScreenAsync() {
-            await GoToSideBarItemAsync(new AchievementOverviewScreen(context));
-        }
-
         public async Task GoToExploreTrailsScreenAsync() {
             await GoToSideBarItemAsync(new ExploreTrailsScreen(context));
         }
@@ -97,10 +91,6 @@ namespace Tracked.Contexts {
             RideReviewScreenViewModel viewModel = new RideReviewScreenViewModel(context);
             await viewModel.Load(id);
             await GoToScreenAsync(new RideReviewScreen(viewModel));
-        }
-
-        public async Task GoToAchievementScreenAsync(AchievementDto achievement) {
-            await GoToScreenAsync(new AchievementScreen(context, achievement));
         }
 
         public async Task GoToMapScreenAsync(RideDto ride) {
