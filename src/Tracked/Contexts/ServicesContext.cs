@@ -66,8 +66,8 @@ namespace Tracked.Contexts {
             await PostAsync<bool>("trails/delete", trailId);
         }
 
-        public async Task<IList<AchievementDto>> GetAchievements() {
-            return await GetAsync<IList<AchievementDto>>("achievements");
+        public async Task<ProfileDto> GetProfile() {
+            return await GetAsync<ProfileDto>("users/profile");
         }
 
         protected async Task<TResult> GetAsync<TResult>(string apiEndpoint) {

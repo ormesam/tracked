@@ -17,7 +17,11 @@
         <ScrollView>
             <StackLayout
                 Spacing="0">
-                <localControls:Header />
+                <controls:UserHeader
+                    Padding="10"
+                    Name="{Binding Ride.UserName}"
+                    Detail="{Binding Ride.TimeDisplay}"
+                    ProfileImageUrl="{Binding Ride.UserProfileImageUrl}" />
 
                 <controls:MapControl
                     HeightRequest="300"

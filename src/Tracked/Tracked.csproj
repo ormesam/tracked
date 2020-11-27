@@ -43,6 +43,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\UserHeader.xaml.cs">
+      <DependentUpon>UserHeader.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Screens\Profile\ProfileScreen.xaml.cs">
       <DependentUpon>ProfileScreen.xaml</DependentUpon>
     </Compile>
@@ -65,6 +68,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\MapControl.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\UserHeader.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Bluetooth\BluetoothSetupScreen.xaml">
@@ -109,5 +115,9 @@
     <EmbeddedResource Update="Screens\Settings\SettingsScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Screens\Profile\NewFolder\" />
   </ItemGroup>
 </Project>

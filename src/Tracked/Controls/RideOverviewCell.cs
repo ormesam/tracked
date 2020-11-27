@@ -12,14 +12,14 @@ namespace Tracked.Controls {
         protected override void OnBindingContextChanged() {
             var frame = (Frame)View;
             var stackLayout = (StackLayout)frame.Content;
-            var profileGrid = stackLayout.Children.First() as Grid;
+            var profileGrid = stackLayout.Children.First() as UserHeader;
 
             if (cachedRouteSvg == null) {
                 cachedRouteSvg = stackLayout.Children.FirstOrDefault(i => i is SvgCachedImage) as SvgCachedImage;
             }
 
             if (cachedProfileImage == null) {
-                cachedProfileImage = profileGrid.Children.First() as CachedImage;
+                cachedProfileImage = profileGrid.ProfileImage;
             }
 
             // prevent showing old images occasionally
