@@ -8,6 +8,12 @@
     xmlns:ffImageLoadingSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     xmlns:ffImageTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
     Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            IconImageSource="profile.png"
+            Clicked="Profile_Clicked"
+            Order="Primary" />
+    </ContentPage.ToolbarItems>
     <Grid
         RowSpacing="0">
         <Grid.RowDefinitions>

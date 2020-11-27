@@ -6,6 +6,7 @@ using Shared.Dtos;
 using Tracked.Dependancies;
 using Tracked.Home;
 using Tracked.Screens.Bluetooth;
+using Tracked.Screens.Profile;
 using Tracked.Screens.Record;
 using Tracked.Screens.Review;
 using Tracked.Screens.Settings;
@@ -109,6 +110,10 @@ namespace Tracked.Contexts {
 
         public async Task GoToSpeedAnalysisScreenAsync(IList<RideLocationDto> rideLocation) {
             await GoToScreenAsync(new SpeedAnalysisScreen(context, rideLocation));
+        }
+
+        public async Task GoToProfileScreenAsync() {
+            await GoToScreenAsync(new ProfileScreen(context));
         }
     }
 }
