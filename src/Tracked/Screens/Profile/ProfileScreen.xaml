@@ -3,17 +3,30 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Screens.Profile.ProfileScreen"
-    xmlns:ffImageLoading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:ffImageTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
     xmlns:controls="clr-namespace:Tracked.Controls"
+    xmlns:localControls="clr-namespace:Tracked.Screens.Profile.Controls"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout>
-            <controls:UserHeader
-                Padding="10"
-                Name="{Binding User.Name}"
-                Detail="{Binding User.CreatedUtc, StringFormat='Member since {0:dd MMM yyyy}'}"
-                ProfileImageUrl="{Binding User.ProfileImageUrl}" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <controls:UserHeader
+                    Padding="10"
+                    Name="{Binding User.Name}"
+                    Detail="{Binding User.CreatedUtc, StringFormat='Member since {0:dd MMM yyyy}'}"
+                    ProfileImageUrl="{Binding User.ProfileImageUrl}" />
+
+                <StackLayout
+                    Padding="10">
+                    <Label
+                        FontAttributes="Bold"
+                        Text="Bio" />
+
+                    <Label
+                        Text="{Binding Bio}" />
+                </StackLayout>
+
+                <localControls:StatsControl />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

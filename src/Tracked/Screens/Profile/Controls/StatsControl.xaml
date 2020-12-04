@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Profile.Controls.StatsControl">
+    <ContentView.Content>
+        <Grid
+            Padding="0,15,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackLayout>
+                <Label
+                    HorizontalTextAlignment="Center"
+                    Text="Total Distance" />
+                <Label
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding User.MilesTravelled, StringFormat='{}{0:F1} mi'}}" />
+            </StackLayout>
+
+            <BoxView
+                Grid.Column="1"
+                WidthRequest="1"
+                BackgroundColor="LightGray" />
+
+            <StackLayout
+                Grid.Column="2">
+                <Label
+                    HorizontalTextAlignment="Center"
+                    Text="Distance (30 days)" />
+                <Label
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding User.MilesTravelledThisMonth, StringFormat='{}{0:F1} mi'}" />
+            </StackLayout>
+
+            <BoxView
+                Grid.Row="1"
+                Grid.ColumnSpan="3"
+                HeightRequest="1"
+                Margin="10"
+                BackgroundColor="LightGray" />
+
+            <StackLayout
+                Grid.Column="0"
+                Grid.Row="2">
+                <Label
+                    HorizontalTextAlignment="Center"
+                    Text="Top Speed" />
+                <Label
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding User.TopSpeedMph, StringFormat='{}{0:F1} mph'}" />
+            </StackLayout>
+
+            <BoxView
+                Grid.Row="2"
+                Grid.Column="1"
+                WidthRequest="1"
+                BackgroundColor="LightGray" />
+
+            <StackLayout
+                Grid.Column="2"
+                Grid.Row="2">
+                <Label
+                    HorizontalTextAlignment="Center"
+                    Text="Longest Airtime" />
+                <Label
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding User.LongestAirtime, StringFormat='{}{0:F3}s'}" />
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

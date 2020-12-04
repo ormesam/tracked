@@ -9,7 +9,17 @@ namespace Tracked.Screens.Profile {
 
         public ProfileDto User { get; private set; }
 
-        public override string Title => "Title";
+        public string Bio {
+            get {
+                if (string.IsNullOrWhiteSpace(User.Bio)) {
+                    return "Apparently, this user prefers to keep an air of mystery about them.";
+                }
+
+                return User.Bio;
+            }
+        }
+
+        public override string Title => "Profile";
 
         public async Task Load() {
             User = await Context.Services.GetProfile();

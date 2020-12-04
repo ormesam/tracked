@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Api.Utility;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +27,7 @@ namespace Api.Controllers {
                 .Select(row => new ProfileDto {
                     Name = row.Name,
                     CreatedUtc = row.CreatedUtc,
+                    Bio = row.Bio,
                     ProfileImageUrl = row.ProfileImageUrl,
                 })
                 .SingleOrDefault();
@@ -34,7 +36,36 @@ namespace Api.Controllers {
                 return NotFound();
             }
 
+            profile.LongestAirtime = GetLongestAirtime(userId);
+            profile.MilesTravelled = GetMilesTravelled(userId);
+            profile.MilesTravelledThisMonth = GetMilesTravelled(userId, DateTime.UtcNow.AddMonths(-1));
+            profile.TopSpeedMph = GetTopSpeedMph(userId);
+
             return profile;
+        }
+
+        private double? GetLongestAirtime(int userId) {
+            return context.Jump
+                .Where(row => row.Ride.UserId == userId)
+                .Max(i => (double?)i.Airtime);
+        }
+
+        private double? GetMilesTravelled(int userId, DateTime? dateTime = null) {
+            var query = context.Ride
+                .Where(row => row.UserId == userId);
+
+            if (dateTime != null) {
+                query = query
+                    .Where(row => row.StartUtc > dateTime.Value.Date);
+            }
+
+            return query.Sum(i => (double?)i.DistanceMiles);
+        }
+
+        private double? GetTopSpeedMph(int userId) {
+            return context.Ride
+                .Where(row => row.UserId == userId)
+                .Max(i => (double?)i.MaxSpeedMph);
         }
     }
 }
