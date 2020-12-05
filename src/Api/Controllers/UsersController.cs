@@ -25,6 +25,7 @@ namespace Api.Controllers {
             var profile = context.User
                 .Where(row => row.UserId == userId)
                 .Select(row => new ProfileDto {
+                    UserId = row.UserId,
                     Name = row.Name,
                     CreatedUtc = row.CreatedUtc,
                     Bio = row.Bio,

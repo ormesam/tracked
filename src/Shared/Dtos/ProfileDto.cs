@@ -2,6 +2,7 @@
 
 namespace Shared.Dtos {
     public class ProfileDto {
+        public int UserId { get; set; }
         public string Name { get; set; }
         public DateTime CreatedUtc { get; set; }
         public string Bio { get; set; }

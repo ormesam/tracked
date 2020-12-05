@@ -4,10 +4,21 @@ using Tracked.Contexts;
 
 namespace Tracked.Screens.Profile {
     public class ProfileScreenViewModel : ViewModelBase {
+        private ProfileDto user;
+
         public ProfileScreenViewModel(MainContext context) : base(context) {
         }
 
-        public ProfileDto User { get; private set; }
+        public ProfileDto User {
+            get { return user; }
+            set {
+                if (user != value) {
+                    user = value;
+                    OnPropertyChanged(nameof(User));
+                    OnPropertyChanged(nameof(Bio));
+                }
+            }
+        }
 
         public string Bio {
             get {
@@ -19,7 +30,9 @@ namespace Tracked.Screens.Profile {
             }
         }
 
-        public override string Title => "Profile";
+        public bool IsCurrentUser => User.UserId == Context.Security.UserId;
+
+        public override string Title => IsCurrentUser ? "Profile" : User.Name;
 
         public async Task Load() {
             User = await Context.Services.GetProfile();
