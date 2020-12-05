@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Profile.Controls.BioControl">
+    <ContentView.Content>
+        <StackLayout
+            Padding="10">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer
+                    Tapped="Bio_Tapped" />
+            </StackLayout.GestureRecognizers>
+            <Label
+                FontAttributes="Bold"
+                Text="{Binding BioTitle}" />
+
+            <Label
+                Text="{Binding Bio}" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

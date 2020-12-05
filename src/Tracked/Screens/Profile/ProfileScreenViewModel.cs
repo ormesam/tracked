@@ -20,9 +20,23 @@ namespace Tracked.Screens.Profile {
             }
         }
 
+        public string BioTitle {
+            get {
+                if (IsCurrentUser) {
+                    return "Bio (Tap to edit)";
+                }
+
+                return "Bio";
+            }
+        }
+
         public string Bio {
             get {
                 if (string.IsNullOrWhiteSpace(User.Bio)) {
+                    if (IsCurrentUser) {
+                        return "Why not tell us something about yourself?";
+                    }
+
                     return "Apparently, this user prefers to keep an air of mystery about them.";
                 }
 
@@ -36,6 +50,16 @@ namespace Tracked.Screens.Profile {
 
         public async Task Load() {
             User = await Context.Services.GetProfile();
+        }
+
+        public void EditBio() {
+            Context.UI.ShowInputDialog("Bio", User.Bio, async (result) => {
+                await Context.Services.UpdateBio(result);
+
+                User.Bio = result;
+
+                OnPropertyChanged(nameof(Bio));
+            });
         }
     }
 }

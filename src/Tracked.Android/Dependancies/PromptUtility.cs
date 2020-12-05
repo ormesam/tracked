@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Android.App;
 using Android.Widget;
+using Plugin.CurrentActivity;
 using Tracked.Dependancies;
 using Tracked.Droid.Dependancies;
-using Plugin.CurrentActivity;
 
 [assembly: Xamarin.Forms.Dependency(typeof(PromptUtility))]
 namespace Tracked.Droid.Dependancies {

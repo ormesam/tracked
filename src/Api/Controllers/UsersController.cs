@@ -45,6 +45,24 @@ namespace Api.Controllers {
             return profile;
         }
 
+        [HttpPost]
+        [Route("update-bio")]
+        public ActionResult UpdateBio(BioChangeDto bioModel) {
+            int userId = this.GetCurrentUserId();
+
+            var user = context.User.Find(userId);
+
+            if (user == null) {
+                return NotFound();
+            }
+
+            user.Bio = bioModel.Bio;
+
+            context.SaveChanges();
+
+            return Ok();
+        }
+
         private double? GetLongestAirtime(int userId) {
             return context.Jump
                 .Where(row => row.Ride.UserId == userId)

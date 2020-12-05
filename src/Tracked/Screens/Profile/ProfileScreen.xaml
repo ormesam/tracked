@@ -15,15 +15,7 @@
                     Detail="{Binding User.CreatedUtc, StringFormat='Member since {0:dd MMM yyyy}'}"
                     ProfileImageUrl="{Binding User.ProfileImageUrl}" />
 
-                <StackLayout
-                    Padding="10">
-                    <Label
-                        FontAttributes="Bold"
-                        Text="Bio" />
-
-                    <Label
-                        Text="{Binding Bio}" />
-                </StackLayout>
+                <localControls:BioControl />
 
                 <localControls:StatsControl />
             </StackLayout>
