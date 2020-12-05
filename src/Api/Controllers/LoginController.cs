@@ -64,7 +64,7 @@ namespace Api.Controllers {
             var token = new JwtSecurityToken(
                 issuer: "samorme.com",
                 audience: "samorme.com",
-                expires: DateTime.UtcNow.AddSeconds(30),
+                expires: DateTime.UtcNow.AddDays(1),
                 claims: claims,
                 signingCredentials: credentials);
 
