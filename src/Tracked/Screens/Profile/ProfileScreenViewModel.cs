@@ -52,14 +52,18 @@ namespace Tracked.Screens.Profile {
             User = await Context.Services.GetProfile();
         }
 
-        public void EditBio() {
-            Context.UI.ShowInputDialog("Bio", User.Bio, async (result) => {
-                await Context.Services.UpdateBio(result);
+        public async Task EditBio() {
+            string newBio = await Context.UI.ShowPromptAsync("Bio", "Tell us something about yourself", User.Bio);
 
-                User.Bio = result;
+            if (newBio == null) {
+                return;
+            }
 
-                OnPropertyChanged(nameof(Bio));
-            });
+            await Context.Services.UpdateBio(newBio);
+
+            User.Bio = newBio;
+
+            OnPropertyChanged(nameof(Bio));
         }
     }
 }

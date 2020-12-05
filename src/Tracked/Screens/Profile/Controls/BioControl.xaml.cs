@@ -10,8 +10,8 @@ namespace Tracked.Screens.Profile.Controls {
 
         public ProfileScreenViewModel ViewModel => BindingContext as ProfileScreenViewModel;
 
-        private void Bio_Tapped(object sender, System.EventArgs e) {
-            ViewModel.EditBio();
+        private async void Bio_Tapped(object sender, System.EventArgs e) {
+            await ViewModel.EditBio();
         }
     }
 }

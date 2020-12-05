@@ -117,5 +117,9 @@ namespace Tracked.Contexts {
             await viewModel.Load();
             await GoToScreenAsync(new ProfileScreen(viewModel));
         }
+
+        public async Task<string> ShowPromptAsync(string title, string message, string defaultText) {
+            return await App.Current.MainPage.DisplayPromptAsync(title, message, initialValue: defaultText);
+        }
     }
 }
