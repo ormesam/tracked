@@ -172,22 +172,18 @@
                     Text="Trails"
                     FontAttributes="Bold"
                     IsVisible="{Binding HasTrails}"/>
-                <controls:ExtendedListView
-                    ItemsSource="{Binding Attempts}"
-                    IsScrollEnabled="False"
-                    IsVisible="{Binding HasTrails}"
-                    ItemTapped="Attempt_ItemTapped">
-                    <ListView.ItemTemplate>
+                <StackLayout
+                    BindableLayout.ItemsSource="{Binding Attempts}"
+                    IsVisible="{Binding HasTrails}">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <controls:MedalsCell
-                                    Text="{Binding DisplayName}"
-                                    Detail="{Binding FormattedTime}"
-                                    Medal="{Binding Medal}" />
-                            </ViewCell>
+                            <controls:MedalsCell
+                                Text="{Binding DisplayName}"
+                                Detail="{Binding FormattedTime}"
+                                Medal="{Binding Medal}" />
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </controls:ExtendedListView>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
 
                 <BoxView
                     IsVisible="{Binding HasJumps}"
@@ -195,9 +191,47 @@
                     Margin="0,5"
                     BackgroundColor="LightGray" />
 
-                <controls:JumpsControl
+                <Label
                     IsVisible="{Binding HasJumps}"
-                    Jumps="{Binding Jumps}" />
+                    Margin="10,4"
+                    Text="Jumps"
+                    FontAttributes="Bold"  />
+                <StackLayout
+                    IsVisible="{Binding HasJumps}"
+                    BindableLayout.ItemsSource="{Binding Jumps}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34.5" />
+                                    <RowDefinition Height="0.5" />
+                                </Grid.RowDefinitions>
+
+                                <Label
+                                    Margin="10,0,0,0"
+                                    VerticalTextAlignment="Center"
+                                    Text="{Binding Number}" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="Center"
+                                    Text="{Binding Airtime, StringFormat='{}{0}s'}" />
+
+                                <BoxView
+                                    Grid.ColumnSpan="3"
+                                    Grid.Row="1"
+                                    HeightRequest="0.5"
+                                    BackgroundColor="LightGray" />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
 
                 <BoxView
                     IsVisible="{Binding HasAchievements}"
@@ -210,34 +244,35 @@
                     Text="Achievements"
                     FontAttributes="Bold"
                     IsVisible="{Binding HasAchievements}"/>
-                <controls:ExtendedListView
+                <StackLayout
                     IsVisible="{Binding HasAchievements}"
-                    ItemsSource="{Binding Achievements}"
-                    IsScrollEnabled="False">
-                    <controls:ExtendedListView.ItemTemplate>
+                    BindableLayout.ItemsSource="{Binding Achievements}">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <Grid
-                                    Padding="10,0,10,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                            <Grid
+                                Padding="10,0,10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                                    <Label
-                                        Text="{Binding Name}"
-                                        VerticalOptions="Center"/>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
 
-                                    <Image
-                                        Grid.Column="1"
-                                        HeightRequest="20"
-                                        VerticalOptions="Center"
-                                        Source="trophy.png" />
-                                </Grid>
-                            </ViewCell>
+                                <Image
+                                    HeightRequest="20"
+                                    VerticalOptions="Center"
+                                    Source="trophy.png" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    Text="{Binding Name}"
+                                    VerticalOptions="Center"/>
+                            </Grid>
                         </DataTemplate>
-                    </controls:ExtendedListView.ItemTemplate>
-                </controls:ExtendedListView>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
