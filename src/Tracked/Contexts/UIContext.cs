@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shared.Dtos;
-using Tracked.Dependancies;
 using Tracked.Home;
 using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Profile;
@@ -20,14 +18,6 @@ namespace Tracked.Contexts {
 
         public UIContext(MainContext context) {
             this.context = context;
-        }
-
-        public void ShowInputDialog(string title, string defaultText, Action<string> onOk) {
-            DependencyService.Get<IPromptUtility>().ShowInputDialog(title, defaultText, onOk);
-        }
-
-        public void ShowInputDialog(string title, string defaultText, Func<string, Task<string>> onOk) {
-            DependencyService.Get<IPromptUtility>().ShowInputDialog(title, defaultText, onOk);
         }
 
         private async Task GoToScreenAsync(Page page) {

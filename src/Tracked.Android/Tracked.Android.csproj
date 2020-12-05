@@ -137,7 +137,6 @@
     <Compile Include="Auth\AuthExceptions.cs" />
     <Compile Include="Auth\GoogleClientManager.cs" />
     <Compile Include="Dependancies\NativeGeoUtility.cs" />
-    <Compile Include="Dependancies\PromptUtility.cs" />
     <Compile Include="Dependancies\Toast.cs" />
     <Compile Include="Location\LocationBinder.cs" />
     <Compile Include="Location\LocationServiceConnection.cs" />
