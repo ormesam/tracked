@@ -18,6 +18,7 @@
                 <localControls:BioControl />
                 <controls:Seperator />
                 <localControls:StatsControl />
+                <localControls:AchievementsControl />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

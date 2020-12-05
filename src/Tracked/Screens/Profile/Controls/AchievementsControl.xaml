@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Profile.Controls.AchievementsControl">
+    <ContentView.Content>
+        <StackLayout
+            Padding="10">
+            <Label
+                Text="Achievements"
+                FontAttributes="Bold"/>
+            <StackLayout
+                BindableLayout.ItemsSource="{Binding User.Achievements}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+
+                            <Image
+                                HeightRequest="20"
+                                VerticalOptions="Center"
+                                Source="trophy.png" />
+
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding Name}"
+                                VerticalOptions="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

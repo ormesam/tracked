@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Shared.Dtos {
     public class ProfileDto {
@@ -11,5 +12,6 @@ namespace Shared.Dtos {
         public double? MilesTravelledThisMonth { get; set; }
         public double? TopSpeedMph { get; set; }
         public double? LongestAirtime { get; set; }
+        public IList<AchievementDto> Achievements { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Api.Utility;
 using DataAccess.Models;
@@ -39,8 +40,9 @@ namespace Api.Controllers {
 
             profile.LongestAirtime = GetLongestAirtime(userId);
             profile.MilesTravelled = GetMilesTravelled(userId);
-            profile.MilesTravelledThisMonth = GetMilesTravelled(userId, DateTime.UtcNow.AddMonths(-1));
+            profile.MilesTravelledThisMonth = GetMilesTravelled(userId, DateTime.UtcNow.AddDays(-30));
             profile.TopSpeedMph = GetTopSpeedMph(userId);
+            profile.Achievements = GetAchievements(userId);
 
             return profile;
         }
@@ -85,6 +87,51 @@ namespace Api.Controllers {
             return context.Ride
                 .Where(row => row.UserId == userId)
                 .Max(i => (double?)i.MaxSpeedMph);
+        }
+
+        private IList<AchievementDto> GetAchievements(int userId) {
+            var achievements = new List<AchievementDto>();
+            achievements.AddRange(GetSpeedAchievements(userId));
+            achievements.AddRange(GetJumpAchievements(userId));
+            achievements.AddRange(GetDistanceAchievements(userId));
+
+            return achievements;
+        }
+
+        private IEnumerable<AchievementDto> GetSpeedAchievements(int userId) {
+            return context.UserSpeedAchievement
+                .Where(row => row.UserId == userId)
+                .OrderBy(row => row.SpeedAchievement.MinMph)
+                .Select(row => new AchievementDto {
+                    AchievementId = row.SpeedAchievementId,
+                    Name = row.SpeedAchievement.Name,
+                })
+                .Distinct()
+                .ToList();
+        }
+
+        private IEnumerable<AchievementDto> GetJumpAchievements(int userId) {
+            return context.UserJumpAchievement
+                .Where(row => row.UserId == userId)
+                .OrderBy(row => row.JumpAchievement.MinAirtime)
+                .Select(row => new AchievementDto {
+                    AchievementId = row.JumpAchievementId,
+                    Name = row.JumpAchievement.Name,
+                })
+                .Distinct()
+                .ToList();
+        }
+
+        private IEnumerable<AchievementDto> GetDistanceAchievements(int userId) {
+            return context.UserDistanceAchievement
+                .Where(row => row.UserId == userId)
+                .OrderBy(row => row.DistanceAchievement.MinDistanceMiles)
+                .Select(row => new AchievementDto {
+                    AchievementId = row.DistanceAchievementId,
+                    Name = row.DistanceAchievement.Name,
+                })
+                .Distinct()
+                .ToList();
         }
     }
 }
