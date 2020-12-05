@@ -13,8 +13,8 @@ namespace Tracked.Screens.Settings {
 
         public SettingsScreenViewModel ViewModel => BindingContext as SettingsScreenViewModel;
 
-        private async void DisconnectFromGoogle_Click(object sender, EventArgs e) {
-            await ViewModel.DisconnectFromGoogle();
+        private void DisconnectFromGoogle_Click(object sender, EventArgs e) {
+            ViewModel.DisconnectFromGoogle();
         }
     }
 }

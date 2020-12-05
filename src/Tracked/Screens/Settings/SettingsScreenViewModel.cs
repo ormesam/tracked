@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Tracked.Contexts;
+﻿using Tracked.Contexts;
 using Tracked.Screens.Login;
 
 namespace Tracked.Screens.Settings {
@@ -14,8 +13,8 @@ namespace Tracked.Screens.Settings {
             set { Context.Settings.IsDetectingJumps = value; }
         }
 
-        public async Task DisconnectFromGoogle() {
-            await Context.Security.Logout();
+        public void DisconnectFromGoogle() {
+            Context.Security.Logout();
 
             App.Current.MainPage = new LoginScreen(Context, false);
         }

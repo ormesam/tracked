@@ -115,7 +115,7 @@ namespace Tracked.Contexts {
                     HttpResponseMessage response = await client.SendAsync(request);
 
                     if (!response.IsSuccessStatusCode) {
-                        await HandleRequestError(response);
+                        HandleRequestError(response);
                     }
 
                     var jsonSerializerSettings = new JsonSerializerSettings {
@@ -129,9 +129,9 @@ namespace Tracked.Contexts {
             }
         }
 
-        private async Task HandleRequestError(HttpResponseMessage response) {
+        private void HandleRequestError(HttpResponseMessage response) {
             if (response.StatusCode == HttpStatusCode.Unauthorized) {
-                await mainContext.Security.Logout();
+                mainContext.Security.Logout();
 
                 throw new ServiceException("You have been logged out.");
             }
