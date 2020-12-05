@@ -16,7 +16,7 @@
                     ProfileImageUrl="{Binding User.ProfileImageUrl}" />
 
                 <localControls:BioControl />
-
+                <controls:Seperator />
                 <localControls:StatsControl />
             </StackLayout>
         </ScrollView>

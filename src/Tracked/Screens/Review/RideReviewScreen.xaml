@@ -81,12 +81,9 @@
                             Text="{Binding Ride.DistanceMiles, StringFormat='{}{0:F1} mi'}" />
                     </StackLayout>
 
-                    <BoxView
+                    <controls:Seperator
                         Grid.Row="1"
-                        Grid.ColumnSpan="3"
-                        HeightRequest="1"
-                        Margin="10"
-                        BackgroundColor="LightGray" />
+                        Grid.ColumnSpan="3" />
 
                     <StackLayout
                         Grid.Column="0"
@@ -118,12 +115,9 @@
                             Text="{Binding Ride.MaxSpeedMph, StringFormat='{}{0:F1} mph'}" />
                     </StackLayout>
 
-                    <BoxView
+                    <controls:Seperator
                         Grid.Row="3"
-                        Grid.ColumnSpan="3"
-                        HeightRequest="1"
-                        Margin="10"
-                        BackgroundColor="LightGray" />
+                        Grid.ColumnSpan="3" />
 
                     <StackLayout
                         Grid.Column="0"
