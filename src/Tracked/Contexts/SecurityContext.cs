@@ -27,15 +27,12 @@ namespace Tracked.Contexts {
 
         public SecurityContext(MainContext mainContext) {
             this.mainContext = mainContext;
-
-            AccessToken = this.mainContext.Storage.GetAccessToken();
         }
 
-        public async Task Logout() {
+        public void Logout() {
             AccessToken = null;
             user = null;
 
-            await mainContext.Storage.SetAccessToken(null);
             CrossGoogleClient.Current.Logout();
         }
 
@@ -66,17 +63,16 @@ namespace Tracked.Contexts {
         private async Task Login(GoogleUserDto user) {
             var loginResponse = await mainContext.Services.Login(CrossGoogleClient.Current.IdToken, user);
 
-            await Login(loginResponse.AccessToken, loginResponse.User);
+            Login(loginResponse.AccessToken, loginResponse.User);
 
             Toast.LongAlert("Connected to Google");
 
             App.Current.MainPage = new MasterScreen(mainContext);
         }
 
-        private async Task Login(string token, UserDto user) {
+        private void Login(string token, UserDto user) {
             AccessToken = token;
             this.user = user;
-            await mainContext.Storage.SetAccessToken(token);
         }
     }
 }

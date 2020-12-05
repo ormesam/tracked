@@ -23,13 +23,5 @@ namespace Tracked.Contexts {
         public async Task RemoveObject<T>(Guid id) {
             await Storage.InvalidateObject<T>(id.ToString());
         }
-
-        public async Task SetAccessToken(string token) {
-            await BlobCache.Secure.InsertObject("AccessToken", token);
-        }
-
-        public string GetAccessToken() {
-            return BlobCache.Secure.GetOrCreateObject("AccessToken", () => string.Empty).Wait();
-        }
     }
 }
