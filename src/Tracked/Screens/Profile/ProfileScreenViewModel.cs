@@ -65,5 +65,9 @@ namespace Tracked.Screens.Profile {
 
             OnPropertyChanged(nameof(Bio));
         }
+
+        public async Task GoToSettings() {
+            await Context.UI.GoToSettingsScreenAsync();
+        }
     }
 }

@@ -22,11 +22,6 @@ namespace Tracked.Screens.Master {
                       Title = "Bluetooth",
                       OnClick = Context.UI.GoToBluetoothScreenAsync,
                  },
-                 new ExtendedMenuItem
-                 {
-                      Title = "Settings",
-                      OnClick = Context.UI.GoToSettingsScreenAsync,
-                 },
             };
         }
 

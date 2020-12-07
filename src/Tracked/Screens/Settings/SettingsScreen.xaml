@@ -5,7 +5,8 @@
     x:Class="Tracked.Screens.Settings.SettingsScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout
+            Spacing="0">
             <TableView
                 Intent="Settings">
                 <TableSection
@@ -15,6 +16,18 @@
                         On="{Binding DetectJumps}" />
                 </TableSection>
             </TableView>
+            <StackLayout
+                HorizontalOptions="Center"
+                Orientation="Horizontal"
+                Padding="10">
+                <Image
+                    Source="github.png"
+                    VerticalOptions="Center"
+                    WidthRequest="30"/>
+                <Label
+                    Text="Open source project by Sam Orme"
+                    VerticalOptions="Center"/>
+            </StackLayout>
             <Button
                 Text="Log Out"
                 Clicked="DisconnectFromGoogle_Click"

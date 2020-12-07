@@ -5,7 +5,8 @@
     x:Class="Tracked.Screens.Profile.ProfileScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
     xmlns:localControls="clr-namespace:Tracked.Screens.Profile.Controls"
-    Title="{Binding Title}">
+    Title="{Binding Title}"
+    x:Name="page">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
