@@ -66,8 +66,14 @@ namespace Tracked.Contexts {
             await PostAsync<bool>("trails/delete", trailId);
         }
 
-        public async Task<IList<AchievementDto>> GetAchievements() {
-            return await GetAsync<IList<AchievementDto>>("achievements");
+        public async Task<ProfileDto> GetProfile() {
+            return await GetAsync<ProfileDto>("users/profile");
+        }
+
+        public async Task UpdateBio(string bio) {
+            await PostAsync("users/update-bio", new BioChangeDto {
+                Bio = bio,
+            });
         }
 
         protected async Task<TResult> GetAsync<TResult>(string apiEndpoint) {
@@ -78,6 +84,10 @@ namespace Tracked.Contexts {
             var message = new HttpRequestMessage(HttpMethod.Get, Constants.Url + "/api/" + apiEndpoint);
 
             return message;
+        }
+
+        protected async Task PostAsync(string apiEndpoint, object data = null) {
+            await SendAsync<object>(CreatePostRequestMessage(apiEndpoint, data));
         }
 
         protected async Task<TResult> PostAsync<TResult>(string apiEndpoint, object data = null) {

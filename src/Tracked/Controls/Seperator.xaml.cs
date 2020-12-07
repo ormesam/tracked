@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Tracked.Screens.Review.Controls {
+namespace Tracked.Controls {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Header : ContentView {
-        public Header() {
+    public partial class Seperator : ContentView {
+        public Seperator() {
             InitializeComponent();
         }
     }

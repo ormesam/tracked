@@ -8,6 +8,12 @@
     xmlns:ffImageLoadingSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     xmlns:ffImageTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
     Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            IconImageSource="profile.png"
+            Clicked="Profile_Clicked"
+            Order="Primary" />
+    </ContentPage.ToolbarItems>
     <Grid
         RowSpacing="0">
         <Grid.RowDefinitions>
@@ -68,46 +74,11 @@
                             <StackLayout
                                 Padding="10"
                                 BackgroundColor="White">
-                                <Grid
-                                    RowSpacing="0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="25" />
-                                        <RowDefinition Height="25" />
-                                    </Grid.RowDefinitions>
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="50" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <ffImageLoading:CachedImage
-                                        Grid.Column="0"
-                                        Grid.RowSpan="2"
-                                        Source="{Binding UserProfileImageUrl}"
-                                        VerticalOptions="Center"
-                                        WidthRequest="45"
-                                        HeightRequest="45">
-                                        <ffImageLoading:CachedImage.Transformations>
-                                            <ffImageTransformations:CircleTransformation />
-                                        </ffImageLoading:CachedImage.Transformations>
-                                    </ffImageLoading:CachedImage>
-
-                                    <Label
-                                        Grid.Column="1"
-                                        Text="{Binding UserName}"
-                                        FontAttributes="Bold"
-                                        FontSize="Subtitle"
-                                        VerticalTextAlignment="End"/>
-
-                                    <Label
-                                        Grid.Column="1"
-                                        Grid.Row="1"
-                                        Text="{Binding TimeDisplay}"
-                                        VerticalOptions="Center"
-                                        Padding="0"
-                                        Margin="0"
-                                        FontSize="Small" />
-                                </Grid>
+                                <controls:UserHeader
+                                    Name="{Binding UserName}"
+                                    Detail="{Binding TimeDisplay}"
+                                    ProfileImageUrl="{Binding UserProfileImageUrl}" />
 
                                 <Grid
                                     ColumnSpacing="0"

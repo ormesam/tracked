@@ -49,6 +49,7 @@ namespace Tracked.Droid {
             PlotViewRenderer.Init();
             AuthenticationConfiguration.Init(this, bundle);
             GoogleClientManager.Init(this);
+            XamEffects.Droid.Effects.Init();
             CustomTabsConfiguration.CustomTabsClosingMessage = null;
 
             LoadApplication(new App());

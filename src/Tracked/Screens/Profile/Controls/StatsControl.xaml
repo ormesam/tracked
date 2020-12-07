@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Profile.Controls.StatsControl">
+    <ContentView.Content>
+        <StackLayout
+            Padding="10">
+            <Label
+                Text="Stats"
+                FontAttributes="Bold" />
+            <Label
+                Text="{Binding User.MilesTravelled, StringFormat='{}{0:F1} miles travelled'}" />
+            <Label
+                Text="{Binding User.MilesTravelledThisMonth, StringFormat='{}{0:F1} miles travelled (30 days)'}" />
+            <Label
+                Text="{Binding User.TopSpeedMph, StringFormat='{}{0:F1} mph top speed'}" />
+            <Label
+                Text="{Binding User.LongestAirtime, StringFormat='{}{0:F3}s longest airtime'}" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

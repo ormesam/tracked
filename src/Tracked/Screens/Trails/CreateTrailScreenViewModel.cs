@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Shared.Dtos;
 using Shared.Interfaces;
 using Tracked.Contexts;
@@ -57,22 +58,22 @@ namespace Tracked.Screens.Trails {
 
         public override string Title => "Create Trail";
 
-        public void Save(INavigation nav) {
+        public async Task Save(INavigation nav) {
             if (trail.Locations.Count <= 2) {
                 return;
             }
 
-            Context.UI.ShowInputDialog("Trail Name", string.Empty, async (newName) => {
-                if (string.IsNullOrWhiteSpace(newName)) {
-                    return;
-                }
+            string newName = await Context.UI.ShowPromptAsync("Trail Name", null, string.Empty);
 
-                trail.Name = newName;
+            if (string.IsNullOrWhiteSpace(newName)) {
+                return;
+            }
 
-                await Context.Services.UploadTrail(trail);
+            trail.Name = newName;
 
-                await nav.PopAsync();
-            });
+            await Context.Services.UploadTrail(trail);
+
+            await nav.PopAsync();
         }
 
         public void AddPin(double latitude, double longitude) {

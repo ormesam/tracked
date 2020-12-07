@@ -12,8 +12,8 @@ namespace Tracked.Screens.Trails {
 
         public TrailScreenViewModel ViewModel => BindingContext as TrailScreenViewModel;
 
-        private void ChangeName_Clicked(object sender, EventArgs e) {
-            ViewModel.ChangeName();
+        private async void ChangeName_Clicked(object sender, EventArgs e) {
+            await ViewModel.ChangeName();
         }
 
         private async void Delete_Clicked(object sender, EventArgs e) {

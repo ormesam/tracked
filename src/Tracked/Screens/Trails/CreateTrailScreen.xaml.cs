@@ -1,7 +1,6 @@
 ﻿using System;
 using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,8 +14,8 @@ namespace Tracked.Screens.Trails {
 
         public CreateTrailScreenViewModel ViewModel => BindingContext as CreateTrailScreenViewModel;
 
-        private void Save_Clicked(object sender, EventArgs e) {
-            ViewModel.Save(Navigation);
+        private async void Save_Clicked(object sender, EventArgs e) {
+            await ViewModel.Save(Navigation);
         }
     }
 }

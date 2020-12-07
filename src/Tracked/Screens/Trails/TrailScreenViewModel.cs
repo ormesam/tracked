@@ -37,15 +37,19 @@ namespace Tracked.Screens.Trails {
             OnPropertyChanged(nameof(MapViewModel));
         }
 
-        public void ChangeName() {
-            Context.UI.ShowInputDialog("Change Name", Trail.Name, async (newName) => {
-                Trail.Name = newName;
+        public async Task ChangeName() {
+            string newName = await Context.UI.ShowPromptAsync("Change Name", null, Trail.Name);
 
-                OnPropertyChanged(nameof(Title));
-                OnPropertyChanged(nameof(Trail));
+            if (string.IsNullOrWhiteSpace(newName)) {
+                return;
+            }
 
-                await Context.Services.ChangeTrailName(Trail.TrailId.Value, newName);
-            });
+            Trail.Name = newName;
+
+            OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(Trail));
+
+            await Context.Services.ChangeTrailName(Trail.TrailId.Value, newName);
         }
 
         public async Task Delete() {

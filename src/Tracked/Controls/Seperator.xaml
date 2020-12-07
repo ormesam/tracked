@@ -2,10 +2,11 @@
 <ContentView 
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Tracked.Controls"
-    x:Class="Tracked.Controls.JumpsControl">
+    x:Class="Tracked.Controls.Seperator">
     <ContentView.Content>
-        <StackLayout>
-        </StackLayout>
+        <BoxView
+            HeightRequest="1"
+            BackgroundColor="LightGray"
+            Margin="10" />
     </ContentView.Content>
 </ContentView>

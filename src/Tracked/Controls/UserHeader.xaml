@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Controls.UserHeader"
+    xmlns:ffImageLoading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffImageTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+    <ContentView.Content>
+        <Grid
+            RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ffImageLoading:CachedImage
+                x:Name="ProfileImage"
+                x:FieldModifier="Public"
+                Grid.Column="0"
+                Grid.RowSpan="2"
+                VerticalOptions="Center"
+                WidthRequest="45"
+                HeightRequest="45">
+                <ffImageLoading:CachedImage.Transformations>
+                    <ffImageTransformations:CircleTransformation />
+                </ffImageLoading:CachedImage.Transformations>
+            </ffImageLoading:CachedImage>
+
+            <Label
+                 x:Name="NameLabel"
+                 Grid.Column="1"
+                 FontAttributes="Bold"
+                 FontSize="Subtitle"
+                 VerticalTextAlignment="End"/>
+
+            <Label
+                x:Name="DetailLabel"
+                Grid.Column="1"
+                Grid.Row="1"
+                VerticalOptions="Center"
+                Padding="0"
+                Margin="0"
+                FontSize="Small" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

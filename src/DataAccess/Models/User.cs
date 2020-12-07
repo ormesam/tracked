@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataAccess.Models
-{
-    public partial class User
-    {
-        public User()
-        {
+namespace DataAccess.Models {
+    public partial class User {
+        public User() {
             Ride = new HashSet<Ride>();
             Trail = new HashSet<Trail>();
             TrailAttempt = new HashSet<TrailAttempt>();
@@ -18,6 +15,7 @@ namespace DataAccess.Models
         public int UserId { get; set; }
         public string GoogleUserId { get; set; }
         public string Name { get; set; }
+        public string Bio { get; set; }
         public DateTime CreatedUtc { get; set; }
         public string ProfileImageUrl { get; set; }
         public bool IsAdmin { get; set; }

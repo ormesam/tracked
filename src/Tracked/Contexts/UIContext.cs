@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shared.Dtos;
-using Tracked.Dependancies;
 using Tracked.Home;
 using Tracked.Screens.Bluetooth;
+using Tracked.Screens.Profile;
 using Tracked.Screens.Record;
 using Tracked.Screens.Review;
 using Tracked.Screens.Settings;
@@ -19,14 +18,6 @@ namespace Tracked.Contexts {
 
         public UIContext(MainContext context) {
             this.context = context;
-        }
-
-        public void ShowInputDialog(string title, string defaultText, Action<string> onOk) {
-            DependencyService.Get<IPromptUtility>().ShowInputDialog(title, defaultText, onOk);
-        }
-
-        public void ShowInputDialog(string title, string defaultText, Func<string, Task<string>> onOk) {
-            DependencyService.Get<IPromptUtility>().ShowInputDialog(title, defaultText, onOk);
         }
 
         private async Task GoToScreenAsync(Page page) {
@@ -109,6 +100,16 @@ namespace Tracked.Contexts {
 
         public async Task GoToSpeedAnalysisScreenAsync(IList<RideLocationDto> rideLocation) {
             await GoToScreenAsync(new SpeedAnalysisScreen(context, rideLocation));
+        }
+
+        public async Task GoToProfileScreenAsync() {
+            var viewModel = new ProfileScreenViewModel(context);
+            await viewModel.Load();
+            await GoToScreenAsync(new ProfileScreen(viewModel));
+        }
+
+        public async Task<string> ShowPromptAsync(string title, string message, string defaultText) {
+            return await App.Current.MainPage.DisplayPromptAsync(title, message, initialValue: defaultText);
         }
     }
 }
