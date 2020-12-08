@@ -6,7 +6,7 @@ using Shared.Dtos;
 using Tracked.Contexts;
 using ChartPlotModel = OxyPlot.PlotModel;
 
-namespace Tracked.Screens.Review {
+namespace Tracked.Screens.Rides {
     public class SpeedAnalysisScreenViewModel : ViewModelBase {
         private readonly IList<RideLocationDto> rideLocations;
         public ChartPlotModel AnalysisChartModel { get; }

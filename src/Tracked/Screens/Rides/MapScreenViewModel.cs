@@ -7,7 +7,7 @@ using Tracked.Controls;
 using Tracked.Utilities;
 using Xamarin.Forms.Maps;
 
-namespace Tracked.Screens.Review {
+namespace Tracked.Screens.Rides {
     public class MapScreenViewModel : MapControlViewModel {
         private readonly RideDto ride;
         private Polyline selectedTrailLine;

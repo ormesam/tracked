@@ -6,7 +6,7 @@ using Tracked.Home;
 using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Profile;
 using Tracked.Screens.Record;
-using Tracked.Screens.Review;
+using Tracked.Screens.Rides;
 using Tracked.Screens.Settings;
 using Tracked.Screens.Trails;
 using Xamarin.Forms;

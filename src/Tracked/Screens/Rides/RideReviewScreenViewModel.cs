@@ -7,7 +7,7 @@ using Tracked.Contexts;
 using Tracked.Controls;
 using Tracked.Utilities;
 
-namespace Tracked.Screens.Review {
+namespace Tracked.Screens.Rides {
     public class RideReviewScreenViewModel : ViewModelBase {
         private RideDto ride;
 

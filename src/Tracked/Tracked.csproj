@@ -104,16 +104,16 @@
     <EmbeddedResource Update="Screens\Profile\ProfileScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Review\AccelerometerReadings.xaml">
+    <EmbeddedResource Update="Screens\Rides\AccelerometerReadings.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Review\MapScreen.xaml">
+    <EmbeddedResource Update="Screens\Rides\MapScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Record\RecordScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Review\RideReviewScreen.xaml">
+    <EmbeddedResource Update="Screens\Rides\RideReviewScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Trails\CreateTrailScreen.xaml">

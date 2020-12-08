@@ -3,12 +3,13 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:oxyplot="clr-namespace:OxyPlot.Xamarin.Forms;assembly=OxyPlot.Xamarin.Forms"
-    x:Class="Tracked.Screens.Review.AccelerometerReadingsScreen"
+    x:Class="Tracked.Screens.Rides.SpeedAnalysisScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
         <oxyplot:PlotView
             HorizontalOptions="FillAndExpand"
             VerticalOptions="FillAndExpand"
-            Model="{Binding AccelerometerChartModel}" />
+            Model="{Binding AnalysisChartModel}"
+            IsEnabled="False" />
     </ContentPage.Content>
 </ContentPage>

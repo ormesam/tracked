@@ -5,7 +5,7 @@ using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.JumpDetection;
 
-namespace Tracked.Screens.Review {
+namespace Tracked.Screens.Rides {
     internal class AccelerometerReadingsScreenViewModel : ViewModelBase {
         private readonly RideDto ride;
 

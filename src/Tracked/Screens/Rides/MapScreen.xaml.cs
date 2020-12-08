@@ -3,7 +3,7 @@ using Tracked.Contexts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Tracked.Screens.Review {
+namespace Tracked.Screens.Rides {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapScreen : ContentPage {
         public MapScreen(MainContext context, RideDto ride) {
