@@ -8,11 +8,6 @@ namespace Tracked.Screens.Settings {
 
         public override string Title => "Settings";
 
-        public bool DetectJumps {
-            get { return Context.Settings.IsDetectingJumps; }
-            set { Context.Settings.IsDetectingJumps = value; }
-        }
-
         public void DisconnectFromGoogle() {
             Context.Security.Logout();
 

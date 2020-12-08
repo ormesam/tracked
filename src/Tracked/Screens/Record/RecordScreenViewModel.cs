@@ -68,7 +68,7 @@ namespace Tracked.Screens.Record {
 
         public string GpsSignalMessage => HasAcquiredGpsSignal ? "GPS Acquired" : "Acquiring GPS";
 
-        public bool IsAccelerometerRequired => Context.Settings.IsDetectingJumps;
+        public bool IsAccelerometerRequired => false;
 
         public string AccelerometerMessage {
             get {

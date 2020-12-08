@@ -6,11 +6,6 @@ namespace Tracked.Contexts {
         public SettingsContext() {
         }
 
-        public bool IsDetectingJumps {
-            get { return Preferences.Get("IsDetectingJumps", false); }
-            set { Preferences.Set("IsDetectingJumps", value); }
-        }
-
         public Guid? BluetoothDeviceId {
             get {
                 if (Guid.TryParse(Preferences.Get("BluetoothDeviceId ", null), out Guid guid)) {

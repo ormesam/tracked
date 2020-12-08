@@ -17,11 +17,6 @@ namespace Tracked.Screens.Master {
                       Title = "Trails",
                       OnClick = Context.UI.GoToExploreTrailsScreenAsync,
                  },
-                 new ExtendedMenuItem
-                 {
-                      Title = "Bluetooth",
-                      OnClick = Context.UI.GoToBluetoothScreenAsync,
-                 },
             };
         }
 
