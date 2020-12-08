@@ -49,6 +49,7 @@ using Shared;
 [assembly: Application(
     UsesCleartextTraffic = true,
     Icon = "@mipmap/ic_launcher",
+    RoundIcon = "@mipmap/ic_launcher_round",
     Label = Constants.AppName,
 #if DEBUG
     Debuggable = true
