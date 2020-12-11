@@ -3,7 +3,6 @@ using Shared.Dto;
 using Shared.Dtos;
 using Shared.Exceptions;
 using Tracked.Auth;
-using Tracked.Screens.Master;
 using Tracked.Utilities;
 
 namespace Tracked.Contexts {
@@ -49,6 +48,8 @@ namespace Tracked.Contexts {
                 if (result.Status == GoogleActionStatus.Completed) {
                     await Login(result.User);
 
+                    Toast.LongAlert("Connected to Google");
+
                     return;
                 }
             } else {
@@ -65,9 +66,7 @@ namespace Tracked.Contexts {
 
             Login(loginResponse.AccessToken, loginResponse.User);
 
-            Toast.LongAlert("Connected to Google");
-
-            App.Current.MainPage = new MasterScreen(mainContext);
+            await mainContext.UI.GoToRideOverviewScreenAsync();
         }
 
         private void Login(string token, UserDto user) {

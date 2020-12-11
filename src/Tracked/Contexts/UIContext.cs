@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Shared.Dtos;
-using Tracked.Home;
 using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Profile;
 using Tracked.Screens.Record;
@@ -27,55 +25,46 @@ namespace Tracked.Contexts {
 
             isNavigating = true;
 
-            await App.RootPage.Detail.Navigation.PushAsync(page);
+            await App.RootPage.Navigation.PushAsync(page);
 
             isNavigating = false;
         }
 
-        private async Task GoToSideBarItemAsync(Page page) {
+        private Task ReplaceScreenAsync(Page page) {
             if (isNavigating) {
-                return;
+                return Task.CompletedTask;
             }
 
             isNavigating = true;
 
-            if (page != null) {
-                var currentPage = App.RootPage.Detail.Navigation.NavigationStack.FirstOrDefault();
-
-                await App.RootPage.Detail.Navigation.PushAsync(page);
-
-                if (currentPage != null) {
-                    App.RootPage.Detail.Navigation.RemovePage(currentPage);
-                }
-            }
-
-            App.RootPage.IsPresented = false;
+            App.Current.MainPage = new NavigationPage(page) {
+                BarBackgroundColor = Color.FromHex("#080870"),
+                BarTextColor = Color.White,
+            };
 
             isNavigating = false;
+
+            return Task.CompletedTask;
         }
 
-        #region Sidebar
+        #region Root
 
-        public async Task GoToMainPageAsync() {
-            await GoToSideBarItemAsync(new MainPage(context));
-        }
-
-        public async Task GoToBluetoothScreenAsync() {
-            await GoToSideBarItemAsync(new BluetoothSetupScreen(context));
-        }
-
-        public async Task GoToSettingsScreenAsync() {
-            await GoToSideBarItemAsync(new SettingsScreen(context));
+        public async Task GoToRideOverviewScreenAsync() {
+            await ReplaceScreenAsync(new RideOverviewScreen(context));
         }
 
         public async Task GoToExploreTrailsScreenAsync() {
-            await GoToSideBarItemAsync(new ExploreTrailsScreen(context));
+            await ReplaceScreenAsync(new ExploreTrailsScreen(context));
         }
 
         #endregion
 
         public async Task GoToRecordScreenAsync() {
             await GoToScreenAsync(new RecordScreen(context));
+        }
+
+        public async Task GoToBluetoothScreenAsync() {
+            await GoToScreenAsync(new BluetoothSetupScreen(context));
         }
 
         public async Task GoToRideReviewScreenAsync(int id) {
@@ -106,6 +95,10 @@ namespace Tracked.Contexts {
             var viewModel = new ProfileScreenViewModel(context);
             await viewModel.Load();
             await GoToScreenAsync(new ProfileScreen(viewModel));
+        }
+
+        public async Task GoToSettingsScreenAsync() {
+            await GoToScreenAsync(new SettingsScreen(context));
         }
 
         public async Task<string> ShowPromptAsync(string title, string message, string defaultText) {

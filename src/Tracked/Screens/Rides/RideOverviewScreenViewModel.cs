@@ -5,19 +5,21 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Screens;
+using Tracked.Models;
 using Tracked.Utilities;
 using Xamarin.Forms;
 
-namespace Tracked.Home {
-    public class MainPageViewModel : ViewModelBase {
+namespace Tracked.Screens.Rides {
+    public class RideOverviewScreenViewModel : TabbedViewModelBase {
         private bool isRefreshing;
         private bool isUploading;
 
-        public MainPageViewModel(MainContext context) : base(context) {
+        public RideOverviewScreenViewModel(MainContext context) : base(context) {
             Rides = new ObservableCollection<RideOverviewDto>();
             Rides.CollectionChanged += Rides_CollectionChanged;
         }
+
+        protected override TabItemType SelectedTab => TabItemType.Rides;
 
         private void Rides_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             OnPropertyChanged(nameof(HasRides));

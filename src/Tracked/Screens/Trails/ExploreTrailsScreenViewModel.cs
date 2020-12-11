@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Shared.Dtos;
 using Tracked.Contexts;
+using Tracked.Models;
 using Tracked.Utilities;
 using Xamarin.Forms;
 
-namespace Tracked.Screens.Settings {
-    public class ExploreTrailsScreenViewModel : ViewModelBase {
+namespace Tracked.Screens.Trails {
+    public class ExploreTrailsScreenViewModel : TabbedViewModelBase {
         private bool isRefreshing;
 
         public ExploreTrailsScreenViewModel(MainContext context) : base(context) {
@@ -16,6 +17,8 @@ namespace Tracked.Screens.Settings {
         }
 
         public override string Title => "Trails";
+
+        protected override TabItemType SelectedTab => TabItemType.Trails;
 
         public bool IsRefreshing {
             get { return isRefreshing; }
@@ -46,7 +49,8 @@ namespace Tracked.Screens.Settings {
                 Toast.LongAlert(ex.Message);
             } finally {
                 IsRefreshing = false;
-                Refresh();
+
+                OnPropertyChanged();
             }
         }
 

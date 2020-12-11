@@ -15,6 +15,10 @@
             x:Key="MedalToImageConverter" />
         <converters:RouteSvgConverter
             x:Key="RouteSvgConverter" />
+        <converters:TabLabelTextConverter
+            x:Key="TabLabelTextConverter" />
+        <converters:TabImageSourceConverter
+            x:Key="TabImageSourceConverter" />
 
         <Color
             x:Key="DefaultBackgroundColour">
@@ -24,5 +28,37 @@
             x:Key="GoogleButtonColour">
             #DD4B39
         </Color>
+
+        <Style
+            x:Key="FabButtonStyle"
+            TargetType="Button">
+            <Setter
+                Property="BackgroundColor"
+                Value="Green" />
+            <Setter
+                Property="TextColor"
+                Value="White" />
+            <Setter
+                Property="CornerRadius"
+                Value="75" />
+            <Setter
+                Property="WidthRequest"
+                Value="75" />
+            <Setter
+                Property="HeightRequest"
+                Value="75" />
+            <Setter
+                Property="HorizontalOptions"
+                Value="End" />
+            <Setter
+                Property="VerticalOptions"
+                Value="End" />
+            <Setter
+                Property="Margin"
+                Value="30" />
+            <Setter
+                Property="FontSize"
+                Value="30" />
+        </Style>
     </Application.Resources>
 </Application>

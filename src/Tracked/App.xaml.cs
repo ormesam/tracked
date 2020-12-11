@@ -6,7 +6,6 @@ using Microsoft.AppCenter.Crashes;
 using Shared;
 using Tracked.Contexts;
 using Tracked.Screens.Login;
-using Tracked.Screens.Master;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -14,7 +13,7 @@ namespace Tracked {
     public partial class App : Application {
         public MainContext MainContext { get; }
         public static new App Current => (App)Application.Current;
-        public static MasterScreen RootPage => Current.MainPage as MasterScreen;
+        public static NavigationPage RootPage => (NavigationPage)Current.MainPage;
 
         public App() {
             InitializeComponent();

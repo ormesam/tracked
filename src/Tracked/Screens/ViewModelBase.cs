@@ -9,10 +9,6 @@ namespace Tracked.Screens {
             Context = context;
         }
 
-        public void Refresh() {
-            OnPropertyChanged();
-        }
-
         public virtual string Title => "Tracked";
     }
 }

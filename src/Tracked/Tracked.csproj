@@ -44,8 +44,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\TabControl.xaml.cs">
+      <DependentUpon>TabControl.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\UserHeader.xaml.cs">
       <DependentUpon>UserHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Screens\Rides\RideOverviewScreen.xaml.cs">
+      <DependentUpon>RideOverviewScreen.xaml</DependentUpon>
     </Compile>
     <Compile Update="Screens\Profile\Controls\BioControl.xaml.cs">
       <DependentUpon>BioControl.xaml</DependentUpon>
@@ -65,7 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Controls\JumpsControl.xaml">
+    <EmbeddedResource Update="Controls\TabControl.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\MedalsCell.xaml">
@@ -84,12 +90,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Login\LoginScreen.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Master\MainMenu.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Screens\Master\MasterScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Screens\Profile\Controls\AchievementsControl.xaml">

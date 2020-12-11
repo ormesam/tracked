@@ -3,7 +3,7 @@ using Tracked.Contexts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Tracked.Screens.Settings {
+namespace Tracked.Screens.Trails {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ExploreTrailsScreen : ContentPage {
         public ExploreTrailsScreen(MainContext context) {
