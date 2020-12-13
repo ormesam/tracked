@@ -36,29 +36,19 @@ namespace Tracked.Contexts {
         }
 
         public async Task ConnectToGoogle() {
-            if (!CrossGoogleClient.Current.IsLoggedIn || string.IsNullOrWhiteSpace(CrossGoogleClient.Current.IdToken)) {
-                GoogleResponse result;
+            GoogleResponse result;
 
-                try {
-                    result = await CrossGoogleClient.Current.LoginAsync();
-                } catch {
-                    return;
-                }
-
-                if (result.Status == GoogleActionStatus.Completed) {
-                    await Login(result.User);
-
-                    Toast.LongAlert("Connected to Google");
-
-                    return;
-                }
-            } else {
-                await Login(CrossGoogleClient.Current.CurrentUser);
+            try {
+                result = await CrossGoogleClient.Current.LoginAsync();
+            } catch {
+                Toast.LongAlert("Unable to connect to Google\nTry again later");
 
                 return;
             }
 
-            Toast.LongAlert("Unable to connect to Google\nTry again later");
+            if (result.Status == GoogleActionStatus.Completed) {
+                await Login(result.User);
+            }
         }
 
         private async Task Login(GoogleUserDto user) {
