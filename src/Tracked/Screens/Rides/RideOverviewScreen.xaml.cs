@@ -41,9 +41,5 @@ namespace Tracked.Screens.Rides {
         private async void Ride_ItemTapped(object sender, ItemTappedEventArgs e) {
             await ViewModel.GoToReview(e.Item as RideOverviewDto);
         }
-
-        private async void Profile_Clicked(object sender, EventArgs e) {
-            await ViewModel.Context.UI.GoToProfileScreenAsync();
-        }
     }
 }

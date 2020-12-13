@@ -14999,28 +14999,31 @@ namespace Tracked.Droid
 			public const int profile = 2131165554;
 			
 			// aapt resource value: 0x7F070173
-			public const int silver = 2131165555;
+			public const int profile_outline = 2131165555;
 			
 			// aapt resource value: 0x7F070174
-			public const int speed_icon = 2131165556;
+			public const int silver = 2131165556;
 			
 			// aapt resource value: 0x7F070175
-			public const int tick_icon = 2131165557;
+			public const int speed_icon = 2131165557;
 			
 			// aapt resource value: 0x7F070176
-			public const int tooltip_frame_dark = 2131165558;
+			public const int tick_icon = 2131165558;
 			
 			// aapt resource value: 0x7F070177
-			public const int tooltip_frame_light = 2131165559;
+			public const int tooltip_frame_dark = 2131165559;
 			
 			// aapt resource value: 0x7F070178
-			public const int trails = 2131165560;
+			public const int tooltip_frame_light = 2131165560;
 			
 			// aapt resource value: 0x7F070179
-			public const int trails_outline = 2131165561;
+			public const int trails = 2131165561;
 			
 			// aapt resource value: 0x7F07017A
-			public const int trophy = 2131165562;
+			public const int trails_outline = 2131165562;
+			
+			// aapt resource value: 0x7F07017B
+			public const int trophy = 2131165563;
 			
 			static Drawable()
 			{

@@ -22,6 +22,13 @@ namespace Tracked.Screens {
                     IsSelected = selected == TabItemType.Trails,
                     OnClick = Context.UI.GoToExploreTrailsScreenAsync,
                 },
+                new TabItem {
+                    Order = 2,
+                    Text = "Profile",
+                    ImageName = "profile",
+                    IsSelected = selected == TabItemType.Profile,
+                    OnClick = Context.UI.GoToProfileScreenAsync,
+                },
             };
         }
 

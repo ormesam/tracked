@@ -1,13 +1,16 @@
 ﻿using System.Threading.Tasks;
 using Shared.Dtos;
 using Tracked.Contexts;
+using Tracked.Models;
 
 namespace Tracked.Screens.Profile {
-    public class ProfileScreenViewModel : ViewModelBase {
+    public class ProfileScreenViewModel : TabbedViewModelBase {
         private ProfileDto user;
 
         public ProfileScreenViewModel(MainContext context) : base(context) {
         }
+
+        protected override TabItemType SelectedTab => TabItemType.Profile;
 
         public ProfileDto User {
             get { return user; }

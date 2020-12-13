@@ -8,19 +8,27 @@
     Title="{Binding Title}"
     x:Name="page">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
-                <controls:UserHeader
-                    Padding="10"
-                    Name="{Binding User.Name}"
-                    Detail="{Binding User.CreatedUtc, StringFormat='Member since {0:dd MMM yyyy}'}"
-                    ProfileImageUrl="{Binding User.ProfileImageUrl}" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollView>
+                <StackLayout>
+                    <controls:UserHeader
+                        Padding="10"
+                        Name="{Binding User.Name}"
+                        Detail="{Binding User.CreatedUtc, StringFormat='Member since {0:dd MMM yyyy}'}"
+                        ProfileImageUrl="{Binding User.ProfileImageUrl}" />
 
-                <localControls:BioControl />
-                <controls:Seperator />
-                <localControls:StatsControl />
-                <localControls:AchievementsControl />
-            </StackLayout>
-        </ScrollView>
+                    <localControls:BioControl />
+                    <controls:Seperator />
+                    <localControls:StatsControl />
+                    <localControls:AchievementsControl />
+                </StackLayout>
+            </ScrollView>
+            <controls:TabControl
+                Grid.Row="1" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

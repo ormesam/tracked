@@ -94,7 +94,7 @@ namespace Tracked.Contexts {
         public async Task GoToProfileScreenAsync() {
             var viewModel = new ProfileScreenViewModel(context);
             await viewModel.Load();
-            await GoToScreenAsync(new ProfileScreen(viewModel));
+            await ReplaceScreenAsync(new ProfileScreen(viewModel));
         }
 
         public async Task GoToSettingsScreenAsync() {

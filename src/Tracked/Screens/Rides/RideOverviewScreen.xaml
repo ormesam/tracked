@@ -6,12 +6,6 @@
     xmlns:controls="clr-namespace:Tracked.Controls"
     xmlns:ffImageLoadingSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            IconImageSource="profile.png"
-            Clicked="Profile_Clicked"
-            Order="Primary" />
-    </ContentPage.ToolbarItems>
     <Grid
         RowSpacing="0">
         <Grid.RowDefinitions>

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Tracked.Models {
     public class TabItem {
-        public int Order { get; set; } // bind grid column to this
+        public int Order { get; set; }
         public string Text { get; set; }
         public string ImageName { get; set; }
         public bool IsSelected { get; set; }
@@ -13,5 +13,6 @@ namespace Tracked.Models {
     public enum TabItemType {
         Rides,
         Trails,
+        Profile,
     }
 }
