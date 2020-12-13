@@ -13,6 +13,8 @@ namespace Tracked.Screens.Profile {
         public ProfileScreenViewModel ViewModel => BindingContext as ProfileScreenViewModel;
 
         protected override void OnAppearing() {
+            page.ToolbarItems.Clear();
+
             if (ViewModel.IsCurrentUser) {
                 var item = new ToolbarItem {
                     Text = "Settings",

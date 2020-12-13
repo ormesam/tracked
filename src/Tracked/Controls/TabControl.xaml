@@ -20,7 +20,7 @@
                                 Tapped="TabItem_Tapped" />
                         </Grid.GestureRecognizers>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="5" />
+                            <RowDefinition Height="3" />
                             <RowDefinition Height="35" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
@@ -28,6 +28,11 @@
                         <BoxView
                             BackgroundColor="{StaticResource DefaultBackgroundColour}"
                             IsVisible="{Binding IsSelected}"/>
+                        <BoxView
+                            BackgroundColor="LightGray"
+                            HeightRequest="1"
+                            VerticalOptions="Start"
+                            IsVisible="{Binding IsSelected, Converter={StaticResource InvertBoolConverter}}"/>
                         <Image
                             Grid.Row="1"
                             HeightRequest="30"
