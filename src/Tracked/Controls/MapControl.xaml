@@ -16,11 +16,7 @@
                 SelectedItem="{Binding MapType, Mode=TwoWay}" />
 
             <Grid
-                x:Name="MapContainer">
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Tapped="MapControl_Tapped" />
-                </Grid.GestureRecognizers>
+                x:Name="mapContainer">
             </Grid>
 
             <ImageButton

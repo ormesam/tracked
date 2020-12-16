@@ -3,10 +3,12 @@ using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Tracked.Controls;
 using Tracked.Droid.Renderers;
+using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Maps.Android;
 using Xamarin.Forms.Platform.Android;
+using LatLng = Android.Gms.Maps.Model.LatLng;
 
 [assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
 namespace Tracked.Droid.Renderers {
@@ -35,7 +37,7 @@ namespace Tracked.Droid.Renderers {
             marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
             marker.SetTitle(pin.Label);
 
-            if (pin is CustomMapPin customMapPin) {
+            if (pin is MapPin customMapPin) {
                 if (customMapPin.IsSpeedPin) {
                     marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.speed_icon));
                 }

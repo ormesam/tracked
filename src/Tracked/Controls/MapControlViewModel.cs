@@ -1,68 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Shared.Interfaces;
 using Tracked.Contexts;
 using Tracked.Models;
 using Tracked.Screens;
-using Tracked.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace Tracked.Controls {
-    public class MapControlViewModel : ViewModelBase {
-        private readonly string title;
-        public readonly bool isReadOnly;
-        private readonly bool showRideFeatures;
+    public abstract class MapControlViewModel : ViewModelBase {
+        private CustomMap map;
         private MapType mapType;
 
         public event EventHandler<MapClickedEventArgs> MapTapped;
-        public event EventHandler<EventArgs> MapControlTapped;
 
-        protected CustomMap Map { get; set; }
 
-        public MapControlViewModel(
-            MainContext context,
-            string title,
-            IList<MapLocation> locations,
-            bool isReadOnly = true,
-            bool showRideFeatures = true,
-            MapType mapType = MapType.Street,
-            bool canChangeMapType = false)
+        public MapControlViewModel(MainContext context)
             : base(context) {
-
-            this.title = title;
-            this.isReadOnly = isReadOnly;
-
-            Locations = locations;
-            this.showRideFeatures = showRideFeatures;
-            MapType = mapType;
-            CanChangeMapType = canChangeMapType;
         }
+
+        protected virtual bool IsReadOnly => false;
+        protected virtual ILatLng Centre => new LatLng(57.1499749, -2.1950675);
+        protected virtual bool CanChangeMapType => true;
 
         public CustomMap CreateMap() {
-            Position centre = new Position(57.1499749, -2.1950675);
+            Position centre = new Position(Centre.Latitude, Centre.Longitude);
 
-            if (Locations.Any()) {
-                centre = Locations.Midpoint();
-            }
-
-            Map = new CustomMap(MapSpan.FromCenterAndRadius(centre, Distance.FromMiles(.5)), isReadOnly);
-            Map.IsShowingUser = false;
-            Map.SetBinding(Xamarin.Forms.Maps.Map.MapTypeProperty, nameof(MapType), BindingMode.TwoWay);
-            Map.InputTransparent = isReadOnly;
-            Map.MapClicked += (s, e) => {
-                MapTapped?.Invoke(null, e);
+            map = new CustomMap(MapSpan.FromCenterAndRadius(centre, Distance.FromMiles(.5)), IsReadOnly);
+            map.IsShowingUser = false;
+            map.SetBinding(Map.MapTypeProperty, nameof(MapType), BindingMode.TwoWay);
+            map.InputTransparent = IsReadOnly;
+            map.MapClicked += (s, e) => {
+                MapTapped?.Invoke(s, e);
             };
 
-            CreatePolylinesFromLocations();
+            CreatePolylines();
+            CreatePins();
 
-            return Map;
+            return map;
         }
 
-        public bool CanChangeMapType { get; }
-        public IList<MapLocation> Locations { get; }
-        public override string Title => title;
+        protected abstract IEnumerable<MapPin> GetPins();
+        protected abstract IEnumerable<MapPolyline> GetPolylines();
+
+        private void CreatePins() {
+            var pins = GetPins();
+
+            foreach (var pin in pins) {
+                map.Pins.Add(pin);
+            }
+        }
+
+        private void CreatePolylines() {
+            var polylines = GetPolylines();
+
+            foreach (var polyline in polylines) {
+                CreatePolyline(polyline);
+            }
+        }
+
+        private void CreatePolyline(MapPolyline polyline) {
+            if (polyline.Positions.Count <= 1) {
+                return;
+            }
+
+            Polyline polylineElement = new Polyline();
+
+            foreach (var position in polyline.Positions) {
+                polylineElement.Geopath.Add(new Position(position.Latitude, position.Longitude));
+            }
+
+            polylineElement.StrokeColor = polyline.Colour;
+            polylineElement.StrokeWidth = polyline.Width;
+
+            map.MapElements.Add(polylineElement);
+        }
+
+        public IEnumerable<MapType> MapTypes => (IEnumerable<MapType>)Enum.GetValues(typeof(MapType));
 
         public MapType MapType {
             get { return mapType; }
@@ -73,12 +87,8 @@ namespace Tracked.Controls {
                 }
             }
         }
-
-        public bool CanMove => !isReadOnly;
-
-        public IEnumerable<MapType> MapTypes => (IEnumerable<MapType>)Enum.GetValues(typeof(MapType));
-
-        private void CreatePolylinesFromLocations() {
+        /*
+        private void CreatePolylines() {
             if (Locations.Count <= 1) {
                 return;
             }
@@ -128,7 +138,7 @@ namespace Tracked.Controls {
         }
 
         private void AddMaxSpeedPin(MapLocation location, bool hasMultiplePins) {
-            Pin pin = new CustomMapPin {
+            Pin pin = new MapPin {
                 Position = new Position(location.Latitude, location.Longitude),
                 Label = Math.Round(location.Mph, 1) + " mph",
                 IsSpeedPin = true,
@@ -139,7 +149,7 @@ namespace Tracked.Controls {
         }
 
         private void AddJumpPin(MapLocation location, bool hasMultiplePins) {
-            Pin pin = new CustomMapPin {
+            Pin pin = new MapPin {
                 Position = new Position(location.Latitude, location.Longitude),
                 Label = Math.Round(location.Jump.Airtime, 3) + "s",
                 IsJumpPin = true,
@@ -147,23 +157,6 @@ namespace Tracked.Controls {
             };
 
             Map.Pins.Add(pin);
-        }
-
-        public void AddPolyLine(IList<ILatLng> latLngs, Color colour) {
-            if (latLngs.Count <= 1) {
-                return;
-            }
-
-            Polyline polyline = new Polyline();
-
-            foreach (var latLng in latLngs) {
-                polyline.Geopath.Add(new Position(latLng.Latitude, latLng.Longitude));
-            }
-
-            polyline.StrokeColor = colour;
-            polyline.StrokeWidth = 10f;
-
-            Map.MapElements.Add(polyline);
         }
 
         private Color GetMaxSpeedColour(double mph, double maxSpeed) {
@@ -209,10 +202,6 @@ namespace Tracked.Controls {
             }
 
             return Color.FromHex("#63BE7B");
-        }
-
-        public void OnMappedTapped(object sender, EventArgs e) {
-            MapControlTapped?.Invoke(sender, e);
-        }
+        }*/
     }
 }

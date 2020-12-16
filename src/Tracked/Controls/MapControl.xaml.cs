@@ -1,35 +1,30 @@
 ﻿using System;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Tracked.Controls {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapControl : ContentView {
+        private bool isInitialized;
+
         public MapControl() {
             InitializeComponent();
-
-            LayoutChanged += MapControl_LayoutChanged;
         }
 
         public MapControlViewModel ViewModel => BindingContext as MapControlViewModel;
 
-        private void MapControl_LayoutChanged(object sender, EventArgs e) {
-            Device.BeginInvokeOnMainThread(() => {
-                if (MapContainer.Children.Any()) {
-                    return;
-                }
+        public void CreateMap() {
+            if (isInitialized) {
+                return;
+            }
 
-                MapContainer.Children.Add(ViewModel.CreateMap());
-            });
+            mapContainer.Children.Add(ViewModel.CreateMap());
+
+            isInitialized = true;
         }
 
         private void ChangeLayer_Pressed(object sender, EventArgs e) {
             picker.Focus();
-        }
-
-        private void MapControl_Tapped(object sender, EventArgs e) {
-            ViewModel.OnMappedTapped(sender, e);
         }
     }
 }
