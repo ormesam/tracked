@@ -5,7 +5,7 @@ using Shared.Dtos;
 namespace Api.Analysers {
     public class SpeedAnalyser : IRideAnalyser {
         public void Analyse(ModelDataContext context, int userId, RideDto ride) {
-            var speedAchievements = context.SpeedAchievement
+            var speedAchievements = context.SpeedAchievements
                 .Select(row => new MinSpeedAchievement {
                     SpeedAchievementId = row.SpeedAchievementId,
                     MinMph = row.MinMph,
@@ -21,7 +21,7 @@ namespace Api.Analysers {
                         UserId = userId,
                     };
 
-                    context.UserSpeedAchievement.Add(userSpeedAchievement);
+                    context.UserSpeedAchievements.Add(userSpeedAchievement);
                     context.SaveChanges();
                 }
             }

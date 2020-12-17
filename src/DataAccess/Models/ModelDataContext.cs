@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
+#nullable disable
+
 namespace DataAccess.Models
 {
     public partial class ModelDataContext : DbContext
@@ -15,39 +17,43 @@ namespace DataAccess.Models
         {
         }
 
-        public virtual DbSet<AccelerometerReading> AccelerometerReading { get; set; }
-        public virtual DbSet<DistanceAchievement> DistanceAchievement { get; set; }
-        public virtual DbSet<Jump> Jump { get; set; }
-        public virtual DbSet<JumpAchievement> JumpAchievement { get; set; }
-        public virtual DbSet<Ride> Ride { get; set; }
-        public virtual DbSet<RideLocation> RideLocation { get; set; }
-        public virtual DbSet<SpeedAchievement> SpeedAchievement { get; set; }
-        public virtual DbSet<TraceMessage> TraceMessage { get; set; }
-        public virtual DbSet<Trail> Trail { get; set; }
-        public virtual DbSet<TrailAttempt> TrailAttempt { get; set; }
-        public virtual DbSet<TrailLocation> TrailLocation { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<UserDistanceAchievement> UserDistanceAchievement { get; set; }
-        public virtual DbSet<UserJumpAchievement> UserJumpAchievement { get; set; }
-        public virtual DbSet<UserSpeedAchievement> UserSpeedAchievement { get; set; }
+        public virtual DbSet<AccelerometerReading> AccelerometerReadings { get; set; }
+        public virtual DbSet<DistanceAchievement> DistanceAchievements { get; set; }
+        public virtual DbSet<Jump> Jumps { get; set; }
+        public virtual DbSet<JumpAchievement> JumpAchievements { get; set; }
+        public virtual DbSet<Ride> Rides { get; set; }
+        public virtual DbSet<RideLocation> RideLocations { get; set; }
+        public virtual DbSet<SpeedAchievement> SpeedAchievements { get; set; }
+        public virtual DbSet<TraceMessage> TraceMessages { get; set; }
+        public virtual DbSet<Trail> Trails { get; set; }
+        public virtual DbSet<TrailAttempt> TrailAttempts { get; set; }
+        public virtual DbSet<TrailLocation> TrailLocations { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserDistanceAchievement> UserDistanceAchievements { get; set; }
+        public virtual DbSet<UserJumpAchievement> UserJumpAchievements { get; set; }
+        public virtual DbSet<UserSpeedAchievement> UserSpeedAchievements { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=localhost\\MSSQLSERVER01;Database=TrackedDev;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
+
             modelBuilder.Entity<AccelerometerReading>(entity =>
             {
+                entity.ToTable("AccelerometerReading");
+
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.AccelerometerReading)
+                    .WithMany(p => p.AccelerometerReadings)
                     .HasForeignKey(d => d.RideId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AccelerometerReading_Ride");
@@ -55,6 +61,8 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<DistanceAchievement>(entity =>
             {
+                entity.ToTable("DistanceAchievement");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -62,10 +70,12 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<Jump>(entity =>
             {
+                entity.ToTable("Jump");
+
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.Jump)
+                    .WithMany(p => p.Jumps)
                     .HasForeignKey(d => d.RideId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Jump_Ride");
@@ -73,6 +83,8 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<JumpAchievement>(entity =>
             {
+                entity.ToTable("JumpAchievement");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -80,6 +92,8 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<Ride>(entity =>
             {
+                entity.ToTable("Ride");
+
                 entity.Property(e => e.EndUtc).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).HasMaxLength(200);
@@ -89,7 +103,7 @@ namespace DataAccess.Models
                 entity.Property(e => e.StartUtc).HasColumnType("datetime");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.Ride)
+                    .WithMany(p => p.Rides)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Ride_User");
@@ -97,10 +111,12 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<RideLocation>(entity =>
             {
+                entity.ToTable("RideLocation");
+
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.RideLocation)
+                    .WithMany(p => p.RideLocations)
                     .HasForeignKey(d => d.RideId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RideLocation_Ride");
@@ -108,6 +124,8 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<SpeedAchievement>(entity =>
             {
+                entity.ToTable("SpeedAchievement");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -115,6 +133,8 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<TraceMessage>(entity =>
             {
+                entity.ToTable("TraceMessage");
+
                 entity.Property(e => e.DateUtc).HasColumnType("datetime");
 
                 entity.Property(e => e.Message).IsRequired();
@@ -122,10 +142,12 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<Trail>(entity =>
             {
+                entity.ToTable("Trail");
+
                 entity.Property(e => e.Name).HasMaxLength(255);
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.Trail)
+                    .WithMany(p => p.Trails)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Trail_User");
@@ -133,24 +155,26 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<TrailAttempt>(entity =>
             {
+                entity.ToTable("TrailAttempt");
+
                 entity.Property(e => e.EndUtc).HasColumnType("datetime");
 
                 entity.Property(e => e.StartUtc).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.TrailAttempt)
+                    .WithMany(p => p.TrailAttempts)
                     .HasForeignKey(d => d.RideId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TrailAttempt_Ride");
 
                 entity.HasOne(d => d.Trail)
-                    .WithMany(p => p.TrailAttempt)
+                    .WithMany(p => p.TrailAttempts)
                     .HasForeignKey(d => d.TrailId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TrailAttempt_Trail");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.TrailAttempt)
+                    .WithMany(p => p.TrailAttempts)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TrailAttempt_User");
@@ -158,8 +182,10 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<TrailLocation>(entity =>
             {
+                entity.ToTable("TrailLocation");
+
                 entity.HasOne(d => d.Trail)
-                    .WithMany(p => p.TrailLocation)
+                    .WithMany(p => p.TrailLocations)
                     .HasForeignKey(d => d.TrailId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TrailLocation_Trail");
@@ -167,8 +193,9 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.GoogleUserId)
-                    .HasName("UQ__User__437CD197FDE71CB3")
+                entity.ToTable("User");
+
+                entity.HasIndex(e => e.GoogleUserId, "UQ__User__437CD197FC4BA9FD")
                     .IsUnique();
 
                 entity.Property(e => e.CreatedUtc).HasColumnType("datetime");
@@ -188,20 +215,22 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<UserDistanceAchievement>(entity =>
             {
+                entity.ToTable("UserDistanceAchievement");
+
                 entity.HasOne(d => d.DistanceAchievement)
-                    .WithMany(p => p.UserDistanceAchievement)
+                    .WithMany(p => p.UserDistanceAchievements)
                     .HasForeignKey(d => d.DistanceAchievementId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserDistanceAchievement_DistanceAchievement");
 
                 entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.UserDistanceAchievement)
+                    .WithMany(p => p.UserDistanceAchievements)
                     .HasForeignKey(d => d.RideId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserDistanceAchievement_Ride");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserDistanceAchievement)
+                    .WithMany(p => p.UserDistanceAchievements)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserDistanceAchievement_User");
@@ -209,20 +238,22 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<UserJumpAchievement>(entity =>
             {
+                entity.ToTable("UserJumpAchievement");
+
                 entity.HasOne(d => d.JumpAchievement)
-                    .WithMany(p => p.UserJumpAchievement)
+                    .WithMany(p => p.UserJumpAchievements)
                     .HasForeignKey(d => d.JumpAchievementId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserJumpAchievement_JumpAchievement");
 
                 entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.UserJumpAchievement)
+                    .WithMany(p => p.UserJumpAchievements)
                     .HasForeignKey(d => d.RideId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserJumpAchievement_Ride");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserJumpAchievement)
+                    .WithMany(p => p.UserJumpAchievements)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserJumpAchievement_User");
@@ -230,20 +261,22 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<UserSpeedAchievement>(entity =>
             {
+                entity.ToTable("UserSpeedAchievement");
+
                 entity.HasOne(d => d.Ride)
-                    .WithMany(p => p.UserSpeedAchievement)
+                    .WithMany(p => p.UserSpeedAchievements)
                     .HasForeignKey(d => d.RideId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserSpeedAchievement_Ride");
 
                 entity.HasOne(d => d.SpeedAchievement)
-                    .WithMany(p => p.UserSpeedAchievement)
+                    .WithMany(p => p.UserSpeedAchievements)
                     .HasForeignKey(d => d.SpeedAchievementId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserSpeedAchievement_SpeedAchievement");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserSpeedAchievement)
+                    .WithMany(p => p.UserSpeedAchievements)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserSpeedAchievement_User");

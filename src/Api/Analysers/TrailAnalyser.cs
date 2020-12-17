@@ -10,7 +10,7 @@ using Shared.Interfaces;
 namespace Api.Analysers {
     public class TrailAnalyser : IRideAnalyser {
         public void Analyse(ModelDataContext context, int userId, RideDto ride) {
-            var trailIds = context.Trail
+            var trailIds = context.Trails
                 .Select(row => row.TrailId)
                 .ToArray();
 
@@ -20,7 +20,7 @@ namespace Api.Analysers {
         }
 
         public void AnalyseTrail(ModelDataContext context, int userId, int trailId) {
-            var rideIds = context.Ride
+            var rideIds = context.Rides
                 .Where(row => row.UserId == userId)
                 .OrderBy(row => row.StartUtc)
                 .Select(row => row.RideId)
@@ -54,12 +54,12 @@ namespace Api.Analysers {
 
             attempt.Medal = (int)GetMedal(context, attempt.EndUtc - attempt.StartUtc, trailId);
 
-            context.TrailAttempt.Add(attempt);
+            context.TrailAttempts.Add(attempt);
             context.SaveChanges();
         }
 
         private LatLng[] GetTrailLocations(ModelDataContext context, int trailId) {
-            return context.TrailLocation
+            return context.TrailLocations
                 .Where(row => row.TrailId == trailId)
                 .OrderBy(row => row.Order)
                 .Select(row => new LatLng {
@@ -132,7 +132,7 @@ namespace Api.Analysers {
         }
 
         private Medal GetMedal(ModelDataContext context, TimeSpan time, int trailId) {
-            var existingAttempts = context.TrailAttempt
+            var existingAttempts = context.TrailAttempts
                 .Where(i => i.TrailId == trailId)
                 .Select(i => new { i.EndUtc, i.StartUtc })
                 .ToList()

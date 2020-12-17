@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace DataAccess.Models
 {
     public partial class Ride
     {
         public Ride()
         {
-            AccelerometerReading = new HashSet<AccelerometerReading>();
-            Jump = new HashSet<Jump>();
-            RideLocation = new HashSet<RideLocation>();
-            TrailAttempt = new HashSet<TrailAttempt>();
-            UserDistanceAchievement = new HashSet<UserDistanceAchievement>();
-            UserJumpAchievement = new HashSet<UserJumpAchievement>();
-            UserSpeedAchievement = new HashSet<UserSpeedAchievement>();
+            AccelerometerReadings = new HashSet<AccelerometerReading>();
+            Jumps = new HashSet<Jump>();
+            RideLocations = new HashSet<RideLocation>();
+            TrailAttempts = new HashSet<TrailAttempt>();
+            UserDistanceAchievements = new HashSet<UserDistanceAchievement>();
+            UserJumpAchievements = new HashSet<UserJumpAchievement>();
+            UserSpeedAchievements = new HashSet<UserSpeedAchievement>();
         }
 
         public int RideId { get; set; }
@@ -29,12 +31,12 @@ namespace DataAccess.Models
         public string RouteSvgPath { get; set; }
 
         public virtual User User { get; set; }
-        public virtual ICollection<AccelerometerReading> AccelerometerReading { get; set; }
-        public virtual ICollection<Jump> Jump { get; set; }
-        public virtual ICollection<RideLocation> RideLocation { get; set; }
-        public virtual ICollection<TrailAttempt> TrailAttempt { get; set; }
-        public virtual ICollection<UserDistanceAchievement> UserDistanceAchievement { get; set; }
-        public virtual ICollection<UserJumpAchievement> UserJumpAchievement { get; set; }
-        public virtual ICollection<UserSpeedAchievement> UserSpeedAchievement { get; set; }
+        public virtual ICollection<AccelerometerReading> AccelerometerReadings { get; set; }
+        public virtual ICollection<Jump> Jumps { get; set; }
+        public virtual ICollection<RideLocation> RideLocations { get; set; }
+        public virtual ICollection<TrailAttempt> TrailAttempts { get; set; }
+        public virtual ICollection<UserDistanceAchievement> UserDistanceAchievements { get; set; }
+        public virtual ICollection<UserJumpAchievement> UserJumpAchievements { get; set; }
+        public virtual ICollection<UserSpeedAchievement> UserSpeedAchievements { get; set; }
     }
 }

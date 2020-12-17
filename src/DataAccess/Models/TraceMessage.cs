@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace DataAccess.Models
 {
     public partial class TraceMessage

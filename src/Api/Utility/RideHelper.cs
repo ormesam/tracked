@@ -7,7 +7,7 @@ using Shared.Dtos;
 namespace Api.Utility {
     public static class RideHelper {
         public static RideDto GetRideDto(ModelDataContext context, int rideId, int userId) {
-            var ride = context.Ride
+            var ride = context.Rides
                 .Where(row => row.RideId == rideId)
                 .Where(row => row.UserId == userId)
                 .Select(row => new RideDto {
@@ -37,7 +37,7 @@ namespace Api.Utility {
         }
 
         private static IList<JumpDto> GetJumps(ModelDataContext context, int rideId) {
-            return context.Jump
+            return context.Jumps
                 .Where(row => row.RideId == rideId)
                 .OrderBy(row => row.Number)
                 .Select(row => new JumpDto {
@@ -45,12 +45,14 @@ namespace Api.Utility {
                     Airtime = row.Airtime,
                     Number = row.Number,
                     Timestamp = row.Timestamp,
+                    Latitude = row.Latitude,
+                    Longitude = row.Longitude
                 })
                 .ToList();
         }
 
         private static IList<RideLocationDto> GetLocations(ModelDataContext context, int rideId) {
-            return context.RideLocation
+            return context.RideLocations
                 .Where(row => row.RideId == rideId)
                 .OrderBy(row => row.Timestamp)
                 .Select(row => new RideLocationDto {
@@ -66,7 +68,7 @@ namespace Api.Utility {
         }
 
         private static IList<TrailAttemptDto> GetTrailAttempts(ModelDataContext context, int rideId) {
-            return context.TrailAttempt
+            return context.TrailAttempts
                 .Where(row => row.RideId == rideId)
                 .Select(row => new TrailAttemptDto {
                     TrailAttemptId = row.TrailAttemptId,
@@ -92,7 +94,7 @@ namespace Api.Utility {
         }
 
         private static IEnumerable<AchievementDto> GetSpeedAchievements(ModelDataContext context, int rideId) {
-            return context.UserSpeedAchievement
+            return context.UserSpeedAchievements
                 .Where(row => row.RideId == rideId)
                 .Select(row => new AchievementDto {
                     AchievementId = row.SpeedAchievementId,
@@ -102,7 +104,7 @@ namespace Api.Utility {
         }
 
         private static IEnumerable<AchievementDto> GetJumpAchievements(ModelDataContext context, int rideId) {
-            return context.UserJumpAchievement
+            return context.UserJumpAchievements
                 .Where(row => row.RideId == rideId)
                 .Select(row => new AchievementDto {
                     AchievementId = row.JumpAchievementId,
@@ -112,7 +114,7 @@ namespace Api.Utility {
         }
 
         private static IEnumerable<AchievementDto> GetDistanceAchievements(ModelDataContext context, int rideId) {
-            return context.UserDistanceAchievement
+            return context.UserDistanceAchievements
                 .Where(row => row.RideId == rideId)
                 .Select(row => new AchievementDto {
                     AchievementId = row.DistanceAchievementId,

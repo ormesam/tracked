@@ -6,4 +6,6 @@
     [Number] int NOT NULL,
     [Timestamp] datetime NOT NULL,
     [Airtime] float NOT NULL,
+    [Latitude] float NOT NULL,
+    [Longitude] float NOT NULL,
 )

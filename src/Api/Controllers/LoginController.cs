@@ -38,7 +38,7 @@ namespace Api.Controllers {
                 return Unauthorized();
             }
 
-            var user = context.User.SingleOrDefault(row => row.GoogleUserId == googleResponse.GoogleUserId);
+            var user = context.Users.SingleOrDefault(row => row.GoogleUserId == googleResponse.GoogleUserId);
 
             if (user == null) {
                 user = new User {
@@ -48,7 +48,7 @@ namespace Api.Controllers {
                     ProfileImageUrl = loginDto.User.Picture.ToString(),
                 };
 
-                context.User.Add(user);
+                context.Users.Add(user);
 
                 context.SaveChanges();
             }
@@ -75,7 +75,7 @@ namespace Api.Controllers {
         }
 
         private UserDto GetUser(int userId) {
-            return context.User
+            return context.Users
                 .Where(row => row.UserId == userId)
                 .Select(row => new UserDto {
                     UserId = row.UserId,

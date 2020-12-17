@@ -23,7 +23,7 @@ namespace Api.Controllers {
         public ActionResult<ProfileDto> Profile() {
             int userId = this.GetCurrentUserId();
 
-            var profile = context.User
+            var profile = context.Users
                 .Where(row => row.UserId == userId)
                 .Select(row => new ProfileDto {
                     UserId = row.UserId,
@@ -52,7 +52,7 @@ namespace Api.Controllers {
         public ActionResult UpdateBio(BioChangeDto bioModel) {
             int userId = this.GetCurrentUserId();
 
-            var user = context.User.Find(userId);
+            var user = context.Users.Find(userId);
 
             if (user == null) {
                 return NotFound();
@@ -66,13 +66,13 @@ namespace Api.Controllers {
         }
 
         private double? GetLongestAirtime(int userId) {
-            return context.Jump
+            return context.Jumps
                 .Where(row => row.Ride.UserId == userId)
                 .Max(i => (double?)i.Airtime);
         }
 
         private double? GetMilesTravelled(int userId, DateTime? dateTime = null) {
-            var query = context.Ride
+            var query = context.Rides
                 .Where(row => row.UserId == userId);
 
             if (dateTime != null) {
@@ -84,7 +84,7 @@ namespace Api.Controllers {
         }
 
         private double? GetTopSpeedMph(int userId) {
-            return context.Ride
+            return context.Rides
                 .Where(row => row.UserId == userId)
                 .Max(i => (double?)i.MaxSpeedMph);
         }
@@ -99,7 +99,7 @@ namespace Api.Controllers {
         }
 
         private IEnumerable<AchievementDto> GetSpeedAchievements(int userId) {
-            return context.UserSpeedAchievement
+            return context.UserSpeedAchievements
                 .Where(row => row.UserId == userId)
                 .OrderBy(row => row.SpeedAchievement.MinMph)
                 .Select(row => new AchievementDto {
@@ -111,7 +111,7 @@ namespace Api.Controllers {
         }
 
         private IEnumerable<AchievementDto> GetJumpAchievements(int userId) {
-            return context.UserJumpAchievement
+            return context.UserJumpAchievements
                 .Where(row => row.UserId == userId)
                 .OrderBy(row => row.JumpAchievement.MinAirtime)
                 .Select(row => new AchievementDto {
@@ -123,7 +123,7 @@ namespace Api.Controllers {
         }
 
         private IEnumerable<AchievementDto> GetDistanceAchievements(int userId) {
-            return context.UserDistanceAchievement
+            return context.UserDistanceAchievements
                 .Where(row => row.UserId == userId)
                 .OrderBy(row => row.DistanceAchievement.MinDistanceMiles)
                 .Select(row => new AchievementDto {

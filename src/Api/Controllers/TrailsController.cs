@@ -21,7 +21,7 @@ namespace Api.Controllers {
 
         [HttpGet]
         public ActionResult<IList<TrailOverviewDto>> Get() {
-            var trails = context.Trail
+            var trails = context.Trails
                 .OrderBy(row => row.Name)
                 .Select(row => new TrailOverviewDto {
                     TrailId = row.TrailId,
@@ -35,7 +35,7 @@ namespace Api.Controllers {
         [HttpGet]
         [Route("{id}")]
         public ActionResult<TrailDto> Get(int id) {
-            var trail = context.Trail
+            var trail = context.Trails
                 .Where(row => row.TrailId == id)
                 .Select(row => new TrailDto {
                     TrailId = row.TrailId,
@@ -47,7 +47,7 @@ namespace Api.Controllers {
                 return NotFound();
             }
 
-            trail.Locations = context.TrailLocation
+            trail.Locations = context.TrailLocations
                 .Where(row => row.TrailId == id)
                 .OrderBy(row => row.Order)
                 .Select(row => new TrailLocationDto {
@@ -59,7 +59,7 @@ namespace Api.Controllers {
                 })
                 .ToList();
 
-            trail.Attempts = context.TrailAttempt
+            trail.Attempts = context.TrailAttempts
                 .Where(row => row.TrailId == id)
                 .OrderByDescending(row => row.StartUtc)
                 .Select(row => new TrailAttemptDto {
@@ -100,7 +100,7 @@ namespace Api.Controllers {
                 UserId = userId,
             };
 
-            trail.TrailLocation = model.Locations
+            trail.TrailLocations = model.Locations
                 .Select(i => new TrailLocation {
                     Latitude = i.Latitude,
                     Longitude = i.Longitude,
@@ -108,7 +108,7 @@ namespace Api.Controllers {
                 })
                 .ToList();
 
-            context.Trail.Add(trail);
+            context.Trails.Add(trail);
 
             context.SaveChanges();
 
@@ -126,7 +126,7 @@ namespace Api.Controllers {
                 return NotFound();
             }
 
-            var trail = context.Trail
+            var trail = context.Trails
                 .Where(i => i.TrailId == model.TrailId)
                 .SingleOrDefault();
 
@@ -148,7 +148,7 @@ namespace Api.Controllers {
                 return NotFound();
             }
 
-            var trail = context.Trail
+            var trail = context.Trails
                 .Where(row => row.TrailId == trailId)
                 .SingleOrDefault();
 
@@ -156,12 +156,12 @@ namespace Api.Controllers {
                 return NotFound();
             }
 
-            var trailLocations = context.TrailLocation.Where(row => row.TrailId == trailId);
-            var attempts = context.TrailAttempt.Where(row => row.TrailId == trailId);
+            var trailLocations = context.TrailLocations.Where(row => row.TrailId == trailId);
+            var attempts = context.TrailAttempts.Where(row => row.TrailId == trailId);
 
-            context.TrailLocation.RemoveRange(trailLocations);
-            context.TrailAttempt.RemoveRange(attempts);
-            context.Trail.Remove(trail);
+            context.TrailLocations.RemoveRange(trailLocations);
+            context.TrailAttempts.RemoveRange(attempts);
+            context.Trails.Remove(trail);
 
             context.SaveChanges();
 

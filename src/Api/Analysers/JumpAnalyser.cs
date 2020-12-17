@@ -5,7 +5,7 @@ using Shared.Dtos;
 namespace Api.Analysers {
     public class JumpAnalyser : IRideAnalyser {
         public void Analyse(ModelDataContext context, int userId, RideDto ride) {
-            var jumpAchievements = context.JumpAchievement
+            var jumpAchievements = context.JumpAchievements
                 .Select(row => new MinJumpAchievement {
                     JumpAchievementId = row.JumpAchievementId,
                     MinAirtime = row.MinAirtime,
@@ -21,7 +21,7 @@ namespace Api.Analysers {
                         UserId = userId,
                     };
 
-                    context.UserJumpAchievement.Add(userJumpAchievement);
+                    context.UserJumpAchievements.Add(userJumpAchievement);
                     context.SaveChanges();
                 }
             }

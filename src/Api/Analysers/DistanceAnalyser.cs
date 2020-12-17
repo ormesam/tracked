@@ -5,7 +5,7 @@ using Shared.Dtos;
 namespace Api.Analysers {
     public class DistanceAnalyser : IRideAnalyser {
         public void Analyse(ModelDataContext context, int userId, RideDto ride) {
-            var distanceAchievements = context.DistanceAchievement
+            var distanceAchievements = context.DistanceAchievements
                 .Select(row => new MinDistanceAchievement {
                     DistanceAchievementId = row.DistanceAchievementId,
                     MinDistanceMiles = row.MinDistanceMiles,
@@ -21,7 +21,7 @@ namespace Api.Analysers {
                         UserId = userId,
                     };
 
-                    context.UserDistanceAchievement.Add(userDistanceAchievement);
+                    context.UserDistanceAchievements.Add(userDistanceAchievement);
                     context.SaveChanges();
                 }
             }

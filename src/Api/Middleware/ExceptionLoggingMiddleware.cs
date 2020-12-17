@@ -20,7 +20,7 @@ namespace Api.Middleware {
             } catch (Exception ex) {
                 await HandleExceptionAsync(context, ex);
 
-                this.context.TraceMessage.Add(new TraceMessage {
+                this.context.TraceMessages.Add(new TraceMessage {
                     DateUtc = DateTime.UtcNow,
                     Message = ex.ToString(),
                 });

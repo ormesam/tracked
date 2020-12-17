@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
+
 namespace DataAccess.Models
 {
     public partial class SpeedAchievement
     {
         public SpeedAchievement()
         {
-            UserSpeedAchievement = new HashSet<UserSpeedAchievement>();
+            UserSpeedAchievements = new HashSet<UserSpeedAchievement>();
         }
 
         public int SpeedAchievementId { get; set; }
         public string Name { get; set; }
         public double MinMph { get; set; }
 
-        public virtual ICollection<UserSpeedAchievement> UserSpeedAchievement { get; set; }
+        public virtual ICollection<UserSpeedAchievement> UserSpeedAchievements { get; set; }
     }
 }
