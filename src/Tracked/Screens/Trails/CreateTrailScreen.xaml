@@ -29,7 +29,7 @@
             <controls:MapControl
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
-                BindingContext="{Binding MapViewModel}"/>
+                x:Name="mapControl"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

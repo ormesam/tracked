@@ -137,6 +137,8 @@ namespace Api.Controllers {
                     Airtime = i.Airtime,
                     Number = i.Number,
                     Timestamp = i.Timestamp,
+                    Latitude = i.Latitude,
+                    Longitude = i.Longitude,
                 })
                 .ToList();
 

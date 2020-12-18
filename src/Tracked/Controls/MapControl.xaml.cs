@@ -1,4 +1,5 @@
 ﻿using System;
+using Tracked.Screens;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +12,7 @@ namespace Tracked.Controls {
             InitializeComponent();
         }
 
-        public MapControlViewModel ViewModel => BindingContext as MapControlViewModel;
+        public MapViewModelBase ViewModel => BindingContext as MapViewModelBase;
 
         public void CreateMap() {
             if (isInitialized) {

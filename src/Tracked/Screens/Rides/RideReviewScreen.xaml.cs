@@ -25,6 +25,8 @@ namespace Tracked.Screens.Rides {
             }
 
             base.OnAppearing();
+
+            mapControl.CreateMap();
         }
 
         public RideReviewScreenViewModel ViewModel => BindingContext as RideReviewScreenViewModel;
@@ -51,7 +53,11 @@ namespace Tracked.Screens.Rides {
         }
 
         private async void Attempt_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToTrail(e.Item as TrailAttemptDto);
+            await ViewModel.GoToTrailScreen(e.Item as TrailAttemptDto);
+        }
+
+        private async void Map_Tapped(object sender, EventArgs e) {
+            await ViewModel.GoToMapScreen();
         }
     }
 }

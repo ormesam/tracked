@@ -25,7 +25,12 @@
 
                 <controls:MapControl
                     HeightRequest="300"
-                    BindingContext="{Binding MapViewModel}" />
+                    x:Name="mapControl">
+                    <controls:MapControl.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="Map_Tapped" />
+                    </controls:MapControl.GestureRecognizers>
+                </controls:MapControl>
 
                 <Grid
                     Padding="0,15,0,0">

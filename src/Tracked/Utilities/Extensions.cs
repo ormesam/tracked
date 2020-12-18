@@ -4,7 +4,6 @@ using System.Linq;
 using Shared.Dtos;
 using Shared.Interfaces;
 using Tracked.Models;
-using Xamarin.Forms.Maps;
 
 namespace Tracked.Utilities {
     public static class Extensions {
@@ -12,19 +11,19 @@ namespace Tracked.Utilities {
             return new ObservableCollection<T>(list);
         }
 
-        public static Position Midpoint(this IEnumerable<RideLocationDto> list) {
+        public static ILatLng Midpoint(this IEnumerable<RideLocationDto> list) {
             return Midpoint(list.Cast<ILatLng>());
         }
 
-        public static Position Midpoint(this IEnumerable<MapLocation> list) {
+        public static ILatLng Midpoint(this IEnumerable<MapLocation> list) {
             return Midpoint(list.Cast<ILatLng>());
         }
 
-        public static Position Midpoint(this IEnumerable<ILatLng> list) {
+        public static ILatLng Midpoint(this IEnumerable<ILatLng> list) {
             var lat = list.Average(i => i.Latitude);
             var lon = list.Average(i => i.Longitude);
 
-            return new Position(lat, lon);
+            return new LatLng(lat, lon);
         }
 
         public static double GetTime(this IList<AccelerometerReadingDto> readings) {

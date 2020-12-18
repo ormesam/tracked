@@ -4,11 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shared.Dtos;
 using Tracked.Contexts;
-using Tracked.Controls;
-using Tracked.Utilities;
 
 namespace Tracked.Screens.Rides {
-    public class RideReviewScreenViewModel : ViewModelBase {
+    public class RideReviewScreenViewModel : RideMapViewModelBase {
         private RideDto ride;
 
         public RideReviewScreenViewModel(MainContext context) : base(context) {
@@ -16,17 +14,9 @@ namespace Tracked.Screens.Rides {
 
         public override string Title => "Ride";
 
-        public RideDto Ride {
-            get { return ride; }
-            set {
-                if (ride != value) {
-                    ride = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        protected override bool IsReadOnly => true;
 
-        public MapControlViewModel MapViewModel { get; set; }
+        public override RideDto Ride => ride;
 
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
@@ -39,16 +29,9 @@ namespace Tracked.Screens.Rides {
         public bool CanCreateTrail => Context.Security.IsAdmin;
 
         public async Task Load(int id) {
-            Ride = await Context.Services.GetRide(id);
+            ride = await Context.Services.GetRide(id);
 
-            MapViewModel = new MapControlViewModel(
-                Context,
-                "Ride",
-                PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps));
-
-            MapViewModel.MapControlTapped += MapViewModel_MapControlTapped;
-
-            OnPropertyChanged(nameof(MapViewModel));
+            OnPropertyChanged();
         }
 
         private async void MapViewModel_MapControlTapped(object sender, EventArgs e) {
@@ -59,7 +42,7 @@ namespace Tracked.Screens.Rides {
             await Context.UI.GoToSpeedAnalysisScreenAsync(Ride.Locations);
         }
 
-        public async Task GoToTrail(TrailAttemptDto trailAttempt) {
+        public async Task GoToTrailScreen(TrailAttemptDto trailAttempt) {
             await Context.UI.GoToTrailScreenAsync(trailAttempt.TrailId);
         }
 
@@ -69,6 +52,10 @@ namespace Tracked.Screens.Rides {
 
         public async Task Delete() {
             await Context.Services.DeleteRide(Ride.RideId.Value);
+        }
+
+        public async Task GoToMapScreen() {
+            await Context.UI.GoToMapScreenAsync(Ride);
         }
     }
 }

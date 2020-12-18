@@ -104,7 +104,12 @@ namespace Tracked.JumpDetection {
                 Airtime = Math.Round(allReadingsForJump.GetTime(), 3),
             };
 
-            if (jumpLocationDetector.GetLastLocation(jump.Timestamp)?.Mph >= 5) {
+            var location = jumpLocationDetector.GetLastLocation(jump.Timestamp);
+
+            if (location?.Mph >= 5) {
+                jump.Latitude = location.Latitude;
+                jump.Longitude = location.Longitude;
+
                 Jumps.Add(jump);
             }
         }

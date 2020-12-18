@@ -19,7 +19,7 @@
         <StackLayout>
             <controls:MapControl
                 HeightRequest="400"
-                BindingContext="{Binding MapViewModel}" />
+                x:Name="mapControl"/>
             <ListView
                 ItemsSource="{Binding Trail.Attempts}"
                 CachingStrategy="RecycleElementAndDataTemplate">

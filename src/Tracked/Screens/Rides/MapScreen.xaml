@@ -13,7 +13,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
-            <controls:MapControl />
+            <controls:MapControl
+                x:Name="mapControl"/>
 
             <ListView
                 Grid.Row="1"

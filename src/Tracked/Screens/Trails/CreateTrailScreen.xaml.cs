@@ -14,6 +14,12 @@ namespace Tracked.Screens.Trails {
 
         public CreateTrailScreenViewModel ViewModel => BindingContext as CreateTrailScreenViewModel;
 
+        protected override void OnAppearing() {
+            base.OnAppearing();
+
+            mapControl.CreateMap();
+        }
+
         private async void Save_Clicked(object sender, EventArgs e) {
             await ViewModel.Save(Navigation);
         }

@@ -6,10 +6,10 @@ using Shared.Dtos;
 
 namespace Api.Utility {
     public static class RideHelper {
-        public static RideDto GetRideDto(ModelDataContext context, int rideId, int userId) {
+        public static RideDto GetRideDto(ModelDataContext context, int rideId, int? userId) {
             var ride = context.Rides
                 .Where(row => row.RideId == rideId)
-                .Where(row => row.UserId == userId)
+                .Where(row => userId == null || row.UserId == userId)
                 .Select(row => new RideDto {
                     RideId = row.RideId,
                     StartUtc = row.StartUtc,

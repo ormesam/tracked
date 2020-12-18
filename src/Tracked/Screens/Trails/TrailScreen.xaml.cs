@@ -12,6 +12,12 @@ namespace Tracked.Screens.Trails {
 
         public TrailScreenViewModel ViewModel => BindingContext as TrailScreenViewModel;
 
+        protected override void OnAppearing() {
+            base.OnAppearing();
+
+            mapControl.CreateMap();
+        }
+
         private async void ChangeName_Clicked(object sender, EventArgs e) {
             await ViewModel.ChangeName();
         }

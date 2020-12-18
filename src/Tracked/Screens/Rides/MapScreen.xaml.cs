@@ -13,6 +13,12 @@ namespace Tracked.Screens.Rides {
 
         public MapScreenViewModel ViewModel => BindingContext as MapScreenViewModel;
 
+        protected override void OnAppearing() {
+            base.OnAppearing();
+
+            mapControl.CreateMap();
+        }
+
         private void TrailAttempt_Tapped(object sender, ItemTappedEventArgs e) {
             ViewModel.HighlightTrail(e.Item as TrailAttemptDto);
         }

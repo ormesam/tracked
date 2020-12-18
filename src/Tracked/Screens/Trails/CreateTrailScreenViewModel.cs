@@ -3,21 +3,19 @@ using System.Threading.Tasks;
 using Shared.Dtos;
 using Shared.Interfaces;
 using Tracked.Contexts;
-using Tracked.Controls;
 using Tracked.Models;
 using Tracked.Utilities;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace Tracked.Screens.Trails {
-    public class CreateTrailScreenViewModel : ViewModelBase {
+    public class CreateTrailScreenViewModel : MapViewModelBase {
         private readonly TrailDto trail;
         private int count;
         private ILatLng lastLatLng;
         private string displayText;
 
         public RideDto Ride { get; }
-        public MapControlViewModel MapViewModel { get; }
 
         public CreateTrailScreenViewModel(MainContext context, RideDto ride) : base(context) {
             trail = new TrailDto();
@@ -25,16 +23,7 @@ namespace Tracked.Screens.Trails {
             count = 1;
             displayText = "Tap on the map to set a start point";
 
-            MapViewModel = new MapControlViewModel(
-                context,
-                "Ride",
-                ride != null ? PolyUtils.GetMapLocations(Ride.Locations, Ride.Jumps) : new List<MapLocation>(),
-                isReadOnly: false,
-                showRideFeatures: false,
-                mapType: MapType.Satellite,
-                canChangeMapType: true);
-
-            MapViewModel.MapTapped += MapViewModel_MapTapped;
+            MapTapped += MapViewModel_MapTapped;
         }
 
         private void MapViewModel_MapTapped(object sender, MapClickedEventArgs e) {
@@ -86,12 +75,32 @@ namespace Tracked.Screens.Trails {
             ILatLng thisLatLng = new LatLng(latitude, longitude);
 
             if (lastLatLng != null) {
-                MapViewModel.AddPolyLine(new[] { lastLatLng, thisLatLng }, Color.Red);
+                CreatePolyline(new MapPolyline {
+                    Positions = new List<ILatLng>() { lastLatLng, thisLatLng },
+                    Colour = Color.Red,
+                    Width = 10,
+                });
             } else {
                 DisplayText = "Now tap to set the next point";
             }
 
             lastLatLng = thisLatLng;
+        }
+
+        protected override ILatLng Centre => Ride == null ? base.Centre : Ride.Locations.Midpoint();
+
+        protected override IEnumerable<MapPin> GetPins() {
+            return new List<MapPin>();
+        }
+
+        protected override IEnumerable<MapPolyline> GetPolylines() {
+            if (Ride != null) {
+                yield return new MapPolyline {
+                    Colour = Color.Blue,
+                    Positions = Ride.Locations,
+                    Width = 10,
+                };
+            }
         }
     }
 }
