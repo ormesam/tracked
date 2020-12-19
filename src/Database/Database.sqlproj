@@ -59,10 +59,6 @@
     <Folder Include="Create" />
     <Folder Include="Create\Tables" />
     <Folder Include="Upgrades" />
-    <Folder Include="Upgrades\2020-11-07" />
-    <Folder Include="Upgrades\2020-11-17" />
-    <Folder Include="Upgrades\2020-12-04" />
-    <Folder Include="Upgrades\2020-12-17" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\User.sql" />
@@ -73,7 +69,6 @@
     <None Include="Create\Tables\SpeedAchievement.sql" />
     <None Include="Create\Tables\UserJumpAchievement.sql" />
     <None Include="Create\Tables\JumpAchievement.sql" />
-    <None Include="Upgrades\2020-11-07\Upgrade.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\DropAndRecreateAll.bat" />
@@ -97,12 +92,5 @@
     <None Include="Create\Tables\Trail.sql" />
     <None Include="Create\Tables\TrailAttempt.sql" />
     <None Include="Create\Tables\TrailLocation.sql" />
-    <None Include="Upgrades\2020-11-17\Upgrade.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Upgrades\2020-12-04\Upgrade.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="Upgrades\2020-12-17\Upgrade.sql" />
   </ItemGroup>
 </Project>
