@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Timers;
-using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.Models;
 using Tracked.Utilities;
@@ -9,21 +8,20 @@ using Tracked.Utilities;
 namespace Tracked.Screens.Record {
     public class RecordScreenViewModel : ViewModelBase {
         private readonly RideRecorder rideController;
+        private readonly bool shouldDetectJumps;
         private readonly Timer timer;
 
         private RecordStatus status;
-        private AccelerometerStatus accelerometerStatus;
         private bool hasAcquiredGpsSignal;
 
         public RecordScreenViewModel(MainContext context) : base(context) {
             rideController = new RideRecorder(Context);
-            accelerometerStatus = Context.AccelerometerUtility.Status;
+            shouldDetectJumps = context.Settings.ShouldDetectJumps;
             status = RecordStatus.NotStarted;
             timer = new Timer();
             timer.Elapsed += Timer_Elapsed;
             timer.Interval = 1000;
 
-            Context.AccelerometerUtility.StatusChanged += BleAccelerometerUtility_StatusChanged;
             Context.GeoUtility.LocationChanged += GeoUtility_LocationChanged;
         }
 
@@ -35,22 +33,6 @@ namespace Tracked.Screens.Record {
             if (e.Location.AccuracyInMetres < 20) {
                 Context.GeoUtility.LocationChanged -= GeoUtility_LocationChanged;
                 HasAcquiredGpsSignal = true;
-            }
-        }
-
-        private void BleAccelerometerUtility_StatusChanged(AccelerometerStatusChangedEventArgs e) {
-            AccelerometerStatus = e.NewStatus;
-        }
-
-        public AccelerometerStatus AccelerometerStatus {
-            get { return accelerometerStatus; }
-            set {
-                if (accelerometerStatus != value) {
-                    accelerometerStatus = value;
-                    OnPropertyChanged(nameof(AccelerometerStatus));
-                    OnPropertyChanged(nameof(AccelerometerMessage));
-                    OnPropertyChanged(nameof(CanStart));
-                }
             }
         }
 
@@ -68,21 +50,6 @@ namespace Tracked.Screens.Record {
 
         public string GpsSignalMessage => HasAcquiredGpsSignal ? "GPS Acquired" : "Acquiring GPS";
 
-        public bool IsAccelerometerRequired => false;
-
-        public string AccelerometerMessage {
-            get {
-                return AccelerometerStatus switch {
-                    AccelerometerStatus.BluetoothTurnedOff => "Bluetooth not turned on",
-                    AccelerometerStatus.BluetoothTurningOn => "Bluetooth turning on...",
-                    AccelerometerStatus.NotConnected => "No accelerometer connected",
-                    AccelerometerStatus.Connecting => "Connecting to accelerometer...",
-                    AccelerometerStatus.Connected => "Connected to accelerometer",
-                    _ => null,
-                };
-            }
-        }
-
         public string TimerDisplay {
             get {
                 if (Status == RecordStatus.NotStarted) {
@@ -93,15 +60,15 @@ namespace Tracked.Screens.Record {
             }
         }
 
-        public bool CanStart => HasAcquiredGpsSignal &&
-            (IsAccelerometerRequired ? AccelerometerStatus == AccelerometerStatus.Connected : true) &&
-            Status == RecordStatus.NotStarted;
+        public bool CanStart => HasAcquiredGpsSignal && Status == RecordStatus.NotStarted;
 
         public bool CanStop => Status == RecordStatus.Running;
 
         public bool ShowNotifications => Status == RecordStatus.NotStarted;
 
-        public bool ShowAccelerometerNotification => ShowNotifications && IsAccelerometerRequired;
+        public string AccelerometerNotification => shouldDetectJumps ? "Detecting Jumps" : "Not Detecting Jumps";
+
+        public bool ShouldDetectJumps => shouldDetectJumps;
 
         public RecordStatus Status {
             get { return status; }
@@ -112,17 +79,17 @@ namespace Tracked.Screens.Record {
                     OnPropertyChanged(nameof(CanStart));
                     OnPropertyChanged(nameof(CanStop));
                     OnPropertyChanged(nameof(ShowNotifications));
-                    OnPropertyChanged(nameof(ShowAccelerometerNotification));
+                    OnPropertyChanged(nameof(AccelerometerNotification));
                 }
             }
         }
 
-        public async Task Start() {
+        public void Start() {
             Status = RecordStatus.Running;
 
             timer.Start();
 
-            await rideController.StartRide();
+            rideController.StartRide();
         }
 
         public async Task Stop() {

@@ -14,14 +14,10 @@ namespace Tracked.Screens.Record {
 
         public RecordScreenViewModel ViewModel => BindingContext as RecordScreenViewModel;
 
-        protected override async void OnAppearing() {
+        protected override void OnAppearing() {
             base.OnAppearing();
 
             ViewModel.Context.GeoUtility.Start();
-
-            if (ViewModel.IsAccelerometerRequired) {
-                await ViewModel.Context.AccelerometerUtility.TryConnect(ViewModel.Context.Settings.BluetoothDeviceId);
-            }
         }
 
         protected override void OnDisappearing() {
@@ -32,8 +28,8 @@ namespace Tracked.Screens.Record {
             base.OnDisappearing();
         }
 
-        private async void Start_Clicked(object sender, EventArgs e) {
-            await ViewModel.Start();
+        private void Start_Clicked(object sender, EventArgs e) {
+            ViewModel.Start();
         }
 
         private async void Stop_Clicked(object sender, EventArgs e) {

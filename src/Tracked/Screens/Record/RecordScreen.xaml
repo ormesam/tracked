@@ -32,9 +32,9 @@
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"
                 TextColor="White"
-                IsVisible="{Binding ShowAccelerometerNotification}"
-                BackgroundColor="{Binding AccelerometerStatus, Converter={StaticResource AccelerometerStatusToColourConverter}}"
-                Text="{Binding AccelerometerMessage}" />
+                IsVisible="{Binding ShowNotifications}"
+                BackgroundColor="{Binding ShouldDetectJumps, Converter={StaticResource AccelerometerToColourConverter}}"
+                Text="{Binding AccelerometerNotification}" />
 
             <Label
                 Grid.Row="2"

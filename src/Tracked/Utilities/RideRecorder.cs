@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Shared.Dtos;
-using Tracked.Accelerometer;
 using Tracked.Contexts;
 using Tracked.JumpDetection;
+using Xamarin.Essentials;
 
 namespace Tracked.Utilities {
     public class RideRecorder {
@@ -18,32 +18,35 @@ namespace Tracked.Utilities {
 
         public RideRecorder(MainContext context) {
             this.context = context;
-            this.detectJumps = false;
+            this.detectJumps = context.Settings.ShouldDetectJumps;
             Ride = new CreateRideDto();
             readings = new List<AccelerometerReadingDto>();
             jumpDetectionUtility = new JumpDetectionUtility(context.GeoUtility);
         }
 
-        public async Task StartRide() {
+        public void StartRide() {
             Ride.StartUtc = DateTime.UtcNow;
 
-            context.AccelerometerUtility.AccelerometerChanged += AccelerometerUtility_AccelerometerChanged;
+            Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
             context.GeoUtility.LocationChanged += GeoUtility_LocationChanged;
 
             context.GeoUtility.Start();
 
             if (detectJumps) {
-                await context.AccelerometerUtility.Start();
+                Accelerometer.Start(SensorSpeed.Fastest);
             }
         }
 
         public async Task StopRide() {
-            context.AccelerometerUtility.AccelerometerChanged -= AccelerometerUtility_AccelerometerChanged;
+            if (Accelerometer.IsMonitoring) {
+                Accelerometer.Stop();
+            }
+
             context.GeoUtility.LocationChanged -= GeoUtility_LocationChanged;
+            Accelerometer.ReadingChanged -= Accelerometer_ReadingChanged;
 
             Ride.EndUtc = DateTime.UtcNow;
 
-            await context.AccelerometerUtility.Stop();
             context.GeoUtility.Stop();
 
             if (detectJumps) {
@@ -54,10 +57,18 @@ namespace Tracked.Utilities {
             await context.Model.SaveRideUpload(Ride);
         }
 
-        private void AccelerometerUtility_AccelerometerChanged(AccelerometerChangedEventArgs e) {
-            jumpDetectionUtility.AddReading(e.Data);
-            readings.Add(e.Data);
-            Debug.WriteLine(e.Data);
+        private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e) {
+            var reading = new AccelerometerReadingDto {
+                Timestamp = DateTime.UtcNow,
+                X = e.Reading.Acceleration.X,
+                Y = e.Reading.Acceleration.Y,
+                Z = e.Reading.Acceleration.Z,
+            };
+
+            jumpDetectionUtility.AddReading(reading);
+            readings.Add(reading);
+
+            Debug.WriteLine(reading);
         }
 
         private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {

@@ -1,5 +1,4 @@
-﻿using Tracked.Accelerometer;
-using Tracked.Utilities;
+﻿using Tracked.Utilities;
 
 namespace Tracked.Contexts {
     public class MainContext {
@@ -9,7 +8,6 @@ namespace Tracked.Contexts {
         public SecurityContext Security { get; }
         public ServicesContext Services { get; }
         public GeoUtility GeoUtility { get; set; }
-        public AccelerometerUtility AccelerometerUtility { get; set; }
         public SettingsContext Settings { get; set; }
 
         public MainContext() {
@@ -19,7 +17,6 @@ namespace Tracked.Contexts {
             Security = new SecurityContext(this);
             Services = new ServicesContext(this);
             GeoUtility = new GeoUtility();
-            AccelerometerUtility = new AccelerometerUtility();
             Settings = new SettingsContext();
         }
     }

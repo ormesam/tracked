@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Shared.Dtos;
-using Tracked.Screens.Bluetooth;
 using Tracked.Screens.Profile;
 using Tracked.Screens.Record;
 using Tracked.Screens.Rides;
@@ -61,10 +60,6 @@ namespace Tracked.Contexts {
 
         public async Task GoToRecordScreenAsync() {
             await GoToScreenAsync(new RecordScreen(context));
-        }
-
-        public async Task GoToBluetoothScreenAsync() {
-            await GoToScreenAsync(new BluetoothSetupScreen(context));
         }
 
         public async Task GoToRideReviewScreenAsync(int id) {
