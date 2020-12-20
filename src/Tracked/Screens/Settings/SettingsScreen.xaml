@@ -9,6 +9,12 @@
             Spacing="0">
             <TableView
                 Intent="Settings">
+                <TableSection
+                    Title="Settings">
+                    <SwitchCell
+                        Text="Detect Jumps?"
+                        On="{Binding ShouldDetectJumps}" />
+                </TableSection>
             </TableView>
             <StackLayout
                 HorizontalOptions="Center"
