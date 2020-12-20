@@ -12,7 +12,7 @@ namespace Tracked.Screens.Login {
         public async Task TryLogin() {
             IsLoggingIn = true;
 
-            await Context.Security.ConnectToGoogle();
+            await Context.Security.Login();
 
             IsLoggingIn = false;
         }

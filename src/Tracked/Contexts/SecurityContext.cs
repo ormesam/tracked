@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Shared.Dto;
 using Shared.Dtos;
 using Shared.Exceptions;
 using Tracked.Auth;
 using Tracked.Utilities;
+using Xamarin.Essentials;
 
 namespace Tracked.Contexts {
     public class SecurityContext {
@@ -35,33 +35,56 @@ namespace Tracked.Contexts {
             CrossGoogleClient.Current.Logout();
         }
 
-        public async Task ConnectToGoogle() {
-            GoogleResponse result;
+        public async Task Login() {
+            string refreshToken = await GetRefreshToken();
+
+            if (string.IsNullOrWhiteSpace(refreshToken)) {
+                await LoginWithGoogle();
+            } else {
+                await LoginWithToken(refreshToken);
+            }
+        }
+
+        private async Task LoginWithGoogle() {
+            GoogleResponse googleAuthResponse;
 
             try {
-                result = await CrossGoogleClient.Current.LoginAsync();
+                // Logout to force the google account selector to open
+                CrossGoogleClient.Current.Logout();
+                googleAuthResponse = await CrossGoogleClient.Current.LoginAsync();
             } catch {
                 Toast.LongAlert("Unable to connect to Google\nTry again later");
 
                 return;
             }
 
-            if (result.Status == GoogleActionStatus.Completed) {
-                await Login(result.User);
+            if (googleAuthResponse.Status == GoogleActionStatus.Completed) {
+                var loginResponse = await mainContext.Services.Authenticate(CrossGoogleClient.Current.IdToken, googleAuthResponse.User);
+
+                await ReceiveLoginResponse(loginResponse);
             }
         }
 
-        private async Task Login(GoogleUserDto user) {
-            var loginResponse = await mainContext.Services.Login(CrossGoogleClient.Current.IdToken, user);
+        private async Task LoginWithToken(string refreshToken) {
+            var loginResponse = await mainContext.Services.Login(refreshToken);
 
-            Login(loginResponse.AccessToken, loginResponse.User);
+            await ReceiveLoginResponse(loginResponse);
+        }
+
+        private async Task ReceiveLoginResponse(LoginResponseDto loginResponse) {
+            await SetRefreshToken(loginResponse.RefreshToken);
+            AccessToken = loginResponse.AccessToken;
+            this.user = loginResponse.User;
 
             await mainContext.UI.GoToRideOverviewScreenAsync();
         }
 
-        private void Login(string token, UserDto user) {
-            AccessToken = token;
-            this.user = user;
+        internal Task<string> GetRefreshToken() {
+            return SecureStorage.GetAsync("RefreshToken");
+        }
+
+        internal Task SetRefreshToken(string token) {
+            return SecureStorage.SetAsync("RefreshToken", token);
         }
     }
 }

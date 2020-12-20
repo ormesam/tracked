@@ -20,10 +20,16 @@ namespace Tracked.Contexts {
             this.mainContext = mainContext;
         }
 
-        public async Task<LoginResponseDto> Login(string idToken, GoogleUserDto user) {
+        public async Task<LoginResponseDto> Authenticate(string idToken, GoogleUserDto user) {
             return await PostAsync<LoginResponseDto>("login/authenticate", new LoginDto {
                 GoogleIdToken = idToken,
                 User = user,
+            });
+        }
+
+        public async Task<LoginResponseDto> Login(string refreshToken) {
+            return await PostAsync<LoginResponseDto>("login/token", new RefreshTokenDto {
+                RefreshToken = refreshToken,
             });
         }
 

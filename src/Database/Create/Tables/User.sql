@@ -7,4 +7,5 @@
     [CreatedUtc] datetime NOT NULL,
     [ProfileImageUrl] nvarchar(255) NOT NULL,
     [IsAdmin] bit NOT NULL,
+    [RefreshToken] nvarchar(255) NOT NULL,
 )

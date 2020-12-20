@@ -46,6 +46,7 @@ namespace Api.Controllers {
                     Name = loginDto.User.Name,
                     CreatedUtc = DateTime.UtcNow,
                     ProfileImageUrl = loginDto.User.Picture.ToString(),
+                    RefreshToken = GenerateRefreshToken(),
                 };
 
                 context.Users.Add(user);
@@ -53,12 +54,41 @@ namespace Api.Controllers {
                 context.SaveChanges();
             }
 
+            string accessToken = CreateAccessToken(user.UserId, user.IsAdmin);
+
+            return new LoginResponseDto {
+                RefreshToken = user.RefreshToken,
+                AccessToken = accessToken,
+                User = GetUser(user.UserId),
+            };
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("token")]
+        public ActionResult<LoginResponseDto> Token(RefreshTokenDto refreshTokenDto) {
+            var user = context.Users.SingleOrDefault(row => row.RefreshToken == refreshTokenDto.RefreshToken);
+
+            if (user == null) {
+                return NotFound();
+            }
+
+            string accessToken = CreateAccessToken(user.UserId, user.IsAdmin);
+
+            return new LoginResponseDto {
+                RefreshToken = user.RefreshToken,
+                AccessToken = accessToken,
+                User = GetUser(user.UserId),
+            };
+        }
+
+        private string CreateAccessToken(int userId, bool isAdmin) {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSettings.Value.SecurityKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim> {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserId.ToString()),
-                new Claim("IsAdmin", user.IsAdmin.ToString()),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userId.ToString()),
+                new Claim("IsAdmin", isAdmin.ToString()),
             };
 
             var token = new JwtSecurityToken(
@@ -68,10 +98,11 @@ namespace Api.Controllers {
                 claims: claims,
                 signingCredentials: credentials);
 
-            return new LoginResponseDto {
-                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-                User = GetUser(user.UserId),
-            };
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private string GenerateRefreshToken() {
+            return Guid.NewGuid().ToString();
         }
 
         private UserDto GetUser(int userId) {
