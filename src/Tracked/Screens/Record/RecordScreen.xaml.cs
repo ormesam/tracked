@@ -14,15 +14,15 @@ namespace Tracked.Screens.Record {
 
         public RecordScreenViewModel ViewModel => BindingContext as RecordScreenViewModel;
 
-        protected override void OnAppearing() {
+        protected override async void OnAppearing() {
             base.OnAppearing();
 
-            ViewModel.Context.GeoUtility.Start();
+            await ViewModel.StartLocationListening();
         }
 
-        protected override void OnDisappearing() {
+        protected override async void OnDisappearing() {
             if (ViewModel.Status != RecordStatus.Running) {
-                ViewModel.Context.GeoUtility.Stop();
+                await ViewModel.StopLocationListening();
             }
 
             base.OnDisappearing();

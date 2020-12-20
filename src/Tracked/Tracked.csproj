@@ -18,6 +18,7 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.0.0" />
     <PackageReference Include="OxyPlot.Xamarin.Forms" Version="1.0.0" />
     <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
+    <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.6" />
     <PackageReference Include="Xamarin.Auth" Version="1.7.0" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />

@@ -10,15 +10,11 @@ using Microsoft.AppCenter.Crashes;
 using OxyPlot.Xamarin.Forms.Platform.Android;
 using Plugin.CurrentActivity;
 using Tracked.Droid.Auth;
-using Tracked.Droid.Location;
-using Xamarin.Auth;
 using Xamarin.Auth.Presenters.XamarinAndroid;
 
 namespace Tracked.Droid {
     [Activity(Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
-        public LocationServiceConnection LocationServiceConnection { get; private set; }
-
         public MainActivity() {
             TaskScheduler.UnobservedTaskException += (sender, args) => {
                 Crashes.TrackError(args.Exception);
@@ -40,7 +36,6 @@ namespace Tracked.Droid {
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-
             Xamarin.Essentials.Platform.Init(this, bundle);
             CrossCurrentActivity.Current.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
@@ -50,20 +45,12 @@ namespace Tracked.Droid {
             AuthenticationConfiguration.Init(this, bundle);
             GoogleClientManager.Init(this);
             XamEffects.Droid.Effects.Init();
-            CustomTabsConfiguration.CustomTabsClosingMessage = null;
 
             LoadApplication(new App());
         }
 
         protected override void OnStart() {
             base.OnStart();
-
-            if (LocationServiceConnection == null) {
-                LocationServiceConnection = new LocationServiceConnection(this);
-            }
-
-            var serviceToStart = new Intent(this, typeof(LocationService));
-            BindService(serviceToStart, LocationServiceConnection, Bind.AutoCreate);
 
             Console.WriteLine();
             Console.WriteLine("STARTED");
@@ -96,8 +83,6 @@ namespace Tracked.Droid {
 
         protected override void OnDestroy() {
             base.OnDestroy();
-
-            UnbindService(LocationServiceConnection);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults) {
