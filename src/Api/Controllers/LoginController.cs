@@ -66,8 +66,8 @@ namespace Api.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [Route("token")]
-        public ActionResult<LoginResponseDto> Token(RefreshTokenDto model) {
-            var user = context.Users.SingleOrDefault(row => row.RefreshToken == model.RefreshToken);
+        public ActionResult<LoginResponseDto> Token(RefreshTokenDto refreshTokenDto) {
+            var user = context.Users.SingleOrDefault(row => row.RefreshToken == refreshTokenDto.RefreshToken);
 
             if (user == null) {
                 return NotFound();
