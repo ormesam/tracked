@@ -5,6 +5,7 @@ using Tracked.Screens.Profile;
 using Tracked.Screens.Record;
 using Tracked.Screens.Rides;
 using Tracked.Screens.Settings;
+using Tracked.Screens.Settings.Modals;
 using Tracked.Screens.Trails;
 using Xamarin.Forms;
 
@@ -15,6 +16,18 @@ namespace Tracked.Contexts {
 
         public UIContext(MainContext context) {
             this.context = context;
+        }
+
+        private async Task ShowModal(Page page) {
+            if (isNavigating) {
+                return;
+            }
+
+            isNavigating = true;
+
+            await App.RootPage.Navigation.PushModalAsync(page);
+
+            isNavigating = false;
         }
 
         private async Task GoToScreenAsync(Page page) {
@@ -98,6 +111,14 @@ namespace Tracked.Contexts {
 
         public async Task<string> ShowPromptAsync(string title, string message, string defaultText) {
             return await App.Current.MainPage.DisplayPromptAsync(title, message, initialValue: defaultText);
+        }
+
+        public async Task ShowJumpAboutModal() {
+            await ShowModal(new JumpAboutModal(context));
+        }
+
+        public async Task GoToJumpAboutScreenAsync() {
+            await GoToScreenAsync(new JumpAboutScreen(context));
         }
     }
 }
