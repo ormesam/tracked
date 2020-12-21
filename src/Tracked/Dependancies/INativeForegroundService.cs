@@ -1,5 +1,5 @@
 ﻿namespace Tracked.Dependancies {
-    public interface INativeGeoUtility {
+    public interface INativeForegroundService {
         void Start();
         void Stop();
     }

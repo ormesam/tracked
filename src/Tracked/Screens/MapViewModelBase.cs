@@ -58,7 +58,6 @@ namespace Tracked.Screens {
         }
 
         private void RotatePins(IList<MapPin> pins) {
-            // This creates a copy of the pins instead of referencing them properly
             var duplicatePins = pins
                 .Select(i => new {
                     i.PinId,

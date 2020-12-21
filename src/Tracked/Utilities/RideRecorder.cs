@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.JumpDetection;
 using Xamarin.Essentials;
 
 namespace Tracked.Utilities {
-    public class RideRecorder {
+    /*
+        We do not handle the starting and stopping of the location listener in this class,
+        we assume the location listening has already been started to "warm up" and have better accuracy.
+     */
+    public class RideRecorder : IJumpLocationDetector {
         private readonly MainContext context;
         private readonly bool detectJumps;
         private readonly IList<AccelerometerReadingDto> readings;
@@ -21,33 +28,42 @@ namespace Tracked.Utilities {
             this.detectJumps = context.Settings.ShouldDetectJumps;
             Ride = new CreateRideDto();
             readings = new List<AccelerometerReadingDto>();
-            jumpDetectionUtility = new JumpDetectionUtility(context.GeoUtility);
+            jumpDetectionUtility = new JumpDetectionUtility(this);
         }
 
         public void StartRide() {
             Ride.StartUtc = DateTime.UtcNow;
 
             Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
-            context.GeoUtility.LocationChanged += GeoUtility_LocationChanged;
-
-            context.GeoUtility.Start();
+            CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
 
             if (detectJumps) {
-                Accelerometer.Start(SensorSpeed.Fastest);
+                Accelerometer.Start(SensorSpeed.Game);
             }
         }
 
+        private void Current_PositionChanged(object sender, PositionEventArgs e) {
+            var position = e.Position;
+
+            Ride.Locations.Add(new RideLocationDto {
+                Latitude = position.Latitude,
+                Longitude = position.Longitude,
+                AccuracyInMetres = position.Accuracy,
+                Altitude = position.Altitude,
+                Mph = position.Speed,
+                Timestamp = position.Timestamp.UtcDateTime,
+            });
+        }
+
         public async Task StopRide() {
+            CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
+            Accelerometer.ReadingChanged -= Accelerometer_ReadingChanged;
+
             if (Accelerometer.IsMonitoring) {
                 Accelerometer.Stop();
             }
 
-            context.GeoUtility.LocationChanged -= GeoUtility_LocationChanged;
-            Accelerometer.ReadingChanged -= Accelerometer_ReadingChanged;
-
             Ride.EndUtc = DateTime.UtcNow;
-
-            context.GeoUtility.Stop();
 
             if (detectJumps) {
                 Ride.AccelerometerReadings = readings;
@@ -71,8 +87,11 @@ namespace Tracked.Utilities {
             Debug.WriteLine(reading);
         }
 
-        private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {
-            Ride.Locations.Add(e.Location);
+        public RideLocationDto GetLastLocation(DateTime time) {
+            return Ride.Locations
+                .Where(i => i.Timestamp <= time)
+                .OrderByDescending(i => i.Timestamp)
+                .FirstOrDefault();
         }
     }
 }
