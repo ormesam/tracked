@@ -2,6 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Tracked.Controls"
     x:Class="Tracked.Screens.Settings.SettingsScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
@@ -16,18 +17,7 @@
                         On="{Binding ShouldDetectJumps}" />
                 </TableSection>
             </TableView>
-            <StackLayout
-                HorizontalOptions="Center"
-                Orientation="Horizontal"
-                Padding="10">
-                <Image
-                    Source="github.png"
-                    VerticalOptions="Center"
-                    WidthRequest="30"/>
-                <Label
-                    Text="Open source project by Sam Orme"
-                    VerticalOptions="Center"/>
-            </StackLayout>
+            <controls:Copyright />
             <Button
                 Text="Log Out"
                 Clicked="DisconnectFromGoogle_Click"

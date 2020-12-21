@@ -1,4 +1,5 @@
-﻿using Tracked.Contexts;
+﻿using System;
+using Tracked.Contexts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,11 +13,13 @@ namespace Tracked.Screens.Settings.Modals {
 
         public JumpAboutModelViewModel ViewModel => BindingContext as JumpAboutModelViewModel;
 
-        private async void Ok_Tapped(object sender, System.EventArgs e) {
+        private async void Ok_Tapped(object sender, EventArgs e) {
             await Navigation.PopModalAsync();
         }
 
-        private async void More_Tapped(object sender, System.EventArgs e) {
+        private async void More_Tapped(object sender, EventArgs e) {
+            await Navigation.PopModalAsync();
+
             await ViewModel.GoToAboutJump();
         }
     }

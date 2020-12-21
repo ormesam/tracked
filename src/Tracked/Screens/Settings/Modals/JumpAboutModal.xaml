@@ -21,7 +21,7 @@
                     HorizontalTextAlignment="Center"/>
 
                 <Label
-                    Text="You must attach your device directly to your bike to use this feature. Jumps are detected using your pones accelerometer, tab below to find out more." />
+                    Text="You must attach your device directly to your bike to use this feature. Jumps are detected using your phones accelerometer, tap below to find out more." />
                 
                 <Button
                     Text="Tell me more"

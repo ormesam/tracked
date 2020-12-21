@@ -15,10 +15,12 @@ namespace Tracked.Screens.Settings {
         public bool ShouldDetectJumps {
             get { return Context.Settings.ShouldDetectJumps; }
             set {
-                Context.Settings.ShouldDetectJumps = value;
+                if (Context.Settings.ShouldDetectJumps != value) {
+                    Context.Settings.ShouldDetectJumps = value;
 
-                if (value) {
-                    JumpsEnabled?.Invoke(null, null);
+                    if (value) {
+                        JumpsEnabled?.Invoke(null, null);
+                    }
                 }
             }
         }

@@ -109,16 +109,16 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new SettingsScreen(context));
         }
 
-        public async Task<string> ShowPromptAsync(string title, string message, string defaultText) {
-            return await App.Current.MainPage.DisplayPromptAsync(title, message, initialValue: defaultText);
-        }
-
         public async Task ShowJumpAboutModal() {
             await ShowModal(new JumpAboutModal(context));
         }
 
         public async Task GoToJumpAboutScreenAsync() {
             await GoToScreenAsync(new JumpAboutScreen(context));
+        }
+
+        public async Task<string> ShowPromptAsync(string title, string message, string defaultText) {
+            return await App.Current.MainPage.DisplayPromptAsync(title, message, initialValue: defaultText);
         }
     }
 }

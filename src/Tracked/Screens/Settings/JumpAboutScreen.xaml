@@ -2,13 +2,31 @@
 <ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Tracked.Controls"
     x:Class="Tracked.Screens.Settings.JumpAboutScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackLayout
+                Padding="10"
+                Spacing="15">
+                <Label
+                    FontSize="Medium"
+                    Text="Tracked uses your device's 3D accelerometer to detect vibrations during a ride. Using this data, along with some smoothing and post processing we can work out how much time is spent in the air." />
+                <Label
+                    FontSize="Medium"
+                    Text="The phone must be attached to the handlebars of the bike, above the forks. Any other location may result in inaccurate results." />
+                <Label
+                    FontSize="Medium"
+                    Text="The algorithm is not 100% accurate, and probably never will be, but it is a great reference point for anyone interested in analysing their jumps." />
+            </StackLayout>
+            <controls:Copyright
+                Grid.Row="1" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
