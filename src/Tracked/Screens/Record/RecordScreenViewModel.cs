@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Timers;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 using Tracked.Contexts;
+using Tracked.Dependancies;
 using Tracked.Models;
 using Tracked.Utilities;
+using Xamarin.Forms;
 
 namespace Tracked.Screens.Record {
     public class RecordScreenViewModel : ViewModelBase {
-        private readonly RideRecorder rideController;
+        private readonly RideRecorder rideRecorder;
         private readonly bool shouldDetectJumps;
         private readonly Timer timer;
 
@@ -15,25 +19,25 @@ namespace Tracked.Screens.Record {
         private bool hasAcquiredGpsSignal;
 
         public RecordScreenViewModel(MainContext context) : base(context) {
-            rideController = new RideRecorder(Context);
+            rideRecorder = new RideRecorder(Context);
             shouldDetectJumps = context.Settings.ShouldDetectJumps;
             status = RecordStatus.NotStarted;
             timer = new Timer();
             timer.Elapsed += Timer_Elapsed;
             timer.Interval = 1000;
 
-            Context.GeoUtility.LocationChanged += GeoUtility_LocationChanged;
+            CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
+        }
+
+        private void Current_PositionChanged(object sender, PositionEventArgs e) {
+            if (e.Position.Accuracy <= 20) {
+                CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
+                HasAcquiredGpsSignal = true;
+            }
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e) {
             OnPropertyChanged(nameof(TimerDisplay));
-        }
-
-        private void GeoUtility_LocationChanged(LocationChangedEventArgs e) {
-            if (e.Location.AccuracyInMetres < 20) {
-                Context.GeoUtility.LocationChanged -= GeoUtility_LocationChanged;
-                HasAcquiredGpsSignal = true;
-            }
         }
 
         public bool HasAcquiredGpsSignal {
@@ -56,7 +60,7 @@ namespace Tracked.Screens.Record {
                     return "--:--:--";
                 }
 
-                return (DateTime.UtcNow - rideController.Ride.StartUtc).ToString(@"hh\:mm\:ss");
+                return (DateTime.UtcNow - rideRecorder.Ride.StartUtc).ToString(@"hh\:mm\:ss");
             }
         }
 
@@ -79,7 +83,6 @@ namespace Tracked.Screens.Record {
                     OnPropertyChanged(nameof(CanStart));
                     OnPropertyChanged(nameof(CanStop));
                     OnPropertyChanged(nameof(ShowNotifications));
-                    OnPropertyChanged(nameof(AccelerometerNotification));
                 }
             }
         }
@@ -89,16 +92,46 @@ namespace Tracked.Screens.Record {
 
             timer.Start();
 
-            rideController.StartRide();
+            rideRecorder.StartRide();
         }
 
         public async Task Stop() {
             timer.Stop();
 
-            await rideController.StopRide();
-            Context.GeoUtility.Stop();
+            await rideRecorder.StopRide();
 
             Status = RecordStatus.Complete;
+
+            await StopLocationListening();
+        }
+
+        public async Task StartLocationListening() {
+            // Has already been started
+            if (Status != RecordStatus.NotStarted || CrossGeolocator.Current.IsListening) {
+                return;
+            }
+
+            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 1, false, new ListenerSettings {
+                ActivityType = ActivityType.AutomotiveNavigation,
+                AllowBackgroundUpdates = true,
+                DeferLocationUpdates = false,
+                ListenForSignificantChanges = false,
+                PauseLocationUpdatesAutomatically = false
+            });
+
+            DependencyService.Get<INativeForegroundService>().Start();
+        }
+
+        public async Task StopLocationListening() {
+            if (Status == RecordStatus.Running) {
+                return;
+            }
+
+            if (CrossGeolocator.Current.IsListening) {
+                await CrossGeolocator.Current.StopListeningAsync();
+            }
+
+            DependencyService.Get<INativeForegroundService>().Stop();
         }
     }
 }

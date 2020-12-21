@@ -85,7 +85,8 @@ namespace Api.Controllers {
             var medals = context.TrailAttempts
                 .Where(row => row.RideId == rideId)
                 .Where(row => row.Medal != (int)Medal.None)
-                .Select(row => (Medal)row.Medal);
+                .Select(row => (Medal)row.Medal)
+                .ToList();
 
             return context.Rides
                 .Where(row => row.RideId == rideId)
