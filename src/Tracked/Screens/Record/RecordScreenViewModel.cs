@@ -100,12 +100,17 @@ namespace Tracked.Screens.Record {
 
             await rideRecorder.StopRide();
 
-            await StopLocationListening();
-
             Status = RecordStatus.Complete;
+
+            await StopLocationListening();
         }
 
         public async Task StartLocationListening() {
+            // Has already been started
+            if (Status != RecordStatus.NotStarted || CrossGeolocator.Current.IsListening) {
+                return;
+            }
+
             await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(1), 1, false, new ListenerSettings {
                 ActivityType = ActivityType.AutomotiveNavigation,
                 AllowBackgroundUpdates = true,
@@ -118,6 +123,10 @@ namespace Tracked.Screens.Record {
         }
 
         public async Task StopLocationListening() {
+            if (Status == RecordStatus.Running) {
+                return;
+            }
+
             if (CrossGeolocator.Current.IsListening) {
                 await CrossGeolocator.Current.StopListeningAsync();
             }

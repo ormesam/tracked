@@ -1,6 +1,5 @@
 ﻿using System;
 using Tracked.Contexts;
-using Tracked.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,9 +20,7 @@ namespace Tracked.Screens.Record {
         }
 
         protected override async void OnDisappearing() {
-            if (ViewModel.Status != RecordStatus.Running) {
-                await ViewModel.StopLocationListening();
-            }
+            await ViewModel.StopLocationListening();
 
             base.OnDisappearing();
         }
