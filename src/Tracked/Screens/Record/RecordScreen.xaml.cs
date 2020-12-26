@@ -17,6 +17,8 @@ namespace Tracked.Screens.Record {
             base.OnAppearing();
 
             await ViewModel.StartLocationListening();
+
+            ViewModel.OnPropertyChanged();
         }
 
         protected override async void OnDisappearing() {
@@ -32,6 +34,10 @@ namespace Tracked.Screens.Record {
         private async void Stop_Clicked(object sender, EventArgs e) {
             await ViewModel.Stop();
             await Navigation.PopToRootAsync();
+        }
+
+        private async void Settings_Tapped(object sender, EventArgs e) {
+            await ViewModel.GoToSettings();
         }
     }
 }

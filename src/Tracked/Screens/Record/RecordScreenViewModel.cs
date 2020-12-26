@@ -12,7 +12,6 @@ using Xamarin.Forms;
 namespace Tracked.Screens.Record {
     public class RecordScreenViewModel : ViewModelBase {
         private readonly RideRecorder rideRecorder;
-        private readonly bool shouldDetectJumps;
         private readonly Timer timer;
 
         private RecordStatus status;
@@ -20,7 +19,6 @@ namespace Tracked.Screens.Record {
 
         public RecordScreenViewModel(MainContext context) : base(context) {
             rideRecorder = new RideRecorder(Context);
-            shouldDetectJumps = context.Settings.ShouldDetectJumps;
             status = RecordStatus.NotStarted;
             timer = new Timer();
             timer.Elapsed += Timer_Elapsed;
@@ -70,9 +68,9 @@ namespace Tracked.Screens.Record {
 
         public bool ShowNotifications => Status == RecordStatus.NotStarted;
 
-        public string AccelerometerNotification => shouldDetectJumps ? "Detecting Jumps" : "Not Detecting Jumps";
+        public string AccelerometerNotification => ShouldDetectJumps ? "Detecting Jumps" : "Not Detecting Jumps";
 
-        public bool ShouldDetectJumps => shouldDetectJumps;
+        public bool ShouldDetectJumps => Context.Settings.ShouldDetectJumps;
 
         public RecordStatus Status {
             get { return status; }
@@ -132,6 +130,10 @@ namespace Tracked.Screens.Record {
             }
 
             DependencyService.Get<INativeForegroundService>().Stop();
+        }
+
+        public async Task GoToSettings() {
+            await Context.UI.GoToSettingsScreenAsync();
         }
     }
 }
