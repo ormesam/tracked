@@ -26,10 +26,18 @@ namespace Tracked.Screens.Trails {
             }
         }
 
-        public async Task Load(int id) {
-            Trail = await Context.Services.GetTrail(id);
+        public async Task<bool> Load(int id) {
+            try {
+                Trail = await Context.Services.GetTrail(id);
 
-            OnPropertyChanged();
+                OnPropertyChanged();
+
+                return true;
+            } catch (ServiceException ex) {
+                Toast.LongAlert(ex.Message);
+
+                return false;
+            }
         }
 
         public async Task ChangeName() {
@@ -44,12 +52,21 @@ namespace Tracked.Screens.Trails {
             OnPropertyChanged(nameof(Title));
             OnPropertyChanged(nameof(Trail));
 
-            await Context.Services.ChangeTrailName(Trail.TrailId.Value, newName);
+            try {
+                await Context.Services.ChangeTrailName(Trail.TrailId.Value, newName);
+            } catch (ServiceException ex) {
+                Toast.LongAlert(ex.Message);
+            }
         }
 
         public async Task Delete() {
-            await Context.Services.DeleteTrail(Trail.TrailId.Value);
+            try {
+                await Context.Services.DeleteTrail(Trail.TrailId.Value);
+            } catch (ServiceException ex) {
+                Toast.LongAlert(ex.Message);
+            }
         }
+
         protected override ILatLng Centre => Trail.Locations.Midpoint();
 
         protected override IEnumerable<MapPin> GetPins() {

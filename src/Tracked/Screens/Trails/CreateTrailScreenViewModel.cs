@@ -60,9 +60,13 @@ namespace Tracked.Screens.Trails {
 
             trail.Name = newName;
 
-            await Context.Services.UploadTrail(trail);
+            try {
+                await Context.Services.UploadTrail(trail);
 
-            await nav.PopAsync();
+                await nav.PopAsync();
+            } catch (ServiceException ex) {
+                Toast.LongAlert(ex.Message);
+            }
         }
 
         public void AddPin(double latitude, double longitude) {

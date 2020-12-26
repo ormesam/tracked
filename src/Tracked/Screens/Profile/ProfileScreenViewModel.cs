@@ -2,6 +2,7 @@
 using Shared.Dtos;
 using Tracked.Contexts;
 using Tracked.Models;
+using Tracked.Utilities;
 
 namespace Tracked.Screens.Profile {
     public class ProfileScreenViewModel : TabbedViewModelBase {
@@ -51,8 +52,16 @@ namespace Tracked.Screens.Profile {
 
         public override string Title => IsCurrentUser ? "Profile" : User.Name;
 
-        public async Task Load() {
-            User = await Context.Services.GetProfile();
+        public async Task<bool> Load() {
+            try {
+                User = await Context.Services.GetProfile();
+
+                return true;
+            } catch (ServiceException ex) {
+                Toast.LongAlert(ex.Message);
+
+                return false;
+            }
         }
 
         public async Task EditBio() {
@@ -62,11 +71,15 @@ namespace Tracked.Screens.Profile {
                 return;
             }
 
-            await Context.Services.UpdateBio(newBio);
+            try {
+                await Context.Services.UpdateBio(newBio);
 
-            User.Bio = newBio;
+                User.Bio = newBio;
 
-            OnPropertyChanged(nameof(Bio));
+                OnPropertyChanged(nameof(Bio));
+            } catch (ServiceException ex) {
+                Toast.LongAlert(ex.Message);
+            }
         }
 
         public async Task GoToSettings() {

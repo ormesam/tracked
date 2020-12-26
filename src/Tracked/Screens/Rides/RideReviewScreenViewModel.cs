@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shared.Dtos;
 using Tracked.Contexts;
+using Tracked.Utilities;
 
 namespace Tracked.Screens.Rides {
     public class RideReviewScreenViewModel : RideMapViewModelBase {
@@ -28,10 +29,18 @@ namespace Tracked.Screens.Rides {
         public IList<AchievementDto> Achievements => Ride.Achievements;
         public bool CanCreateTrail => Context.Security.IsAdmin;
 
-        public async Task Load(int id) {
-            ride = await Context.Services.GetRide(id);
+        public async Task<bool> Load(int id) {
+            try {
+                ride = await Context.Services.GetRide(id);
 
-            OnPropertyChanged();
+                OnPropertyChanged();
+
+                return true;
+            } catch (ServiceException ex) {
+                Toast.LongAlert(ex.Message);
+
+                return false;
+            }
         }
 
         private async void MapViewModel_MapControlTapped(object sender, EventArgs e) {
@@ -51,7 +60,11 @@ namespace Tracked.Screens.Rides {
         }
 
         public async Task Delete() {
-            await Context.Services.DeleteRide(Ride.RideId.Value);
+            try {
+                await Context.Services.DeleteRide(Ride.RideId.Value);
+            } catch (ServiceException ex) {
+                Toast.LongAlert(ex.Message);
+            }
         }
 
         public async Task GoToMapScreen() {

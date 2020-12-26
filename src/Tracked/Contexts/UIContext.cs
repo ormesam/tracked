@@ -77,8 +77,9 @@ namespace Tracked.Contexts {
 
         public async Task GoToRideReviewScreenAsync(int id) {
             RideReviewScreenViewModel viewModel = new RideReviewScreenViewModel(context);
-            await viewModel.Load(id);
-            await GoToScreenAsync(new RideReviewScreen(viewModel));
+            if (await viewModel.Load(id)) {
+                await GoToScreenAsync(new RideReviewScreen(viewModel));
+            }
         }
 
         public async Task GoToMapScreenAsync(RideDto ride) {
@@ -91,8 +92,9 @@ namespace Tracked.Contexts {
 
         public async Task GoToTrailScreenAsync(int trailId) {
             TrailScreenViewModel viewModel = new TrailScreenViewModel(context);
-            await viewModel.Load(trailId);
-            await GoToScreenAsync(new TrailScreen(viewModel));
+            if (await viewModel.Load(trailId)) {
+                await GoToScreenAsync(new TrailScreen(viewModel));
+            }
         }
 
         public async Task GoToSpeedAnalysisScreenAsync(IList<RideLocationDto> rideLocation) {
@@ -101,8 +103,9 @@ namespace Tracked.Contexts {
 
         public async Task GoToProfileScreenAsync() {
             var viewModel = new ProfileScreenViewModel(context);
-            await viewModel.Load();
-            await ReplaceScreenAsync(new ProfileScreen(viewModel));
+            if (await viewModel.Load()) {
+                await ReplaceScreenAsync(new ProfileScreen(viewModel));
+            }
         }
 
         public async Task GoToSettingsScreenAsync() {
