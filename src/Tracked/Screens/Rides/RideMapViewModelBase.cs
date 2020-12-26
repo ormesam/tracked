@@ -55,8 +55,8 @@ namespace Tracked.Screens.Rides {
 
         private MapPolyline CreatePolyline(IEnumerable<ILatLng> polylineLocations, Color lastColour) {
             return new MapPolyline {
-                Colour = lastColour,
-                Width = 10,
+                StrokeColor = lastColour,
+                StrokeWidth = 10,
                 Positions = polylineLocations.ToList(),
             };
         }

@@ -8,7 +8,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Maps.Android;
 using Xamarin.Forms.Platform.Android;
-using LatLng = Android.Gms.Maps.Model.LatLng;
 
 [assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
 namespace Tracked.Droid.Renderers {
@@ -33,9 +32,7 @@ namespace Tracked.Droid.Renderers {
         }
 
         protected override MarkerOptions CreateMarker(Pin pin) {
-            var marker = new MarkerOptions();
-            marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
-            marker.SetTitle(pin.Label);
+            var marker = base.CreateMarker(pin);
 
             if (pin is MapPin customMapPin) {
                 if (customMapPin.IsSpeedPin) {
@@ -50,6 +47,20 @@ namespace Tracked.Droid.Renderers {
             }
 
             return marker;
+        }
+
+        protected override PolylineOptions CreatePolylineOptions(Xamarin.Forms.Maps.Polyline polyline) {
+            if (polyline is MapPolyline positionPolyline) {
+                positionPolyline.GenerateGeoPath();
+            }
+
+            var options = base.CreatePolylineOptions(polyline);
+
+            if (polyline is MapPolyline mapPolyline) {
+                options.InvokeZIndex(mapPolyline.ZIndex);
+            }
+
+            return options;
         }
     }
 }

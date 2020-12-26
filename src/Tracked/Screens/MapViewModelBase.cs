@@ -97,21 +97,20 @@ namespace Tracked.Screens {
             }
         }
 
-        public void CreatePolyline(MapPolyline polyline) {
+        protected void CreatePolyline(MapPolyline polyline) {
             if (polyline.Positions.Count() <= 1) {
                 return;
             }
 
-            Polyline polylineElement = new Polyline();
+            map.MapElements.Add(polyline);
+        }
 
-            foreach (var position in polyline.Positions) {
-                polylineElement.Geopath.Add(new Position(position.Latitude, position.Longitude));
+        protected void RemovePolyline(MapPolyline polyline) {
+            if (polyline == null) {
+                return;
             }
 
-            polylineElement.StrokeColor = polyline.Colour;
-            polylineElement.StrokeWidth = polyline.Width;
-
-            map.MapElements.Add(polylineElement);
+            map.MapElements.Remove(polyline);
         }
 
         public IEnumerable<MapType> MapTypes => (IEnumerable<MapType>)Enum.GetValues(typeof(MapType));
@@ -124,6 +123,12 @@ namespace Tracked.Screens {
                     OnPropertyChanged(nameof(MapType));
                 }
             }
+        }
+
+        protected void GoToLocation(ILatLng midpoint, Distance distance) {
+            var position = new Position(midpoint.Latitude, midpoint.Longitude);
+
+            map.MoveToRegion(MapSpan.FromCenterAndRadius(position, distance));
         }
     }
 }

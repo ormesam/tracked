@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Shared.Dtos;
 using Shared.Interfaces;
@@ -75,9 +76,9 @@ namespace Tracked.Screens.Trails {
 
         protected override IEnumerable<MapPolyline> GetPolylines() {
             yield return new MapPolyline {
-                Colour = Color.Blue,
-                Width = 10,
-                Positions = Trail.Locations,
+                StrokeColor = Color.Blue,
+                StrokeWidth = 10,
+                Positions = Trail.Locations.ToList(),
             };
         }
     }

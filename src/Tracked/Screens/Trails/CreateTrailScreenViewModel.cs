@@ -81,8 +81,8 @@ namespace Tracked.Screens.Trails {
             if (lastLatLng != null) {
                 CreatePolyline(new MapPolyline {
                     Positions = new List<ILatLng>() { lastLatLng, thisLatLng },
-                    Colour = Color.Red,
-                    Width = 10,
+                    StrokeColor = Color.Red,
+                    StrokeWidth = 10,
                 });
             } else {
                 DisplayText = "Now tap to set the next point";
@@ -100,9 +100,9 @@ namespace Tracked.Screens.Trails {
         protected override IEnumerable<MapPolyline> GetPolylines() {
             if (Ride != null) {
                 yield return new MapPolyline {
-                    Colour = Color.Blue,
+                    StrokeColor = Color.Blue,
                     Positions = Ride.Locations,
-                    Width = 10,
+                    StrokeWidth = 10,
                 };
             }
         }

@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using Shared.Dtos;
 using Tracked.Contexts;
+using Tracked.Models;
+using Tracked.Utilities;
 using Xamarin.Forms.Maps;
 
 namespace Tracked.Screens.Rides {
     public class MapScreenViewModel : RideMapViewModelBase {
         private readonly RideDto ride;
-        private Polyline selectedTrailLine;
+        private MapPolyline selectedTrailLine;
 
         public MapScreenViewModel(MainContext context, RideDto ride)
             : base(context) {
@@ -19,28 +23,25 @@ namespace Tracked.Screens.Rides {
         public IList<TrailAttemptDto> TrailAttempts => ride.TrailAttempts;
 
         public void HighlightTrail(TrailAttemptDto attempt) {
-            //if (selectedTrailLine != null) {
-            //    Map.MapElements.Remove(selectedTrailLine);
-            //}
+            if (selectedTrailLine != null) {
+                RemovePolyline(selectedTrailLine);
+            }
 
-            //selectedTrailLine = new Polyline();
+            selectedTrailLine = new MapPolyline {
+                StrokeColor = Color.Blue,
+                StrokeWidth = 20f,
+                ZIndex = 0,
+                Positions = ride.Locations
+                    .Where(i => i.Timestamp >= attempt.StartUtc)
+                    .Where(i => i.Timestamp <= attempt.EndUtc)
+                    .ToList(),
+            };
 
-            //var latLngs = ride.Locations
-            //    .Where(i => i.Timestamp >= attempt.StartUtc)
-            //    .Where(i => i.Timestamp <= attempt.EndUtc);
+            CreatePolyline(selectedTrailLine);
 
+            var midpoint = selectedTrailLine.Positions.Midpoint();
 
-            //foreach (var latLng in latLngs) {
-            //    selectedTrailLine.Geopath.Add(new Position(latLng.Latitude, latLng.Longitude));
-            //}
-
-            //selectedTrailLine.StrokeColor = Color.Blue;
-            //selectedTrailLine.StrokeWidth = 20f;
-
-            //Map.MapElements.Add(selectedTrailLine);
-
-            //var centre = latLngs.Midpoint();
-            //Map.MoveToRegion(MapSpan.FromCenterAndRadius(centre, Distance.FromMiles(.25)));
+            GoToLocation(midpoint, Distance.FromMiles(.25));
         }
     }
 }
