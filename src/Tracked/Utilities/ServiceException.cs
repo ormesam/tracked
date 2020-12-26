@@ -2,8 +2,17 @@
 
 namespace Tracked.Utilities {
     public class ServiceException : Exception {
-        public ServiceException() : base() { }
-        public ServiceException(string msg) : base(msg) { }
-        public ServiceException(Exception exception) : base("", exception) { }
+        public ServiceExceptionType Type { get; }
+
+        public ServiceException(string msg, ServiceExceptionType type) : base(msg) => Type = type;
+    }
+
+    public enum ServiceExceptionType {
+        NotFound,
+        ServerError,
+        Unauthorized,
+        UnableToConnect,
+        Unknown,
+        BadRequest,
     }
 }

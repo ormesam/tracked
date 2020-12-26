@@ -2,6 +2,7 @@
 using Shared.Dtos;
 using Shared.Exceptions;
 using Tracked.Auth;
+using Tracked.Screens.Login;
 using Tracked.Utilities;
 using Xamarin.Essentials;
 
@@ -31,17 +32,39 @@ namespace Tracked.Contexts {
         public void Logout() {
             AccessToken = null;
             user = null;
+            RemoveRefreshToken();
 
             CrossGoogleClient.Current.Logout();
+
+            App.Current.MainPage = new LoginScreen(mainContext, false);
         }
 
         public async Task Login() {
             string refreshToken = await GetRefreshToken();
 
             if (string.IsNullOrWhiteSpace(refreshToken)) {
-                await LoginWithGoogle();
+                try {
+                    await LoginWithGoogle();
+                } catch (ServiceException ex) {
+                    if (ex.Type == ServiceExceptionType.Unauthorized) {
+                        Toast.LongAlert("Unable to connect to Google.");
+                        return;
+                    }
+
+                    Toast.LongAlert(ex.Message);
+                }
             } else {
-                await LoginWithToken(refreshToken);
+                try {
+                    await LoginWithToken(refreshToken);
+                } catch (ServiceException ex) {
+                    if (ex.Type == ServiceExceptionType.NotFound) {
+                        RemoveRefreshToken();
+                        await Login();
+                        return;
+                    }
+
+                    Toast.LongAlert(ex.Message);
+                }
             }
         }
 
@@ -85,6 +108,10 @@ namespace Tracked.Contexts {
 
         internal Task SetRefreshToken(string token) {
             return SecureStorage.SetAsync("RefreshToken", token);
+        }
+
+        internal void RemoveRefreshToken() {
+            SecureStorage.Remove("RefreshToken");
         }
     }
 }

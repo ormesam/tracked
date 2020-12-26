@@ -131,7 +131,7 @@ namespace Tracked.Contexts {
                     HttpResponseMessage response = await client.SendAsync(request);
 
                     if (!response.IsSuccessStatusCode) {
-                        HandleRequestError(response);
+                        throw HandleRequestError(response);
                     }
 
                     var jsonSerializerSettings = new JsonSerializerSettings {
@@ -139,20 +139,30 @@ namespace Tracked.Contexts {
                     };
 
                     return JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync(), jsonSerializerSettings);
-                } catch (Exception ex) {
-                    throw new ServiceException(ex.Message);
+                } catch (ServiceException) {
+                    throw;
+                } catch (Exception) {
+                    throw new ServiceException("Unable to connect to server.\nMake sure you are connected to the internet and try again.", ServiceExceptionType.UnableToConnect);
                 }
             }
         }
 
-        private void HandleRequestError(HttpResponseMessage response) {
-            if (response.StatusCode == HttpStatusCode.Unauthorized) {
-                mainContext.Security.Logout();
+        private ServiceException HandleRequestError(HttpResponseMessage response) {
+            switch (response.StatusCode) {
+                case HttpStatusCode.InternalServerError:
+                    return new ServiceException("Something went wrong. It's not you, it's us.", ServiceExceptionType.ServerError);
+                case HttpStatusCode.BadRequest:
+                    return new ServiceException("Unable to complete operaton.", ServiceExceptionType.BadRequest);
+                case HttpStatusCode.Forbidden:
+                case HttpStatusCode.Unauthorized:
+                    mainContext.Security.Logout();
 
-                throw new ServiceException("You have been logged out.");
+                    return new ServiceException("You have been logged out.", ServiceExceptionType.Unauthorized);
+                case HttpStatusCode.NotFound:
+                    return new ServiceException("Not found.", ServiceExceptionType.NotFound);
+                default:
+                    return new ServiceException("An error occured. Please try again later.", ServiceExceptionType.Unknown);
             }
-
-            throw new ServiceException("API Error");
         }
     }
 }
