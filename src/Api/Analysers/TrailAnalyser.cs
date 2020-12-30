@@ -211,9 +211,14 @@ namespace Api.Analysers {
 
             foreach (var trail in currentTrailCache) {
                 var locations = trail.Value.TrailAnalysis.Locations;
+                var closeLocations = locations.Where(i => i.GetDistanceM(location) <= threshold);
 
-                if (locations.Any(i => i.GetDistanceM(location) <= threshold)) {
+                if (closeLocations.Any()) {
                     trail.Value.MissedPoints = 0;
+
+                    foreach (var closeLocation in closeLocations) {
+                        trail.Value.LocationsHit.Add(closeLocation);
+                    }
                 } else {
                     trail.Value.MissedPoints++;
                 }
@@ -239,8 +244,13 @@ namespace Api.Analysers {
             foreach (var trail in unmatchedTrails) {
                 var firstLocation = trail.Locations.First();
 
-                if (firstLocation.GetDistanceM(location) <= threshold) {
-                    currentTrailCache.Add(trail.TrailId, new TrailCache(trail, ride.Locations.IndexOf(location)));
+                bool matchesFirstLocation = IsWithinThresholdAndClosest(firstLocation, location, threshold);
+
+                if (matchesFirstLocation) {
+                    var cache = new TrailCache(trail, ride.Locations.IndexOf(location));
+                    cache.LocationsHit.Add(firstLocation);
+
+                    currentTrailCache.Add(trail.TrailId, cache);
                 }
             }
         }
@@ -251,21 +261,51 @@ namespace Api.Analysers {
             var keys = currentTrailCache.Keys.ToList();
 
             foreach (var key in keys) {
-                var trail = currentTrailCache[key].TrailAnalysis;
+                var cache = currentTrailCache[key];
+                var trail = cache.TrailAnalysis;
                 var lastLocation = trail.Locations.Last();
 
-                bool completed = lastLocation.GetDistanceM(location) <= threshold;
+                bool completed = IsWithinThresholdAndClosest(lastLocation, location, threshold);
 
-                if (completed) {
-                    yield return new TrailMatchResult {
-                        TrailId = trail.TrailId,
-                        StartIdx = currentTrailCache[key].StartIdx,
-                        EndIdx = ride.Locations.IndexOf(location),
-                    };
-
-                    currentTrailCache.Remove(key);
+                if (!completed) {
+                    continue;
                 }
+
+                if (cache.LocationsHitPercent < 90) {
+                    continue;
+                }
+
+                yield return new TrailMatchResult {
+                    TrailId = trail.TrailId,
+                    StartIdx = currentTrailCache[key].StartIdx,
+                    EndIdx = ride.Locations.IndexOf(location),
+                };
+
+                currentTrailCache.Remove(key);
             }
+        }
+
+        private bool IsWithinThresholdAndClosest(ILatLng trailLocation, RideLocationDto location, int threshold) {
+            double distance = trailLocation.GetDistanceM(location);
+
+            bool isWithinThreshold = distance <= threshold;
+
+            if (!isWithinThreshold) {
+                return false;
+            }
+
+            int locationIdx = ride.Locations.IndexOf(location);
+            var nextLocation = ride.Locations
+                .Where(i => i.Timestamp > location.Timestamp)
+                .FirstOrDefault();
+
+            return IsClosestPoint(nextLocation, trailLocation, distance);
+        }
+
+        private bool IsClosestPoint(RideLocationDto nextLocation, ILatLng trailLocation, double lastDistance) {
+            double nextDistance = nextLocation.GetDistanceM(trailLocation);
+
+            return lastDistance < nextDistance;
         }
 
         public class TrailAnalysis {
@@ -281,8 +321,11 @@ namespace Api.Analysers {
 
         private class TrailCache {
             public TrailAnalysis TrailAnalysis { get; set; }
+            public HashSet<ILatLng> LocationsHit { get; set; } = new();
             public int MissedPoints { get; set; } = 0;
             public int StartIdx { get; set; }
+
+            public double LocationsHitPercent => ((double)LocationsHit.Count / (double)TrailAnalysis.Locations.Count) * 100;
 
             public TrailCache(TrailAnalysis trailAnalysis, int startIdx) {
                 TrailAnalysis = trailAnalysis;
