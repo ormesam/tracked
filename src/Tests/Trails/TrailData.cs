@@ -29,7 +29,7 @@ namespace Tests.Trails {
             },
         };
 
-        public static TrailAnalysis KirkhillUp = new TrailAnalysis {
+        public static TrailAnalysis KirkhillFunParkUp = new TrailAnalysis {
             TrailId = 2,
             Locations = new List<ILatLng>() {
                 new LatLng(57.1942866097559, -2.24461231380701),
