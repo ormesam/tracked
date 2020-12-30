@@ -9,6 +9,10 @@ using Shared.Interfaces;
 
 namespace Api.Analysers {
     public class TrailAnalyser : IRideAnalyser {
+        private IDictionary<int, TrailAnalysis> currentTrailCache;
+
+        #region Old Analysis
+
         public void Analyse(ModelDataContext context, int userId, RideDto ride) {
             var trailIds = context.Trails
                 .Select(row => row.TrailId)
@@ -172,6 +176,31 @@ namespace Api.Analysers {
         private class LatLng : ILatLng {
             public double Latitude { get; set; }
             public double Longitude { get; set; }
+        }
+
+        #endregion
+
+        public IEnumerable<TrailMatchResult> Analyse(RideDto ride, IEnumerable<TrailAnalysis> trails) {
+            currentTrailCache = new Dictionary<int, TrailAnalysis>();
+
+            // Loop through ride locations
+            //   check if the location matches the start locaton of a trail, if it does add the trail to the cache
+            //   check if the location matches the next step on a chached trail
+            //   if 3 locations in a row do not matched a cached trail, remove it from the cache
+            //   if the location matches the end of the trail return a match result and remove the trail from the cache
+
+            return new List<TrailMatchResult>();
+        }
+
+        public class TrailAnalysis {
+            public int TrailId { get; set; }
+            public IList<ILatLng> Locations { get; set; }
+        }
+
+        public class TrailMatchResult {
+            public int TrailId { get; set; }
+            public int StartIdx { get; set; }
+            public int EndIdx { get; set; }
         }
     }
 }
