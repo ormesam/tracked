@@ -9,7 +9,11 @@ using Shared.Interfaces;
 
 namespace Api.Analysers {
     public class TrailAnalyser : IRideAnalyser {
-        private IDictionary<int, TrailAnalysis> currentTrailCache;
+        private readonly int missedPointThreshold = 3;
+        private readonly int locationMatchThreshold = 12;
+        private IDictionary<int, TrailCache> currentTrailCache;
+        private RideDto ride;
+        private IEnumerable<TrailAnalysis> allTrails;
 
         #region Old Analysis
 
@@ -180,16 +184,88 @@ namespace Api.Analysers {
 
         #endregion
 
-        public IEnumerable<TrailMatchResult> Analyse(RideDto ride, IEnumerable<TrailAnalysis> trails) {
-            currentTrailCache = new Dictionary<int, TrailAnalysis>();
+        public IList<TrailMatchResult> Analyse(RideDto ride, IEnumerable<TrailAnalysis> trails) {
+            var results = new List<TrailMatchResult>();
+            currentTrailCache = new Dictionary<int, TrailCache>();
+            this.ride = ride;
+            this.allTrails = trails;
 
-            // Loop through ride locations
-            //   check if the location matches the start locaton of a trail, if it does add the trail to the cache
-            //   check if the location matches the next step on a chached trail
-            //   if 3 locations in a row do not matched a cached trail, remove it from the cache
-            //   if the location matches the end of the trail return a match result and remove the trail from the cache
+            Queue<RideLocationDto> locations = new(ride.Locations);
 
-            return new List<TrailMatchResult>();
+            while (locations.Count > 0) {
+                var location = locations.Dequeue();
+
+                CheckCachedTrails(location);
+                RemoveUnmatchedTrails();
+                CheckNewMatchingTrails(location);
+                var completedTrails = CheckForCompletedTrails(location);
+
+                results.AddRange(completedTrails);
+            }
+
+            return results;
+        }
+
+        private void CheckCachedTrails(RideLocationDto location) {
+            var threshold = locationMatchThreshold;// Math.Ceiling(location.AccuracyInMetres);
+
+            foreach (var trail in currentTrailCache) {
+                var locations = trail.Value.TrailAnalysis.Locations;
+
+                if (locations.Any(i => i.GetDistanceM(location) <= threshold)) {
+                    trail.Value.MissedPoints = 0;
+                } else {
+                    trail.Value.MissedPoints++;
+                }
+            }
+        }
+
+        private void RemoveUnmatchedTrails() {
+            var keys = currentTrailCache.Keys.ToList();
+
+            foreach (var key in keys) {
+                if (currentTrailCache[key].MissedPoints >= missedPointThreshold) {
+                    currentTrailCache.Remove(key);
+                }
+            }
+        }
+
+        private void CheckNewMatchingTrails(RideLocationDto location) {
+            var threshold = locationMatchThreshold;// Math.Ceiling(location.AccuracyInMetres);
+
+            var unmatchedTrails = allTrails
+                .Where(i => !currentTrailCache.ContainsKey(i.TrailId));
+
+            foreach (var trail in unmatchedTrails) {
+                var firstLocation = trail.Locations.First();
+
+                if (firstLocation.GetDistanceM(location) <= threshold) {
+                    currentTrailCache.Add(trail.TrailId, new TrailCache(trail, ride.Locations.IndexOf(location)));
+                }
+            }
+        }
+
+        private IEnumerable<TrailMatchResult> CheckForCompletedTrails(RideLocationDto location) {
+            var threshold = locationMatchThreshold;// Math.Ceiling(location.AccuracyInMetres);
+
+            var keys = currentTrailCache.Keys.ToList();
+
+            foreach (var key in keys) {
+                var trail = currentTrailCache[key].TrailAnalysis;
+                var lastLocation = trail.Locations.Last();
+
+                bool completed = lastLocation.GetDistanceM(location) <= threshold;
+
+                if (completed) {
+                    yield return new TrailMatchResult {
+                        TrailId = trail.TrailId,
+                        StartIdx = currentTrailCache[key].StartIdx,
+                        EndIdx = ride.Locations.IndexOf(location),
+                    };
+
+                    currentTrailCache.Remove(key);
+                }
+            }
         }
 
         public class TrailAnalysis {
@@ -201,6 +277,17 @@ namespace Api.Analysers {
             public int TrailId { get; set; }
             public int StartIdx { get; set; }
             public int EndIdx { get; set; }
+        }
+
+        private class TrailCache {
+            public TrailAnalysis TrailAnalysis { get; set; }
+            public int MissedPoints { get; set; } = 0;
+            public int StartIdx { get; set; }
+
+            public TrailCache(TrailAnalysis trailAnalysis, int startIdx) {
+                TrailAnalysis = trailAnalysis;
+                StartIdx = startIdx;
+            }
         }
     }
 }

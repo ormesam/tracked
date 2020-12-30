@@ -4,7 +4,7 @@ using Shared.Dtos;
 
 namespace Tests.Trails {
     public static class RideData {
-        private static readonly RideDto rideDto = new RideDto {
+        public static RideDto KirkhillRide = new RideDto {
             UserId = 1,
             StartUtc = new DateTime(2020, 12, 6, 10, 52, 43, 230, DateTimeKind.Utc),
             EndUtc = new DateTime(2020, 12, 6, 11, 17, 54, 060, DateTimeKind.Utc),
@@ -757,6 +757,5 @@ namespace Tests.Trails {
                 new RideLocationDto(1038,DateTime.Parse("2020-12-06T11:17:53"),57.19477413,-2.2436251,9.93504619598389,201.593872070313,0),
             }
         };
-        public static RideDto KirkhillRide = rideDto;
     }
 }

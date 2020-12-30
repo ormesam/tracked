@@ -16,7 +16,7 @@ namespace Tests.Trails {
             var results = trailAnalyser.Analyse(RideData.KirkhillRide, new[] { TrailData.KirkhillFunPark });
 
             Assert.IsTrue(results.All(i => i.TrailId == TrailData.KirkhillFunPark.TrailId));
-            Assert.AreEqual(4, results.Count());
+            Assert.AreEqual(4, results.Count);
         }
 
         [TestMethod]
@@ -24,7 +24,7 @@ namespace Tests.Trails {
             var results = trailAnalyser.Analyse(RideData.KirkhillRide, new[] { TrailData.KirkhillFunParkUp });
 
             Assert.IsTrue(results.All(i => i.TrailId == TrailData.KirkhillFunParkUp.TrailId));
-            Assert.AreEqual(3, results.Count());
+            Assert.AreEqual(3, results.Count);
         }
 
         [TestMethod]
@@ -32,14 +32,14 @@ namespace Tests.Trails {
             var results = trailAnalyser.Analyse(RideData.KirkhillRide, new[] { TrailData.KirkhillFunParkLoop });
 
             Assert.IsTrue(results.All(i => i.TrailId == TrailData.KirkhillFunParkLoop.TrailId));
-            Assert.AreEqual(3, results.Count());
+            Assert.AreEqual(3, results.Count);
         }
 
         [TestMethod]
         public void Kirkhill_Dummy() {
             var results = trailAnalyser.Analyse(RideData.KirkhillRide, new[] { TrailData.KirkhillDummy });
 
-            Assert.AreEqual(0, results.Count());
+            Assert.AreEqual(0, results.Count);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace Tests.Trails {
             Assert.AreEqual(3, results.Count(i => i.TrailId == TrailData.KirkhillFunParkLoop.TrailId));
             Assert.AreEqual(3, results.Count(i => i.TrailId == TrailData.KirkhillFunParkUp.TrailId));
 
-            Assert.AreEqual(10, results.Count());
+            Assert.AreEqual(10, results.Count);
         }
     }
 }
