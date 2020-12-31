@@ -29,12 +29,14 @@ namespace Api.Middleware {
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception ex) {
+        private Task HandleExceptionAsync(HttpContext context, Exception ex) {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
 #if DEBUG
-            await context.Response.WriteAsync(ex.ToString());
+            return context.Response.WriteAsync(ex.ToString());
+#else
+            return Task.CompletedTask;
 #endif
         }
     }

@@ -13,7 +13,7 @@ namespace Tracked.Screens.Rides {
         }
 
         protected override void OnAppearing() {
-            if (ViewModel.CanCreateTrail) {
+            if (ViewModel.CanCreateTrail && page.ToolbarItems.Count == 1) {
                 var item = new ToolbarItem {
                     Text = "Create Trail",
                     Order = ToolbarItemOrder.Secondary,

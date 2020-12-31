@@ -11,6 +11,19 @@ namespace Shared.Dtos {
         public double Mph { get; set; }
         public double Altitude { get; set; }
 
+        public RideLocationDto() {
+        }
+
+        public RideLocationDto(int rideLocationId, DateTime timestamp, double latitude, double longitude, double accuracyInMetres, double mph, double altitude) {
+            RideLocationId = rideLocationId;
+            Timestamp = timestamp;
+            Latitude = latitude;
+            Longitude = longitude;
+            AccuracyInMetres = accuracyInMetres;
+            Mph = mph;
+            Altitude = altitude;
+        }
+
         public override string ToString() {
             return $"{Timestamp}: Lat: {Latitude}, Lon: {Longitude}, Mph: {Mph}, Accuracy: {AccuracyInMetres}";
         }
