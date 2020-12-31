@@ -22,4 +22,4 @@ Trails allow you to time yourself between two points and compare your results.
 
 Tracked detects jumps using the devices accelerometer. It works by detecting when the device is in "freefall" and taking other factors into account, such as the speed. This feature is a work in progress.
 
-I'm always on the lookout for keen mountain bikers to help test the app! If you fancy giving it a go drop me an email (details in profile) and I'll add you to the internal testers.
+I have put in thousands of hours into this project and I'm always on the lookout for keen mountain bikers to help test the app! If you fancy giving it a go drop me an email (details in profile) and I'll add you to the internal testers.
