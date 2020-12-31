@@ -250,6 +250,10 @@ namespace Api.Analysers {
         }
 
         private bool IsClosestPoint(RideLocationDto nextLocation, ILatLng trailLocation, double lastDistance) {
+            if (nextLocation == null) {
+                return true;
+            }
+
             double nextDistance = nextLocation.GetDistanceM(trailLocation);
 
             return lastDistance < nextDistance;
