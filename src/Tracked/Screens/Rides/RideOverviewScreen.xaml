@@ -5,17 +5,10 @@
     x:Class="Tracked.Screens.Rides.RideOverviewScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
     xmlns:ffImageLoadingSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-    Title="{Binding Title}">
-    <Grid
-        RowSpacing="0">
-        <Grid.RowDefinitions>
-            <RowDefinition
-                Height="Auto"/>
-            <RowDefinition
-                Height="*"/>
-            <RowDefinition
-                Height="Auto"/>
-        </Grid.RowDefinitions>
+    Title="{Binding Title}"
+    NavigationPage.HasNavigationBar="False">
+    <StackLayout
+        Spacing="0">
         <Grid
             BackgroundColor="Orange"
             IsVisible="{Binding ShowUploadCount}">
@@ -41,28 +34,25 @@
                 Color="White"
                 BackgroundColor="Transparent" />
         </Grid>
-        <Label
-            Grid.Row="1"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Text="No Rides Yet"
-            IsVisible="{Binding HasRides, Converter={StaticResource InvertBoolConverter}}" />
-        <ListView
-            Grid.Row="1"
+        <CarouselView
             ItemsSource="{Binding Rides}"
-            ItemTapped="Ride_ItemTapped"
-            CachingStrategy="RecycleElement"
-            IsPullToRefreshEnabled="True"
-            IsRefreshing="{Binding IsRefreshing}"
-            RefreshCommand="{Binding RefreshCommand}"
-            HasUnevenRows="True">
-            <ListView.ItemTemplate>
+            PeekAreaInsets="40"
+            Loop="False"
+            BackgroundColor="LightGray">
+            <CarouselView.ItemsLayout>
+                <LinearItemsLayout
+                    Orientation="Vertical"
+                    SnapPointsAlignment="Center"
+                    SnapPointsType="MandatorySingle"
+                    ItemSpacing="15"/>
+            </CarouselView.ItemsLayout>
+            <CarouselView.ItemTemplate>
                 <DataTemplate>
-                    <controls:RideOverviewCell>
+                    <Grid>
                         <Frame
-                            Padding="0,0,0,10"
-                            Margin="0"
-                            BackgroundColor="LightGray">
+                            Padding="0"
+                            Margin="10,0,10,0"
+                            CornerRadius="10">
                             <StackLayout
                                 Padding="10"
                                 BackgroundColor="White">
@@ -147,19 +137,13 @@
                                 </StackLayout>
 
                                 <ffImageLoadingSvg:SvgCachedImage
-                                    HeightRequest="200"/>
+                                    Source="{Binding RouteSvg}"/>
                             </StackLayout>
                         </Frame>
-                    </controls:RideOverviewCell>
+                    </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button
-            Style="{StaticResource FabButtonStyle}"
-            Grid.Row="1"
-            Text="+"
-            Clicked="Add_Clicked" />
-        <controls:TabControl
-            Grid.Row="2" />
-    </Grid>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <controls:TabControl />
+    </StackLayout>
 </ContentPage>
