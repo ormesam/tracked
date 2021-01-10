@@ -38,8 +38,14 @@ namespace Tracked.Screens.Rides {
             }
         }
 
-        private async void Ride_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await ViewModel.GoToReview(e.Item as RideOverviewDto);
+        private async void Ride_Tapped(object sender, EventArgs e) {
+            var item = (sender as View).BindingContext as RideOverviewDto;
+
+            if (item == null) {
+                return;
+            }
+
+            await ViewModel.GoToReview(item);
         }
     }
 }
