@@ -140,8 +140,11 @@
                                     </BindableLayout.ItemTemplate>
                                 </StackLayout>
 
-                                <ffImageLoadingSvg:SvgCachedImage
-                                    Source="{Binding RouteSvg}"/>
+                                <Path
+                                    Data="{Binding RouteSvgPath, Converter={StaticResource RouteSvgConverter}}"
+                                    Stroke="Black"
+                                    StrokeThickness="5"
+                                    Aspect="Uniform"/>
                             </StackLayout>
                         </Frame>
                     </Grid>

@@ -49,13 +49,6 @@ namespace Shared.Dtos {
             }
         }
 
-        public string RouteSvg {
-            get {
-                return $"<svg viewBox=\"0 0 {RouteCanvasWidthSvg} {RouteCanvasHeightSvg}\">" +
-                    $"<path fill=\"none\" stroke=\"red\" stroke-width=\"10\" d=\"{RouteSvgPath}\"/></svg>";
-            }
-        }
-
         public RideOverviewDto() {
             Medals = new List<Medal>();
         }
