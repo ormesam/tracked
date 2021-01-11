@@ -5,60 +5,66 @@
     x:Class="Tracked.App"
     xmlns:converters="clr-namespace:Tracked.Converters">
     <Application.Resources>
-        <converters:BoolToGpsColourConverter
-            x:Key="BoolToGpsColourConverter" />
-        <converters:InvertBoolConverter
-            x:Key="InvertBoolConverter" />
-        <converters:AccelerometerToColourConverter
-            x:Key="AccelerometerToColourConverter" />
-        <converters:MedalToImageConverter
-            x:Key="MedalToImageConverter" />
-        <converters:RouteSvgConverter
-            x:Key="RouteSvgConverter" />
-        <converters:TabLabelTextConverter
-            x:Key="TabLabelTextConverter" />
-        <converters:TabImageSourceConverter
-            x:Key="TabImageSourceConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <Color
-            x:Key="DefaultBackgroundColour">
-            #080870
-        </Color>
-        <Color
-            x:Key="GoogleButtonColour">
-            #DD4B39
-        </Color>
+            <converters:BoolToGpsColourConverter
+                x:Key="BoolToGpsColourConverter" />
+            <converters:InvertBoolConverter
+                x:Key="InvertBoolConverter" />
+            <converters:AccelerometerToColourConverter
+                x:Key="AccelerometerToColourConverter" />
+            <converters:MedalToImageConverter
+                x:Key="MedalToImageConverter" />
+            <converters:RouteSvgConverter
+                x:Key="RouteSvgConverter" />
+            <converters:TabLabelTextConverter
+                x:Key="TabLabelTextConverter" />
+            <converters:TabImageSourceConverter
+                x:Key="TabImageSourceConverter" />
 
-        <Style
-            x:Key="FabButtonStyle"
-            TargetType="Button">
-            <Setter
-                Property="BackgroundColor"
-                Value="Green" />
-            <Setter
-                Property="TextColor"
-                Value="White" />
-            <Setter
-                Property="CornerRadius"
-                Value="75" />
-            <Setter
-                Property="WidthRequest"
-                Value="75" />
-            <Setter
-                Property="HeightRequest"
-                Value="75" />
-            <Setter
-                Property="HorizontalOptions"
-                Value="End" />
-            <Setter
-                Property="VerticalOptions"
-                Value="End" />
-            <Setter
-                Property="Margin"
-                Value="30" />
-            <Setter
-                Property="FontSize"
-                Value="30" />
-        </Style>
+            <Color
+                x:Key="DefaultBackgroundColour">
+                #080870
+            </Color>
+            <Color
+                x:Key="GoogleButtonColour">
+                #DD4B39
+            </Color>
+
+            <Style
+                x:Key="FabButtonStyle"
+                TargetType="Button">
+                <Setter
+                    Property="BackgroundColor"
+                    Value="Green" />
+                <Setter
+                    Property="TextColor"
+                    Value="White" />
+                <Setter
+                    Property="CornerRadius"
+                    Value="75" />
+                <Setter
+                    Property="WidthRequest"
+                    Value="75" />
+                <Setter
+                    Property="HeightRequest"
+                    Value="75" />
+                <Setter
+                    Property="HorizontalOptions"
+                    Value="End" />
+                <Setter
+                    Property="VerticalOptions"
+                    Value="End" />
+                <Setter
+                    Property="Margin"
+                    Value="30" />
+                <Setter
+                    Property="FontSize"
+                    Value="30" />
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
