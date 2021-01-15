@@ -17,7 +17,7 @@ namespace Api.Utility {
             this.originalLocations = locations;
         }
 
-        public (int width, int height, string path) Build() {
+        public string Build() {
             foreach (var location in originalLocations) {
                 var coord = new Coordinate(location.Latitude, location.Longitude);
 
@@ -27,7 +27,7 @@ namespace Api.Utility {
             CalculateBoundaries();
             CalculatePositions();
 
-            return (svgWidth, svgHeight, CreateSvg());
+            return (CreateSvg());
         }
 
         private void CalculateBoundaries() {

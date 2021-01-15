@@ -12,8 +12,6 @@ namespace Shared.Dtos {
         public string Name { get; set; }
         public double MaxSpeedMph { get; set; }
         public double DistanceMiles { get; set; }
-        public int RouteCanvasWidthSvg { get; set; }
-        public int RouteCanvasHeightSvg { get; set; }
         public string RouteSvgPath { get; set; }
         public IEnumerable<Medal> Medals { get; set; }
 

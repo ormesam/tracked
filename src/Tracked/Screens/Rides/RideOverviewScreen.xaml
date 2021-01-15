@@ -155,6 +155,7 @@
                             Data="{Binding RouteSvgPath, Converter={StaticResource RouteSvgConverter}}"
                             Stroke="Black"
                             StrokeThickness="5"
+                            StrokeLineJoin="Round"
                             Aspect="Uniform"/>
                     </Grid>
                 </DataTemplate>
