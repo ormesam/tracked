@@ -3,4 +3,29 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Styles.Theme">
+    <!-- Colours -->
+    <Color
+        x:Key="BackgroundColour">
+        Black
+    </Color>
+    <Color
+        x:Key="SecondaryBackgroundColour">
+        DarkGray
+    </Color>
+    <Color
+        x:Key="DefaultTextColour">
+        White
+    </Color>
+    <Color
+        x:Key="Green">
+        Lime
+    </Color>
+
+    <!-- Default Styles -->
+    <Style
+        TargetType="Label">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource DefaultTextColour}" />
+    </Style>
 </ResourceDictionary>
