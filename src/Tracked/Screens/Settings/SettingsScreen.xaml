@@ -21,8 +21,7 @@
             <Button
                 Text="Log Out"
                 Clicked="DisconnectFromGoogle_Click"
-                BackgroundColor="{StaticResource GoogleButtonColour}"
-                TextColor="White" />
+                BackgroundColor="{StaticResource GoogleButtonColour}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -28,7 +28,6 @@
             <Label
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"
-                TextColor="White"
                 BackgroundColor="{Binding HasAcquiredGpsSignal, Converter={StaticResource BoolToGpsColourConverter}}"
                 Text="{Binding GpsSignalMessage}"
                 IsVisible="{Binding ShowNotifications}" />
@@ -37,7 +36,6 @@
                 Grid.Row="1"
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"
-                TextColor="White"
                 IsVisible="{Binding ShowNotifications}"
                 BackgroundColor="{Binding ShouldDetectJumps, Converter={StaticResource AccelerometerToColourConverter}}"
                 Text="{Binding AccelerometerNotification}" />
@@ -56,8 +54,7 @@
                 FontSize="Large"
                 Clicked="Start_Clicked"
                 IsVisible="{Binding CanStart}"
-                BackgroundColor="Green"
-                TextColor="White"
+                BackgroundColor="{StaticResource Green}"
                 WidthRequest="120"
                 HeightRequest="120"
                 CornerRadius="60"

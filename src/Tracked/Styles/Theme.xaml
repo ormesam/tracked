@@ -33,6 +33,12 @@
             Value="{StaticResource TextColour}" />
     </Style>
     <Style
+        TargetType="Button">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource TextColour}" />
+    </Style>
+    <Style
         TargetType="NavigationPage">
         <Setter
             Property="BackgroundColor"

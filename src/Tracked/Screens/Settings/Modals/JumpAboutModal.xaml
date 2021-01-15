@@ -7,7 +7,7 @@
     <ContentPage.Content>
         <Grid>
             <BoxView
-                BackgroundColor="White"
+                BackgroundColor="{StaticResource SecondaryBackgroundColour}"
                 Opacity=".9"/>
             <StackLayout
                 Margin="50"
@@ -26,13 +26,11 @@
                 <Button
                     Text="Tell me more"
                     BackgroundColor="{StaticResource DefaultBackgroundColour}"
-                    TextColor="White"
                     Clicked="More_Tapped"/>
 
                 <Button
                     Text="Ok"
-                    BackgroundColor="Green"
-                    TextColor="White"
+                    BackgroundColor="{StaticResource Green}"
                     Clicked="Ok_Tapped"/>
                 </StackLayout>
         </Grid>

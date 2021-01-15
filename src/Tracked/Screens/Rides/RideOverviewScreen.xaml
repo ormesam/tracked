@@ -22,8 +22,7 @@
             <Label
                 Margin="10"
                 Text="{Binding UploadText}"
-                VerticalOptions="Center"
-                TextColor="White" />
+                VerticalOptions="Center" />
 
             <ActivityIndicator
                 Scale="0.5"
@@ -31,7 +30,7 @@
                 IsRunning="{Binding IsUploading}"
                 IsEnabled="True"
                 IsVisible="{Binding IsUploading}"
-                Color="White"
+                Color="{StaticResource TextColour}"
                 BackgroundColor="Transparent" />
         </Grid>
         <CarouselView

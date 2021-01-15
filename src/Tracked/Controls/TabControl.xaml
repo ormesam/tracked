@@ -29,7 +29,7 @@
                             BackgroundColor="{StaticResource DefaultBackgroundColour}"
                             IsVisible="{Binding IsSelected}"/>
                         <BoxView
-                            BackgroundColor="LightGray"
+                            BackgroundColor="{StaticResource OutlineColour}"
                             HeightRequest="1"
                             VerticalOptions="Start"
                             IsVisible="{Binding IsSelected, Converter={StaticResource InvertBoolConverter}}"/>

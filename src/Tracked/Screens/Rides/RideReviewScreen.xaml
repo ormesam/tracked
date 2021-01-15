@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Screens.Rides.RideReviewScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
-    xmlns:localControls="clr-namespace:Tracked.Screens.Rides.Controls"
     Title="{Binding Title}"
     x:Name="page">
     <ContentPage.ToolbarItems>
@@ -158,7 +157,6 @@
                         Grid.ColumnSpan="3"
                         Text="Speed Analysis"
                         BackgroundColor="{StaticResource DefaultBackgroundColour}"
-                        TextColor="White"
                         Margin="10, 0, 10 ,0"
                         HeightRequest="35"
                         FontSize="10" 
