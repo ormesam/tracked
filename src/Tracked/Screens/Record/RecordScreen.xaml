@@ -67,7 +67,7 @@
                 FontSize="Large"
                 Clicked="Stop_Clicked"
                 IsVisible="{Binding CanStop}"
-                BackgroundColor="Orange"
+                BackgroundColor="{StaticResource Orange}"
                 TextColor="White"
                 WidthRequest="120"
                 HeightRequest="120"

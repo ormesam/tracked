@@ -24,6 +24,10 @@
         x:Key="Green">
         Lime
     </Color>
+    <Color
+        x:Key="Orange">
+        Orange
+    </Color>
 
     <!-- Default Styles -->
     <Style
