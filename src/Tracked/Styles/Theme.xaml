@@ -28,6 +28,10 @@
         x:Key="Orange">
         Orange
     </Color>
+    <Color
+        x:Key="Red">
+        Red
+    </Color>
 
     <!-- Default Styles -->
     <Style
@@ -50,6 +54,12 @@
         <Setter
             Property="BarBackgroundColor"
             Value="{StaticResource BackgroundColour}" />
+    </Style>
+    <Style
+        TargetType="TextCell">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource TextColour}" />
     </Style>
 
 </ResourceDictionary>
