@@ -37,8 +37,7 @@
         <CarouselView
             ItemsSource="{Binding Rides}"
             PeekAreaInsets="40"
-            Loop="False"
-            BackgroundColor="LightGray">
+            Loop="False">
             <CarouselView.ItemsLayout>
                 <LinearItemsLayout
                     Orientation="Vertical"
@@ -62,11 +61,12 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <BoxView
+                        <Frame
                             Grid.RowSpan="4"
                             CornerRadius="10"
                             Margin="-10"
-                            BackgroundColor="White"/>
+                            BorderColor="{StaticResource OutlineColour}"
+                            BackgroundColor="{StaticResource SecondaryBackgroundColour}" />
 
                         <controls:UserHeader
                             Padding="10"
@@ -105,7 +105,7 @@
                                 Grid.RowSpan="2"
                                 WidthRequest="1"
                                 Margin="10,0,10,0"
-                                BackgroundColor="LightGray" />
+                                BackgroundColor="{StaticResource OutlineColour}" />
 
                             <Label
                                 Grid.Column="2"
@@ -122,7 +122,7 @@
                                 Grid.RowSpan="2"
                                 WidthRequest="1"
                                 Margin="10,0,10,0"
-                                BackgroundColor="LightGray" />
+                                BackgroundColor="{StaticResource OutlineColour}" />
 
                             <Label
                                 Grid.Column="4"
@@ -153,7 +153,7 @@
                         <Path
                             Grid.Row="3"
                             Data="{Binding RouteSvgPath, Converter={StaticResource RouteSvgConverter}}"
-                            Stroke="Black"
+                            Stroke="White"
                             StrokeThickness="5"
                             StrokeLineJoin="Round"
                             Aspect="Uniform"/>

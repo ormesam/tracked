@@ -6,15 +6,19 @@
     <!-- Colours -->
     <Color
         x:Key="BackgroundColour">
-        Black
+        #06090F
     </Color>
     <Color
         x:Key="SecondaryBackgroundColour">
-        DarkGray
+        #0D1117
     </Color>
     <Color
-        x:Key="DefaultTextColour">
-        White
+        x:Key="OutlineColour">
+        #30363D
+    </Color>
+    <Color
+        x:Key="TextColour">
+        #f5f5f5
     </Color>
     <Color
         x:Key="Green">
@@ -26,6 +30,16 @@
         TargetType="Label">
         <Setter
             Property="TextColor"
-            Value="{StaticResource DefaultTextColour}" />
+            Value="{StaticResource TextColour}" />
     </Style>
+    <Style
+        TargetType="NavigationPage">
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource BackgroundColour}" />
+        <Setter
+            Property="BarBackgroundColor"
+            Value="{StaticResource BackgroundColour}" />
+    </Style>
+
 </ResourceDictionary>
