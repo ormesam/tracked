@@ -18,17 +18,11 @@
                 x:Key="AccelerometerToColourConverter" />
             <converters:MedalToImageConverter
                 x:Key="MedalToImageConverter" />
-            <converters:RouteSvgConverter
-                x:Key="RouteSvgConverter" />
-            <converters:TabLabelTextConverter
-                x:Key="TabLabelTextConverter" />
-            <converters:TabImageSourceConverter
-                x:Key="TabImageSourceConverter" />
+            <converters:SvgConverter
+                x:Key="SvgConverter" />
+            <converters:SvgFillConverter
+                x:Key="SvgFillConverter" />
 
-            <Color
-                x:Key="DefaultBackgroundColour">
-                #080870
-            </Color>
             <Color
                 x:Key="GoogleButtonColour">
                 #DD4B39
@@ -39,10 +33,7 @@
                 TargetType="Button">
                 <Setter
                     Property="BackgroundColor"
-                    Value="Green" />
-                <Setter
-                    Property="TextColor"
-                    Value="White" />
+                    Value="{StaticResource Green}" />
                 <Setter
                     Property="CornerRadius"
                     Value="75" />

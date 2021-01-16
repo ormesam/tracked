@@ -156,7 +156,7 @@
                         Grid.Row="6"
                         Grid.ColumnSpan="3"
                         Text="Speed Analysis"
-                        BackgroundColor="{StaticResource DefaultBackgroundColour}"
+                        BackgroundColor="{StaticResource BackgroundColour}"
                         Margin="10, 0, 10 ,0"
                         HeightRequest="35"
                         FontSize="10" 

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Globalization;
-using Tracked.Models;
 using Xamarin.Forms;
+using Xamarin.Forms.Shapes;
 
 namespace Tracked.Converters {
-    public class TabImageSourceConverter : IValueConverter {
+    public class SvgConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            if (value is TabItem item) {
-                return (item.IsSelected ? item.ImageName : item.ImageName + "_outline") + ".png";
+            if (value is string stringValue) {
+                return (Geometry)new PathGeometryConverter().ConvertFromInvariantString(stringValue);
             }
 
             return null;

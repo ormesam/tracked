@@ -25,7 +25,7 @@
                 
                 <Button
                     Text="Tell me more"
-                    BackgroundColor="{StaticResource DefaultBackgroundColour}"
+                    BackgroundColor="{StaticResource BackgroundColour}"
                     Clicked="More_Tapped"/>
 
                 <Button

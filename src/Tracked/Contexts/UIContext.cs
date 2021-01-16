@@ -106,7 +106,7 @@ namespace Tracked.Contexts {
         }
 
         public async Task GoToSettingsScreenAsync() {
-            await GoToScreenAsync(new SettingsScreen(context));
+            await ReplaceScreenAsync(new SettingsScreen(context));
         }
 
         public async Task ShowJumpAboutModal() {

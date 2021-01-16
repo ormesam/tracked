@@ -5,7 +5,7 @@ namespace Tracked.Models {
     public class TabItem {
         public int Order { get; set; }
         public string Text { get; set; }
-        public string ImageName { get; set; }
+        public string Icon { get; set; }
         public bool IsSelected { get; set; }
         public Func<Task> OnClick { get; set; }
     }
@@ -14,5 +14,6 @@ namespace Tracked.Models {
         Rides,
         Trails,
         Profile,
+        Settings,
     }
 }

@@ -33,6 +33,10 @@
         Red
     </Color>
 
+    <SolidColorBrush
+        x:Key="TextBrush"
+        Color="{StaticResource TextColour}" />
+
     <!-- Default Styles -->
     <Style
         TargetType="Label">

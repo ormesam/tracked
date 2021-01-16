@@ -152,7 +152,7 @@
 
                         <Path
                             Grid.Row="3"
-                            Data="{Binding RouteSvgPath, Converter={StaticResource RouteSvgConverter}}"
+                            Data="{Binding RouteSvgPath, Converter={StaticResource SvgConverter}}"
                             Stroke="White"
                             StrokeThickness="5"
                             StrokeLineJoin="Round"
