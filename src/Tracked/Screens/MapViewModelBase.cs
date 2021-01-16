@@ -21,7 +21,7 @@ namespace Tracked.Screens {
 
         protected virtual bool IsReadOnly => false;
         protected virtual ILatLng Centre => new LatLng(57.1499749, -2.1950675);
-        protected virtual bool CanChangeMapType => !IsReadOnly;
+        public virtual bool CanChangeMapType => !IsReadOnly;
 
         public CustomMap CreateMap() {
             Position centre = new Position(Centre.Latitude, Centre.Longitude);

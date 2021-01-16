@@ -24,7 +24,7 @@
                 VerticalOptions="Start"
                 HorizontalOptions="End"
                 Margin="10"
-                BackgroundColor="{StaticResource SecondaryBackgroundColour}"
+                BackgroundColor="{StaticResource TextColour}"
                 WidthRequest="40"
                 HeightRequest="40"
                 Source="menu_icon.png"
