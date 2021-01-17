@@ -30,7 +30,7 @@
 
                 <Button
                     Text="Ok"
-                    BackgroundColor="{StaticResource Green}"
+                    BackgroundColor="{StaticResource BackgroundColour}"
                     Clicked="Ok_Tapped"/>
                 </StackLayout>
         </Grid>
