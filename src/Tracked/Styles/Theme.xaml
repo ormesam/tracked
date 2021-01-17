@@ -22,7 +22,7 @@
     </Color>
     <Color
         x:Key="Green">
-        Lime
+        #238636
     </Color>
     <Color
         x:Key="Orange">
