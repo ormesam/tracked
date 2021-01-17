@@ -1,5 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Tracked.Screens.Profile {
@@ -11,9 +10,5 @@ namespace Tracked.Screens.Profile {
         }
 
         public ProfileScreenViewModel ViewModel => BindingContext as ProfileScreenViewModel;
-
-        private async void Settings_Tapped(object sender, EventArgs e) {
-            await ViewModel.GoToSettings();
-        }
     }
 }

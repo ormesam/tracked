@@ -35,9 +35,5 @@ namespace Tracked.Screens.Record {
             await ViewModel.Stop();
             await Navigation.PopToRootAsync();
         }
-
-        private async void Settings_Tapped(object sender, EventArgs e) {
-            await ViewModel.GoToSettings();
-        }
     }
 }

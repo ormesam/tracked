@@ -131,9 +131,5 @@ namespace Tracked.Screens.Record {
 
             DependencyService.Get<INativeForegroundService>().Stop();
         }
-
-        public async Task GoToSettings() {
-            await Context.UI.GoToSettingsScreenAsync();
-        }
     }
 }
