@@ -6,11 +6,11 @@
     <!-- Colours -->
     <Color
         x:Key="BackgroundColour">
-        #06090F
+        #121212
     </Color>
     <Color
         x:Key="SecondaryBackgroundColour">
-        #0D1117
+        #262626
     </Color>
     <Color
         x:Key="OutlineColour">

@@ -6,23 +6,47 @@
     x:Class="Tracked.Screens.Settings.SettingsScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout
-            Spacing="0">
-            <TableView
-                Intent="Settings">
-                <TableSection
-                    Title="Settings">
-                    <SwitchCell
-                        Text="Detect Jumps?"
-                        On="{Binding ShouldDetectJumps}" />
-                </TableSection>
-            </TableView>
-            <controls:Copyright />
+        <Grid
+            RowSpacing="0"
+            ColumnSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Padding="10"
+                Text="Detect Jumps?"
+                VerticalTextAlignment="Center" />
+            <Switch
+                Grid.Column="1"
+                Margin="10"
+                ThumbColor="{StaticResource TextColour}"
+                OnColor="{StaticResource SecondaryBackgroundColour}"
+                IsToggled="{Binding ShouldDetectJumps}"
+                VerticalOptions="Center" />
+
+            <controls:Copyright
+                Grid.Row="2"
+                Grid.ColumnSpan="2" />
+
             <Button
+                Grid.Row="3"
+                Grid.ColumnSpan="2" 
                 Text="Log Out"
                 Clicked="DisconnectFromGoogle_Click"
                 BackgroundColor="{StaticResource GoogleButtonColour}" />
-            <controls:TabControl />
-        </StackLayout>
+
+            <controls:TabControl
+                Grid.Row="4"
+                Grid.ColumnSpan="2"  />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

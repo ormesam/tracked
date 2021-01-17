@@ -64,7 +64,6 @@
                             Grid.RowSpan="4"
                             CornerRadius="10"
                             Margin="-10"
-                            BorderColor="{StaticResource OutlineColour}"
                             BackgroundColor="{StaticResource SecondaryBackgroundColour}" />
 
                         <controls:UserHeader
