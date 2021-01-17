@@ -12,11 +12,11 @@
                 <RowDefinition
                     Height="30" />
                 <RowDefinition
-                    Height="30" />
-                <RowDefinition
                     Height="*" />
                 <RowDefinition
                     Height="*" />
+                <RowDefinition
+                    Height="100" />
             </Grid.RowDefinitions>
 
             <Label
@@ -28,14 +28,6 @@
 
             <Label
                 Grid.Row="1"
-                HorizontalTextAlignment="Center"
-                VerticalTextAlignment="Center"
-                IsVisible="{Binding ShowNotifications}"
-                BackgroundColor="{Binding ShouldDetectJumps, Converter={StaticResource AccelerometerToColourConverter}}"
-                Text="{Binding AccelerometerNotification}" />
-
-            <Label
-                Grid.Row="2"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 FontSize="50"
@@ -43,7 +35,7 @@
                 Text="{Binding TimerDisplay}" />
 
             <Button
-                Grid.Row="3"
+                Grid.Row="2"
                 Text="Start"
                 FontSize="Large"
                 Clicked="Start_Clicked"
@@ -56,18 +48,23 @@
                 HorizontalOptions="Center" />
 
             <Button
-                Grid.Row="3"
+                Grid.Row="2"
                 Text="Stop"
                 FontSize="Large"
                 Clicked="Stop_Clicked"
                 IsVisible="{Binding CanStop}"
                 BackgroundColor="{StaticResource Orange}"
-                TextColor="White"
                 WidthRequest="120"
                 HeightRequest="120"
                 CornerRadius="60"
                 VerticalOptions="Center"
                 HorizontalOptions="Center" />
+
+            <Button
+                Grid.Row="3"
+                BackgroundColor="{Binding ShouldDetectJumps, Converter={StaticResource AccelerometerToColourConverter}}"
+                Text="{Binding JumpButtonText}"
+                Clicked="JumpToggle_Clicked"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

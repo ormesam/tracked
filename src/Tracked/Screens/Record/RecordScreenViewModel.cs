@@ -16,6 +16,7 @@ namespace Tracked.Screens.Record {
 
         private RecordStatus status;
         private bool hasAcquiredGpsSignal;
+        private bool shouldDetectJumps;
 
         public RecordScreenViewModel(MainContext context) : base(context) {
             rideRecorder = new RideRecorder(Context);
@@ -23,6 +24,8 @@ namespace Tracked.Screens.Record {
             timer = new Timer();
             timer.Elapsed += Timer_Elapsed;
             timer.Interval = 1000;
+
+            bool shouldDetectJumps = Context.Settings.ShouldDetectJumps;
 
             CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
         }
@@ -68,9 +71,18 @@ namespace Tracked.Screens.Record {
 
         public bool ShowNotifications => Status == RecordStatus.NotStarted;
 
-        public string AccelerometerNotification => ShouldDetectJumps ? "Detecting Jumps" : "Not Detecting Jumps";
+        public bool ShouldDetectJumps {
+            get { return shouldDetectJumps; }
+            set {
+                if (shouldDetectJumps != value) {
+                    shouldDetectJumps = value;
+                    OnPropertyChanged(nameof(ShouldDetectJumps));
+                    OnPropertyChanged(nameof(JumpButtonText));
+                }
+            }
+        }
 
-        public bool ShouldDetectJumps => Context.Settings.ShouldDetectJumps;
+        public string JumpButtonText => ShouldDetectJumps ? "Detecting Jumps" : "Not Detecting Jumps";
 
         public RecordStatus Status {
             get { return status; }
@@ -130,6 +142,10 @@ namespace Tracked.Screens.Record {
             }
 
             DependencyService.Get<INativeForegroundService>().Stop();
+        }
+
+        public void ToggleJumpDetection() {
+            ShouldDetectJumps = !ShouldDetectJumps;
         }
     }
 }
