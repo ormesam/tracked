@@ -173,6 +173,7 @@ namespace Api.Controllers {
             var jumpAchievements = context.UserJumpAchievements.Where(row => row.RideId == rideId);
             var speedAchievements = context.UserSpeedAchievements.Where(row => row.RideId == rideId);
             var distanceAchievements = context.UserDistanceAchievements.Where(row => row.RideId == rideId);
+            var accelerometerReadings = context.AccelerometerReadings.Where(row => row.RideId == rideId);
 
             context.RideLocations.RemoveRange(locations);
             context.Jumps.RemoveRange(jumps);
@@ -180,6 +181,7 @@ namespace Api.Controllers {
             context.UserJumpAchievements.RemoveRange(jumpAchievements);
             context.UserSpeedAchievements.RemoveRange(speedAchievements);
             context.UserDistanceAchievements.RemoveRange(distanceAchievements);
+            context.AccelerometerReadings.RemoveRange(accelerometerReadings);
             context.Rides.Remove(ride);
 
             context.SaveChanges();
