@@ -62,6 +62,7 @@
 
             <Button
                 Grid.Row="3"
+                IsVisible="{Binding ShowNotifications}"
                 BackgroundColor="{Binding ShouldDetectJumps, Converter={StaticResource AccelerometerToColourConverter}}"
                 Text="{Binding JumpButtonText}"
                 Clicked="JumpToggle_Clicked"/>

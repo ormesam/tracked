@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Shared.Dtos;
 using Tracked.Utilities;
@@ -39,8 +38,6 @@ namespace Tracked.JumpDetection {
             if (!started) {
                 return;
             }
-
-            Debug.WriteLine(reading);
 
             readings.Enqueue(reading);
 

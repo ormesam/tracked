@@ -32,6 +32,10 @@
         x:Key="Red">
         Red
     </Color>
+    <Color
+        x:Key="Blue">
+        #2B7489
+    </Color>
 
     <SolidColorBrush
         x:Key="TextBrush"

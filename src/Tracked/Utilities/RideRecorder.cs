@@ -70,7 +70,9 @@ namespace Tracked.Utilities {
                 Ride.Jumps = jumpDetectionUtility.Jumps;
             }
 
-            await context.Model.SaveRideUpload(Ride);
+            if (Ride.Locations.Count > 2) {
+                await context.Model.SaveRideUpload(Ride);
+            }
         }
 
         private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e) {

@@ -25,12 +25,12 @@
                 
                 <Button
                     Text="Tell me more"
-                    BackgroundColor="{StaticResource BackgroundColour}"
+                    BackgroundColor="{StaticResource Blue}"
                     Clicked="More_Tapped"/>
 
                 <Button
                     Text="Ok"
-                    BackgroundColor="{StaticResource BackgroundColour}"
+                    BackgroundColor="{StaticResource Green}"
                     Clicked="Ok_Tapped"/>
                 </StackLayout>
         </Grid>
