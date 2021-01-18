@@ -9,8 +9,9 @@
             ColumnSpacing="0"
             RowSpacing="0"
             BindableLayout.ItemsSource="{Binding TabItems}"
-            HeightRequest="70"
-            MinimumHeightRequest="70">
+            HeightRequest="60"
+            MinimumHeightRequest="60"
+            BackgroundColor="{StaticResource SecondaryBackgroundColour}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
                     <Grid
@@ -23,7 +24,6 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="3" />
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <BoxView
@@ -43,13 +43,6 @@
                             VerticalOptions="Center"
                             Fill="{Binding IsSelected, Converter={StaticResource SvgFillConverter}}"
                             Data="{Binding Icon, Converter={StaticResource SvgConverter}}" />
-                        <Label
-                            Grid.Row="2"
-                            Text="{Binding Text}"
-                            HorizontalTextAlignment="Center"
-                            FontAttributes="Bold"
-                            FontSize="Micro"
-                            Padding="0,0,0,5"/>
                     </Grid>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
