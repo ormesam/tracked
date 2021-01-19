@@ -57,6 +57,14 @@
         x:Key="GoldBrush"
         Color="{StaticResource Gold}" />
 
+    <SolidColorBrush
+        x:Key="SilverBrush"
+        Color="{StaticResource Silver}" />
+
+    <SolidColorBrush
+        x:Key="BronzeBrush"
+        Color="{StaticResource Bronze}" />
+
     <!-- Default Styles -->
     <Style
         TargetType="Label">

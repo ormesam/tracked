@@ -144,14 +144,14 @@
                         <StackLayout
                             Grid.Row="2"
                             Orientation="Horizontal"
-                            VerticalOptions="Center"
+                            HeightRequest="20"
+                            Padding="10,0,10,0"
                             BindableLayout.ItemsSource="{Binding Medals}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Image
-                                        HeightRequest="20"
-                                        WidthRequest="20"
-                                        Source="{Binding ., Converter={StaticResource MedalToImageConverter}}" />
+                                    <Path
+                                        Style="{StaticResource Medal}"
+                                        Fill="{Binding ., Converter={StaticResource MedalToColourConverter}}" />
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>

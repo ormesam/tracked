@@ -173,10 +173,38 @@
                         BindableLayout.ItemsSource="{Binding Attempts}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <controls:MedalsCell
-                                    Text="{Binding DisplayName}"
-                                    Detail="{Binding FormattedTime}"
-                                    Medal="{Binding Medal}" />
+                                <Grid
+                                    RowSpacing="0"
+                                    ColumnSpacing="0"
+                                    Padding="10,0,10,0">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label
+                                        VerticalTextAlignment="Center"
+                                        Text="{Binding DisplayName}" />
+
+                                    <Path
+                                        Grid.Column="1"
+                                        WidthRequest="20"
+                                        HorizontalOptions="Start"
+                                        IsVisible="{Binding HasMedal}"
+                                        Style="{StaticResource Medal}"
+                                        Fill="{Binding Medal, Converter={StaticResource MedalToColourConverter}}" />
+
+                                    <Label
+                                        Grid.Column="2"
+                                        VerticalTextAlignment="Center"
+                                        Text="{Binding FormattedTime}" />
+                                </Grid>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
@@ -192,33 +220,28 @@
                         BindableLayout.ItemsSource="{Binding Jumps}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
+                                <Grid
+                                    RowSpacing="0"
+                                    ColumnSpacing="0"
+                                    Padding="10,0,10,0">
+
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="34.5" />
-                                        <RowDefinition Height="0.5" />
+                                        <RowDefinition Height="40" />
                                     </Grid.RowDefinitions>
 
                                     <Label
-                                        Margin="10,0,0,0"
                                         VerticalTextAlignment="Center"
                                         Text="{Binding Number}" />
 
                                     <Label
                                         Grid.Column="1"
-                                        HorizontalTextAlignment="End"
                                         VerticalTextAlignment="Center"
                                         Text="{Binding Airtime, StringFormat='{}{0}s'}" />
-
-                                    <BoxView
-                                        Grid.ColumnSpan="3"
-                                        Grid.Row="1"
-                                        HeightRequest="0.5"
-                                        BackgroundColor="{StaticResource OutlineColour}" />
                                 </Grid>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
@@ -249,7 +272,7 @@
 
                                     <Path
                                         Style="{StaticResource Trophy}"
-                                        VerticalOptions="Center" /> 
+                                        VerticalOptions="Center" />
 
                                     <Label
                                         Grid.Column="1"
