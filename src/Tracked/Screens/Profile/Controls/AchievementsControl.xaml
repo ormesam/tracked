@@ -10,12 +10,13 @@
                 Text="Achievements"
                 FontAttributes="Bold"/>
             <StackLayout
-                BindableLayout.ItemsSource="{Binding User.Achievements}">
+                BindableLayout.ItemsSource="{Binding User.Achievements}"
+                Spacing="0">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="25" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
@@ -23,10 +24,9 @@
                                 <RowDefinition Height="40"/>
                             </Grid.RowDefinitions>
 
-                            <Image
-                                HeightRequest="20"
-                                VerticalOptions="Center"
-                                Source="trophy.png" />
+                            <Path
+                                Style="{StaticResource Trophy}"
+                                VerticalOptions="Center" />
 
                             <Label
                                 Grid.Column="1"

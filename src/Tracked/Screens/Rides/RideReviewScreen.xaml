@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Screens.Rides.RideReviewScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
-    xmlns:localControls="clr-namespace:Tracked.Screens.Rides.Controls"
     Title="{Binding Title}"
     x:Name="page">
     <ContentPage.ToolbarItems>
@@ -15,8 +14,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout
-                Spacing="0">
+            <StackLayout>
                 <controls:UserHeader
                     Padding="10"
                     Name="{Binding Ride.UserName}"
@@ -73,7 +71,7 @@
                     <BoxView
                         Grid.Column="1"
                         WidthRequest="1"
-                        BackgroundColor="LightGray" />
+                        BackgroundColor="{StaticResource OutlineColour}" />
 
                     <StackLayout
                         Grid.Column="2">
@@ -106,7 +104,7 @@
                         Grid.Row="2"
                         Grid.Column="1"
                         WidthRequest="1"
-                        BackgroundColor="LightGray" />
+                        BackgroundColor="{StaticResource OutlineColour}" />
 
                     <StackLayout
                         Grid.Column="2"
@@ -140,7 +138,7 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         WidthRequest="1"
-                        BackgroundColor="LightGray" />
+                        BackgroundColor="{StaticResource OutlineColour}" />
 
                     <StackLayout
                         Grid.Column="2"
@@ -158,125 +156,132 @@
                         Grid.Row="6"
                         Grid.ColumnSpan="3"
                         Text="Speed Analysis"
-                        BackgroundColor="{StaticResource DefaultBackgroundColour}"
-                        TextColor="White"
+                        BackgroundColor="{StaticResource BackgroundColour}"
                         Margin="10, 0, 10 ,0"
                         HeightRequest="35"
                         FontSize="10" 
                         Clicked="SpeedAnalysis_Clicked" />
                 </Grid>
 
-                <BoxView
-                    IsVisible="{Binding HasTrails}"
-                    HeightRequest="10"
-                    Margin="0,5"
-                    BackgroundColor="LightGray" />
-
-                <Label
-                    Margin="10,4"
-                    Text="Trails"
-                    FontAttributes="Bold"
-                    IsVisible="{Binding HasTrails}"/>
                 <StackLayout
-                    BindableLayout.ItemsSource="{Binding Attempts}"
                     IsVisible="{Binding HasTrails}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <controls:MedalsCell
-                                Text="{Binding DisplayName}"
-                                Detail="{Binding FormattedTime}"
-                                Medal="{Binding Medal}" />
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
+                    <Label
+                        Padding="10, 20, 10, 0"
+                        Text="Trails"
+                        FontAttributes="Bold"/>
+                    <StackLayout
+                        BindableLayout.ItemsSource="{Binding Attempts}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid
+                                    RowSpacing="0"
+                                    ColumnSpacing="0"
+                                    Padding="10,0,10,0">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label
+                                        VerticalTextAlignment="Center"
+                                        Text="{Binding DisplayName}" />
+
+                                    <Path
+                                        Grid.Column="1"
+                                        WidthRequest="20"
+                                        HorizontalOptions="Start"
+                                        IsVisible="{Binding HasMedal}"
+                                        Style="{StaticResource Medal}"
+                                        Fill="{Binding Medal, Converter={StaticResource MedalToColourConverter}}" />
+
+                                    <Label
+                                        Grid.Column="2"
+                                        VerticalTextAlignment="Center"
+                                        Text="{Binding FormattedTime}" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
                 </StackLayout>
 
-                <BoxView
-                    IsVisible="{Binding HasJumps}"
-                    HeightRequest="10"
-                    Margin="0,5"
-                    BackgroundColor="LightGray" />
-
-                <Label
-                    IsVisible="{Binding HasJumps}"
-                    Margin="10,4"
-                    Text="Jumps"
-                    FontAttributes="Bold"  />
                 <StackLayout
-                    IsVisible="{Binding HasJumps}"
-                    BindableLayout.ItemsSource="{Binding Jumps}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                    IsVisible="{Binding HasJumps}">
+                    <Label
+                        Padding="10, 20, 10, 0"
+                        Text="Jumps"
+                        FontAttributes="Bold"  />
+                    <StackLayout
+                        BindableLayout.ItemsSource="{Binding Jumps}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid
+                                    RowSpacing="0"
+                                    ColumnSpacing="0"
+                                    Padding="10,0,10,0">
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="34.5" />
-                                    <RowDefinition Height="0.5" />
-                                </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Label
-                                    Margin="10,0,0,0"
-                                    VerticalTextAlignment="Center"
-                                    Text="{Binding Number}" />
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
 
-                                <Label
-                                    Grid.Column="1"
-                                    HorizontalTextAlignment="End"
-                                    VerticalTextAlignment="Center"
-                                    Text="{Binding Airtime, StringFormat='{}{0}s'}" />
+                                    <Label
+                                        VerticalTextAlignment="Center"
+                                        Text="{Binding Number}" />
 
-                                <BoxView
-                                    Grid.ColumnSpan="3"
-                                    Grid.Row="1"
-                                    HeightRequest="0.5"
-                                    BackgroundColor="LightGray" />
-                            </Grid>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
+                                    <Label
+                                        Grid.Column="1"
+                                        VerticalTextAlignment="Center"
+                                        Text="{Binding Airtime, StringFormat='{}{0}s'}" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
                 </StackLayout>
 
-                <BoxView
-                    IsVisible="{Binding HasAchievements}"
-                    HeightRequest="10"
-                    Margin="0,5"
-                    BackgroundColor="LightGray" />
-
-                <Label
-                    Margin="10,4"
-                    Text="Achievements"
-                    FontAttributes="Bold"
-                    IsVisible="{Binding HasAchievements}"/>
                 <StackLayout
-                    IsVisible="{Binding HasAchievements}"
-                    BindableLayout.ItemsSource="{Binding Achievements}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <Grid
-                                Padding="10,0,10,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                    IsVisible="{Binding HasAchievements}">
+                    <Label
+                        Padding="10, 20, 10, 0"
+                        Text="Achievements"
+                        FontAttributes="Bold"/>
+                    <StackLayout
+                        BindableLayout.ItemsSource="{Binding Achievements}"
+                        Spacing="0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid
+                                    Padding="10,0,10,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="40"/>
-                                </Grid.RowDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
 
-                                <Image
-                                    HeightRequest="20"
-                                    VerticalOptions="Center"
-                                    Source="trophy.png" />
+                                    <Path
+                                        Style="{StaticResource Trophy}"
+                                        VerticalOptions="Center" />
 
-                                <Label
-                                    Grid.Column="1"
-                                    Text="{Binding Name}"
-                                    VerticalOptions="Center"/>
-                            </Grid>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

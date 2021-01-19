@@ -17,7 +17,6 @@ namespace Tracked.Utilities {
      */
     public class RideRecorder : IJumpLocationDetector {
         private readonly MainContext context;
-        private readonly bool detectJumps;
         private readonly IList<AccelerometerReadingDto> readings;
         private readonly JumpDetectionUtility jumpDetectionUtility;
 
@@ -25,19 +24,18 @@ namespace Tracked.Utilities {
 
         public RideRecorder(MainContext context) {
             this.context = context;
-            this.detectJumps = context.Settings.ShouldDetectJumps;
             Ride = new CreateRideDto();
             readings = new List<AccelerometerReadingDto>();
             jumpDetectionUtility = new JumpDetectionUtility(this);
         }
 
-        public void StartRide() {
+        public void StartRide(bool shouldDetectJumps) {
             Ride.StartUtc = DateTime.UtcNow;
 
             Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
             CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
 
-            if (detectJumps) {
+            if (shouldDetectJumps) {
                 Accelerometer.Start(SensorSpeed.Game);
             }
         }
@@ -64,13 +62,12 @@ namespace Tracked.Utilities {
             }
 
             Ride.EndUtc = DateTime.UtcNow;
+            Ride.AccelerometerReadings = readings;
+            Ride.Jumps = jumpDetectionUtility.Jumps;
 
-            if (detectJumps) {
-                Ride.AccelerometerReadings = readings;
-                Ride.Jumps = jumpDetectionUtility.Jumps;
+            if (Ride.Locations.Count > 2) {
+                await context.Model.SaveRideUpload(Ride);
             }
-
-            await context.Model.SaveRideUpload(Ride);
         }
 
         private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e) {

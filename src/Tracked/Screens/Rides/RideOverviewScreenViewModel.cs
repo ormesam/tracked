@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,27 +10,21 @@ using Xamarin.Forms;
 
 namespace Tracked.Screens.Rides {
     public class RideOverviewScreenViewModel : TabbedViewModelBase {
-        private bool isRefreshing;
+        private bool isLoading;
         private bool isUploading;
 
         public RideOverviewScreenViewModel(MainContext context) : base(context) {
             Rides = new ObservableCollection<RideOverviewDto>();
-            Rides.CollectionChanged += Rides_CollectionChanged;
         }
 
         protected override TabItemType SelectedTab => TabItemType.Rides;
 
-        private void Rides_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-            OnPropertyChanged(nameof(HasRides));
-        }
-
-        public bool IsRefreshing {
-            get { return isRefreshing; }
+        public bool IsLoading {
+            get { return isLoading; }
             set {
-                if (value != isRefreshing) {
-                    isRefreshing = value;
-                    OnPropertyChanged(nameof(IsRefreshing));
-                    OnPropertyChanged(nameof(HasRides));
+                if (value != isLoading) {
+                    isLoading = value;
+                    OnPropertyChanged(nameof(IsLoading));
                 }
             }
         }
@@ -45,7 +38,7 @@ namespace Tracked.Screens.Rides {
                     OnPropertyChanged(nameof(UploadText));
                     OnPropertyChanged(nameof(ShowUploadCount));
                     OnPropertyChanged(nameof(PendingUploudCount));
-                    OnPropertyChanged(nameof(IsRefreshing));
+                    OnPropertyChanged(nameof(IsLoading));
                 }
             }
         }
@@ -66,10 +59,8 @@ namespace Tracked.Screens.Rides {
 
         public ObservableCollection<RideOverviewDto> Rides { get; set; }
 
-        public bool HasRides => Rides.Any() || IsRefreshing;
-
         public async Task Load() {
-            IsRefreshing = true;
+            IsLoading = true;
 
             try {
                 Rides.Clear();
@@ -82,7 +73,7 @@ namespace Tracked.Screens.Rides {
                 Toast.LongAlert(ex.Message);
             }
 
-            IsRefreshing = false;
+            IsLoading = false;
 
             await UploadRides();
         }

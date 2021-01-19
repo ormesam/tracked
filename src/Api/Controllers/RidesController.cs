@@ -40,8 +40,6 @@ namespace Api.Controllers {
                     EndUtc = row.EndUtc,
                     MaxSpeedMph = row.MaxSpeedMph,
                     RouteSvgPath = row.RouteSvgPath,
-                    RouteCanvasWidthSvg = row.RouteCanvasWidthSvg,
-                    RouteCanvasHeightSvg = row.RouteCanvasHeightSvg,
                     Medals = medalsByRide[row.RideId],
                     UserId = row.UserId,
                     UserName = row.User.Name,
@@ -102,14 +100,12 @@ namespace Api.Controllers {
                     UserName = row.User.Name,
                     UserProfileImageUrl = row.User.ProfileImageUrl,
                     RouteSvgPath = row.RouteSvgPath,
-                    RouteCanvasWidthSvg = row.RouteCanvasWidthSvg,
-                    RouteCanvasHeightSvg = row.RouteCanvasHeightSvg,
                 })
                 .SingleOrDefault();
         }
 
         private int SaveRide(int userId, CreateRideDto model) {
-            var routeSvgDetails = new SvgBuilder(model.Locations.Cast<ILatLng>()).Build();
+            var routeSvgPath = new SvgBuilder(model.Locations.Cast<ILatLng>()).Build();
 
             Ride ride = new Ride();
             ride.StartUtc = model.StartUtc;
@@ -118,9 +114,7 @@ namespace Api.Controllers {
             ride.AverageSpeedMph = model.Locations.Average(i => i.Mph);
             ride.MaxSpeedMph = model.Locations.Max(i => i.Mph);
             ride.DistanceMiles = DistanceHelpers.GetDistanceMile(model.Locations.Cast<ILatLng>().ToList());
-            ride.RouteCanvasWidthSvg = routeSvgDetails.width;
-            ride.RouteCanvasHeightSvg = routeSvgDetails.height;
-            ride.RouteSvgPath = routeSvgDetails.path;
+            ride.RouteSvgPath = routeSvgPath;
 
             ride.RideLocations = model.Locations
                 .Select(i => new RideLocation {
@@ -179,6 +173,7 @@ namespace Api.Controllers {
             var jumpAchievements = context.UserJumpAchievements.Where(row => row.RideId == rideId);
             var speedAchievements = context.UserSpeedAchievements.Where(row => row.RideId == rideId);
             var distanceAchievements = context.UserDistanceAchievements.Where(row => row.RideId == rideId);
+            var accelerometerReadings = context.AccelerometerReadings.Where(row => row.RideId == rideId);
 
             context.RideLocations.RemoveRange(locations);
             context.Jumps.RemoveRange(jumps);
@@ -186,6 +181,7 @@ namespace Api.Controllers {
             context.UserJumpAchievements.RemoveRange(jumpAchievements);
             context.UserSpeedAchievements.RemoveRange(speedAchievements);
             context.UserDistanceAchievements.RemoveRange(distanceAchievements);
+            context.AccelerometerReadings.RemoveRange(accelerometerReadings);
             context.Rides.Remove(ride);
 
             context.SaveChanges();

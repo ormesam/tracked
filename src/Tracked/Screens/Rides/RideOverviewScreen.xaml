@@ -4,20 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Screens.Rides.RideOverviewScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
-    xmlns:ffImageLoadingSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-    Title="{Binding Title}">
+    Title="{Binding Title}"
+    NavigationPage.HasNavigationBar="False">
     <Grid
-        RowSpacing="0">
+        RowSpacing="0"
+        ColumnSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition
-                Height="Auto"/>
-            <RowDefinition
-                Height="*"/>
-            <RowDefinition
-                Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
         <Grid
-            BackgroundColor="Orange"
+            BackgroundColor="{StaticResource Orange}"
             IsVisible="{Binding ShowUploadCount}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
@@ -29,8 +28,7 @@
             <Label
                 Margin="10"
                 Text="{Binding UploadText}"
-                VerticalOptions="Center"
-                TextColor="White" />
+                VerticalOptions="Center" />
 
             <ActivityIndicator
                 Scale="0.5"
@@ -38,128 +36,190 @@
                 IsRunning="{Binding IsUploading}"
                 IsEnabled="True"
                 IsVisible="{Binding IsUploading}"
-                Color="White"
+                Color="{StaticResource TextColour}"
                 BackgroundColor="Transparent" />
         </Grid>
-        <Label
-            Grid.Row="1"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Text="No Rides Yet"
-            IsVisible="{Binding HasRides, Converter={StaticResource InvertBoolConverter}}" />
-        <ListView
+        <CarouselView
             Grid.Row="1"
             ItemsSource="{Binding Rides}"
-            ItemTapped="Ride_ItemTapped"
-            CachingStrategy="RecycleElement"
-            IsPullToRefreshEnabled="True"
-            IsRefreshing="{Binding IsRefreshing}"
-            RefreshCommand="{Binding RefreshCommand}"
-            HasUnevenRows="True">
-            <ListView.ItemTemplate>
+            PeekAreaInsets="40"
+            Loop="False">
+            <CarouselView.ItemsLayout>
+                <LinearItemsLayout
+                    Orientation="Vertical"
+                    SnapPointsAlignment="Center"
+                    SnapPointsType="MandatorySingle"
+                    ItemSpacing="15"/>
+            </CarouselView.ItemsLayout>
+            <CarouselView.EmptyView>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="20" />
+                    </Grid.RowDefinitions>
+
+                    <ActivityIndicator
+                        Grid.RowSpan="3"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        IsRunning="{Binding IsLoading}"
+                        IsEnabled="True"
+                        IsVisible="{Binding IsLoading}"
+                        Color="{StaticResource TextColour}" />    
+
+                    <StackLayout
+                        IsVisible="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Welcome to Tracked!"
+                            FontAttributes="Bold"
+                            FontSize="Title"/>
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="Hit the button to record a ride"
+                            FontSize="Subtitle"/>
+                    </StackLayout>
+
+                    <Path
+                        Grid.Row="1"
+                        IsVisible="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
+                        WidthRequest="375"
+                        HeightRequest="375"
+                        HorizontalOptions="End"
+                        VerticalOptions="End"
+                        Data="M8 256C8 119 119 8 256 8s248 111 248 248-111 248-248 248S8 393 8 256zm143.6 28.9l72.4-75.5V392c0 13.3 10.7 24 24 24h16c13.3 0 24-10.7 24-24V209.4l72.4 75.5c9.3 9.7 24.8 9.9 34.3.4l10.9-11c9.4-9.4 9.4-24.6 0-33.9L273 107.7c-9.4-9.4-24.6-9.4-33.9 0L106.3 240.4c-9.4 9.4-9.4 24.6 0 33.9l10.9 11c9.6 9.5 25.1 9.3 34.4-.4z"
+                        Fill="{StaticResource TextBrush}"
+                        Rotation="135"
+                        Aspect="Uniform" />
+                </Grid>
+            </CarouselView.EmptyView>
+            <CarouselView.ItemTemplate>
                 <DataTemplate>
-                    <controls:RideOverviewCell>
+                    <Grid
+                        Padding="20">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Tapped="Ride_Tapped" />
+                        </Grid.GestureRecognizers>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
                         <Frame
-                            Padding="0,0,0,10"
-                            Margin="0"
-                            BackgroundColor="LightGray">
-                            <StackLayout
-                                Padding="10"
-                                BackgroundColor="White">
+                            Grid.RowSpan="4"
+                            CornerRadius="10"
+                            Margin="-10"
+                            BackgroundColor="{StaticResource SecondaryBackgroundColour}" />
 
-                                <controls:UserHeader
-                                    Name="{Binding UserName}"
-                                    Detail="{Binding TimeDisplay}"
-                                    ProfileImageUrl="{Binding UserProfileImageUrl}" />
+                        <controls:UserHeader
+                            Padding="10"
+                            Name="{Binding UserName}"
+                            Detail="{Binding TimeDisplay}"
+                            ProfileImageUrl="{Binding UserProfileImageUrl}" />
 
-                                <Grid
-                                    ColumnSpacing="0"
-                                    RowSpacing="0">
+                        <Grid
+                            Grid.Row="1"
+                            Padding="10,0"
+                            ColumnSpacing="0"
+                            RowSpacing="0">
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                                    <Label
-                                        FontSize="Micro"
-                                        Text="Distance" />
-                                    <Label
-                                        Grid.Row="1"
-                                        FontSize="Large"
-                                        Text="{Binding DistanceMiles, StringFormat='{}{0:F1} mi'}" />
+                            <Label
+                                FontSize="Micro"
+                                Text="Distance" />
+                            <Label
+                                Grid.Row="1"
+                                FontSize="Large"
+                                Text="{Binding DistanceMiles, StringFormat='{}{0:F1} mi'}" />
 
-                                    <BoxView
-                                        Grid.Column="1"
-                                        Grid.RowSpan="2"
-                                        WidthRequest="1"
-                                        Margin="10,0,10,0"
-                                        BackgroundColor="LightGray" />
+                            <BoxView
+                                Grid.Column="1"
+                                Grid.RowSpan="2"
+                                WidthRequest="1"
+                                Margin="10,0,10,0"
+                                BackgroundColor="{StaticResource OutlineColour}" />
 
-                                    <Label
-                                        Grid.Column="2"
-                                        FontSize="Micro"
-                                        Text="Max Speed" />
-                                    <Label
-                                        Grid.Column="2"
-                                        Grid.Row="1"
-                                        FontSize="Large"
-                                        Text="{Binding MaxSpeedMph, StringFormat='{}{0:F1}mph'}" />
+                            <Label
+                                Grid.Column="2"
+                                FontSize="Micro"
+                                Text="Max Speed" />
+                            <Label
+                                Grid.Column="2"
+                                Grid.Row="1"
+                                FontSize="Large"
+                                Text="{Binding MaxSpeedMph, StringFormat='{}{0:F1}mph'}" />
 
-                                    <BoxView
-                                        Grid.Column="3"
-                                        Grid.RowSpan="2"
-                                        WidthRequest="1"
-                                        Margin="10,0,10,0"
-                                        BackgroundColor="LightGray" />
+                            <BoxView
+                                Grid.Column="3"
+                                Grid.RowSpan="2"
+                                WidthRequest="1"
+                                Margin="10,0,10,0"
+                                BackgroundColor="{StaticResource OutlineColour}" />
 
-                                    <Label
-                                        Grid.Column="4"
-                                        FontSize="Micro"
-                                        Text="Duration" />
-                                    <Label
-                                        Grid.Column="4"
-                                        Grid.Row="1"
-                                        FontSize="Large"
-                                        Text="{Binding FormattedTime}" />
-                                </Grid>
+                            <Label
+                                Grid.Column="4"
+                                FontSize="Micro"
+                                Text="Duration" />
+                            <Label
+                                Grid.Column="4"
+                                Grid.Row="1"
+                                FontSize="Large"
+                                Text="{Binding FormattedTime}" />
+                        </Grid>
 
-                                <StackLayout
-                                    Orientation="Horizontal"
-                                    VerticalOptions="Center"
-                                    BindableLayout.ItemsSource="{Binding Medals}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                            <Image
-                                                HeightRequest="20"
-                                                WidthRequest="20"
-                                                Source="{Binding ., Converter={StaticResource MedalToImageConverter}}" />
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </StackLayout>
+                        <StackLayout
+                            Grid.Row="2"
+                            Orientation="Horizontal"
+                            HeightRequest="20"
+                            Padding="10,0,10,0"
+                            BindableLayout.ItemsSource="{Binding Medals}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Path
+                                        Style="{StaticResource Medal}"
+                                        Fill="{Binding ., Converter={StaticResource MedalToColourConverter}}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
 
-                                <ffImageLoadingSvg:SvgCachedImage
-                                    HeightRequest="200"/>
-                            </StackLayout>
-                        </Frame>
-                    </controls:RideOverviewCell>
+                        <Path
+                            Grid.Row="3"
+                            Data="{Binding RouteSvgPath, Converter={StaticResource SvgConverter}}"
+                            Stroke="White"
+                            StrokeThickness="5"
+                            StrokeLineJoin="Round"
+                            Aspect="Uniform"/>
+                    </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
         <Button
-            Style="{StaticResource FabButtonStyle}"
             Grid.Row="1"
+            Style="{StaticResource FabButtonStyle}"
             Text="+"
-            Clicked="Add_Clicked" />
+            Clicked="Add_Clicked"/>
+
         <controls:TabControl
-            Grid.Row="2" />
+            Grid.Row="2"/>
     </Grid>
 </ContentPage>

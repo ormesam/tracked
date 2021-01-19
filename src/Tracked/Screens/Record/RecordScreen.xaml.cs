@@ -36,8 +36,8 @@ namespace Tracked.Screens.Record {
             await Navigation.PopToRootAsync();
         }
 
-        private async void Settings_Tapped(object sender, EventArgs e) {
-            await ViewModel.GoToSettings();
+        private void JumpToggle_Clicked(object sender, EventArgs e) {
+            ViewModel.ToggleJumpDetection();
         }
     }
 }

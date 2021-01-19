@@ -6,7 +6,7 @@
     <ContentView.Content>
         <BoxView
             HeightRequest="1"
-            BackgroundColor="LightGray"
+            BackgroundColor="{StaticResource OutlineColour}"
             Margin="10" />
     </ContentView.Content>
 </ContentView>

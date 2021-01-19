@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
+using Xamarin.Forms.Shapes;
 
 namespace Tracked.Converters {
-    public class TabLabelTextConverter : IValueConverter {
+    public class SvgConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            if (value is bool boolValue) {
-                Application.Current.Resources.TryGetValue("DefaultBackgroundColour", out object colour);
-                return boolValue ? colour : Color.Default;
+            if (value is string stringValue) {
+                return (Geometry)new PathGeometryConverter().ConvertFromInvariantString(stringValue);
             }
 
             return null;

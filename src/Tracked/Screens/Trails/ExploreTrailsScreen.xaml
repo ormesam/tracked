@@ -28,7 +28,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}"
+                        TextColor="{StaticResource TextColour}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

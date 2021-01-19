@@ -4,19 +4,26 @@ using Shared;
 using Xamarin.Forms;
 
 namespace Tracked.Converters {
-    public class MedalToImageConverter : IValueConverter {
+    public class MedalToColourConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value is Medal medal) {
+                object brush;
+
                 switch (medal) {
                     case Medal.Bronze:
-                        return "bronze.png";
+                        Application.Current.Resources.TryGetValue("BronzeBrush", out brush);
+                        break;
                     case Medal.Silver:
-                        return "silver.png";
+                        Application.Current.Resources.TryGetValue("SilverBrush", out brush);
+                        break;
                     case Medal.Gold:
-                        return "gold.png";
+                        Application.Current.Resources.TryGetValue("GoldBrush", out brush);
+                        break;
                     default:
                         return null;
                 }
+
+                return (SolidColorBrush)brush;
             }
 
             return null;

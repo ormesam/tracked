@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Styles.Theme">
+    <!-- Colours -->
+    <Color
+        x:Key="BackgroundColour">
+        #121212
+    </Color>
+    <Color
+        x:Key="SecondaryBackgroundColour">
+        #262626
+    </Color>
+    <Color
+        x:Key="OutlineColour">
+        #30363D
+    </Color>
+    <Color
+        x:Key="TextColour">
+        #f5f5f5
+    </Color>
+    <Color
+        x:Key="Green">
+        #238636
+    </Color>
+    <Color
+        x:Key="Orange">
+        Orange
+    </Color>
+    <Color
+        x:Key="Red">
+        Red
+    </Color>
+    <Color
+        x:Key="Blue">
+        #2B7489
+    </Color>
+    <Color
+        x:Key="Gold">
+        #DAA520
+    </Color>
+    <Color
+        x:Key="Silver">
+        #9B9B9B
+    </Color>
+    <Color
+        x:Key="Bronze">
+        #A55616
+    </Color>
+
+    <SolidColorBrush
+        x:Key="TextBrush"
+        Color="{StaticResource TextColour}" />
+
+    <SolidColorBrush
+        x:Key="GoldBrush"
+        Color="{StaticResource Gold}" />
+
+    <SolidColorBrush
+        x:Key="SilverBrush"
+        Color="{StaticResource Silver}" />
+
+    <SolidColorBrush
+        x:Key="BronzeBrush"
+        Color="{StaticResource Bronze}" />
+
+    <!-- Default Styles -->
+    <Style
+        TargetType="Label">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource TextColour}" />
+    </Style>
+    <Style
+        TargetType="Button">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource TextColour}" />
+    </Style>
+    <Style
+        TargetType="NavigationPage">
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource BackgroundColour}" />
+        <Setter
+            Property="BarBackgroundColor"
+            Value="{StaticResource BackgroundColour}" />
+    </Style>
+    <Style
+        TargetType="TextCell">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource TextColour}" />
+    </Style>
+
+</ResourceDictionary>

@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace DataAccess.Models
-{
-    public partial class Ride
-    {
-        public Ride()
-        {
+namespace DataAccess.Models {
+    public partial class Ride {
+        public Ride() {
             AccelerometerReadings = new HashSet<AccelerometerReading>();
             Jumps = new HashSet<Jump>();
             RideLocations = new HashSet<RideLocation>();
@@ -26,8 +23,6 @@ namespace DataAccess.Models
         public double DistanceMiles { get; set; }
         public double MaxSpeedMph { get; set; }
         public double AverageSpeedMph { get; set; }
-        public int RouteCanvasWidthSvg { get; set; }
-        public int RouteCanvasHeightSvg { get; set; }
         public string RouteSvgPath { get; set; }
 
         public virtual User User { get; set; }

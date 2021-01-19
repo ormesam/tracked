@@ -81,9 +81,5 @@ namespace Tracked.Screens.Profile {
                 Toast.LongAlert(ex.Message);
             }
         }
-
-        public async Task GoToSettings() {
-            await Context.UI.GoToSettingsScreenAsync();
-        }
     }
 }

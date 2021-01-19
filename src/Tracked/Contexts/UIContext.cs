@@ -49,10 +49,7 @@ namespace Tracked.Contexts {
 
             isNavigating = true;
 
-            App.Current.MainPage = new NavigationPage(page) {
-                BarBackgroundColor = Color.FromHex("#080870"),
-                BarTextColor = Color.White,
-            };
+            App.Current.MainPage = new NavigationPage(page);
 
             isNavigating = false;
 
@@ -109,7 +106,7 @@ namespace Tracked.Contexts {
         }
 
         public async Task GoToSettingsScreenAsync() {
-            await GoToScreenAsync(new SettingsScreen(context));
+            await ReplaceScreenAsync(new SettingsScreen(context));
         }
 
         public async Task ShowJumpAboutModal() {

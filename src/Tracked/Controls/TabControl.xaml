@@ -8,45 +8,41 @@
         <Grid
             ColumnSpacing="0"
             RowSpacing="0"
-            BindableLayout.ItemsSource="{Binding TabItems}">
+            BindableLayout.ItemsSource="{Binding TabItems}"
+            HeightRequest="60"
+            MinimumHeightRequest="60"
+            BackgroundColor="{StaticResource SecondaryBackgroundColour}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
                     <Grid
                         Grid.Column="{Binding Order}"
-                        RowSpacing="0"
-                        ColumnSpacing="0">
+                        RowSpacing="0">
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer
                                 Tapped="TabItem_Tapped" />
                         </Grid.GestureRecognizers>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="3" />
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <BoxView
-                            BackgroundColor="{StaticResource DefaultBackgroundColour}"
+                            BackgroundColor="{StaticResource TextColour}"
                             IsVisible="{Binding IsSelected}"/>
                         <BoxView
-                            BackgroundColor="LightGray"
+                            BackgroundColor="{StaticResource OutlineColour}"
                             HeightRequest="1"
                             VerticalOptions="Start"
                             IsVisible="{Binding IsSelected, Converter={StaticResource InvertBoolConverter}}"/>
-                        <Image
+                        <Path
                             Grid.Row="1"
+                            Stroke="{StaticResource TextBrush}"
+                            StrokeThickness="1"
+                            Aspect="Uniform"
                             HeightRequest="30"
-                            VerticalOptions="End"
-                            Source="{Binding Converter={StaticResource TabImageSourceConverter}}" />
-                        <Label
-                            Grid.Row="2"
-                            Text="{Binding Text}"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            FontAttributes="Bold"
-                            TextColor="{Binding IsSelected, Converter={StaticResource TabLabelTextConverter}}"
-                            FontSize="Micro"
-                            Padding="0,1,0,3"/>
+                            VerticalOptions="Center"
+                            Fill="{Binding IsSelected, Converter={StaticResource SvgFillConverter}}"
+                            Data="{Binding Icon, Converter={StaticResource SvgConverter}}" />
                     </Grid>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>

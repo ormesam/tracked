@@ -29,6 +29,7 @@ namespace Tracked.Droid.Renderers {
             base.OnMapReady(map);
 
             NativeMap.UiSettings.ZoomControlsEnabled = !customMap.IsReadOnly;
+            NativeMap.SetMapStyle(MapStyleOptions.LoadRawResourceStyle(Context, Resource.Raw.map));
         }
 
         protected override MarkerOptions CreateMarker(Pin pin) {

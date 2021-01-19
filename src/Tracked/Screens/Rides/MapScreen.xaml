@@ -12,7 +12,7 @@
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
             <controls:MapControl
                 x:Name="mapControl"/>
 
@@ -23,10 +23,35 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <controls:MedalsCell
-                                Text="{Binding DisplayName}"
-                                Detail="{Binding FormattedTime}"
-                                Medal="{Binding Medal}" />
+                            <Grid
+                                RowSpacing="0"
+                                ColumnSpacing="0"
+                                Padding="10,0,10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="20" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Label
+                                    Text="{Binding DisplayName}"
+                                    VerticalTextAlignment="Center"/>
+
+                                <Label
+                                    Grid.Row="1"
+                                    Text="{Binding FormattedTime}"
+                                    VerticalTextAlignment="Center"/>
+
+                                <Path
+                                    Grid.Column="1"
+                                    Grid.RowSpan="2"
+                                    IsVisible="{Binding HasMedal}"
+                                    Style="{StaticResource Medal}"
+                                    Fill="{Binding Medal, Converter={StaticResource MedalToColourConverter}}" />
+                            </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

@@ -26,7 +26,7 @@
                 IsRunning="True"
                 IsEnabled="True"
                 IsVisible="{Binding IsLoggingIn}"
-                Color="White"
+                Color="{StaticResource TextColour}"
                 BackgroundColor="Transparent" />
 
             <Button
@@ -34,8 +34,7 @@
                 IsVisible="{Binding IsLoggingIn, Converter={StaticResource InvertBoolConverter}}"
                 Text="Login with Google"
                 Clicked="LoginWithGoogle_Clicked"
-                BackgroundColor="{StaticResource GoogleButtonColour}"
-                TextColor="White" />
+                BackgroundColor="{StaticResource GoogleButtonColour}" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

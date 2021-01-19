@@ -26,10 +26,38 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <controls:MedalsCell
-                                Text="{Binding DisplayName}"
-                                Detail="{Binding FormattedTime}"
-                                Medal="{Binding Medal}" />
+                            <Grid
+                                RowSpacing="0"
+                                ColumnSpacing="0"
+                                Padding="10,0,10,0">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+
+                                <Label
+                                    VerticalTextAlignment="Center"
+                                    Text="{Binding DisplayName}" />
+
+                                <Path
+                                    Grid.Column="1"
+                                    WidthRequest="20"
+                                    HorizontalOptions="Start"
+                                    IsVisible="{Binding HasMedal}"
+                                    Style="{StaticResource Medal}"
+                                    Fill="{Binding Medal, Converter={StaticResource MedalToColourConverter}}" />
+
+                                <Label
+                                    Grid.Column="2"
+                                    VerticalTextAlignment="Center"
+                                    Text="{Binding FormattedTime}" />
+                            </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

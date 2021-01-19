@@ -5,12 +5,6 @@
     xmlns:controls="clr-namespace:Tracked.Controls"
     x:Class="Tracked.Screens.Record.RecordScreen"
     Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            Text="Settings"
-            Order="Primary"
-            Clicked="Settings_Tapped" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid
             RowSpacing="0">
@@ -18,32 +12,22 @@
                 <RowDefinition
                     Height="30" />
                 <RowDefinition
-                    Height="30" />
-                <RowDefinition
                     Height="*" />
                 <RowDefinition
                     Height="*" />
+                <RowDefinition
+                    Height="100" />
             </Grid.RowDefinitions>
 
             <Label
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"
-                TextColor="White"
                 BackgroundColor="{Binding HasAcquiredGpsSignal, Converter={StaticResource BoolToGpsColourConverter}}"
                 Text="{Binding GpsSignalMessage}"
                 IsVisible="{Binding ShowNotifications}" />
 
             <Label
                 Grid.Row="1"
-                HorizontalTextAlignment="Center"
-                VerticalTextAlignment="Center"
-                TextColor="White"
-                IsVisible="{Binding ShowNotifications}"
-                BackgroundColor="{Binding ShouldDetectJumps, Converter={StaticResource AccelerometerToColourConverter}}"
-                Text="{Binding AccelerometerNotification}" />
-
-            <Label
-                Grid.Row="2"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 FontSize="50"
@@ -51,13 +35,25 @@
                 Text="{Binding TimerDisplay}" />
 
             <Button
-                Grid.Row="3"
+                Grid.Row="2"
                 Text="Start"
                 FontSize="Large"
                 Clicked="Start_Clicked"
                 IsVisible="{Binding CanStart}"
-                BackgroundColor="Green"
-                TextColor="White"
+                BackgroundColor="{StaticResource Green}"
+                WidthRequest="120"
+                HeightRequest="120"
+                CornerRadius="60"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+
+            <Button
+                Grid.Row="2"
+                Text="Stop"
+                FontSize="Large"
+                Clicked="Stop_Clicked"
+                IsVisible="{Binding CanStop}"
+                BackgroundColor="{StaticResource Orange}"
                 WidthRequest="120"
                 HeightRequest="120"
                 CornerRadius="60"
@@ -66,17 +62,10 @@
 
             <Button
                 Grid.Row="3"
-                Text="Stop"
-                FontSize="Large"
-                Clicked="Stop_Clicked"
-                IsVisible="{Binding CanStop}"
-                BackgroundColor="Orange"
-                TextColor="White"
-                WidthRequest="120"
-                HeightRequest="120"
-                CornerRadius="60"
-                VerticalOptions="Center"
-                HorizontalOptions="Center" />
+                IsVisible="{Binding ShowNotifications}"
+                BackgroundColor="{Binding ShouldDetectJumps, Converter={StaticResource AccelerometerToColourConverter}}"
+                Text="{Binding JumpButtonText}"
+                Clicked="JumpToggle_Clicked"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

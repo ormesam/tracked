@@ -1,8 +1,9 @@
 ﻿using System;
 using Tracked.Contexts;
+using Tracked.Models;
 
 namespace Tracked.Screens.Settings {
-    public class SettingsScreenViewModel : ViewModelBase {
+    public class SettingsScreenViewModel : TabbedViewModelBase {
         private event EventHandler<EventArgs> JumpsEnabled;
 
         public SettingsScreenViewModel(MainContext context) : base(context) {
@@ -10,6 +11,8 @@ namespace Tracked.Screens.Settings {
         }
 
         public override string Title => "Settings";
+
+        protected override TabItemType SelectedTab => TabItemType.Settings;
 
         public bool ShouldDetectJumps {
             get { return Context.Settings.ShouldDetectJumps; }

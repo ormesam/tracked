@@ -12,5 +12,6 @@ namespace Shared.Dtos {
 
         public TimeSpan Time => EndUtc - StartUtc;
         public string FormattedTime => Time.ToString(@"mm\:ss");
+        public bool HasMedal => Medal != Medal.None;
     }
 }
