@@ -102,7 +102,7 @@ namespace Tracked.Screens.Record {
 
             timer.Start();
 
-            rideRecorder.StartRide();
+            rideRecorder.StartRide(ShouldDetectJumps);
         }
 
         public async Task Stop() {
