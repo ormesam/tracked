@@ -36,10 +36,26 @@
         x:Key="Blue">
         #2B7489
     </Color>
+    <Color
+        x:Key="Gold">
+        #DAA520
+    </Color>
+    <Color
+        x:Key="Silver">
+        #9B9B9B
+    </Color>
+    <Color
+        x:Key="Bronze">
+        #A55616
+    </Color>
 
     <SolidColorBrush
         x:Key="TextBrush"
         Color="{StaticResource TextColour}" />
+
+    <SolidColorBrush
+        x:Key="GoldBrush"
+        Color="{StaticResource Gold}" />
 
     <!-- Default Styles -->
     <Style
