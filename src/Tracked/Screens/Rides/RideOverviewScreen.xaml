@@ -59,7 +59,17 @@
                         <RowDefinition Height="20" />
                     </Grid.RowDefinitions>
 
+                    <ActivityIndicator
+                        Grid.RowSpan="3"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        IsRunning="{Binding IsLoading}"
+                        IsEnabled="True"
+                        IsVisible="{Binding IsLoading}"
+                        Color="{StaticResource TextColour}" />    
+
                     <StackLayout
+                        IsVisible="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
                         VerticalOptions="Center"
                         HorizontalOptions="Center">
                         <Label
@@ -75,6 +85,7 @@
 
                     <Path
                         Grid.Row="1"
+                        IsVisible="{Binding IsLoading, Converter={StaticResource InvertBoolConverter}}"
                         WidthRequest="375"
                         HeightRequest="375"
                         HorizontalOptions="End"
