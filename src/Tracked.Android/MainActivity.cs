@@ -13,7 +13,7 @@ using Tracked.Droid.Auth;
 using Xamarin.Auth.Presenters.XamarinAndroid;
 
 namespace Tracked.Droid {
-    [Activity(Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Theme = "@style/MainTheme", MainLauncher = false, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity {
         public MainActivity() {
             TaskScheduler.UnobservedTaskException += (sender, args) => {
