@@ -15,6 +15,8 @@ namespace DataAccess.Models
         public double AccuracyInMetres { get; set; }
         public double Mph { get; set; }
         public double Altitude { get; set; }
+        public bool IsRemoved { get; set; }
+        public string RemovalReason { get; set; }
 
         public virtual Ride Ride { get; set; }
     }

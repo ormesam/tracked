@@ -113,6 +113,8 @@ namespace DataAccess.Models
             {
                 entity.ToTable("RideLocation");
 
+                entity.Property(e => e.RemovalReason).HasMaxLength(255);
+
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Ride)
@@ -195,7 +197,7 @@ namespace DataAccess.Models
             {
                 entity.ToTable("User");
 
-                entity.HasIndex(e => e.GoogleUserId, "UQ__User__437CD197FC4BA9FD")
+                entity.HasIndex(e => e.GoogleUserId, "UQ__User__437CD197C84B9C98")
                     .IsUnique();
 
                 entity.Property(e => e.CreatedUtc).HasColumnType("datetime");
@@ -209,6 +211,10 @@ namespace DataAccess.Models
                     .HasMaxLength(255);
 
                 entity.Property(e => e.ProfileImageUrl)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.RefreshToken)
                     .IsRequired()
                     .HasMaxLength(255);
             });

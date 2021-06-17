@@ -9,4 +9,7 @@
     [AccuracyInMetres] float NOT NULL,
     [Mph] float NOT NULL,
     [Altitude] float NOT NULL,
+
+    [IsRemoved] bit NOT NULL,
+    [RemovalReason] nvarchar(255) NULL,
 )

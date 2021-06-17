@@ -3,9 +3,12 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace DataAccess.Models {
-    public partial class Ride {
-        public Ride() {
+namespace DataAccess.Models
+{
+    public partial class Ride
+    {
+        public Ride()
+        {
             AccelerometerReadings = new HashSet<AccelerometerReading>();
             Jumps = new HashSet<Jump>();
             RideLocations = new HashSet<RideLocation>();
