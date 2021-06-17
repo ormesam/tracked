@@ -54,6 +54,7 @@ namespace Api.Utility {
         private static IList<RideLocationDto> GetLocations(ModelDataContext context, int rideId) {
             return context.RideLocations
                 .Where(row => row.RideId == rideId)
+                .Where(row => !row.IsRemoved)
                 .OrderBy(row => row.Timestamp)
                 .Select(row => new RideLocationDto {
                     RideLocationId = row.RideLocationId,
