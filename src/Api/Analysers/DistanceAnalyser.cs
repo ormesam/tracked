@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using DataAccess.Models;
-using Shared.Dtos;
 
 namespace Api.Analysers {
     public class DistanceAnalyser : IRideAnalyser {
-        public void Analyse(ModelDataContext context, int userId, RideDto ride) {
+        public void Analyse(ModelDataContext context, int userId, int rideId) {
             var distanceAchievements = context.DistanceAchievements
                 .Select(row => new MinDistanceAchievement {
                     DistanceAchievementId = row.DistanceAchievementId,
@@ -13,10 +12,15 @@ namespace Api.Analysers {
                 })
                 .ToList();
 
+            double distance = context.Rides
+                .Where(row => row.RideId == rideId)
+                .Select(row => row.DistanceMiles)
+                .SingleOrDefault();
+
             foreach (var distanceAchievement in distanceAchievements) {
-                if (distanceAchievement.Check(ride)) {
+                if (distanceAchievement.Check(distance)) {
                     UserDistanceAchievement userDistanceAchievement = new UserDistanceAchievement {
-                        RideId = ride.RideId.Value,
+                        RideId = rideId,
                         DistanceAchievementId = distanceAchievement.DistanceAchievementId,
                         UserId = userId,
                     };

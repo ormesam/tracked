@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Shared.Dtos;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Api.Analysers {
     public class MinSpeedAchievement {
@@ -7,8 +7,8 @@ namespace Api.Analysers {
         public int SpeedAchievementId { get; set; }
         public double MinMph { get; set; }
 
-        internal bool Check(RideDto ride) {
-            return ride.Locations.Any(i => i.Mph >= MinMph);
+        public bool Check(IList<double> speeds) {
+            return speeds.Any(i => i >= MinMph);
         }
     }
 }

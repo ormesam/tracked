@@ -73,10 +73,10 @@ namespace Api.Controllers {
 
             int userId = this.GetCurrentUserId();
 
-            model.RideId = SaveRide(userId, model);
-            Analyser.AnalyseRide(context, userId, model);
+            int rideId = SaveRide(userId, model);
+            Analyser.AnalyseRide(context, userId, rideId);
 
-            return GetRideOverview(model.RideId.Value);
+            return GetRideOverview(rideId);
         }
 
         private RideOverviewDto GetRideOverview(int rideId) {

@@ -15,7 +15,7 @@ namespace Api.Analysers {
         private RideDto ride;
         private IEnumerable<TrailAnalysis> allTrails;
 
-        public void Analyse(ModelDataContext context, int userId, RideDto ride) {
+        public void Analyse(ModelDataContext context, int userId, int rideId) {
             var trails = context.Trails
                 .Select(row => new TrailAnalysis {
                     TrailId = row.TrailId,
@@ -29,7 +29,7 @@ namespace Api.Analysers {
                 })
                 .ToList();
 
-            Analyse(context, userId, ride, trails);
+            Analyse(context, userId, RideHelper.GetRideDto(context, rideId, userId), trails);
         }
 
         public void AnalyseTrail(ModelDataContext context, int userId, int trailId) {

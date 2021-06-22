@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using DataAccess.Models;
-using Shared.Dtos;
 
 namespace Api.Analysers {
     public class JumpAnalyser : IRideAnalyser {
-        public void Analyse(ModelDataContext context, int userId, RideDto ride) {
+        public void Analyse(ModelDataContext context, int userId, int rideId) {
             var jumpAchievements = context.JumpAchievements
                 .Select(row => new MinJumpAchievement {
                     JumpAchievementId = row.JumpAchievementId,
@@ -13,10 +12,15 @@ namespace Api.Analysers {
                 })
                 .ToArray();
 
+            var airtimes = context.Jumps
+                .Where(row => row.RideId == rideId)
+                .Select(row => row.Airtime)
+                .ToList();
+
             foreach (var jumpAchievement in jumpAchievements) {
-                if (jumpAchievement.Check(ride)) {
+                if (jumpAchievement.Check(airtimes)) {
                     UserJumpAchievement userJumpAchievement = new UserJumpAchievement {
-                        RideId = ride.RideId.Value,
+                        RideId = rideId,
                         JumpAchievementId = jumpAchievement.JumpAchievementId,
                         UserId = userId,
                     };
