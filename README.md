@@ -10,12 +10,18 @@ For each ride the app can record the **route**, **speed**, **jump airtimes** and
 
 This is the main feature of the app. It allows you to view your ride as a colour coded polyline on a map. Currently red is fastest and green is the slowest, the colours are relative to the top speed. A marker highlights the location of the top speed achieved on the ride.
 
-### Trails (Testing)
+### Trails
 
 Trails allow you to time yourself between two points and compare your results.
 
-### Jumps & Airtime (WIP)
+### Jumps & Airtime
 
-Tracked detects jumps using the devices accelerometer. It works by detecting when the device is in "freefall" and taking other factors into account, such as the speed. This feature is a work in progress.
+Tracked detects jumps using the devices accelerometer. It works by detecting when the device is in "freefall" and taking other factors into account, such as the speed.
+
+### Berm Detection (Idea)
+
+Allow users to track their angle through berms using the devices gyroscope.
+
+---
 
 I have put in thousands of hours into this project and I'm always on the lookout for keen mountain bikers to help test the app! If you fancy giving it a go drop me an email (details in profile) and I'll add you to the internal testers.
