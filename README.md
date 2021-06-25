@@ -22,6 +22,10 @@ Tracked detects jumps using the devices accelerometer. It works by detecting whe
 
 Allow users to track their angle through berms using the devices gyroscope.
 
+### Ghost (Idea)
+
+Allow users to track their progress against their personal best on a trail in realtime. Green and Red screen (customisable) to show if they are currently ahead or behind their best time. Screen must be kept on, or play a sound when they fall behind / overtake.
+
 ---
 
 I have put in thousands of hours into this project and I'm always on the lookout for keen mountain bikers to help test the app! If you fancy giving it a go drop me an email (details in profile) and I'll add you to the internal testers.
