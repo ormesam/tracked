@@ -9,6 +9,7 @@ using Tracked.Utilities;
 namespace Tracked.Screens.Rides {
     public class RideReviewScreenViewModel : RideMapViewModelBase {
         private RideDto ride;
+        private int? latestAnalyserVersion;
 
         public RideReviewScreenViewModel(MainContext context) : base(context) {
         }
@@ -19,6 +20,7 @@ namespace Tracked.Screens.Rides {
 
         public override RideDto Ride => ride;
 
+        public int? LatestAnalyserVersion => latestAnalyserVersion;
         public int JumpCount => Ride.Jumps.Count;
         public string MaxAirtime => Ride.Jumps.Count == 0 ? "-" : $"{Ride.Jumps.Max(i => i.Airtime)}s";
         public bool HasJumps => Ride.Jumps.Any();
@@ -32,6 +34,7 @@ namespace Tracked.Screens.Rides {
         public async Task<bool> Load(int id) {
             try {
                 ride = await Context.Services.GetRide(id);
+                latestAnalyserVersion = await Context.Services.GetLatestAnalyserVersion();
 
                 OnPropertyChanged();
 
@@ -69,6 +72,10 @@ namespace Tracked.Screens.Rides {
 
         public async Task GoToMapScreen() {
             await Context.UI.GoToMapScreenAsync(Ride);
+        }
+
+        public async Task Reanalyse() {
+            await Context.Services.ReanalyseRide(Ride.RideId.Value);
         }
     }
 }

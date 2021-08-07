@@ -155,6 +155,29 @@ namespace Api.Controllers {
         }
 
         [HttpPost]
+        [Route("reanalyse")]
+        public ActionResult Analyse([FromBody] int rideId) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            int userId = this.GetCurrentUserId();
+
+            RideHelper.ThrowIfNotOwner(context, rideId, userId);
+
+            var attempts = context.TrailAttempts.Where(row => row.RideId == rideId);
+            var jumpAchievements = context.UserJumpAchievements.Where(row => row.RideId == rideId);
+            var speedAchievements = context.UserSpeedAchievements.Where(row => row.RideId == rideId);
+            var distanceAchievements = context.UserDistanceAchievements.Where(row => row.RideId == rideId);
+
+            context.SaveChanges();
+
+            Analyser.AnalyseRide(context, userId, rideId);
+
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("delete")]
         public ActionResult<bool> Delete([FromBody] int rideId) {
             int userId = this.GetCurrentUserId();
@@ -188,6 +211,12 @@ namespace Api.Controllers {
             context.SaveChanges();
 
             return true;
+        }
+
+        [HttpGet]
+        [Route("latest-analyser-version")]
+        public ActionResult<int> LatestAnalyserVersion() {
+            return Analyser.AnalyserVersion;
         }
     }
 }

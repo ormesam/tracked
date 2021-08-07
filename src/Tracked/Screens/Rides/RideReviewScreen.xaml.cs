@@ -19,7 +19,18 @@ namespace Tracked.Screens.Rides {
                     Order = ToolbarItemOrder.Secondary,
                 };
 
-                item.Clicked += CreateTrail_Clicked; ;
+                item.Clicked += CreateTrail_Clicked;
+
+                page.ToolbarItems.Add(item);
+            }
+
+            if (ViewModel.LatestAnalyserVersion != null && ViewModel.Ride.AnalyserVersion < ViewModel.LatestAnalyserVersion) {
+                var item = new ToolbarItem {
+                    Text = "Reanalyse Ride",
+                    Order = ToolbarItemOrder.Secondary,
+                };
+
+                item.Clicked += Reanalyse_Clicked;
 
                 page.ToolbarItems.Add(item);
             }
@@ -58,6 +69,21 @@ namespace Tracked.Screens.Rides {
 
         private async void Map_Tapped(object sender, EventArgs e) {
             await ViewModel.GoToMapScreen();
+        }
+
+        private async void Reanalyse_Clicked(object sender, EventArgs e) {
+            bool reanalyse = await DisplayAlert(
+                "Reanalyse Ride",
+                "Are you sure you want to reanalyse this ride? Your trail attempt times, jumps and achievements may change.",
+                "Yes",
+                "No");
+
+            if (reanalyse) {
+                await ViewModel.Reanalyse();
+
+                await Navigation.PopAsync();
+                await ViewModel.Context.UI.GoToRideReviewScreenAsync(ViewModel.Ride.RideId.Value);
+            }
         }
     }
 }

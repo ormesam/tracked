@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DataAccess.Models;
 using Shared;
@@ -123,6 +124,17 @@ namespace Api.Utility {
                     Name = row.DistanceAchievement.Name,
                 })
                 .ToList();
+        }
+
+        public static void ThrowIfNotOwner(ModelDataContext context, int rideId, int userId) {
+            var exists = context.Rides
+                .Where(row => row.RideId == rideId)
+                .Where(row => row.UserId == userId)
+                .Any();
+
+            if (!exists) {
+                throw new Exception("Unable to perform this operation as the current user");
+            }
         }
     }
 }

@@ -41,8 +41,12 @@ namespace Tracked.Contexts {
             return await GetAsync<RideDto>("rides/" + id);
         }
 
-        public async Task<RideOverviewDto> UploadRide(CreateRideDto ride) {
+        public async Task<RideOverviewDto> SaveRide(CreateRideDto ride) {
             return await PostAsync<RideOverviewDto>("rides/add", ride);
+        }
+
+        public async Task ReanalyseRide(int rideId) {
+            await PostAsync("rides/reanalyse", rideId);
         }
 
         public async Task DeleteRide(int rideId) {
@@ -80,6 +84,10 @@ namespace Tracked.Contexts {
             await PostAsync("users/update-bio", new BioChangeDto {
                 Bio = bio,
             });
+        }
+
+        public async Task<int> GetLatestAnalyserVersion() {
+            return await GetAsync<int>("rides/latest-analyser-version");
         }
 
         protected async Task<TResult> GetAsync<TResult>(string apiEndpoint) {

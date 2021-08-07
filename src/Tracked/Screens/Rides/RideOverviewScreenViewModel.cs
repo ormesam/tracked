@@ -87,7 +87,7 @@ namespace Tracked.Screens.Rides {
 
             foreach (var upload in uploads) {
                 try {
-                    RideOverviewDto rideOverview = await Context.Services.UploadRide(upload);
+                    RideOverviewDto rideOverview = await Context.Services.SaveRide(upload);
                     await Context.Model.RemoveUploadRide(upload);
 
                     Rides.Insert(0, rideOverview);
