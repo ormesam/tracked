@@ -2,14 +2,12 @@
 <ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:oxyplot="clr-namespace:OxyPlot.Xamarin.Forms;assembly=OxyPlot.Xamarin.Forms"
+    xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" 
     x:Class="Tracked.Screens.Rides.SpeedAnalysisScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <oxyplot:PlotView
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand"
-            Model="{Binding AnalysisChartModel}"
-            IsEnabled="False" />
+        <microcharts:ChartView
+            x:Name="chartView"
+            Chart="{Binding Chart}"/>
     </ContentPage.Content>
 </ContentPage>

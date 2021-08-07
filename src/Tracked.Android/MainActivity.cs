@@ -7,7 +7,6 @@ using Android.OS;
 using Android.Runtime;
 using FFImageLoading.Forms.Platform;
 using Microsoft.AppCenter.Crashes;
-using OxyPlot.Xamarin.Forms.Platform.Android;
 using Plugin.CurrentActivity;
 using Tracked.Droid.Auth;
 using Xamarin.Auth.Presenters.XamarinAndroid;
@@ -41,7 +40,6 @@ namespace Tracked.Droid {
             global::Xamarin.Forms.Forms.Init(this, bundle);
             CachedImageRenderer.Init(enableFastRenderer: true);
             Xamarin.FormsMaps.Init(this, bundle);
-            PlotViewRenderer.Init();
             AuthenticationConfiguration.Init(this, bundle);
             GoogleClientManager.Init(this);
             XamEffects.Droid.Effects.Init();
