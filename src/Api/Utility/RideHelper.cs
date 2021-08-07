@@ -21,6 +21,7 @@ namespace Api.Utility {
                     UserId = row.UserId,
                     UserName = row.User.Name,
                     UserProfileImageUrl = row.User.ProfileImageUrl,
+                    AnalyserVersion = row.AnalyserVersion,
                 })
                 .SingleOrDefault();
 

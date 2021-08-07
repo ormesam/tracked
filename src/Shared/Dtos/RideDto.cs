@@ -13,6 +13,7 @@ namespace Shared.Dtos {
         public double MaxSpeedMph { get; set; }
         public double AverageSpeedMph { get; set; }
         public double DistanceMiles { get; set; }
+        public int? AnalyserVersion { get; set; }
         public IList<RideLocationDto> Locations { get; set; }
         public IList<JumpDto> Jumps { get; set; }
         public IList<TrailAttemptDto> TrailAttempts { get; set; }
