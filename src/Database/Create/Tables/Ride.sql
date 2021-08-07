@@ -10,4 +10,5 @@
     [MaxSpeedMph] float NOT NULL,
     [AverageSpeedMph] float NOT NULL,
     [RouteSvgPath] nvarchar(max) NOT NULL,
+    [AnalyserVersion] int NOT NULL,
 )

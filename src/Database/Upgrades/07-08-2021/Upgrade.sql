@@ -8,11 +8,11 @@ ALTER TABLE [RideLocation]
 DROP [DF_Temp1]
 GO
 
-ALTER TABLE [TrailAttempt] ADD
-    [TrailAnalyserVersion] int NOT NULL,
-    CONSTRAINT [DF_Temp2] DEFAULT 1 FOR [TrailAnalyserVersion]
+ALTER TABLE [Ride] ADD
+    [AnalyserVersion] int NOT NULL,
+    CONSTRAINT [DF_Temp2] DEFAULT 1 FOR [AnalyserVersion]
 GO
 
-ALTER TABLE [TrailAttempt]
+ALTER TABLE [Ride]
 DROP [DF_Temp2]
 GO

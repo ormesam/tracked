@@ -27,6 +27,7 @@ namespace DataAccess.Models
         public double MaxSpeedMph { get; set; }
         public double AverageSpeedMph { get; set; }
         public string RouteSvgPath { get; set; }
+        public int AnalyserVersion { get; set; }
 
         public virtual User User { get; set; }
         public virtual ICollection<AccelerometerReading> AccelerometerReadings { get; set; }

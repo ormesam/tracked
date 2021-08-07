@@ -11,7 +11,6 @@ namespace DataAccess.Models
         public int UserId { get; set; }
         public int TrailId { get; set; }
         public int RideId { get; set; }
-        public int TrailAnalyserVersion { get; set; }
         public DateTime StartUtc { get; set; }
         public DateTime EndUtc { get; set; }
         public int Medal { get; set; }

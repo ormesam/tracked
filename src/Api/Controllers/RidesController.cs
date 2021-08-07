@@ -115,6 +115,7 @@ namespace Api.Controllers {
             ride.MaxSpeedMph = model.Locations.Max(i => i.Mph);
             ride.DistanceMiles = DistanceHelpers.GetDistanceMile(model.Locations.Cast<ILatLng>().ToList());
             ride.RouteSvgPath = routeSvgPath;
+            ride.AnalyserVersion = Analyser.AnalyserVersion;
 
             ride.RideLocations = model.Locations
                 .Select(i => new RideLocation {

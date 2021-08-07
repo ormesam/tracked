@@ -9,8 +9,6 @@ using Shared.Interfaces;
 
 namespace Api.Analysers {
     public class TrailAnalyser : IRideAnalyser {
-        public const int TrailAnalyserVersion = 1;
-
         private readonly int missedPointThreshold = 3;
         private readonly int locationMatchThreshold = 12;
         private IDictionary<int, TrailCache> currentTrailCache;
@@ -76,7 +74,6 @@ namespace Api.Analysers {
                     UserId = userId,
                     StartUtc = ride.Locations[result.StartIdx].Timestamp,
                     EndUtc = ride.Locations[result.EndIdx].Timestamp,
-                    TrailAnalyserVersion = TrailAnalyserVersion,
                 };
 
                 attempt.Medal = (int)GetMedal(context, attempt.EndUtc - attempt.StartUtc, result.TrailId);

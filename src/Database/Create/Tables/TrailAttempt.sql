@@ -5,7 +5,6 @@
     [TrailId] int NOT NULL CONSTRAINT [FK_TrailAttempt_Trail] REFERENCES [Trail],
     [RideId] int NOT NULL CONSTRAINT [FK_TrailAttempt_Ride] REFERENCES [Ride],
 
-    [TrailAnalyserVersion] int NOT NULL,
     [StartUtc] datetime NOT NULL,
     [EndUtc] datetime NOT NULL,
     [Medal] int NOT NULL,

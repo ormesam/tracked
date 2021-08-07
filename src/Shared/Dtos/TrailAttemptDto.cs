@@ -9,6 +9,7 @@ namespace Shared.Dtos {
         public Medal Medal { get; set; }
         public DateTime StartUtc { get; set; }
         public DateTime EndUtc { get; set; }
+        public int AnalyserVersion { get; set; }
 
         public TimeSpan Time => EndUtc - StartUtc;
         public string FormattedTime => Time.ToString(@"mm\:ss");
