@@ -6,8 +6,35 @@
     x:Class="Tracked.Screens.Rides.SpeedAnalysisScreen"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <microcharts:ChartView
-            x:Name="chartView"
-            Chart="{Binding Chart}"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <microcharts:ChartView
+                Grid.Row="0"
+                Chart="{Binding SpeedChart}"/>
+
+            <Label
+                Grid.Row="1"
+                Margin="0,0,0,15" 
+                Text="Speed"
+                HorizontalOptions="Center"
+                FontSize="Large" />
+
+            <microcharts:ChartView
+                Grid.Row="2"
+                Chart="{Binding AltitudeChart}"/>
+
+            <Label
+                Grid.Row="3"
+                Margin="0,0,0,15" 
+                Text="Altitude"
+                HorizontalOptions="Center"
+                FontSize="Large"/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
