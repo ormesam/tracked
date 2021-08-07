@@ -59,7 +59,7 @@
     <Folder Include="Create" />
     <Folder Include="Create\Tables" />
     <Folder Include="Upgrades" />
-    <Folder Include="Upgrades\17-06-21" />
+    <Folder Include="Upgrades\07-08-2021" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\Tables\User.sql" />
@@ -95,6 +95,6 @@
     <None Include="Create\Tables\TrailLocation.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Upgrades\17-06-21\Upgrade.sql" />
+    <None Include="Upgrades\07-08-2021\Upgrade.sql" />
   </ItemGroup>
 </Project>

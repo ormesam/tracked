@@ -3,7 +3,7 @@ using DataAccess.Models;
 
 namespace Api.Analysers {
     public class LocationAnalyser : IRideAnalyser {
-        private double minAccuracy;
+        private const double maxAccuracy = 20;
 
         public void Analyse(ModelDataContext context, int userId, int rideId) {
             var locations = context.RideLocations
@@ -11,9 +11,9 @@ namespace Api.Analysers {
                 .ToList();
 
             foreach (var location in locations) {
-                if (location.AccuracyInMetres > 20) {
+                if (location.AccuracyInMetres > maxAccuracy) {
                     location.IsRemoved = true;
-                    location.RemovalReason = "Accuracy";
+                    location.RemovalReason = "Accuracy less than " + maxAccuracy;
                 }
             }
 

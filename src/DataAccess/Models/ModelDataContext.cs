@@ -197,7 +197,7 @@ namespace DataAccess.Models
             {
                 entity.ToTable("User");
 
-                entity.HasIndex(e => e.GoogleUserId, "UQ__User__437CD197C84B9C98")
+                entity.HasIndex(e => e.GoogleUserId, "UQ__User__437CD197C2FB74F3")
                     .IsUnique();
 
                 entity.Property(e => e.CreatedUtc).HasColumnType("datetime");
