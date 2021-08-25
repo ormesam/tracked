@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="akavache" Version="7.3.1" />
-    <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.53.0.1869" />
+    <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.54.0.1869" />
     <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.3.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.3.0" />
