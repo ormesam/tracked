@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DataAccess.Models
 {
     [Table("User")]
-    [Index(nameof(GoogleUserId), Name = "UQ__User__437CD197EF2F3988", IsUnique = true)]
+    [Index(nameof(GoogleUserId), Name = "UQ__User__437CD1975FDE12E3", IsUnique = true)]
     public partial class User
     {
         public User()

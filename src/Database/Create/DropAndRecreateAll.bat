@@ -20,6 +20,6 @@ sqlcmd -E -S %server% -d %database% -i %filePath%\Tables\UserDistanceAchievement
 sqlcmd -E -S %server% -d %database% -i %filePath%\Tables\TraceMessage.sql
 
 cd /d "..\..\DataAccess"
-dotnet-ef dbcontext scaffold "Server=localhost\MSSQLSERVER01;Database=TrackedDev;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Models -c ModelDataContext --force --data-annotations --no-onconfiguring
+dotnet-ef dbcontext scaffold "Server=%server%;Database=%database%;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Models -c ModelDataContext --force --data-annotations --no-onconfiguring
 
 pause
