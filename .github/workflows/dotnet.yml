@@ -10,6 +10,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./src
 
     steps:
     - uses: actions/checkout@v2
@@ -18,8 +22,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore /src/Tracked.sln
+      run: dotnet restore
     - name: Build
-      run: dotnet build /src/Tracked.sln --no-restore
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test /src/Tracked.sln --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal
