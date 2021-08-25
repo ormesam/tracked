@@ -16,6 +16,6 @@ sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tabl
 sqlcmd -E -S localhost\MSSQLSERVER01 -d TrackedDev -i ..\..\Database\Create\Tables\TraceMessage.sql
 
 cd /d "..\..\DataAccess"
-dotnet-ef dbcontext scaffold "Server=localhost\MSSQLSERVER01;Database=TrackedDev;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Models -c ModelDataContext --force
+dotnet-ef dbcontext scaffold "Server=localhost\MSSQLSERVER01;Database=TrackedDev;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Models -c ModelDataContext --force --data-annotations --no-onconfiguring
 
 pause

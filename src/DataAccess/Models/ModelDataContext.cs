@@ -33,25 +33,12 @@ namespace DataAccess.Models
         public virtual DbSet<UserJumpAchievement> UserJumpAchievements { get; set; }
         public virtual DbSet<UserSpeedAchievement> UserSpeedAchievements { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost\\MSSQLSERVER01;Database=TrackedDev;Trusted_Connection=True;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
 
             modelBuilder.Entity<AccelerometerReading>(entity =>
             {
-                entity.ToTable("AccelerometerReading");
-
-                entity.Property(e => e.Time).HasColumnType("datetime");
-
                 entity.HasOne(d => d.Ride)
                     .WithMany(p => p.AccelerometerReadings)
                     .HasForeignKey(d => d.RideId)
@@ -59,21 +46,8 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_AccelerometerReading_Ride");
             });
 
-            modelBuilder.Entity<DistanceAchievement>(entity =>
-            {
-                entity.ToTable("DistanceAchievement");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(200);
-            });
-
             modelBuilder.Entity<Jump>(entity =>
             {
-                entity.ToTable("Jump");
-
-                entity.Property(e => e.Timestamp).HasColumnType("datetime");
-
                 entity.HasOne(d => d.Ride)
                     .WithMany(p => p.Jumps)
                     .HasForeignKey(d => d.RideId)
@@ -81,27 +55,8 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_Jump_Ride");
             });
 
-            modelBuilder.Entity<JumpAchievement>(entity =>
-            {
-                entity.ToTable("JumpAchievement");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(200);
-            });
-
             modelBuilder.Entity<Ride>(entity =>
             {
-                entity.ToTable("Ride");
-
-                entity.Property(e => e.EndUtc).HasColumnType("datetime");
-
-                entity.Property(e => e.Name).HasMaxLength(200);
-
-                entity.Property(e => e.RouteSvgPath).IsRequired();
-
-                entity.Property(e => e.StartUtc).HasColumnType("datetime");
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Rides)
                     .HasForeignKey(d => d.UserId)
@@ -111,12 +66,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<RideLocation>(entity =>
             {
-                entity.ToTable("RideLocation");
-
-                entity.Property(e => e.RemovalReason).HasMaxLength(255);
-
-                entity.Property(e => e.Timestamp).HasColumnType("datetime");
-
                 entity.HasOne(d => d.Ride)
                     .WithMany(p => p.RideLocations)
                     .HasForeignKey(d => d.RideId)
@@ -124,30 +73,8 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_RideLocation_Ride");
             });
 
-            modelBuilder.Entity<SpeedAchievement>(entity =>
-            {
-                entity.ToTable("SpeedAchievement");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(200);
-            });
-
-            modelBuilder.Entity<TraceMessage>(entity =>
-            {
-                entity.ToTable("TraceMessage");
-
-                entity.Property(e => e.DateUtc).HasColumnType("datetime");
-
-                entity.Property(e => e.Message).IsRequired();
-            });
-
             modelBuilder.Entity<Trail>(entity =>
             {
-                entity.ToTable("Trail");
-
-                entity.Property(e => e.Name).HasMaxLength(255);
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Trails)
                     .HasForeignKey(d => d.UserId)
@@ -157,12 +84,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<TrailAttempt>(entity =>
             {
-                entity.ToTable("TrailAttempt");
-
-                entity.Property(e => e.EndUtc).HasColumnType("datetime");
-
-                entity.Property(e => e.StartUtc).HasColumnType("datetime");
-
                 entity.HasOne(d => d.Ride)
                     .WithMany(p => p.TrailAttempts)
                     .HasForeignKey(d => d.RideId)
@@ -184,8 +105,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<TrailLocation>(entity =>
             {
-                entity.ToTable("TrailLocation");
-
                 entity.HasOne(d => d.Trail)
                     .WithMany(p => p.TrailLocations)
                     .HasForeignKey(d => d.TrailId)
@@ -193,36 +112,8 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_TrailLocation_Trail");
             });
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("User");
-
-                entity.HasIndex(e => e.GoogleUserId, "UQ__User__437CD1974104BF57")
-                    .IsUnique();
-
-                entity.Property(e => e.CreatedUtc).HasColumnType("datetime");
-
-                entity.Property(e => e.GoogleUserId)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.ProfileImageUrl)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.RefreshToken)
-                    .IsRequired()
-                    .HasMaxLength(255);
-            });
-
             modelBuilder.Entity<UserDistanceAchievement>(entity =>
             {
-                entity.ToTable("UserDistanceAchievement");
-
                 entity.HasOne(d => d.DistanceAchievement)
                     .WithMany(p => p.UserDistanceAchievements)
                     .HasForeignKey(d => d.DistanceAchievementId)
@@ -244,8 +135,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<UserJumpAchievement>(entity =>
             {
-                entity.ToTable("UserJumpAchievement");
-
                 entity.HasOne(d => d.JumpAchievement)
                     .WithMany(p => p.UserJumpAchievements)
                     .HasForeignKey(d => d.JumpAchievementId)
@@ -267,8 +156,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<UserSpeedAchievement>(entity =>
             {
-                entity.ToTable("UserSpeedAchievement");
-
                 entity.HasOne(d => d.Ride)
                     .WithMany(p => p.UserSpeedAchievements)
                     .HasForeignKey(d => d.RideId)
