@@ -1,4 +1,4 @@
-﻿using DataAccess.Models;
+﻿using Api.Utility;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
@@ -8,10 +8,10 @@ namespace Api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class UtilityController : ControllerBase {
-        private ModelDataContext context;
+        private DbFactory dbFactory;
 
-        public UtilityController(ModelDataContext context) {
-            this.context = context;
+        public UtilityController(DbFactory dbFactory) {
+            this.dbFactory = dbFactory;
         }
 
         [HttpGet]

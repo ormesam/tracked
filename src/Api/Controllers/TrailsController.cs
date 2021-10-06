@@ -2,6 +2,7 @@
 using System.Linq;
 using Api.Analysers;
 using Api.Utility;
+using DataAccess;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,66 +14,74 @@ namespace Api.Controllers {
     [ApiController]
     [Authorize]
     public class TrailsController : ControllerBase {
-        private readonly ModelDataContext context;
+        private readonly DbFactory dbFactory;
 
-        public TrailsController(ModelDataContext context) {
-            this.context = context;
+        public TrailsController(DbFactory dbFactory) {
+            this.dbFactory = dbFactory;
         }
 
         [HttpGet]
         public ActionResult<IList<TrailOverviewDto>> Get() {
-            var trails = context.Trails
-                .OrderBy(row => row.Name)
-                .Select(row => new TrailOverviewDto {
-                    TrailId = row.TrailId,
-                    Name = row.Name,
-                })
-                .ToList();
+            using (Transaction transaction = dbFactory.CreateReadOnlyTransaction()) {
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    var trails = context.Trails
+                        .OrderBy(row => row.Name)
+                        .Select(row => new TrailOverviewDto {
+                            TrailId = row.TrailId,
+                            Name = row.Name,
+                        })
+                        .ToList();
 
-            return trails;
+                    return trails;
+                }
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
         public ActionResult<TrailDto> Get(int id) {
-            var trail = context.Trails
-                .Where(row => row.TrailId == id)
-                .Select(row => new TrailDto {
-                    TrailId = row.TrailId,
-                    Name = row.Name,
-                })
-                .SingleOrDefault();
+            using (Transaction transaction = dbFactory.CreateReadOnlyTransaction()) {
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    var trail = context.Trails
+                        .Where(row => row.TrailId == id)
+                        .Select(row => new TrailDto {
+                            TrailId = row.TrailId,
+                            Name = row.Name,
+                        })
+                        .SingleOrDefault();
 
-            if (trail == null) {
-                return NotFound();
+                    if (trail == null) {
+                        return NotFound();
+                    }
+
+                    trail.Locations = context.TrailLocations
+                        .Where(row => row.TrailId == id)
+                        .OrderBy(row => row.Order)
+                        .Select(row => new TrailLocationDto {
+                            TrailLocationId = row.TrailLocationId,
+                            TrailId = row.TrailId,
+                            Latitude = row.Latitude,
+                            Longitude = row.Longitude,
+                            Order = row.Order,
+                        })
+                        .ToList();
+
+                    trail.Attempts = context.TrailAttempts
+                        .Where(row => row.TrailId == id)
+                        .OrderByDescending(row => row.StartUtc)
+                        .Select(row => new TrailAttemptDto {
+                            TrailAttemptId = row.TrailAttemptId,
+                            RideId = row.RideId,
+                            DisplayName = row.Ride.Name ?? row.Ride.StartUtc.ToString("dd MMM yy HH:mm"),
+                            StartUtc = row.StartUtc,
+                            EndUtc = row.EndUtc,
+                            Medal = (Medal)row.Medal,
+                        })
+                        .ToList();
+
+                    return trail;
+                }
             }
-
-            trail.Locations = context.TrailLocations
-                .Where(row => row.TrailId == id)
-                .OrderBy(row => row.Order)
-                .Select(row => new TrailLocationDto {
-                    TrailLocationId = row.TrailLocationId,
-                    TrailId = row.TrailId,
-                    Latitude = row.Latitude,
-                    Longitude = row.Longitude,
-                    Order = row.Order,
-                })
-                .ToList();
-
-            trail.Attempts = context.TrailAttempts
-                .Where(row => row.TrailId == id)
-                .OrderByDescending(row => row.StartUtc)
-                .Select(row => new TrailAttemptDto {
-                    TrailAttemptId = row.TrailAttemptId,
-                    RideId = row.RideId,
-                    DisplayName = row.Ride.Name ?? row.Ride.StartUtc.ToString("dd MMM yy HH:mm"),
-                    StartUtc = row.StartUtc,
-                    EndUtc = row.EndUtc,
-                    Medal = (Medal)row.Medal,
-                })
-                .ToList();
-
-            return trail;
         }
 
         [HttpPost]
@@ -87,32 +96,39 @@ namespace Api.Controllers {
             }
 
             int userId = this.GetCurrentUserId();
+            int trailId;
 
-            int trailId = SaveTrail(userId, model);
-            new TrailAnalyser().AnalyseTrail(context, userId, trailId);
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
+                trailId = SaveTrail(transaction, userId, model);
+                new TrailAnalyser().AnalyseTrail(transaction, userId, trailId);
+
+                transaction.Commit();
+            }
 
             return trailId;
         }
 
-        private int SaveTrail(int userId, TrailDto model) {
-            Trail trail = new Trail {
-                Name = model.Name,
-                UserId = userId,
-            };
+        private int SaveTrail(Transaction transaction, int userId, TrailDto model) {
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                Trail trail = new Trail {
+                    Name = model.Name,
+                    UserId = userId,
+                };
 
-            trail.TrailLocations = model.Locations
-                .Select(i => new TrailLocation {
-                    Latitude = i.Latitude,
-                    Longitude = i.Longitude,
-                    Order = i.Order,
-                })
-                .ToList();
+                trail.TrailLocations = model.Locations
+                    .Select(i => new TrailLocation {
+                        Latitude = i.Latitude,
+                        Longitude = i.Longitude,
+                        Order = i.Order,
+                    })
+                    .ToList();
 
-            context.Trails.Add(trail);
+                context.Trails.Add(trail);
 
-            context.SaveChanges();
+                context.SaveChanges();
 
-            return trail.TrailId;
+                return trail.TrailId;
+            }
         }
 
         [HttpPost]
@@ -126,19 +142,25 @@ namespace Api.Controllers {
                 return NotFound();
             }
 
-            var trail = context.Trails
-                .Where(i => i.TrailId == model.TrailId)
-                .SingleOrDefault();
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    var trail = context.Trails
+                        .Where(i => i.TrailId == model.TrailId)
+                        .SingleOrDefault();
 
-            if (trail == null) {
-                return BadRequest();
+                    if (trail == null) {
+                        return BadRequest();
+                    }
+
+                    trail.Name = model.Name;
+
+                    context.SaveChanges();
+
+                    transaction.Commit();
+
+                    return trail.Name;
+                }
             }
-
-            trail.Name = model.Name;
-
-            context.SaveChanges();
-
-            return trail.Name;
         }
 
         [HttpPost]
@@ -148,22 +170,28 @@ namespace Api.Controllers {
                 return NotFound();
             }
 
-            var trail = context.Trails
-                .Where(row => row.TrailId == trailId)
-                .SingleOrDefault();
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    var trail = context.Trails
+                        .Where(row => row.TrailId == trailId)
+                        .SingleOrDefault();
 
-            if (trail == null) {
-                return NotFound();
+                    if (trail == null) {
+                        return NotFound();
+                    }
+
+                    var trailLocations = context.TrailLocations.Where(row => row.TrailId == trailId);
+                    var attempts = context.TrailAttempts.Where(row => row.TrailId == trailId);
+
+                    context.TrailLocations.RemoveRange(trailLocations);
+                    context.TrailAttempts.RemoveRange(attempts);
+                    context.Trails.Remove(trail);
+
+                    context.SaveChanges();
+                }
+
+                transaction.Commit();
             }
-
-            var trailLocations = context.TrailLocations.Where(row => row.TrailId == trailId);
-            var attempts = context.TrailAttempts.Where(row => row.TrailId == trailId);
-
-            context.TrailLocations.RemoveRange(trailLocations);
-            context.TrailAttempts.RemoveRange(attempts);
-            context.Trails.Remove(trail);
-
-            context.SaveChanges();
 
             return true;
         }

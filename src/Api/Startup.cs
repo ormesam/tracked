@@ -1,6 +1,6 @@
 using System.Text;
 using Api.Middleware;
-using DataAccess.Models;
+using Api.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,8 +45,7 @@ namespace Api {
             });
 
             services.AddTransient<ExceptionLoggingMiddleware>();
-
-            services.AddDbContext<ModelDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
+            services.AddSingleton<DbFactory>(new DbFactory(Configuration.GetConnectionString("ConnectionString")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {

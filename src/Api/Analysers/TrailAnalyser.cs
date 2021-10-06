@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Api.Utility;
+using DataAccess;
 using DataAccess.Models;
 using Shared;
 using Shared.Dtos;
@@ -15,115 +16,126 @@ namespace Api.Analysers {
         private RideDto ride;
         private IEnumerable<TrailAnalysis> allTrails;
 
-        public void Analyse(ModelDataContext context, int userId, int rideId) {
-            var trails = context.Trails
-                .Select(row => new TrailAnalysis {
-                    TrailId = row.TrailId,
-                    Locations = row.TrailLocations
-                        .OrderBy(i => i.Order)
-                        .Select(i => new LatLng {
-                            Latitude = i.Latitude,
-                            Longitude = i.Longitude,
-                        })
-                        .Cast<ILatLng>(),
-                })
-                .ToList();
+        public void Analyse(Transaction transaction, int userId, int rideId) {
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                var trails = context.Trails
+                    .Select(row => new TrailAnalysis {
+                        TrailId = row.TrailId,
+                        Locations = row.TrailLocations
+                            .OrderBy(i => i.Order)
+                            .Select(i => new LatLng {
+                                Latitude = i.Latitude,
+                                Longitude = i.Longitude,
+                            })
+                            .Cast<ILatLng>(),
+                    })
+                    .ToList();
 
-            Analyse(context, userId, RideHelper.GetRideDto(context, rideId, userId), trails);
-        }
-
-        public void AnalyseTrail(ModelDataContext context, int userId, int trailId) {
-            var rideIds = context.Rides
-                .Where(row => row.UserId == userId)
-                .OrderBy(row => row.StartUtc)
-                .Select(row => row.RideId)
-                .ToArray();
-
-            var trail = context.Trails
-                .Where(row => row.TrailId == trailId)
-                .Select(row => new TrailAnalysis {
-                    TrailId = row.TrailId,
-                    Locations = row.TrailLocations
-                        .OrderBy(i => i.Order)
-                        .Select(i => new LatLng {
-                            Latitude = i.Latitude,
-                            Longitude = i.Longitude,
-                        })
-                        .Cast<ILatLng>(),
-                })
-                .SingleOrDefault();
-
-            if (trail == null) {
-                return;
-            }
-
-            foreach (int rideId in rideIds) {
-                var ride = RideHelper.GetRideDto(context, rideId, userId);
-
-                Analyse(context, userId, ride, new[] { trail });
+                Analyse(transaction, userId, RideHelper.GetRideDto(transaction, rideId, userId), trails);
             }
         }
 
-        private void Analyse(ModelDataContext context, int userId, RideDto ride, IEnumerable<TrailAnalysis> trails) {
-            var results = Analyse(ride, trails);
+        public void AnalyseTrail(Transaction transaction, int userId, int trailId) {
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                var rideIds = context.Rides
+                    .Where(row => row.UserId == userId)
+                    .OrderBy(row => row.StartUtc)
+                    .Select(row => row.RideId)
+                    .ToArray();
 
-            foreach (var result in results) {
-                TrailAttempt attempt = new TrailAttempt {
-                    RideId = ride.RideId.Value,
-                    TrailId = result.TrailId,
-                    UserId = userId,
-                    StartUtc = ride.Locations[result.StartIdx].Timestamp,
-                    EndUtc = ride.Locations[result.EndIdx].Timestamp,
-                };
+                var trail = context.Trails
+                    .Where(row => row.TrailId == trailId)
+                    .Select(row => new TrailAnalysis {
+                        TrailId = row.TrailId,
+                        Locations = row.TrailLocations
+                            .OrderBy(i => i.Order)
+                            .Select(i => new LatLng {
+                                Latitude = i.Latitude,
+                                Longitude = i.Longitude,
+                            })
+                            .Cast<ILatLng>(),
+                    })
+                    .SingleOrDefault();
 
-                attempt.Medal = (int)GetMedal(context, attempt.EndUtc - attempt.StartUtc, result.TrailId);
+                if (trail == null) {
+                    return;
+                }
 
-                context.TrailAttempts.Add(attempt);
-                context.SaveChanges();
+                foreach (int rideId in rideIds) {
+                    var ride = RideHelper.GetRideDto(transaction, rideId, userId);
+
+                    Analyse(transaction, userId, ride, new[] { trail });
+                }
             }
         }
 
-        private LatLng[] GetTrailLocations(ModelDataContext context, int trailId) {
-            return context.TrailLocations
-                .Where(row => row.TrailId == trailId)
-                .OrderBy(row => row.Order)
-                .Select(row => new LatLng {
-                    Latitude = row.Latitude,
-                    Longitude = row.Longitude,
-                })
-                .ToArray();
+        private void Analyse(Transaction transaction, int userId, RideDto ride, IEnumerable<TrailAnalysis> trails) {
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                var results = Analyse(ride, trails);
+
+                foreach (var result in results) {
+                    TrailAttempt attempt = new TrailAttempt {
+                        RideId = ride.RideId.Value,
+                        TrailId = result.TrailId,
+                        UserId = userId,
+                        StartUtc = ride.Locations[result.StartIdx].Timestamp,
+                        EndUtc = ride.Locations[result.EndIdx].Timestamp,
+                    };
+
+                    attempt.Medal = (int)GetMedal(transaction, attempt.EndUtc - attempt.StartUtc, result.TrailId);
+
+                    context.TrailAttempts.Add(attempt);
+                    context.SaveChanges();
+                }
+            }
         }
 
-        private Medal GetMedal(ModelDataContext context, TimeSpan time, int trailId) {
-            var existingAttempts = context.TrailAttempts
-                .Where(i => i.TrailId == trailId)
-                .Select(i => new { i.EndUtc, i.StartUtc })
-                .ToList()
-                .Select(i => i.EndUtc - i.StartUtc)
-                .OrderBy(i => i)
-                .ToList();
+        private LatLng[] GetTrailLocations(Transaction transaction, int trailId) {
 
-            if (!existingAttempts.Any()) {
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                return context.TrailLocations
+                    .Where(row => row.TrailId == trailId)
+                    .OrderBy(row => row.Order)
+                    .Select(row => new LatLng {
+                        Latitude = row.Latitude,
+                        Longitude = row.Longitude,
+                    })
+                    .ToArray();
+            }
+        }
+
+        private Medal GetMedal(Transaction transaction, TimeSpan time, int trailId) {
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                var existingAttempts = context.TrailAttempts
+                    .Where(i => i.TrailId == trailId)
+                    .Select(i => new { i.EndUtc, i.StartUtc })
+                    .ToList()
+                    .Select(i => i.EndUtc - i.StartUtc)
+                    .OrderBy(i => i)
+                    .ToList();
+
+                if (!existingAttempts.Any()) {
+                    return Medal.None;
+                }
+
+                if (existingAttempts.Count == 1) {
+                    return time < existingAttempts[0] ? Medal.Gold : Medal.Silver;
+                }
+
+                if (existingAttempts.Count == 2) {
+                    return time < existingAttempts[0] ? Medal.Gold : time < existingAttempts[1] ? Medal.Silver : Medal.Bronze;
+                }
+
+                if (time < existingAttempts.FirstOrDefault()) {
+                    return Medal.Gold;
+                } else if (time < existingAttempts.Skip(1).FirstOrDefault()) {
+                    return Medal.Silver;
+                } else if (time < existingAttempts.Skip(2).FirstOrDefault()) {
+                    return Medal.Bronze;
+                }
+
                 return Medal.None;
             }
-
-            if (existingAttempts.Count == 1) {
-                return time < existingAttempts[0] ? Medal.Gold : Medal.Silver;
-            }
-
-            if (existingAttempts.Count == 2) {
-                return time < existingAttempts[0] ? Medal.Gold : time < existingAttempts[1] ? Medal.Silver : Medal.Bronze;
-            }
-
-            if (time < existingAttempts.FirstOrDefault()) {
-                return Medal.Gold;
-            } else if (time < existingAttempts.Skip(1).FirstOrDefault()) {
-                return Medal.Silver;
-            } else if (time < existingAttempts.Skip(2).FirstOrDefault()) {
-                return Medal.Bronze;
-            }
-
-            return Medal.None;
         }
 
         private class LatLng : ILatLng {

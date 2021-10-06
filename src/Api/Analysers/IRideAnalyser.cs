@@ -1,7 +1,7 @@
-﻿using DataAccess.Models;
+﻿using DataAccess;
 
 namespace Api.Analysers {
     public interface IRideAnalyser {
-        void Analyse(ModelDataContext context, int userId, int rideId);
+        void Analyse(Transaction transaction, int userId, int rideId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Api.Utility;
+using DataAccess;
 using DataAccess.Models;
 
 namespace Api.Analysers {
@@ -7,8 +8,8 @@ namespace Api.Analysers {
         // This will ask users if they want to re-analyse their trail attempts which used an old algorithm
         public const int AnalyserVersion = 2;
 
-        public static void AnalyseRide(ModelDataContext context, int userId, int rideId) {
-            RideHelper.ThrowIfNotOwner(context, rideId, userId);
+        public static void AnalyseRide(Transaction transaction, int userId, int rideId) {
+            RideHelper.ThrowIfNotOwner(transaction, rideId, userId);
 
             var analysers = new IRideAnalyser[] {
                 new LocationAnalyser(),
@@ -19,16 +20,18 @@ namespace Api.Analysers {
             };
 
             foreach (var analyser in analysers) {
-                analyser.Analyse(context, userId, rideId);
+                analyser.Analyse(transaction, userId, rideId);
             }
 
-            UpdateRideAnalyserVersion(context, rideId);
+            UpdateRideAnalyserVersion(transaction, rideId);
         }
 
-        private static void UpdateRideAnalyserVersion(ModelDataContext context, int rideId) {
-            var ride = context.Rides.Find(rideId);
-            ride.AnalyserVersion = AnalyserVersion;
-            context.SaveChanges();
+        private static void UpdateRideAnalyserVersion(Transaction transaction, int rideId) {
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                var ride = context.Rides.Find(rideId);
+                ride.AnalyserVersion = AnalyserVersion;
+                context.SaveChanges();
+            }
         }
     }
 }

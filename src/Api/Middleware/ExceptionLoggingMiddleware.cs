@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Api.Utility;
+using DataAccess;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
 namespace Api.Middleware {
     public class ExceptionLoggingMiddleware : IMiddleware {
-        private ModelDataContext context;
+        private DbFactory dbFactory;
 
-        public ExceptionLoggingMiddleware(ModelDataContext context) {
-            this.context = context;
+        public ExceptionLoggingMiddleware(DbFactory dbFactory) {
+            this.dbFactory = dbFactory;
         }
 
 
@@ -20,12 +22,18 @@ namespace Api.Middleware {
             } catch (Exception ex) {
                 await HandleExceptionAsync(context, ex);
 
-                this.context.TraceMessages.Add(new TraceMessage {
-                    DateUtc = DateTime.UtcNow,
-                    Message = ex.ToString(),
-                });
+                using (Transaction transaction = dbFactory.CreateTransaction()) {
+                    using (ModelDataContext dbContext = transaction.CreateDataContext()) {
+                        dbContext.TraceMessages.Add(new TraceMessage {
+                            DateUtc = DateTime.UtcNow,
+                            Message = ex.ToString(),
+                        });
 
-                this.context.SaveChanges();
+                        dbContext.SaveChanges();
+                    }
+
+                    transaction.Commit();
+                }
             }
         }
 

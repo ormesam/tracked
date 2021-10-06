@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Api.Utility;
+using DataAccess;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +23,11 @@ namespace Api.Controllers {
     [Authorize]
     public class LoginController : ControllerBase {
         private readonly IOptions<AppSettings> appSettings;
-        private ModelDataContext context;
+        private DbFactory dbFactory;
 
-        public LoginController(IOptions<AppSettings> appSettings, ModelDataContext context) {
+        public LoginController(IOptions<AppSettings> appSettings, DbFactory dbFactory) {
             this.appSettings = appSettings;
-            this.context = context;
+            this.dbFactory = dbFactory;
         }
 
         [HttpPost]
@@ -38,48 +40,71 @@ namespace Api.Controllers {
                 return Unauthorized();
             }
 
-            var user = context.Users.SingleOrDefault(row => row.GoogleUserId == googleResponse.GoogleUserId);
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
+                string accessToken;
+                string refreshToken;
+                int userId;
 
-            if (user == null) {
-                user = new User {
-                    GoogleUserId = googleResponse.GoogleUserId,
-                    Name = loginDto.User.Name,
-                    CreatedUtc = DateTime.UtcNow,
-                    ProfileImageUrl = loginDto.User.Picture.ToString(),
-                    RefreshToken = GenerateRefreshToken(),
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    var user = context.Users.SingleOrDefault(row => row.GoogleUserId == googleResponse.GoogleUserId);
+
+                    if (user == null) {
+                        user = new User {
+                            GoogleUserId = googleResponse.GoogleUserId,
+                            Name = loginDto.User.Name,
+                            CreatedUtc = DateTime.UtcNow,
+                            ProfileImageUrl = loginDto.User.Picture.ToString(),
+                            RefreshToken = GenerateRefreshToken(),
+                        };
+
+                        context.Users.Add(user);
+
+                        context.SaveChanges();
+                    }
+
+                    userId = user.UserId;
+                    refreshToken = user.RefreshToken;
+                    accessToken = CreateAccessToken(user.UserId, user.IsAdmin);
+
+                    transaction.Commit();
+                }
+
+                return new LoginResponseDto {
+                    RefreshToken = refreshToken,
+                    AccessToken = accessToken,
+                    User = GetUser(transaction, userId),
                 };
-
-                context.Users.Add(user);
-
-                context.SaveChanges();
             }
-
-            string accessToken = CreateAccessToken(user.UserId, user.IsAdmin);
-
-            return new LoginResponseDto {
-                RefreshToken = user.RefreshToken,
-                AccessToken = accessToken,
-                User = GetUser(user.UserId),
-            };
         }
 
         [HttpPost]
         [AllowAnonymous]
         [Route("token")]
         public ActionResult<LoginResponseDto> Token(RefreshTokenDto refreshTokenDto) {
-            var user = context.Users.SingleOrDefault(row => row.RefreshToken == refreshTokenDto.RefreshToken);
+            User user;
+            string accessToken;
 
-            if (user == null) {
-                return NotFound();
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    user = context.Users.SingleOrDefault(row => row.RefreshToken == refreshTokenDto.RefreshToken);
+                }
+
+                if (user == null) {
+                    return NotFound();
+                }
+
+                accessToken = CreateAccessToken(user.UserId, user.IsAdmin);
+
+                transaction.Commit();
             }
 
-            string accessToken = CreateAccessToken(user.UserId, user.IsAdmin);
-
-            return new LoginResponseDto {
-                RefreshToken = user.RefreshToken,
-                AccessToken = accessToken,
-                User = GetUser(user.UserId),
-            };
+            using (Transaction transaction = dbFactory.CreateReadOnlyTransaction()) {
+                return new LoginResponseDto {
+                    RefreshToken = user.RefreshToken,
+                    AccessToken = accessToken,
+                    User = GetUser(transaction, user.UserId),
+                };
+            }
         }
 
         private string CreateAccessToken(int userId, bool isAdmin) {
@@ -105,17 +130,19 @@ namespace Api.Controllers {
             return Guid.NewGuid().ToString();
         }
 
-        private UserDto GetUser(int userId) {
-            return context.Users
-                .Where(row => row.UserId == userId)
-                .Select(row => new UserDto {
-                    UserId = row.UserId,
-                    Name = row.Name,
-                    ProfileImageUrl = row.ProfileImageUrl,
-                    IsAdmin = row.IsAdmin,
-                    CreatedUtc = row.CreatedUtc,
-                })
-                .Single();
+        private UserDto GetUser(Transaction transaction, int userId) {
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                return context.Users
+                    .Where(row => row.UserId == userId)
+                    .Select(row => new UserDto {
+                        UserId = row.UserId,
+                        Name = row.Name,
+                        ProfileImageUrl = row.ProfileImageUrl,
+                        IsAdmin = row.IsAdmin,
+                        CreatedUtc = row.CreatedUtc,
+                    })
+                    .Single();
+            }
         }
 
         private async Task<GoogleResponse> GetGoogleDetails(string idToken) {
