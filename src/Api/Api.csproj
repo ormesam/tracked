@@ -10,9 +10,9 @@
   <ItemGroup>
     <PackageReference Include="CoordinateSharp" Version="2.12.1.1" />
     <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.55.0.1869" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
