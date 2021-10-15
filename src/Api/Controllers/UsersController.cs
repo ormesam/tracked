@@ -76,6 +76,122 @@ namespace Api.Controllers {
             return Ok();
         }
 
+        [HttpPost]
+        [Route("follow-user")]
+        public ActionResult Follow([FromBody] int followUserId) {
+            int userId = this.GetCurrentUserId();
+
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    var user = context.Users.Find(followUserId);
+
+                    if (user == null) {
+                        return NotFound();
+                    }
+
+                    context.UserFollows.Add(new UserFollow {
+                        UserId = userId,
+                        FollowUserId = followUserId,
+                        FollowedUtc = DateTime.UtcNow,
+                    });
+
+                    context.SaveChanges();
+                }
+
+                transaction.Commit();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("unfollow-user")]
+        public ActionResult UnFollow([FromBody] int unfollowUserId) {
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
+                UnfollowUser(transaction, unfollowUserId);
+
+                transaction.Commit();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("block-user")]
+        public ActionResult Block([FromBody] int blockUserId) {
+            int userId = this.GetCurrentUserId();
+
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
+                UnfollowUser(transaction, blockUserId);
+
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    var user = context.Users.Find(blockUserId);
+
+                    if (user == null) {
+                        return NotFound();
+                    }
+
+                    context.UserBlocks.Add(new UserBlock {
+                        UserId = userId,
+                        BlockUserId = blockUserId,
+                        BlockedUtc = DateTime.UtcNow,
+                    });
+
+                    context.SaveChanges();
+                }
+
+                transaction.Commit();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("unblock-user")]
+        public ActionResult UnBlock([FromBody] int unblockUserId) {
+            int userId = this.GetCurrentUserId();
+
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    var row = context.UserBlocks
+                        .Where(row => row.UserId == userId)
+                        .Where(row => row.BlockUserId == unblockUserId)
+                        .SingleOrDefault();
+
+                    if (row == null) {
+                        return Ok();
+                    }
+
+                    context.UserBlocks.Remove(row);
+
+                    context.SaveChanges();
+                }
+
+                transaction.Commit();
+            }
+
+            return Ok();
+        }
+
+        private void UnfollowUser(Transaction transaction, int unfollowUserId) {
+            int userId = this.GetCurrentUserId();
+
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                var row = context.UserFollows
+                    .Where(row => row.UserId == userId)
+                    .Where(row => row.FollowUserId == unfollowUserId)
+                    .SingleOrDefault();
+
+                if (row == null) {
+                    return;
+                }
+
+                context.UserFollows.Remove(row);
+
+                context.SaveChanges();
+            }
+        }
+
         private double? GetLongestAirtime(Transaction transaction, int userId) {
             using (ModelDataContext context = transaction.CreateDataContext()) {
                 return context.Jumps
