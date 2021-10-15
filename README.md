@@ -18,6 +18,11 @@ Trails allow you to time yourself between two points and compare your results.
 
 Tracked detects jumps using the devices accelerometer. It works by detecting when the device is in "freefall" and taking other factors into account, such as the speed.
 
+## TODO
+
+### Follow / Friends
+Allow users to follow / befriend other users and view / like their activities (and comment?).
+
 ### Berm Detection (Idea)
 
 Allow users to track their angle through berms using the devices gyroscope.
