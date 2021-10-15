@@ -12,9 +12,10 @@ namespace Tracked.Screens.Rides {
     public class RideOverviewScreenViewModel : TabbedViewModelBase {
         private bool isLoading;
         private bool isUploading;
+        private ObservableCollection<FeedBaseDto> feed;
 
         public RideOverviewScreenViewModel(MainContext context) : base(context) {
-            Rides = new ObservableCollection<RideOverviewDto>();
+            feed = new ObservableCollection<FeedBaseDto>();
         }
 
         protected override TabItemType SelectedTab => TabItemType.Rides;
@@ -57,18 +58,27 @@ namespace Tracked.Screens.Rides {
             get { return new Command(async () => await Load()); }
         }
 
-        public ObservableCollection<RideOverviewDto> Rides { get; set; }
+        public ObservableCollection<FeedBaseDto> Feed {
+            get { return feed; }
+            set {
+                if (feed != value) {
+                    feed = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public async Task Load() {
             IsLoading = true;
 
             try {
-                Rides.Clear();
-                var rides = await Context.Services.GetRideOverviews();
+                var wrapper = await Context.Services.GetFeed();
 
-                foreach (var ride in rides) {
-                    Rides.Add(ride);
-                }
+                Feed = wrapper.Rides
+                    .Cast<FeedBaseDto>()
+                    .Concat(wrapper.Follows)
+                    .OrderByDescending(i => i.Date)
+                    .ToObservable();
             } catch (ServiceException ex) {
                 Toast.LongAlert(ex.Message);
             }
@@ -87,10 +97,10 @@ namespace Tracked.Screens.Rides {
 
             foreach (var upload in uploads) {
                 try {
-                    RideOverviewDto rideOverview = await Context.Services.SaveRide(upload);
+                    RideFeedDto rideOverview = await Context.Services.SaveRide(upload);
                     await Context.Model.RemoveUploadRide(upload);
 
-                    Rides.Insert(0, rideOverview);
+                    Feed.Insert(0, rideOverview);
 
                     OnPropertyChanged(nameof(PendingUploudCount));
                     OnPropertyChanged(nameof(UploadText));
@@ -106,7 +116,7 @@ namespace Tracked.Screens.Rides {
             await Context.UI.GoToRecordScreenAsync();
         }
 
-        public async Task GoToReview(RideOverviewDto ride) {
+        public async Task GoToReview(RideFeedDto ride) {
             await Context.UI.GoToRideReviewScreenAsync(ride.RideId.Value);
         }
     }

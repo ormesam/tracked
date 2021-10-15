@@ -40,11 +40,11 @@ namespace Api.Controllers {
                 return Unauthorized();
             }
 
-            using (Transaction transaction = dbFactory.CreateTransaction()) {
-                string accessToken;
-                string refreshToken;
-                int userId;
+            string accessToken;
+            string refreshToken;
+            int userId;
 
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
                 using (ModelDataContext context = transaction.CreateDataContext()) {
                     var user = context.Users.SingleOrDefault(row => row.GoogleUserId == googleResponse.GoogleUserId);
 
@@ -65,10 +65,12 @@ namespace Api.Controllers {
                     userId = user.UserId;
                     refreshToken = user.RefreshToken;
                     accessToken = CreateAccessToken(user.UserId, user.IsAdmin);
-
-                    transaction.Commit();
                 }
 
+                transaction.Commit();
+            }
+
+            using (Transaction transaction = dbFactory.CreateTransaction()) {
                 return new LoginResponseDto {
                     RefreshToken = refreshToken,
                     AccessToken = accessToken,

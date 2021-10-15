@@ -33,16 +33,16 @@ namespace Tracked.Contexts {
             });
         }
 
-        public async Task<IList<RideOverviewDto>> GetRideOverviews() {
-            return await GetAsync<IList<RideOverviewDto>>("rides");
+        public async Task<FeedWrapperDto> GetFeed() {
+            return await GetAsync<FeedWrapperDto>("feed");
         }
 
         public async Task<RideDto> GetRide(int id) {
             return await GetAsync<RideDto>("rides/" + id);
         }
 
-        public async Task<RideOverviewDto> SaveRide(CreateRideDto ride) {
-            return await PostAsync<RideOverviewDto>("rides/add", ride);
+        public async Task<RideFeedDto> SaveRide(CreateRideDto ride) {
+            return await PostAsync<RideFeedDto>("rides/add", ride);
         }
 
         public async Task ReanalyseRide(int rideId) {

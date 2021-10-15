@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Api.Analysers;
 using Api.Utility;
 using DataAccess;
@@ -22,40 +21,6 @@ namespace Api.Controllers {
         }
 
         [HttpGet]
-        public ActionResult<IList<RideOverviewDto>> Get() {
-            int userId = this.GetCurrentUserId();
-
-            using (Transaction transaction = dbFactory.CreateReadOnlyTransaction()) {
-                using (ModelDataContext context = transaction.CreateDataContext()) {
-                    var medalsByRide = context.TrailAttempts
-                        .Where(row => row.UserId == userId)
-                        .Where(row => row.Medal != (int)Medal.None)
-                        .ToLookup(row => row.RideId, row => (Medal)row.Medal);
-
-                    var rides = context.Rides
-                        .Where(row => row.UserId == userId)
-                        .OrderByDescending(row => row.StartUtc)
-                        .Select(row => new RideOverviewDto {
-                            RideId = row.RideId,
-                            Name = row.Name,
-                            StartUtc = row.StartUtc,
-                            DistanceMiles = row.DistanceMiles,
-                            EndUtc = row.EndUtc,
-                            MaxSpeedMph = row.MaxSpeedMph,
-                            RouteSvgPath = row.RouteSvgPath,
-                            Medals = medalsByRide[row.RideId],
-                            UserId = row.UserId,
-                            UserName = row.User.Name,
-                            UserProfileImageUrl = row.User.ProfileImageUrl,
-                        })
-                        .ToList();
-
-                    return rides;
-                }
-            }
-        }
-
-        [HttpGet]
         [Route("{id}")]
         public ActionResult<RideDto> Get(int id) {
             int userId = this.GetCurrentUserId();
@@ -73,7 +38,7 @@ namespace Api.Controllers {
 
         [HttpPost]
         [Route("add")]
-        public ActionResult<RideOverviewDto> Add(CreateRideDto model) {
+        public ActionResult<RideFeedDto> Add(CreateRideDto model) {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
@@ -94,7 +59,7 @@ namespace Api.Controllers {
             }
         }
 
-        private RideOverviewDto GetRideOverview(Transaction transaction, int rideId) {
+        private RideFeedDto GetRideOverview(Transaction transaction, int rideId) {
             using (ModelDataContext context = transaction.CreateDataContext()) {
                 var medals = context.TrailAttempts
                     .Where(row => row.RideId == rideId)
@@ -104,17 +69,17 @@ namespace Api.Controllers {
 
                 return context.Rides
                     .Where(row => row.RideId == rideId)
-                    .Select(row => new RideOverviewDto {
+                    .Select(row => new RideFeedDto {
+                        UserId = row.UserId,
+                        UserName = row.User.Name,
+                        UserProfileImageUrl = row.User.ProfileImageUrl,
                         RideId = row.RideId,
                         Name = row.Name,
-                        StartUtc = row.StartUtc,
+                        Date = row.StartUtc,
                         DistanceMiles = row.DistanceMiles,
                         EndUtc = row.EndUtc,
                         MaxSpeedMph = row.MaxSpeedMph,
                         Medals = medals,
-                        UserId = row.UserId,
-                        UserName = row.User.Name,
-                        UserProfileImageUrl = row.User.ProfileImageUrl,
                         RouteSvgPath = row.RouteSvgPath,
                     })
                     .SingleOrDefault();
