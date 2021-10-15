@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DataAccess.Models
 {
     [Table("User")]
-    [Index(nameof(GoogleUserId), Name = "UQ__User__437CD1975FDE12E3", IsUnique = true)]
+    [Index(nameof(GoogleUserId), Name = "UQ__User__437CD1973D3163B0", IsUnique = true)]
     public partial class User
     {
         public User()
@@ -17,7 +17,11 @@ namespace DataAccess.Models
             Rides = new HashSet<Ride>();
             TrailAttempts = new HashSet<TrailAttempt>();
             Trails = new HashSet<Trail>();
+            UserBlockBlockUsers = new HashSet<UserBlock>();
+            UserBlockUsers = new HashSet<UserBlock>();
             UserDistanceAchievements = new HashSet<UserDistanceAchievement>();
+            UserFollowFollowUsers = new HashSet<UserFollow>();
+            UserFollowUsers = new HashSet<UserFollow>();
             UserJumpAchievements = new HashSet<UserJumpAchievement>();
             UserSpeedAchievements = new HashSet<UserSpeedAchievement>();
         }
@@ -47,8 +51,16 @@ namespace DataAccess.Models
         public virtual ICollection<TrailAttempt> TrailAttempts { get; set; }
         [InverseProperty(nameof(Trail.User))]
         public virtual ICollection<Trail> Trails { get; set; }
+        [InverseProperty(nameof(UserBlock.BlockUser))]
+        public virtual ICollection<UserBlock> UserBlockBlockUsers { get; set; }
+        [InverseProperty(nameof(UserBlock.User))]
+        public virtual ICollection<UserBlock> UserBlockUsers { get; set; }
         [InverseProperty(nameof(UserDistanceAchievement.User))]
         public virtual ICollection<UserDistanceAchievement> UserDistanceAchievements { get; set; }
+        [InverseProperty(nameof(UserFollow.FollowUser))]
+        public virtual ICollection<UserFollow> UserFollowFollowUsers { get; set; }
+        [InverseProperty(nameof(UserFollow.User))]
+        public virtual ICollection<UserFollow> UserFollowUsers { get; set; }
         [InverseProperty(nameof(UserJumpAchievement.User))]
         public virtual ICollection<UserJumpAchievement> UserJumpAchievements { get; set; }
         [InverseProperty(nameof(UserSpeedAchievement.User))]

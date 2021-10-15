@@ -17,6 +17,8 @@ sqlcmd -E -S %server% -d %database% -i %filePath%\Tables\DistanceAchievement.sql
 sqlcmd -E -S %server% -d %database% -i %filePath%\Tables\UserSpeedAchievement.sql
 sqlcmd -E -S %server% -d %database% -i %filePath%\Tables\UserJumpAchievement.sql
 sqlcmd -E -S %server% -d %database% -i %filePath%\Tables\UserDistanceAchievement.sql
+sqlcmd -E -S %server% -d %database% -i %filePath%\Tables\UserFollow.sql
+sqlcmd -E -S %server% -d %database% -i %filePath%\Tables\UserBlock.sql
 sqlcmd -E -S %server% -d %database% -i %filePath%\Tables\TraceMessage.sql
 
 cd /d "..\..\DataAccess"

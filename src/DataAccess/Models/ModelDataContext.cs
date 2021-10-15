@@ -29,7 +29,9 @@ namespace DataAccess.Models
         public virtual DbSet<TrailAttempt> TrailAttempts { get; set; }
         public virtual DbSet<TrailLocation> TrailLocations { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserBlock> UserBlocks { get; set; }
         public virtual DbSet<UserDistanceAchievement> UserDistanceAchievements { get; set; }
+        public virtual DbSet<UserFollow> UserFollows { get; set; }
         public virtual DbSet<UserJumpAchievement> UserJumpAchievements { get; set; }
         public virtual DbSet<UserSpeedAchievement> UserSpeedAchievements { get; set; }
 
@@ -112,6 +114,21 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_TrailLocation_Trail");
             });
 
+            modelBuilder.Entity<UserBlock>(entity =>
+            {
+                entity.HasOne(d => d.BlockUser)
+                    .WithMany(p => p.UserBlockBlockUsers)
+                    .HasForeignKey(d => d.BlockUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserBlock_BlockUser");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserBlockUsers)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserBlock_User");
+            });
+
             modelBuilder.Entity<UserDistanceAchievement>(entity =>
             {
                 entity.HasOne(d => d.DistanceAchievement)
@@ -131,6 +148,21 @@ namespace DataAccess.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserDistanceAchievement_User");
+            });
+
+            modelBuilder.Entity<UserFollow>(entity =>
+            {
+                entity.HasOne(d => d.FollowUser)
+                    .WithMany(p => p.UserFollowFollowUsers)
+                    .HasForeignKey(d => d.FollowUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserFollow_FollowUser");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserFollowUsers)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserFollow_User");
             });
 
             modelBuilder.Entity<UserJumpAchievement>(entity =>

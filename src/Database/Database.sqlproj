@@ -70,6 +70,8 @@
     <None Include="Create\Tables\SpeedAchievement.sql" />
     <None Include="Create\Tables\UserJumpAchievement.sql" />
     <None Include="Create\Tables\JumpAchievement.sql" />
+    <None Include="Create\Tables\UserFollow.sql" />
+    <None Include="Create\Tables\UserBlock.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Create\DropAndRecreateAll.bat" />
