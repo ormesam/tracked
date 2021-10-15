@@ -51,8 +51,8 @@
     <Compile Update="Controls\UserHeader.xaml.cs">
       <DependentUpon>UserHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Screens\Rides\RideOverviewScreen.xaml.cs">
-      <DependentUpon>RideOverviewScreen.xaml</DependentUpon>
+    <Compile Update="Screens\Feed\FeedScreen.xaml.cs">
+      <DependentUpon>FeedScreen.xaml</DependentUpon>
     </Compile>
     <Compile Update="Screens\Profile\Controls\BioControl.xaml.cs">
       <DependentUpon>BioControl.xaml</DependentUpon>

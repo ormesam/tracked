@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Tracked.Screens.Rides.RideOverviewScreen"
+    x:Class="Tracked.Screens.Feed.FeedScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
     xmlns:selectors="clr-namespace:Tracked.Selectors"
     Title="{Binding Title}"

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Shared.Dtos;
+using Tracked.Screens.Feed;
 using Tracked.Screens.Profile;
 using Tracked.Screens.Record;
 using Tracked.Screens.Rides;
@@ -59,7 +60,7 @@ namespace Tracked.Contexts {
         #region Root
 
         public async Task GoToRideOverviewScreenAsync() {
-            await ReplaceScreenAsync(new RideOverviewScreen(context));
+            await ReplaceScreenAsync(new FeedScreen(context));
         }
 
         public async Task GoToExploreTrailsScreenAsync() {

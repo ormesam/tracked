@@ -8,13 +8,13 @@ using Tracked.Models;
 using Tracked.Utilities;
 using Xamarin.Forms;
 
-namespace Tracked.Screens.Rides {
-    public class RideOverviewScreenViewModel : TabbedViewModelBase {
+namespace Tracked.Screens.Feed {
+    public class FeedScreenViewModel : TabbedViewModelBase {
         private bool isLoading;
         private bool isUploading;
         private ObservableCollection<FeedBaseDto> feed;
 
-        public RideOverviewScreenViewModel(MainContext context) : base(context) {
+        public FeedScreenViewModel(MainContext context) : base(context) {
             feed = new ObservableCollection<FeedBaseDto>();
         }
 

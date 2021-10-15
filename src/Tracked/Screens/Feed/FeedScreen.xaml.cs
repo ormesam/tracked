@@ -6,15 +6,15 @@ using Shared.Dtos;
 using Tracked.Contexts;
 using Xamarin.Forms;
 
-namespace Tracked.Screens.Rides {
+namespace Tracked.Screens.Feed {
     [DesignTimeVisible(true)]
-    public partial class RideOverviewScreen : ContentPage {
-        public RideOverviewScreen(MainContext context) {
+    public partial class FeedScreen : ContentPage {
+        public FeedScreen(MainContext context) {
             InitializeComponent();
-            BindingContext = new RideOverviewScreenViewModel(context);
+            BindingContext = new FeedScreenViewModel(context);
         }
 
-        public RideOverviewScreenViewModel ViewModel => BindingContext as RideOverviewScreenViewModel;
+        public FeedScreenViewModel ViewModel => BindingContext as FeedScreenViewModel;
 
         protected override async void OnAppearing() {
             base.OnAppearing();
