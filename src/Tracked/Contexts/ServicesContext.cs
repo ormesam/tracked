@@ -37,6 +37,10 @@ namespace Tracked.Contexts {
             return await GetAsync<FeedWrapperDto>("feed");
         }
 
+        public async Task<IList<UserSearchDto>> SearchUsers(string searchText) {
+            return await GetAsync<IList<UserSearchDto>>("search?searchText=" + searchText);
+        }
+
         public async Task<RideDto> GetRide(int id) {
             return await GetAsync<RideDto>("rides/" + id);
         }

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Search.SearchScreen"
+    xmlns:controls="clr-namespace:Tracked.Controls"
+    Title="{Binding Title}">
+    <Grid
+        RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="Auto"/>
+            <RowDefinition
+                Height="*"/>
+            <RowDefinition
+                Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <SearchBar
+            Placeholder="Search items..."
+            PlaceholderColor="{StaticResource TextColour}"
+            TextColor="{StaticResource TextColour}"
+            Text="{Binding SearchText, Mode=TwoWay}"
+            SearchButtonPressed="SearchBar_SearchButtonPressed"
+            CancelButtonColor="{StaticResource TextColour}" />
+
+        <Label
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="{Binding EmptyText}"
+            IsVisible="{Binding HasResults, Converter={StaticResource InvertBoolConverter}}" />
+        <ListView
+            Grid.Row="1"
+            ItemsSource="{Binding Results}"
+            ItemTapped="Result_ItemTapped"
+            CachingStrategy="RecycleElementAndDataTemplate"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshCommand="{Binding RefreshCommand}"
+            HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <controls:UserHeader
+                            Padding="10"
+                            Name="{Binding UserName}"
+                            Detail="{Binding JoinedDisplay}"
+                            ProfileImageUrl="{Binding UserProfileImageUrl}" />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <controls:TabControl
+            Grid.Row="2"/>
+    </Grid>
+</ContentPage>

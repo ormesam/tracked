@@ -14,5 +14,6 @@ namespace Tracked.Models {
         Trails,
         Profile,
         Settings,
+        Search,
     }
 }

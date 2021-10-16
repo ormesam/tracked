@@ -10,8 +10,6 @@ using Xamarin.Forms;
 
 namespace Tracked.Screens.Trails {
     public class ExploreTrailsScreenViewModel : TabbedViewModelBase {
-        private bool isRefreshing;
-
         public ExploreTrailsScreenViewModel(MainContext context) : base(context) {
             Trails = new List<TrailOverviewDto>();
         }
@@ -19,16 +17,6 @@ namespace Tracked.Screens.Trails {
         public override string Title => "Trails";
 
         protected override TabItemType SelectedTab => TabItemType.Trails;
-
-        public bool IsRefreshing {
-            get { return isRefreshing; }
-            set {
-                if (value != isRefreshing) {
-                    isRefreshing = value;
-                    OnPropertyChanged(nameof(IsRefreshing));
-                }
-            }
-        }
 
         public ICommand RefreshCommand {
             get { return new Command(async () => await Load()); }

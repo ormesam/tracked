@@ -99,7 +99,7 @@ namespace Tracked.Contexts {
             AccessToken = loginResponse.AccessToken;
             this.user = loginResponse.User;
 
-            await mainContext.UI.GoToRideOverviewScreenAsync();
+            await mainContext.UI.GoToFeedScreen();
         }
 
         internal Task<string> GetRefreshToken() {

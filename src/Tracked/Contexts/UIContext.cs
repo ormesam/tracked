@@ -5,6 +5,7 @@ using Tracked.Screens.Feed;
 using Tracked.Screens.Profile;
 using Tracked.Screens.Record;
 using Tracked.Screens.Rides;
+using Tracked.Screens.Search;
 using Tracked.Screens.Settings;
 using Tracked.Screens.Settings.Modals;
 using Tracked.Screens.Trails;
@@ -59,8 +60,12 @@ namespace Tracked.Contexts {
 
         #region Root
 
-        public async Task GoToRideOverviewScreenAsync() {
+        public async Task GoToFeedScreen() {
             await ReplaceScreenAsync(new FeedScreen(context));
+        }
+
+        public async Task GoToSearchScreenAsync() {
+            await ReplaceScreenAsync(new SearchScreen(context));
         }
 
         public async Task GoToExploreTrailsScreenAsync() {
