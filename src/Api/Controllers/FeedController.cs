@@ -36,6 +36,8 @@ namespace Api.Controllers {
                     allUsers.Add(userId);
 
                     var follows = context.UserFollows
+                        .Where(row => row.UserId != userId)
+                        .Where(row => row.UserFollowId != userId)
                         .Where(row => Enumerable.Contains(allUsers, row.UserId))
                         .Where(row => row.FollowedUtc >= cutOff)
                         .Select(row => new FollowFeedDto {

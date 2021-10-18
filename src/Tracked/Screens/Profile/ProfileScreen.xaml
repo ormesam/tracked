@@ -18,7 +18,7 @@
                     <controls:UserHeader
                         Padding="10"
                         Name="{Binding User.Name}"
-                        Detail="{Binding User.CreatedUtc, StringFormat='Member since {0:dd MMM yyyy}'}"
+                        Detail="{Binding User.CreatedUtc, StringFormat='Member since {0:MMMM dd, yyyy}'}"
                         ProfileImageUrl="{Binding User.ProfileImageUrl}" />
 
                     <localControls:FollowControl
