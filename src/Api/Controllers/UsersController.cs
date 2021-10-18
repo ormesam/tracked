@@ -22,6 +22,8 @@ namespace Api.Controllers {
         [HttpGet]
         [Route("{userId}/profile")]
         public ActionResult<ProfileDto> Profile(int userId) {
+            int currentUserId = this.GetCurrentUserId();
+
             using (Transaction transaction = dbFactory.CreateReadOnlyTransaction()) {
                 using (ModelDataContext context = transaction.CreateDataContext()) {
                     var profile = context.Users
@@ -32,6 +34,9 @@ namespace Api.Controllers {
                             CreatedUtc = row.CreatedUtc,
                             Bio = row.Bio,
                             ProfileImageUrl = row.ProfileImageUrl,
+                            IsFollowingCurrentUser = row.UserFollowUsers
+                                .Where(i => i.FollowUserId == currentUserId)
+                                .Any(),
                         })
                         .SingleOrDefault();
 
@@ -39,6 +44,8 @@ namespace Api.Controllers {
                         return NotFound();
                     }
 
+                    profile.IsFollowing = IsFollowing(transaction, currentUserId, userId);
+                    profile.IsFollowingCurrentUser = IsFollowing(transaction, userId, currentUserId);
                     profile.LongestAirtime = GetLongestAirtime(transaction, userId);
                     profile.MilesTravelled = GetMilesTravelled(transaction, userId);
                     profile.MilesTravelledThisMonth = GetMilesTravelled(transaction, userId, DateTime.UtcNow.AddDays(-30));
@@ -47,6 +54,15 @@ namespace Api.Controllers {
 
                     return profile;
                 }
+            }
+        }
+
+        private bool IsFollowing(Transaction transaction, int userId, int followingUserId) {
+            using (ModelDataContext context = transaction.CreateDataContext()) {
+                return context.UserFollows
+                    .Where(row => row.UserId == userId)
+                    .Where(row => row.FollowUserId == followingUserId)
+                    .Any();
             }
         }
 
@@ -75,7 +91,7 @@ namespace Api.Controllers {
         }
 
         [HttpPost]
-        [Route("follow-user")]
+        [Route("follow")]
         public ActionResult Follow([FromBody] int followUserId) {
             int userId = this.GetCurrentUserId();
 
@@ -103,7 +119,7 @@ namespace Api.Controllers {
         }
 
         [HttpPost]
-        [Route("unfollow-user")]
+        [Route("unfollow")]
         public ActionResult UnFollow([FromBody] int unfollowUserId) {
             using (Transaction transaction = dbFactory.CreateTransaction()) {
                 UnfollowUser(transaction, unfollowUserId);

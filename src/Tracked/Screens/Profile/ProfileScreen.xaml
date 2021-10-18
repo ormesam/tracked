@@ -21,6 +21,8 @@
                         Detail="{Binding User.CreatedUtc, StringFormat='Member since {0:dd MMM yyyy}'}"
                         ProfileImageUrl="{Binding User.ProfileImageUrl}" />
 
+                    <localControls:FollowControl
+                        IsVisible="{Binding IsCurrentUser, Converter={StaticResource InvertBoolConverter}}" />
                     <localControls:BioControl />
                     <controls:Seperator />
                     <localControls:StatsControl />

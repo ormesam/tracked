@@ -13,5 +13,7 @@ namespace Shared.Dtos {
         public double? TopSpeedMph { get; set; }
         public double? LongestAirtime { get; set; }
         public IList<AchievementDto> Achievements { get; set; }
+        public bool IsFollowing { get; set; }
+        public bool IsFollowingCurrentUser { get; set; }
     }
 }

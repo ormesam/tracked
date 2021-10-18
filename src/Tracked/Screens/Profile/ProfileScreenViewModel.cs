@@ -8,18 +8,15 @@ namespace Tracked.Screens.Profile {
     public class ProfileScreenViewModel : TabbedViewModelBase {
         private ProfileDto user;
 
-        public ProfileScreenViewModel(MainContext context) : base(context) {
+        public ProfileScreenViewModel(MainContext context, TabItemType selectedTab) : base(context, selectedTab) {
         }
-
-        protected override TabItemType SelectedTab => IsCurrentUser ? TabItemType.Profile : TabItemType.Search;
 
         public ProfileDto User {
             get { return user; }
             set {
                 if (user != value) {
                     user = value;
-                    OnPropertyChanged(nameof(User));
-                    OnPropertyChanged(nameof(Bio));
+                    OnPropertyChanged();
                 }
             }
         }
@@ -48,7 +45,9 @@ namespace Tracked.Screens.Profile {
             }
         }
 
-        public bool IsCurrentUser => User.UserId == Context.Security.UserId;
+        public bool IsCurrentUser => User?.UserId == Context.Security.UserId;
+
+        public bool IsFollowing => IsCurrentUser ? true : User.IsFollowing;
 
         public override string Title => IsCurrentUser ? "Profile" : User.Name;
 
@@ -84,6 +83,30 @@ namespace Tracked.Screens.Profile {
             } catch (ServiceException ex) {
                 Toast.LongAlert(ex.Message);
             }
+        }
+
+        public async Task Follow() {
+            if (IsCurrentUser || User.IsFollowing) {
+                return;
+            }
+
+            await Context.Services.Follow(User.UserId);
+
+            User.IsFollowing = true;
+
+            OnPropertyChanged();
+        }
+
+        public async Task Unfollow() {
+            if (IsCurrentUser || !User.IsFollowing) {
+                return;
+            }
+
+            await Context.Services.Unfollow(User.UserId);
+
+            User.IsFollowing = false;
+
+            OnPropertyChanged();
         }
     }
 }

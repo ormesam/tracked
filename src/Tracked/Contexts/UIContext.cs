@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Shared.Dtos;
+using Tracked.Models;
 using Tracked.Screens.Feed;
 using Tracked.Screens.Profile;
 using Tracked.Screens.Record;
@@ -104,8 +105,8 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new SpeedAnalysisScreen(context, rideLocation));
         }
 
-        public async Task GoToProfileScreenAsync(int userId) {
-            var viewModel = new ProfileScreenViewModel(context);
+        public async Task GoToProfileScreenAsync(int userId, TabItemType tabType) {
+            var viewModel = new ProfileScreenViewModel(context, tabType);
             if (await viewModel.Load(userId)) {
                 await ReplaceScreenAsync(new ProfileScreen(viewModel));
             }

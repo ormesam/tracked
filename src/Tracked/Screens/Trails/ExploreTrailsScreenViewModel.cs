@@ -10,13 +10,11 @@ using Xamarin.Forms;
 
 namespace Tracked.Screens.Trails {
     public class ExploreTrailsScreenViewModel : TabbedViewModelBase {
-        public ExploreTrailsScreenViewModel(MainContext context) : base(context) {
+        public ExploreTrailsScreenViewModel(MainContext context) : base(context, TabItemType.Trails) {
             Trails = new List<TrailOverviewDto>();
         }
 
         public override string Title => "Trails";
-
-        protected override TabItemType SelectedTab => TabItemType.Trails;
 
         public ICommand RefreshCommand {
             get { return new Command(async () => await Load()); }

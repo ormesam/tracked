@@ -14,11 +14,9 @@ namespace Tracked.Screens.Feed {
         private bool isUploading;
         private ObservableCollection<FeedBaseDto> feed;
 
-        public FeedScreenViewModel(MainContext context) : base(context) {
+        public FeedScreenViewModel(MainContext context) : base(context, TabItemType.Feed) {
             feed = new ObservableCollection<FeedBaseDto>();
         }
-
-        protected override TabItemType SelectedTab => TabItemType.Rides;
 
         public bool IsLoading {
             get { return isLoading; }

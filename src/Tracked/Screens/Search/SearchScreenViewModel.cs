@@ -13,13 +13,11 @@ namespace Tracked.Screens.Search {
         private string searchText;
         private ObservableCollection<UserSearchDto> results;
 
-        public SearchScreenViewModel(MainContext context) : base(context) {
+        public SearchScreenViewModel(MainContext context) : base(context, TabItemType.Search) {
             results = new ObservableCollection<UserSearchDto>();
         }
 
         public override string Title => "Search";
-
-        protected override TabItemType SelectedTab => TabItemType.Search;
 
         public string SearchText {
             get { return searchText; }
@@ -71,7 +69,7 @@ namespace Tracked.Screens.Search {
         }
 
         public async Task GoToUser(int userId) {
-            await Context.UI.GoToProfileScreenAsync(userId);
+            await Context.UI.GoToProfileScreenAsync(userId, TabItemType.Search);
         }
     }
 }

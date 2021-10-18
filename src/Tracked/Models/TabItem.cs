@@ -10,7 +10,7 @@ namespace Tracked.Models {
     }
 
     public enum TabItemType {
-        Rides,
+        Feed,
         Trails,
         Profile,
         Settings,

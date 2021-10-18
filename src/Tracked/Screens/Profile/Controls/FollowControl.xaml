@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Profile.Controls.FollowControl">
+    <ContentView.Content>
+        <StackLayout>
+            <Button
+                IsVisible="{Binding IsFollowing, Converter={StaticResource InvertBoolConverter}}"
+                Text="Follow"
+                TextColor="{StaticResource TextColour}"
+                BackgroundColor="{StaticResource Green}"
+                Margin="10, 0"
+                HeightRequest="40"
+                CornerRadius="5"
+                Clicked="Follow_Clicked" />
+            <Button
+                IsVisible="{Binding IsFollowing}"
+                Text="Unfollow"
+                TextColor="{StaticResource TextColour}"
+                BackgroundColor="{StaticResource Orange}"
+                Margin="10, 0"
+                HeightRequest="40"
+                CornerRadius="5"
+                Clicked="Unfollow_Clicked" />
+            <Label
+                HorizontalTextAlignment="Center"
+                FontSize="Micro"
+                Text="follows you"
+                IsVisible="{Binding User.IsFollowingCurrentUser}" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

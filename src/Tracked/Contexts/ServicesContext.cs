@@ -89,6 +89,22 @@ namespace Tracked.Contexts {
             });
         }
 
+        public async Task Follow(int userId) {
+            await PostAsync("users/follow", userId);
+
+            //await PostAsync("users/follow", new IdDto {
+            //    Id = userId,
+            //});
+        }
+
+        public async Task Unfollow(int userId) {
+            await PostAsync("users/unfollow", userId);
+
+            //await PostAsync("users/unfollow", new IdDto {
+            //    Id = userId,
+            //});
+        }
+
         public async Task<int> GetLatestAnalyserVersion() {
             return await GetAsync<int>("rides/latest-analyser-version");
         }
