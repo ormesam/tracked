@@ -117,5 +117,9 @@ namespace Tracked.Screens.Feed {
         public async Task GoToReview(RideFeedDto ride) {
             await Context.UI.GoToRideReviewScreenAsync(ride.RideId.Value);
         }
+
+        public async Task GoToUserProfile(FollowFeedDto follow) {
+            await Context.UI.GoToProfileScreenAsync(follow.FollowedUserId, TabItemType.Search);
+        }
     }
 }

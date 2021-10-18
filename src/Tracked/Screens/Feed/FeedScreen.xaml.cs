@@ -48,8 +48,14 @@ namespace Tracked.Screens.Feed {
             await ViewModel.GoToReview(item);
         }
 
-        private void Follow_Tapped(object sender, EventArgs e) {
-            // TODO: go to users page
+        private async void Follow_Tapped(object sender, EventArgs e) {
+            var item = (sender as View).BindingContext as FollowFeedDto;
+
+            if (item == null) {
+                return;
+            }
+
+            await ViewModel.GoToUserProfile(item);
         }
     }
 }
