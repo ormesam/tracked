@@ -108,5 +108,15 @@ namespace Tracked.Screens.Profile {
 
             OnPropertyChanged();
         }
+
+        public async Task Block() {
+            if (IsCurrentUser) {
+                return;
+            }
+
+            await Context.Services.Block(User.UserId);
+
+            await Context.UI.GoToFeedScreen();
+        }
     }
 }

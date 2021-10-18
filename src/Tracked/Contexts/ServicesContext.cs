@@ -91,18 +91,18 @@ namespace Tracked.Contexts {
 
         public async Task Follow(int userId) {
             await PostAsync("users/follow", userId);
-
-            //await PostAsync("users/follow", new IdDto {
-            //    Id = userId,
-            //});
         }
 
         public async Task Unfollow(int userId) {
             await PostAsync("users/unfollow", userId);
+        }
 
-            //await PostAsync("users/unfollow", new IdDto {
-            //    Id = userId,
-            //});
+        public async Task Block(int userId) {
+            await PostAsync("users/block", userId);
+        }
+
+        public async Task Unblock(int userId) {
+            await PostAsync("users/unblock", userId);
         }
 
         public async Task<int> GetLatestAnalyserVersion() {

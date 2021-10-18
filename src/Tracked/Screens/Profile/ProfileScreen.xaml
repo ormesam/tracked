@@ -6,7 +6,8 @@
     xmlns:controls="clr-namespace:Tracked.Controls"
     xmlns:localControls="clr-namespace:Tracked.Screens.Profile.Controls"
     NavigationPage.HasNavigationBar="False"
-    Title="{Binding Title}">
+    Title="{Binding Title}"
+    x:Name="page">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -27,6 +28,16 @@
                     <controls:Seperator />
                     <localControls:StatsControl />
                     <localControls:AchievementsControl />
+
+                    <Button
+                        IsVisible="{Binding IsCurrentUser, Converter={StaticResource InvertBoolConverter}}"
+                        Text="Block User"
+                        TextColor="{StaticResource TextColour}"
+                        BackgroundColor="{StaticResource Red}"
+                        Margin="10, 0"
+                        HeightRequest="40"
+                        CornerRadius="5"
+                        Clicked="Block_Clicked"/>
                 </StackLayout>
             </ScrollView>
             <controls:TabControl

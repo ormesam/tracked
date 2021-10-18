@@ -131,7 +131,7 @@ namespace Api.Controllers {
         }
 
         [HttpPost]
-        [Route("block-user")]
+        [Route("block")]
         public ActionResult Block([FromBody] int blockUserId) {
             int userId = this.GetCurrentUserId();
 
@@ -161,7 +161,7 @@ namespace Api.Controllers {
         }
 
         [HttpPost]
-        [Route("unblock-user")]
+        [Route("unblock")]
         public ActionResult UnBlock([FromBody] int unblockUserId) {
             int userId = this.GetCurrentUserId();
 

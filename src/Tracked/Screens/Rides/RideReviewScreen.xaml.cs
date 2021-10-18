@@ -24,7 +24,7 @@ namespace Tracked.Screens.Rides {
                 page.ToolbarItems.Add(item);
             }
 
-            if (ViewModel.LatestAnalyserVersion != null && ViewModel.Ride.AnalyserVersion < ViewModel.LatestAnalyserVersion) {
+            if (ViewModel.LatestAnalyserVersion != null && ViewModel.Ride.AnalyserVersion < ViewModel.LatestAnalyserVersion && page.ToolbarItems.Count == 1) {
                 var item = new ToolbarItem {
                     Text = "Reanalyse Ride",
                     Order = ToolbarItemOrder.Secondary,

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Tracked.Screens.Profile {
@@ -10,5 +11,17 @@ namespace Tracked.Screens.Profile {
         }
 
         public ProfileScreenViewModel ViewModel => BindingContext as ProfileScreenViewModel;
+
+        private async void Block_Clicked(object sender, EventArgs e) {
+            bool block = await DisplayAlert(
+                "Block User",
+                "Are you sure you want to block this user?",
+                "Yes",
+                "No");
+
+            if (block) {
+                await ViewModel.Block();
+            }
+        }
     }
 }

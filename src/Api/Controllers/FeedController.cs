@@ -27,6 +27,20 @@ namespace Api.Controllers {
                 using (ModelDataContext context = transaction.CreateDataContext()) {
                     DateTime cutOff = DateTime.Today.AddMonths(-3);
 
+                    var blockedUsers = context.UserBlocks
+                        .Where(row => row.UserId == userId)
+                        .Select(row => row.BlockUserId)
+                        .ToList();
+
+                    var blockedByUsers = context.UserBlocks
+                        .Where(row => row.BlockUserId == userId)
+                        .Select(row => row.BlockUserId)
+                        .ToList();
+
+                    var allBlockedUsers = blockedUsers
+                        .Concat(blockedByUsers)
+                        .Distinct();
+
                     var followedUsers = context.UserFollows
                         .Where(row => row.UserId == userId)
                         .Select(row => row.FollowUserId)
@@ -36,9 +50,9 @@ namespace Api.Controllers {
                     allUsers.Add(userId);
 
                     var follows = context.UserFollows
-                        .Where(row => row.UserId != userId)
                         .Where(row => row.UserFollowId != userId)
-                        .Where(row => Enumerable.Contains(allUsers, row.UserId))
+                        .Where(row => Enumerable.Contains(followedUsers, row.UserId))
+                        .Where(row => !Enumerable.Contains(allBlockedUsers, row.UserFollowId))
                         .Where(row => row.FollowedUtc >= cutOff)
                         .Select(row => new FollowFeedDto {
                             UserId = row.UserId,
