@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Shared.Interfaces;
 
 namespace Shared {
@@ -27,10 +26,6 @@ namespace Shared {
             }
 
             return totalKm * 0.621371192;
-        }
-
-        public static bool HasPointOnLine(this IList<ILatLng> path, ILatLng point, int toleranceInMetres = 25) {
-            return path.Any(i => i.GetDistanceM(point) <= toleranceInMetres);
         }
     }
 }

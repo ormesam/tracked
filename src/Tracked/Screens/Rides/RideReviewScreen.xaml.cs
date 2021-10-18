@@ -7,33 +7,39 @@ using Xamarin.Forms.Xaml;
 namespace Tracked.Screens.Rides {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RideReviewScreen : ContentPage {
+        private bool hasAddedToolbarItems = false;
+
         public RideReviewScreen(RideReviewScreenViewModel viewModel) {
             InitializeComponent();
             BindingContext = viewModel;
         }
 
         protected override void OnAppearing() {
-            if (ViewModel.CanCreateTrail && page.ToolbarItems.Count == 1) {
-                var item = new ToolbarItem {
-                    Text = "Create Trail",
-                    Order = ToolbarItemOrder.Secondary,
-                };
+            if (!hasAddedToolbarItems) {
+                if (ViewModel.CanCreateTrail) {
+                    var item = new ToolbarItem {
+                        Text = "Create Trail",
+                        Order = ToolbarItemOrder.Secondary,
+                    };
 
-                item.Clicked += CreateTrail_Clicked;
+                    item.Clicked += CreateTrail_Clicked;
 
-                page.ToolbarItems.Add(item);
+                    page.ToolbarItems.Add(item);
+                }
+
+                if (ViewModel.LatestAnalyserVersion != null && ViewModel.Ride.AnalyserVersion < ViewModel.LatestAnalyserVersion) {
+                    var item = new ToolbarItem {
+                        Text = "Reanalyse Ride",
+                        Order = ToolbarItemOrder.Secondary,
+                    };
+
+                    item.Clicked += Reanalyse_Clicked;
+
+                    page.ToolbarItems.Add(item);
+                }
             }
 
-            if (ViewModel.LatestAnalyserVersion != null && ViewModel.Ride.AnalyserVersion < ViewModel.LatestAnalyserVersion && page.ToolbarItems.Count == 1) {
-                var item = new ToolbarItem {
-                    Text = "Reanalyse Ride",
-                    Order = ToolbarItemOrder.Secondary,
-                };
-
-                item.Clicked += Reanalyse_Clicked;
-
-                page.ToolbarItems.Add(item);
-            }
+            hasAddedToolbarItems = true;
 
             base.OnAppearing();
 

@@ -6,13 +6,14 @@ namespace Api.Analysers {
     public class Analyser {
         // Increment this everytime there is a change to the logic which would affect previous results
         // This will ask users if they want to re-analyse their trail attempts which used an old algorithm
-        public const int AnalyserVersion = 2;
+        public const int AnalyserVersion = 4;
 
         public static void AnalyseRide(Transaction transaction, int userId, int rideId) {
             RideHelper.ThrowIfNotOwner(transaction, rideId, userId);
 
             var analysers = new IRideAnalyser[] {
                 new LocationAnalyser(),
+                new StatsAnalyser(),
                 new SpeedAnalyser(),
                 new JumpAnalyser(),
                 new DistanceAnalyser(),

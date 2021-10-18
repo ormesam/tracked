@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using Shared.Dtos;
-using Shared.Interfaces;
 
 namespace Api.Controllers {
     [Route("api/[controller]")]
@@ -87,17 +86,15 @@ namespace Api.Controllers {
         }
 
         private int SaveRide(Transaction transaction, int userId, CreateRideDto model) {
-            var routeSvgPath = new SvgBuilder(model.Locations.Cast<ILatLng>()).Build();
-
             using (ModelDataContext context = transaction.CreateDataContext()) {
                 Ride ride = new Ride();
                 ride.StartUtc = model.StartUtc;
                 ride.EndUtc = model.EndUtc;
                 ride.UserId = userId;
-                ride.AverageSpeedMph = model.Locations.Average(i => i.Mph);
-                ride.MaxSpeedMph = model.Locations.Max(i => i.Mph);
-                ride.DistanceMiles = DistanceHelpers.GetDistanceMile(model.Locations.Cast<ILatLng>().ToList());
-                ride.RouteSvgPath = routeSvgPath;
+                ride.AverageSpeedMph = 0;
+                ride.MaxSpeedMph = 0;
+                ride.DistanceMiles = 0;
+                ride.RouteSvgPath = "-";
                 ride.AnalyserVersion = Analyser.AnalyserVersion;
 
                 ride.RideLocations = model.Locations
