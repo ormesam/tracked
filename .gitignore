@@ -331,3 +331,4 @@ ASALocalRun/
 
 /src/Shared/Constants.Debug.cs
 /src/Shared/Constants.Release.cs
+/src/nuget.config
