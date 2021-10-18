@@ -6,3 +6,5 @@
 
     [BlockedUtc] datetime NOT NULL,
 )
+
+CREATE UNIQUE INDEX [IX_UserBlock] ON [UserBlock]([UserId], [BlockUserId]) 

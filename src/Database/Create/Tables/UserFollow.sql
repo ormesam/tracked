@@ -6,3 +6,5 @@
 
     [FollowedUtc] datetime NOT NULL,
 )
+
+CREATE UNIQUE INDEX [IX_UserFollow] ON [UserFollow]([UserId], [FollowUserId]) 
