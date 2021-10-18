@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tracked.Contexts;
 using Tracked.Models;
 
@@ -31,6 +32,10 @@ namespace Tracked.Screens.Settings {
 
         private async void SettingsScreenViewModel_JumpsEnabled(object sender, EventArgs e) {
             await Context.UI.ShowJumpAboutModal();
+        }
+
+        public async Task GoToBlockedUsers() {
+            await Context.UI.GoToBlockedUsersAsync();
         }
     }
 }

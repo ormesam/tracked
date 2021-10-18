@@ -11,6 +11,7 @@
             ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -33,19 +34,30 @@
                 IsToggled="{Binding ShouldDetectJumps}"
                 VerticalOptions="Center" />
 
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="Blocked Users"
+                TextColor="{StaticResource TextColour}"
+                BackgroundColor="{StaticResource Orange}"
+                Margin="10, 0"
+                HeightRequest="40"
+                CornerRadius="5"
+                Clicked="BlockedUsers_Clicked"/>
+
             <controls:Copyright
-                Grid.Row="2"
+                Grid.Row="3"
                 Grid.ColumnSpan="2" />
 
             <Button
-                Grid.Row="3"
+                Grid.Row="4"
                 Grid.ColumnSpan="2" 
                 Text="Log Out"
                 Clicked="DisconnectFromGoogle_Click"
                 BackgroundColor="{StaticResource GoogleButtonColour}" />
 
             <controls:TabControl
-                Grid.Row="4"
+                Grid.Row="5"
                 Grid.ColumnSpan="2"  />
         </Grid>
     </ContentPage.Content>

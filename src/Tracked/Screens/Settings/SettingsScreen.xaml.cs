@@ -16,5 +16,9 @@ namespace Tracked.Screens.Settings {
         private void DisconnectFromGoogle_Click(object sender, EventArgs e) {
             ViewModel.DisconnectFromGoogle();
         }
+
+        private async void BlockedUsers_Clicked(object sender, EventArgs e) {
+            await ViewModel.GoToBlockedUsers();
+        }
     }
 }

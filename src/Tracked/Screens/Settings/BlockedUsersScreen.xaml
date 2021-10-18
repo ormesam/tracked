@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tracked.Screens.Settings.BlockedUsersScreen"
+    Title="{Binding Title}">
+    <ContentPage.Content>
+        <ListView
+            ItemsSource="{Binding BlockedUsers}"
+            ItemTapped="Item_Tapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell
+                        Text="{Binding UserName}"
+                        Detail="{Binding BlockedUtc, StringFormat='Blocked {0:dd/mm/yyyy}'}"
+                        TextColor="{StaticResource TextColour}" 
+                        DetailColor="{StaticResource TextColour}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

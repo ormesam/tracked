@@ -105,6 +105,10 @@ namespace Tracked.Contexts {
             await PostAsync("users/unblock", userId);
         }
 
+        public async Task<IList<BlockedUserDto>> GetBlockedUsersAsync() {
+            return await GetAsync<IList<BlockedUserDto>>($"users/blocked");
+        }
+
         public async Task<int> GetLatestAnalyserVersion() {
             return await GetAsync<int>("rides/latest-analyser-version");
         }

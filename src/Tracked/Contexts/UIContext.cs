@@ -112,6 +112,13 @@ namespace Tracked.Contexts {
             }
         }
 
+        public async Task GoToBlockedUsersAsync() {
+            var viewModel = new BlockedUsersScreenViewModel(context);
+            if (await viewModel.Load()) {
+                await GoToScreenAsync(new BlockedUsersScreen(viewModel));
+            }
+        }
+
         public async Task GoToSettingsScreenAsync() {
             await ReplaceScreenAsync(new SettingsScreen(context));
         }

@@ -130,6 +130,25 @@ namespace Api.Controllers {
             return Ok();
         }
 
+        [HttpGet]
+        [Route("blocked")]
+        public ActionResult<IList<BlockedUserDto>> Blocked() {
+            int userId = this.GetCurrentUserId();
+
+            using (Transaction transaction = dbFactory.CreateReadOnlyTransaction()) {
+                using (ModelDataContext context = transaction.CreateDataContext()) {
+                    return context.UserBlocks
+                        .Where(row => row.UserId == userId)
+                        .Select(row => new BlockedUserDto {
+                            UserId = row.BlockUserId,
+                            UserName = row.BlockUser.Name,
+                            BlockedUtc = row.BlockedUtc,
+                        })
+                        .ToList();
+                }
+            }
+        }
+
         [HttpPost]
         [Route("block")]
         public ActionResult Block([FromBody] int blockUserId) {
