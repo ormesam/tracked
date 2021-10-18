@@ -104,9 +104,9 @@ namespace Tracked.Contexts {
             await GoToScreenAsync(new SpeedAnalysisScreen(context, rideLocation));
         }
 
-        public async Task GoToProfileScreenAsync() {
+        public async Task GoToProfileScreenAsync(int userId) {
             var viewModel = new ProfileScreenViewModel(context);
-            if (await viewModel.Load()) {
+            if (await viewModel.Load(userId)) {
                 await ReplaceScreenAsync(new ProfileScreen(viewModel));
             }
         }

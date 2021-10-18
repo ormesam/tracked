@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Shared.Dto;
+using Shared.Dtos;
 
 namespace Tracked.Auth {
     public interface IGoogleClientManager {

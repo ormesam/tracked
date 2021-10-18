@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shared.Dto {
+namespace Shared.Dtos {
     public class GoogleUserDto {
         public string Id { get; set; }
         public string Name { get; set; }

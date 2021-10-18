@@ -20,10 +20,8 @@ namespace Api.Controllers {
         }
 
         [HttpGet]
-        [Route("profile")]
-        public ActionResult<ProfileDto> Profile() {
-            int userId = this.GetCurrentUserId();
-
+        [Route("{userId}/profile")]
+        public ActionResult<ProfileDto> Profile(int userId) {
             using (Transaction transaction = dbFactory.CreateReadOnlyTransaction()) {
                 using (ModelDataContext context = transaction.CreateDataContext()) {
                     var profile = context.Users
@@ -192,15 +190,15 @@ namespace Api.Controllers {
             }
         }
 
-        private double? GetLongestAirtime(Transaction transaction, int userId) {
+        private double GetLongestAirtime(Transaction transaction, int userId) {
             using (ModelDataContext context = transaction.CreateDataContext()) {
                 return context.Jumps
                     .Where(row => row.Ride.UserId == userId)
-                    .Max(i => (double?)i.Airtime);
+                    .Max(i => (double?)i.Airtime) ?? 0;
             }
         }
 
-        private double? GetMilesTravelled(Transaction transaction, int userId, DateTime? dateTime = null) {
+        private double GetMilesTravelled(Transaction transaction, int userId, DateTime? dateTime = null) {
             using (ModelDataContext context = transaction.CreateDataContext()) {
                 var query = context.Rides
                     .Where(row => row.UserId == userId);
@@ -210,15 +208,15 @@ namespace Api.Controllers {
                         .Where(row => row.StartUtc > dateTime.Value.Date);
                 }
 
-                return query.Sum(i => (double?)i.DistanceMiles);
+                return query.Sum(i => (double?)i.DistanceMiles) ?? 0;
             }
         }
 
-        private double? GetTopSpeedMph(Transaction transaction, int userId) {
+        private double GetTopSpeedMph(Transaction transaction, int userId) {
             using (ModelDataContext context = transaction.CreateDataContext()) {
                 return context.Rides
                     .Where(row => row.UserId == userId)
-                    .Max(i => (double?)i.MaxSpeedMph);
+                    .Max(i => (double?)i.MaxSpeedMph) ?? 0;
             }
         }
 

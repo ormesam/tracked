@@ -70,8 +70,8 @@ namespace Tracked.Screens.Search {
             IsRefreshing = false;
         }
 
-        public void GoToUser(int userId) {
-            //Context.UI.
+        public async Task GoToUser(int userId) {
+            await Context.UI.GoToProfileScreenAsync(userId);
         }
     }
 }

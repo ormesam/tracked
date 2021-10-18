@@ -8,7 +8,7 @@ using Android.Gms.Common.Apis;
 using Android.Gms.Tasks;
 using Java.Interop;
 using Shared;
-using Shared.Dto;
+using Shared.Dtos;
 using Tracked.Auth;
 
 namespace Tracked.Droid.Auth {

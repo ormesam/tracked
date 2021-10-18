@@ -14,11 +14,11 @@ namespace Tracked.Screens.Search {
 
         public SearchScreenViewModel ViewModel => BindingContext as SearchScreenViewModel;
 
-        private void Result_ItemTapped(object sender, ItemTappedEventArgs e) {
+        private async void Result_ItemTapped(object sender, ItemTappedEventArgs e) {
             var user = e.Item as UserSearchDto;
 
             if (user != null) {
-                ViewModel.GoToUser(user.UserId);
+                await ViewModel.GoToUser(user.UserId);
             }
         }
 

@@ -5,8 +5,8 @@
     x:Class="Tracked.Screens.Profile.ProfileScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
     xmlns:localControls="clr-namespace:Tracked.Screens.Profile.Controls"
-    Title="{Binding Title}"
-    x:Name="page">
+    NavigationPage.HasNavigationBar="False"
+    Title="{Binding Title}">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

@@ -11,7 +11,7 @@ namespace Tracked.Screens.Profile {
         public ProfileScreenViewModel(MainContext context) : base(context) {
         }
 
-        protected override TabItemType SelectedTab => TabItemType.Profile;
+        protected override TabItemType SelectedTab => IsCurrentUser ? TabItemType.Profile : TabItemType.Search;
 
         public ProfileDto User {
             get { return user; }
@@ -52,9 +52,9 @@ namespace Tracked.Screens.Profile {
 
         public override string Title => IsCurrentUser ? "Profile" : User.Name;
 
-        public async Task<bool> Load() {
+        public async Task<bool> Load(int userId) {
             try {
-                User = await Context.Services.GetProfile();
+                User = await Context.Services.GetProfile(userId);
 
                 return true;
             } catch (ServiceException ex) {
@@ -65,6 +65,10 @@ namespace Tracked.Screens.Profile {
         }
 
         public async Task EditBio() {
+            if (!IsCurrentUser) {
+                return;
+            }
+
             string newBio = await Context.UI.ShowPromptAsync("Bio", "Tell us something about yourself", User.Bio);
 
             if (newBio == null) {

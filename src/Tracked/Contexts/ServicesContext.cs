@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Shared;
-using Shared.Dto;
 using Shared.Dtos;
 using Tracked.Utilities;
 using Xamarin.Essentials;
@@ -80,8 +79,8 @@ namespace Tracked.Contexts {
             await PostAsync<bool>("trails/delete", trailId);
         }
 
-        public async Task<ProfileDto> GetProfile() {
-            return await GetAsync<ProfileDto>("users/profile");
+        public async Task<ProfileDto> GetProfile(int userId) {
+            return await GetAsync<ProfileDto>($"users/{userId}/profile");
         }
 
         public async Task UpdateBio(string bio) {

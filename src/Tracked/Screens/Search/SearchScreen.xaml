@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Tracked.Screens.Search.SearchScreen"
     xmlns:controls="clr-namespace:Tracked.Controls"
+    NavigationPage.HasNavigationBar="False"
     Title="{Binding Title}">
     <Grid
         RowSpacing="0">
@@ -17,7 +18,8 @@
         </Grid.RowDefinitions>
 
         <SearchBar
-            Placeholder="Search items..."
+            BackgroundColor="{StaticResource SecondaryBackgroundColour}"
+            Placeholder="Search users..."
             PlaceholderColor="{StaticResource TextColour}"
             TextColor="{StaticResource TextColour}"
             Text="{Binding SearchText, Mode=TwoWay}"

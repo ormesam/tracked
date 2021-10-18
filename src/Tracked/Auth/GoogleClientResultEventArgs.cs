@@ -1,5 +1,5 @@
 ﻿using System;
-using Shared.Dto;
+using Shared.Dtos;
 
 namespace Tracked.Auth {
     public class GoogleClientResultEventArgs : EventArgs {
