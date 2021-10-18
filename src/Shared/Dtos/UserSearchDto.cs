@@ -12,14 +12,14 @@ namespace Shared.Dtos {
                 var time = JoinedUtc.ToLocalTime();
 
                 if (time.Date == DateTime.Today) {
-                    return "Today at " + time.ToString("HH:mm");
+                    return "Joined today";
                 }
 
                 if (time.Date == DateTime.Today.AddDays(-1)) {
-                    return "Yesterday at " + time.ToString("HH:mm");
+                    return "Joined yesterday";
                 }
 
-                return $"{time:MMMM dd, yyyy} at {time:HH:mm}";
+                return $"Joined {time:MMMM dd, yyyy}";
             }
         }
     }
