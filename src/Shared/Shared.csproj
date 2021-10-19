@@ -11,4 +11,9 @@
     <Compile Remove="Constants.cs" Condition="Exists('Constants.$(Configuration).cs')" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- From https://nuget.pkg.github.com/ormesam/index.json -->
+    <PackageReference Include="Essentials.Core" Version="0.0.14" />
+  </ItemGroup>
+
 </Project>
