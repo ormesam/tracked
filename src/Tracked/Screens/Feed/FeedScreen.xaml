@@ -129,15 +129,16 @@
                 <DataTemplate>
                     <Grid
                         Padding="20">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Tapped="Follow_Tapped" />
-                        </Grid.GestureRecognizers>
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Tapped="Follow_Tapped" />
+                        </Grid.GestureRecognizers>
 
                         <Frame
                             Grid.RowSpan="2"
@@ -145,29 +146,17 @@
                             Margin="-10"
                             BackgroundColor="{StaticResource SecondaryBackgroundColour}" />
 
+                        <Label
+                            Grid.Row="0"
+                            Padding="5, 2, 5, 0"
+                            Text="{Binding UserName, StringFormat='{}{0} is now following'}" />
+
                         <controls:UserHeader
-                            Padding="10"
-                            Name="{Binding UserName}"
-                            Detail="{Binding TimeDisplay}"
-                            ProfileImageUrl="{Binding UserProfileImageUrl}" />
-
-                        <Grid
                             Grid.Row="1"
-                            Padding="10,0"
-                            ColumnSpacing="0"
-                            RowSpacing="0">
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Label
-                                FontSize="Large"
-                                Text="{Binding FollowedUserName, StringFormat='is now following {0}'}" />
-                        </Grid>
+                            Padding="10"
+                            Name="{Binding FollowedUserName}"
+                            Detail="{Binding TimeDisplay}"
+                            ProfileImageUrl="{Binding FollowedUserProfileImageUrl}" />
                     </Grid>
                 </DataTemplate>
             </selectors:FeedDataTemplateSelector.FollowTemplate>
