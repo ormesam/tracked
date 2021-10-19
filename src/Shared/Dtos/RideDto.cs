@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Essentials.Core.Extensions;
 
 namespace Shared.Dtos {
     public class RideDto {
@@ -19,37 +20,9 @@ namespace Shared.Dtos {
         public IList<TrailAttemptDto> TrailAttempts { get; set; }
         public IList<AchievementDto> Achievements { get; set; }
 
-        public string FormattedTime {
-            get {
-                var time = EndUtc.ToLocalTime() - StartUtc.ToLocalTime();
+        public string FormattedTime => (EndUtc - StartUtc).ToReadableString();
 
-                if (time < TimeSpan.FromMinutes(1)) {
-                    return $"{time:ss}s".Trim('0');
-                }
-
-                if (time < TimeSpan.FromHours(1)) {
-                    return $"{time:mm}m {time:ss}s".Trim('0'); ;
-                }
-
-                return $"{time:HH}h {time:mm}m {time:ss}s".Trim('0'); ;
-            }
-        }
-
-        public string TimeDisplay {
-            get {
-                var time = StartUtc.ToLocalTime();
-
-                if (time.Date == DateTime.Today) {
-                    return "Today at " + time.ToString("HH:mm");
-                }
-
-                if (time.Date == DateTime.Today.AddDays(-1)) {
-                    return "Yesterday at " + time.ToString("HH:mm");
-                }
-
-                return $"{time:MMMM dd, yyyy} at {time:HH:mm}";
-            }
-        }
+        public string TimeDisplay => StartUtc.ToReadableString();
 
         public RideDto() {
             Locations = new List<RideLocationDto>();

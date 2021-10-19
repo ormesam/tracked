@@ -7,20 +7,6 @@ namespace Shared.Dtos {
         public string UserProfileImageUrl { get; set; }
         public DateTime JoinedUtc { get; set; }
 
-        public string JoinedDisplay {
-            get {
-                var time = JoinedUtc.ToLocalTime();
-
-                if (time.Date == DateTime.Today) {
-                    return "Joined today";
-                }
-
-                if (time.Date == DateTime.Today.AddDays(-1)) {
-                    return "Joined yesterday";
-                }
-
-                return $"Joined {time:MMMM dd, yyyy}";
-            }
-        }
+        public string JoinedDisplay => $"Member since {JoinedUtc:MMMM dd, yyyy}";
     }
 }

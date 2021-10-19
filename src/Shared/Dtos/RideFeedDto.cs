@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Essentials.Core.Extensions;
 
 namespace Shared.Dtos {
     public class RideFeedDto : FeedBaseDto {
@@ -11,21 +12,7 @@ namespace Shared.Dtos {
         public string RouteSvgPath { get; set; }
         public IEnumerable<Medal> Medals { get; set; }
 
-        public string FormattedTime {
-            get {
-                var time = EndUtc - Date;
-
-                if (time < TimeSpan.FromMinutes(1)) {
-                    return $"{time:ss}s".Trim('0');
-                }
-
-                if (time < TimeSpan.FromHours(1)) {
-                    return $"{time:mm}m {time:ss}s".Trim('0'); ;
-                }
-
-                return $"{time:HH}h {time:mm}m {time:ss}s".Trim('0'); ;
-            }
-        }
+        public string FormattedTime => (EndUtc - Date).ToReadableString();
 
         public RideFeedDto() {
             Medals = new List<Medal>();
