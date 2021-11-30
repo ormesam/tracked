@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="akavache" Version="7.3.1" />
+    <PackageReference Include="akavache" Version="7.3.47" />
     <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.55.0.1869" />
     <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.4.0" />
@@ -25,9 +25,9 @@
     <PackageReference Include="Xamarin.FFImageLoading.Svg" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2125" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2244" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
-    <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2125" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2244" />
     <PackageReference Include="XamEffects" Version="1.6.3" />
   </ItemGroup>
 
