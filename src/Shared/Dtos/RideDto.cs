@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Essentials.Core.Extensions;
+using Shared.Extensions;
 
 namespace Shared.Dtos {
     public class RideDto {

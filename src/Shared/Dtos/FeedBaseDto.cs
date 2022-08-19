@@ -1,5 +1,5 @@
 ﻿using System;
-using Essentials.Core.Extensions;
+using Shared.Extensions;
 
 namespace Shared.Dtos {
     public class FeedBaseDto {
