@@ -1,27 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-#nullable disable
-
-namespace DataAccess.Models
-{
-    [Table("User")]
-    [Index(nameof(GoogleUserId), Name = "UQ__User__437CD1973D3163B0", IsUnique = true)]
-    public partial class User
-    {
-        public User()
-        {
+namespace DataAccess.Models {
+    public class User {
+        public User() {
             Rides = new HashSet<Ride>();
             TrailAttempts = new HashSet<TrailAttempt>();
             Trails = new HashSet<Trail>();
-            UserBlockBlockUsers = new HashSet<UserBlock>();
-            UserBlockUsers = new HashSet<UserBlock>();
             UserDistanceAchievements = new HashSet<UserDistanceAchievement>();
-            UserFollowFollowUsers = new HashSet<UserFollow>();
-            UserFollowUsers = new HashSet<UserFollow>();
             UserJumpAchievements = new HashSet<UserJumpAchievement>();
             UserSpeedAchievements = new HashSet<UserSpeedAchievement>();
         }
@@ -35,7 +22,6 @@ namespace DataAccess.Models
         [StringLength(255)]
         public string Name { get; set; }
         public string Bio { get; set; }
-        [Column(TypeName = "datetime")]
         public DateTime CreatedUtc { get; set; }
         [Required]
         [StringLength(255)]
@@ -45,25 +31,11 @@ namespace DataAccess.Models
         [StringLength(255)]
         public string RefreshToken { get; set; }
 
-        [InverseProperty(nameof(Ride.User))]
         public virtual ICollection<Ride> Rides { get; set; }
-        [InverseProperty(nameof(TrailAttempt.User))]
         public virtual ICollection<TrailAttempt> TrailAttempts { get; set; }
-        [InverseProperty(nameof(Trail.User))]
         public virtual ICollection<Trail> Trails { get; set; }
-        [InverseProperty(nameof(UserBlock.BlockUser))]
-        public virtual ICollection<UserBlock> UserBlockBlockUsers { get; set; }
-        [InverseProperty(nameof(UserBlock.User))]
-        public virtual ICollection<UserBlock> UserBlockUsers { get; set; }
-        [InverseProperty(nameof(UserDistanceAchievement.User))]
         public virtual ICollection<UserDistanceAchievement> UserDistanceAchievements { get; set; }
-        [InverseProperty(nameof(UserFollow.FollowUser))]
-        public virtual ICollection<UserFollow> UserFollowFollowUsers { get; set; }
-        [InverseProperty(nameof(UserFollow.User))]
-        public virtual ICollection<UserFollow> UserFollowUsers { get; set; }
-        [InverseProperty(nameof(UserJumpAchievement.User))]
         public virtual ICollection<UserJumpAchievement> UserJumpAchievements { get; set; }
-        [InverseProperty(nameof(UserSpeedAchievement.User))]
         public virtual ICollection<UserSpeedAchievement> UserSpeedAchievements { get; set; }
     }
 }

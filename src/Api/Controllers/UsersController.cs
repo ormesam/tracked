@@ -34,9 +34,6 @@ namespace Api.Controllers {
                             CreatedUtc = row.CreatedUtc,
                             Bio = row.Bio,
                             ProfileImageUrl = row.ProfileImageUrl,
-                            IsFollowingCurrentUser = row.UserFollowUsers
-                                .Where(i => i.FollowUserId == currentUserId)
-                                .Any(),
                         })
                         .SingleOrDefault();
 

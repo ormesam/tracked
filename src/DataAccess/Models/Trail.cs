@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-#nullable disable
-
-namespace DataAccess.Models
-{
-    [Table("Trail")]
-    public partial class Trail
-    {
-        public Trail()
-        {
+namespace DataAccess.Models {
+    public class Trail {
+        public Trail() {
             TrailAttempts = new HashSet<TrailAttempt>();
             TrailLocations = new HashSet<TrailLocation>();
         }
@@ -24,11 +16,8 @@ namespace DataAccess.Models
         public string Name { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        [InverseProperty("Trails")]
         public virtual User User { get; set; }
-        [InverseProperty(nameof(TrailAttempt.Trail))]
         public virtual ICollection<TrailAttempt> TrailAttempts { get; set; }
-        [InverseProperty(nameof(TrailLocation.Trail))]
         public virtual ICollection<TrailLocation> TrailLocations { get; set; }
     }
 }
